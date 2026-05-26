@@ -1,0 +1,205 @@
+[
+  {
+    "id": "bowl-pollo-riso-zucchine",
+    "title": "Bowl di riso, pollo e zucchine al limone",
+    "description": "Una schiscetta proteica, semplice e fresca, perfetta per il lavoro o dopo la palestra.",
+    "category": "Bowl",
+    "goal": "Proteica",
+    "prep_time": "30 minuti",
+    "difficulty": "Facile",
+    "estimated_cost": "medio",
+    "storage_info": "Si conserva 2 giorni in frigorifero in contenitore ermetico.",
+    "transport_tip": "Tieni il condimento a parte e aggiungilo poco prima di mangiare.",
+    "glamour_tip": "Aggiungi scorza di limone e semi di sesamo per un effetto più curato.",
+    "ingredients": [
+      "riso basmati",
+      "pollo",
+      "zucchine",
+      "olio EVO",
+      "limone"
+    ],
+    "steps": [
+      "Cuoci il riso basmati e lascialo raffreddare leggermente.",
+      "Taglia il pollo a bocconcini e cuocilo in padella con poco olio EVO.",
+      "Salta le zucchine a rondelle con sale, pepe e limone.",
+      "Unisci tutto in una lunch box e completa con olio EVO e scorza di limone."
+    ],
+    "nutrition": {
+      "calories": 520,
+      "protein": 38,
+      "carbs": 58,
+      "fat": 14
+    },
+    "tags": ["proteica", "meal prep", "ufficio", "saziante", "mediterranea"],
+    "image_cluster": "riso_pollo"
+  },
+  {
+    "id": "couscous-ceci-carote",
+    "title": "Couscous con ceci, carote e limone",
+    "description": "Una schiscetta vegetariana, economica e veloce, ottima anche fredda.",
+    "category": "Couscous",
+    "goal": "Economica",
+    "prep_time": "20 minuti",
+    "difficulty": "Facile",
+    "estimated_cost": "basso",
+    "storage_info": "Si conserva 2 giorni in frigorifero.",
+    "transport_tip": "Mescola bene il couscous con un filo d’olio per non farlo seccare.",
+    "glamour_tip": "Aggiungi prezzemolo fresco o paprika dolce per colore e profumo.",
+    "ingredients": [
+      "couscous",
+      "ceci",
+      "carote",
+      "olio EVO",
+      "limone"
+    ],
+    "steps": [
+      "Reidrata il couscous con acqua calda salata.",
+      "Scola i ceci e condiscili con olio EVO e limone.",
+      "Taglia le carote a julienne o a rondelle sottili.",
+      "Unisci tutto e lascia riposare 10 minuti prima di chiudere la lunch box."
+    ],
+    "nutrition": {
+      "calories": 430,
+      "protein": 16,
+      "carbs": 65,
+      "fat": 11
+    },
+    "tags": ["vegetariana", "low cost", "veloce", "fredda", "senza sprechi"],
+    "image_cluster": "couscous_verdure"
+  },
+  {
+    "id": "pasta-integrale-tonno-pomodorini",
+    "title": "Pasta integrale con tonno, pomodorini e olive",
+    "description": "Una pasta fredda mediterranea, pratica e saporita, pensata per una pausa pranzo senza stress.",
+    "category": "Pasta fredda",
+    "goal": "Veloce",
+    "prep_time": "25 minuti",
+    "difficulty": "Facile",
+    "estimated_cost": "medio",
+    "storage_info": "Si conserva 1-2 giorni in frigorifero.",
+    "transport_tip": "Scegli una pasta corta e scolala al dente per mantenerla piacevole.",
+    "glamour_tip": "Completa con basilico fresco o una grattata di scorza di limone.",
+    "ingredients": [
+      "pasta integrale",
+      "tonno",
+      "pomodorini",
+      "olive",
+      "olio EVO"
+    ],
+    "steps": [
+      "Cuoci la pasta integrale al dente e raffreddala sotto acqua fredda.",
+      "Taglia i pomodorini e aggiungi il tonno sgocciolato.",
+      "Unisci olive e olio EVO.",
+      "Mescola tutto e lascia riposare in frigo prima di portarla via."
+    ],
+    "nutrition": {
+      "calories": 500,
+      "protein": 30,
+      "carbs": 62,
+      "fat": 15
+    },
+    "tags": ["veloce", "mediterranea", "ufficio", "fredda", "proteica"],
+    "image_cluster": "pasta_fredda"
+  },
+  {
+    "id": "farro-feta-pomodorini-olive",
+    "title": "Farro con feta, pomodorini e olive",
+    "description": "Una schiscetta vegetariana elegante, fresca e molto adatta al meal prep.",
+    "category": "Insalata ricca",
+    "goal": "Vegetariana",
+    "prep_time": "30 minuti",
+    "difficulty": "Facile",
+    "estimated_cost": "medio",
+    "storage_info": "Si conserva 2 giorni in frigorifero.",
+    "transport_tip": "Aggiungi la feta alla fine per mantenerla più compatta.",
+    "glamour_tip": "Servila con erbe fresche e un filo d’olio EVO a crudo.",
+    "ingredients": [
+      "farro",
+      "feta",
+      "pomodorini",
+      "olive",
+      "olio EVO"
+    ],
+    "steps": [
+      "Cuoci il farro e lascialo raffreddare.",
+      "Taglia i pomodorini e sbriciola la feta.",
+      "Aggiungi olive e olio EVO.",
+      "Mescola tutto e conserva in lunch box."
+    ],
+    "nutrition": {
+      "calories": 480,
+      "protein": 18,
+      "carbs": 58,
+      "fat": 19
+    },
+    "tags": ["vegetariana", "meal prep", "mediterranea", "gourmet", "fredda"],
+    "image_cluster": "bowl_mediterranea"
+  },
+  {
+    "id": "tofu-riso-zucchine-carote",
+    "title": "Bowl vegetariana con tofu, riso e verdure",
+    "description": "Una bowl vegetale, colorata e bilanciata, perfetta per una schiscetta leggera ma saziante.",
+    "category": "Bowl",
+    "goal": "Vegetariana",
+    "prep_time": "30 minuti",
+    "difficulty": "Facile",
+    "estimated_cost": "medio",
+    "storage_info": "Si conserva 2 giorni in frigorifero.",
+    "transport_tip": "Tieni eventuale salsa a parte per non ammorbidire troppo il tofu.",
+    "glamour_tip": "Taglia le verdure in modo ordinato per un effetto lunch box premium.",
+    "ingredients": [
+      "tofu",
+      "riso basmati",
+      "zucchine",
+      "carote",
+      "olio EVO"
+    ],
+    "steps": [
+      "Cuoci il riso basmati.",
+      "Taglia il tofu a cubetti e rosolalo in padella.",
+      "Salta zucchine e carote con poco olio.",
+      "Componi la bowl separando bene base, proteina e verdure."
+    ],
+    "nutrition": {
+      "calories": 460,
+      "protein": 24,
+      "carbs": 55,
+      "fat": 16
+    },
+    "tags": ["vegetariana", "light", "meal prep", "saziante", "facile da trasportare"],
+    "image_cluster": "vegetariana_legumi"
+  },
+  {
+    "id": "frittata-spinaci-zucchine",
+    "title": "Frittata al forno con spinaci e zucchine",
+    "description": "Una schiscetta economica e proteica, buona anche fredda e facile da preparare in anticipo.",
+    "category": "Piatto unico",
+    "goal": "Economica",
+    "prep_time": "35 minuti",
+    "difficulty": "Facile",
+    "estimated_cost": "basso",
+    "storage_info": "Si conserva 2 giorni in frigorifero.",
+    "transport_tip": "Tagliala a quadrotti e portala in una lunch box rigida.",
+    "glamour_tip": "Aggiungi qualche foglia verde fresca accanto per renderla più bella.",
+    "ingredients": [
+      "uova",
+      "spinaci",
+      "zucchine",
+      "olio EVO"
+    ],
+    "steps": [
+      "Sbatti le uova con sale e pepe.",
+      "Salta spinaci e zucchine in padella.",
+      "Unisci verdure e uova in una teglia piccola.",
+      "Cuoci in forno fino a doratura e lascia raffreddare prima di tagliare."
+    ],
+    "nutrition": {
+      "calories": 390,
+      "protein": 26,
+      "carbs": 10,
+      "fat": 27
+    },
+    "tags": ["economica", "proteica", "meal prep", "calda", "fredda"],
+    "image_cluster": "meal_prep_box"
+  }
+]
