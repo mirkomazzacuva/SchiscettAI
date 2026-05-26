@@ -1,87 +1,276 @@
-/* SchiscettAI - Avorio, greige, verde salvia */
+/* =========================
+   SchiscettAI Design System
+   Palette: avorio, greige, salvia
+   ========================= */
 
+:root {
+    --avorio: #F8F3EA;
+    --avorio-light: #FFFDF8;
+    --greige: #D8D0C4;
+    --greige-dark: #A89F91;
+    --salvia: #8FA99A;
+    --salvia-dark: #6F8C7A;
+    --taupe: #3F3830;
+    --taupe-soft: #4B453D;
+    --shadow-soft: rgba(63, 56, 48, 0.10);
+}
+
+/* Sfondo generale */
 .stApp {
-    background: linear-gradient(135deg, #F8F3EA 0%, #FFFDF8 46%, #D8D0C4 100%);
-    color: #3F3830;
+    background:
+        radial-gradient(circle at top left, rgba(143, 169, 154, 0.22), transparent 28%),
+        radial-gradient(circle at top right, rgba(216, 208, 196, 0.55), transparent 32%),
+        linear-gradient(135deg, #F8F3EA 0%, #FFFDF8 46%, #D8D0C4 100%);
+    color: var(--taupe);
 }
 
-section[data-testid="stSidebar"] {
-    background: #F8F3EA;
-    border-right: 1px solid rgba(143, 169, 154, 0.35);
+/* Nasconde elementi Streamlit superflui */
+#MainMenu {
+    visibility: hidden;
 }
 
-h1, h2, h3 {
-    color: #3F3830;
-    letter-spacing: -0.02em;
+footer {
+    visibility: hidden;
+}
+
+header {
+    visibility: hidden;
+}
+
+/* Corpo pagina */
+.block-container {
+    padding-top: 2.2rem;
+    padding-bottom: 4rem;
+    max-width: 1180px;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background: rgba(255, 253, 248, 0.88);
+    border-right: 1px solid rgba(143, 169, 154, 0.28);
+    box-shadow: 12px 0 30px rgba(63, 56, 48, 0.06);
+}
+
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: var(--taupe);
+}
+
+[data-testid="stSidebar"] label {
+    color: var(--taupe-soft);
+    font-weight: 600;
+}
+
+/* Titoli */
+h1 {
+    color: var(--taupe);
+    font-size: 3.4rem !important;
+    line-height: 1.05 !important;
+    letter-spacing: -0.045em;
+    font-weight: 850 !important;
+    margin-bottom: 0.4rem !important;
+}
+
+h2 {
+    color: var(--taupe);
+    font-size: 2rem !important;
+    letter-spacing: -0.025em;
+    font-weight: 780 !important;
+}
+
+h3 {
+    color: var(--taupe);
+    letter-spacing: -0.015em;
 }
 
 p, li, label, span {
-    color: #4B453D;
+    color: var(--taupe-soft);
 }
 
-div[data-testid="stVerticalBlockBorderWrapper"] {
-    background: rgba(255, 253, 248, 0.76);
-    border: 1px solid rgba(143, 169, 154, 0.32);
-    border-radius: 24px;
-    box-shadow: 0 14px 34px rgba(63, 56, 48, 0.08);
+/* Sottotitolo principale */
+.st-emotion-cache-10trblm,
+.stMarkdown {
+    color: var(--taupe-soft);
 }
 
-.stButton > button {
-    background-color: #8FA99A;
-    color: #FFFDF8;
-    border-radius: 999px;
-    border: none;
-    padding: 0.65rem 1.25rem;
-    font-weight: 700;
-    box-shadow: 0 10px 24px rgba(111, 140, 122, 0.22);
-}
-
-.stButton > button:hover {
-    background-color: #6F8C7A;
-    color: #FFFDF8;
-    border: none;
-}
-
-[data-testid="stTextInput"] input {
-    border-radius: 16px;
-    border: 1px solid #D8D0C4;
-    background-color: #FFFDF8;
-}
-
-[data-testid="stSelectbox"] {
-    border-radius: 16px;
-}
-
-div[data-testid="stMetric"] {
-    background: rgba(248, 243, 234, 0.72);
-    border: 1px solid rgba(143, 169, 154, 0.25);
-    border-radius: 18px;
-    padding: 0.75rem;
-}
-
-div[data-testid="stAlert"] {
-    border-radius: 18px;
-}
-
+/* Divider */
 hr {
-    border-color: rgba(168, 159, 145, 0.45);
+    border: none;
+    border-top: 1px solid rgba(143, 169, 154, 0.30);
+    margin: 1.8rem 0;
 }
 
-.stTabs [data-baseweb="tab-list"] {
-    gap: 0.5rem;
-}
-
-.stTabs [data-baseweb="tab"] {
+/* Bottoni */
+.stButton > button,
+[data-testid="stFormSubmitButton"] button,
+.stDownloadButton > button {
+    background: linear-gradient(135deg, var(--salvia) 0%, var(--salvia-dark) 100%);
+    color: #FFFDF8 !important;
+    border: none;
     border-radius: 999px;
-    background: rgba(255, 253, 248, 0.65);
-    padding: 0.5rem 1rem;
+    padding: 0.72rem 1.25rem;
+    font-weight: 750;
+    box-shadow: 0 12px 26px rgba(111, 140, 122, 0.25);
+    transition: all 0.18s ease-in-out;
 }
 
-.stTabs [aria-selected="true"] {
-    background: #8FA99A !important;
+.stButton > button:hover,
+[data-testid="stFormSubmitButton"] button:hover,
+.stDownloadButton > button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 32px rgba(111, 140, 122, 0.34);
     color: #FFFDF8 !important;
 }
 
-small {
-    color: #6F8C7A !important;
+.stButton > button:active,
+[data-testid="stFormSubmitButton"] button:active,
+.stDownloadButton > button:active {
+    transform: translateY(0px);
+}
+
+/* Input e select */
+[data-testid="stTextInput"] input,
+[data-testid="stSelectbox"] div,
+[data-testid="stNumberInput"] input {
+    border-radius: 18px !important;
+}
+
+input {
+    background-color: rgba(255, 253, 248, 0.95) !important;
+    border: 1px solid rgba(143, 169, 154, 0.36) !important;
+    color: var(--taupe) !important;
+}
+
+input:focus {
+    border-color: var(--salvia) !important;
+    box-shadow: 0 0 0 3px rgba(143, 169, 154, 0.18) !important;
+}
+
+/* Select box */
+[data-baseweb="select"] > div {
+    background-color: rgba(255, 253, 248, 0.95);
+    border-radius: 18px;
+    border-color: rgba(143, 169, 154, 0.36);
+}
+
+/* Form */
+[data-testid="stForm"] {
+    background: rgba(255, 253, 248, 0.76);
+    border: 1px solid rgba(143, 169, 154, 0.28);
+    border-radius: 30px;
+    padding: 1.5rem;
+    box-shadow: 0 16px 38px rgba(63, 56, 48, 0.08);
+}
+
+/* Container con bordo Streamlit */
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255, 253, 248, 0.82);
+    border: 1px solid rgba(143, 169, 154, 0.30);
+    border-radius: 28px;
+    box-shadow: 0 16px 38px rgba(63, 56, 48, 0.08);
+    padding: 0.6rem;
+}
+
+/* Card effetto */
+[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    box-shadow: 0 20px 48px rgba(63, 56, 48, 0.12);
+    transform: translateY(-1px);
+    transition: all 0.18s ease-in-out;
+}
+
+/* Metriche */
+[data-testid="stMetric"] {
+    background: rgba(255, 253, 248, 0.68);
+    border: 1px solid rgba(143, 169, 154, 0.22);
+    border-radius: 22px;
+    padding: 0.9rem 1rem;
+    box-shadow: 0 10px 24px rgba(63, 56, 48, 0.055);
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--greige-dark);
+    font-weight: 700;
+}
+
+[data-testid="stMetricValue"] {
+    color: var(--taupe);
+    font-weight: 850;
+}
+
+/* Expander */
+.streamlit-expanderHeader {
+    background: rgba(248, 243, 234, 0.72);
+    border-radius: 18px;
+    color: var(--taupe);
+    font-weight: 700;
+}
+
+/* Alert */
+[data-testid="stAlert"] {
+    border-radius: 22px;
+    border: 1px solid rgba(143, 169, 154, 0.28);
+}
+
+/* Checkbox */
+[data-testid="stCheckbox"] label {
+    background: rgba(255, 253, 248, 0.62);
+    padding: 0.45rem 0.6rem;
+    border-radius: 16px;
+}
+
+/* Slider */
+[data-testid="stSlider"] {
+    background: rgba(255, 253, 248, 0.35);
+    padding: 0.6rem 0.8rem;
+    border-radius: 20px;
+}
+
+/* Caption */
+.caption,
+[data-testid="stCaptionContainer"] {
+    color: #6C6258 !important;
+}
+
+/* Radio menu sidebar */
+[role="radiogroup"] label {
+    background: rgba(248, 243, 234, 0.6);
+    border-radius: 16px;
+    padding: 0.35rem 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+[role="radiogroup"] label:hover {
+    background: rgba(143, 169, 154, 0.16);
+}
+
+/* Tabelle / liste */
+ul, ol {
+    padding-left: 1.2rem;
+}
+
+li {
+    margin-bottom: 0.35rem;
+}
+
+/* Link */
+a {
+    color: var(--salvia-dark) !important;
+    font-weight: 700;
+}
+
+/* Mobile */
+@media screen and (max-width: 768px) {
+    h1 {
+        font-size: 2.35rem !important;
+    }
+
+    .block-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    [data-testid="stMetric"] {
+        padding: 0.7rem;
+    }
 }
