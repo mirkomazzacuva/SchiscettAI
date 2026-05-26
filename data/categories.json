@@ -1,0 +1,42 @@
+[
+  {
+    "id": "svuota-frigo",
+    "name": "Svuota frigo",
+    "description": "Ricette intelligenti per usare quello che hai già in casa."
+  },
+  {
+    "id": "proteica",
+    "name": "Proteica",
+    "description": "Schiscette ricche di proteine, ideali per palestra e sazietà."
+  },
+  {
+    "id": "light",
+    "name": "Light",
+    "description": "Ricette leggere, fresche e bilanciate."
+  },
+  {
+    "id": "economica",
+    "name": "Economica",
+    "description": "Idee low cost per mangiare bene spendendo poco."
+  },
+  {
+    "id": "vegetariana",
+    "name": "Vegetariana",
+    "description": "Schiscette senza carne né pesce, pratiche e gustose."
+  },
+  {
+    "id": "veloce",
+    "name": "Veloce",
+    "description": "Ricette pronte in poco tempo, perfette per la settimana."
+  },
+  {
+    "id": "gourmet",
+    "name": "Gourmet",
+    "description": "Schiscette più curate, belle e sfiziose."
+  },
+  {
+    "id": "meal-prep",
+    "name": "Meal prep",
+    "description": "Ricette pensate per organizzare più pranzi in anticipo."
+  }
+]
