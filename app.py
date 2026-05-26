@@ -83,6 +83,31 @@ def load_json(file_path):
         return []
 
 
+def build_cluster_visuals(clusters):
+    visuals = {}
+
+    if not isinstance(clusters, list):
+        return visuals
+
+    for cluster in clusters:
+        cluster_id = cluster.get("id", "")
+
+        if cluster_id:
+            visuals[cluster_id] = {
+                "emoji": cluster.get("emoji", "🍽️"),
+                "title": cluster.get("name", "Schiscetta smart"),
+                "subtitle": cluster.get(
+                    "description",
+                    "Ricetta pratica e facile da portare",
+                ),
+                "color": cluster.get("color", "#F8F3EA"),
+                "mood": cluster.get("mood", ""),
+                "image_prompt": cluster.get("image_prompt", ""),
+            }
+
+    return visuals
+
+
 def normalize_text(text):
     return str(text).strip().lower()
 
@@ -568,6 +593,8 @@ def cluster_tile(cluster_id, recipes_count=None):
         st.markdown(f"## {visual['emoji']}")
         st.markdown(f"### {visual['title']}")
         st.write(visual["subtitle"])
+        if visual.get("mood"):
+            st.caption(f"Mood: {visual['mood']}")
         if recipes_count is not None:
             st.caption(f"{recipes_count} ricette disponibili")
 
@@ -675,6 +702,11 @@ categories = load_json("data/categories.json")
 tags = load_json("data/tags.json")
 ingredients_data = load_json("data/ingredients.json")
 modules = load_json("data/modules.json")
+clusters_data = load_json("data/clusters.json")
+
+if clusters_data:
+    CLUSTER_VISUALS.update(build_cluster_visuals(clusters_data))
+
 ingredients_by_name = ingredient_lookup(ingredients_data)
 
 if "favorites" not in st.session_state:
