@@ -1,7 +1,6 @@
 import json
-import re
 from pathlib import Path
-from collections import Counter, defaultdict
+from collections import Counter
 
 import streamlit as st
 
@@ -41,27 +40,12 @@ def normalize_text(text):
     return str(text).strip().lower()
 
 
-def parse_minutes(text):
-    match = re.search(r"\d+", str(text))
-    if match:
-        return int(match.group())
+def parse_minutes(value):
+    text = normalize_text(value)
+    digits = "".join(char for char in text if char.isdigit())
+    if digits:
+        return int(digits)
     return 999
-
-
-def extract_user_words(text):
-    chunks = [
-        normalize_text(chunk)
-        for chunk in re.split(r"[,;]+", str(text))
-        if chunk.strip()
-    ]
-
-    single_words = [
-        normalize_text(word)
-        for word in re.split(r"\s+", str(text))
-        if len(word.strip()) >= 3
-    ]
-
-    return list(dict.fromkeys(chunks + single_words))
 
 
 def go_to(page_name):
@@ -71,6 +55,17 @@ def go_to(page_name):
 def get_recipe_by_id(recipes, recipe_id):
     for recipe in recipes:
         if recipe.get("id") == recipe_id:
+            return recipe
+    return None
+
+
+def get_recipe_options(recipes):
+    return ["Nessuna ricetta"] + [recipe.get("title", "Ricetta") for recipe in recipes]
+
+
+def get_recipe_by_title(recipes, title):
+    for recipe in recipes:
+        if recipe.get("title") == title:
             return recipe
     return None
 
@@ -89,36 +84,186 @@ def remove_favorite(recipe_id):
         st.success("Ricetta rimossa dai preferiti.")
 
 
-def all_goals(recipes):
-    goals = sorted(
-        {
-            recipe.get("goal", "").strip()
-            for recipe in recipes
-            if recipe.get("goal", "").strip()
-        }
-    )
-    return ["Tutte"] + goals
+def recipe_goal_counts(recipes):
+    counts = Counter(recipe.get("goal", "Altro") for recipe in recipes)
+    return counts
 
 
-def all_categories(recipes):
-    categories = sorted(
-        {
-            recipe.get("category", "").strip()
-            for recipe in recipes
-            if recipe.get("category", "").strip()
-        }
-    )
-    return ["Tutte"] + categories
+def ingredient_lookup(ingredients):
+    lookup = {}
+    for ingredient in ingredients:
+        name = normalize_text(ingredient.get("name", ""))
+        if name:
+            lookup[name] = ingredient
+    return lookup
+
+
+# -----------------------------
+# Ricerca ricette
+# -----------------------------
+
+def find_best_recipes(recipes, user_ingredients, goal, max_time):
+    user_words = [
+        normalize_text(word)
+        for word in user_ingredients.replace(";", ",").split(",")
+        if word.strip()
+    ]
+
+    max_minutes = parse_minutes(max_time)
+    scored = []
+
+    for recipe in recipes:
+        score = 0
+
+        recipe_ingredients = normalize_text(" ".join(recipe.get("ingredients", [])))
+        recipe_goal = normalize_text(recipe.get("goal", ""))
+        recipe_tags = normalize_text(" ".join(recipe.get("tags", [])))
+        recipe_title = normalize_text(recipe.get("title", ""))
+        recipe_description = normalize_text(recipe.get("description", ""))
+        recipe_minutes = parse_minutes(recipe.get("prep_time", ""))
+
+        for word in user_words:
+            if word in recipe_ingredients:
+                score += 5
+            if word in recipe_title:
+                score += 3
+            if word in recipe_tags:
+                score += 2
+            if word in recipe_description:
+                score += 1
+
+        if normalize_text(goal) in recipe_goal:
+            score += 5
+
+        if recipe_minutes <= max_minutes:
+            score += 2
+
+        if normalize_text(goal) in recipe_tags:
+            score += 2
+
+        scored.append((score, recipe))
+
+    scored.sort(key=lambda item: item[0], reverse=True)
+
+    best = [item[1] for item in scored if item[0] > 0]
+
+    if best:
+        return best[:3]
+
+    return recipes[:3]
+
+
+def filter_recipes(recipes, text_query, goal_filter, tag_filter, max_time_filter):
+    results = []
+
+    query = normalize_text(text_query)
+    max_minutes = parse_minutes(max_time_filter) if max_time_filter != "Qualsiasi" else 999
+
+    for recipe in recipes:
+        title = normalize_text(recipe.get("title", ""))
+        description = normalize_text(recipe.get("description", ""))
+        goal = normalize_text(recipe.get("goal", ""))
+        tags = [normalize_text(tag) for tag in recipe.get("tags", [])]
+        ingredients = normalize_text(" ".join(recipe.get("ingredients", [])))
+        prep_minutes = parse_minutes(recipe.get("prep_time", ""))
+
+        match_query = (
+            not query
+            or query in title
+            or query in description
+            or query in ingredients
+            or any(query in tag for tag in tags)
+        )
+
+        match_goal = goal_filter == "Tutte" or normalize_text(goal_filter) == goal
+
+        match_tag = tag_filter == "Tutti" or normalize_text(tag_filter) in tags
+
+        match_time = prep_minutes <= max_minutes
+
+        if match_query and match_goal and match_tag and match_time:
+            results.append(recipe)
+
+    return results
+
+
+# -----------------------------
+# Lista spesa
+# -----------------------------
+
+def get_meal_plan_recipes(recipes):
+    selected = []
+
+    for day in WORK_DAYS:
+        title = st.session_state.get(f"meal_{day}", "Nessuna ricetta")
+        recipe = get_recipe_by_title(recipes, title)
+        if recipe:
+            selected.append(recipe)
+
+    return selected
+
+
+def get_favorite_recipes(recipes):
+    return [
+        recipe for recipe in recipes
+        if recipe.get("id") in st.session_state.favorites
+    ]
+
+
+def aggregate_ingredients(recipe_list, extra_items=None):
+    counter = Counter()
+
+    for recipe in recipe_list:
+        for ingredient in recipe.get("ingredients", []):
+            clean = ingredient.strip()
+            if clean:
+                counter[clean] += 1
+
+    if extra_items:
+        for item in extra_items:
+            clean = item.strip()
+            if clean:
+                counter[clean] += 1
+
+    return counter
+
+
+def build_shopping_text(counter):
+    if not counter:
+        return "Lista della spesa vuota."
+
+    lines = ["Lista della spesa SchiscettAI", ""]
+
+    for ingredient, count in sorted(counter.items()):
+        if count > 1:
+            lines.append(f"- {ingredient} x{count}")
+        else:
+            lines.append(f"- {ingredient}")
+
+    return "\n".join(lines)
 
 
 # -----------------------------
 # Card ricetta Streamlit nativa
 # -----------------------------
 
-def recipe_card(recipe, button_mode=None, button_key_prefix="recipe"):
+def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
     with st.container(border=True):
-        st.subheader(recipe.get("title", "Ricetta"))
-        st.write(recipe.get("description", ""))
+        top_col, action_col = st.columns([4, 1])
+
+        with top_col:
+            st.subheader(recipe.get("title", "Ricetta"))
+            st.write(recipe.get("description", ""))
+
+        with action_col:
+            if show_save:
+                if st.button("Salva", key=f"{key_prefix}_save_{recipe['id']}"):
+                    save_favorite(recipe["id"])
+
+            if show_remove:
+                if st.button("Rimuovi", key=f"{key_prefix}_remove_{recipe['id']}"):
+                    remove_favorite(recipe["id"])
+                    st.rerun()
 
         col1, col2, col3, col4 = st.columns(4)
 
@@ -138,15 +283,14 @@ def recipe_card(recipe, button_mode=None, button_key_prefix="recipe"):
         ingredients = recipe.get("ingredients", [])
         st.write(", ".join(ingredients) if ingredients else "-")
 
-        st.markdown("### Procedimento")
-        steps = recipe.get("steps", [])
-        if steps:
-            for index, step in enumerate(steps, start=1):
-                st.write(f"{index}. {step}")
-        else:
-            st.write("-")
+        with st.expander("Vedi procedimento"):
+            steps = recipe.get("steps", [])
+            if steps:
+                for index, step in enumerate(steps, start=1):
+                    st.write(f"{index}. {step}")
+            else:
+                st.write("-")
 
-        st.markdown("### Valori indicativi")
         nutrition = recipe.get("nutrition", {})
         n1, n2, n3, n4 = st.columns(4)
 
@@ -162,141 +306,14 @@ def recipe_card(recipe, button_mode=None, button_key_prefix="recipe"):
         with n4:
             st.metric("Grassi", f"{nutrition.get('fat', '-')} g")
 
-        st.markdown("### Consigli")
-        st.write(f"**Trasporto:** {recipe.get('transport_tip', '-')}")
-        st.write(f"**Consiglio glamour:** {recipe.get('glamour_tip', '-')}")
-        st.write(f"**Conservazione:** {recipe.get('storage_info', '-')}")
+        with st.expander("Consigli trasporto e conservazione"):
+            st.write(f"**Trasporto:** {recipe.get('transport_tip', '-')}")
+            st.write(f"**Consiglio glamour:** {recipe.get('glamour_tip', '-')}")
+            st.write(f"**Conservazione:** {recipe.get('storage_info', '-')}")
 
         tags = recipe.get("tags", [])
         if tags:
             st.caption(" · ".join(tags))
-
-        recipe_id = recipe.get("id")
-
-        if button_mode == "save":
-            if st.button(
-                "Salva nei preferiti",
-                key=f"{button_key_prefix}_save_{recipe_id}"
-            ):
-                save_favorite(recipe_id)
-
-        if button_mode == "remove":
-            if st.button(
-                "Rimuovi dai preferiti",
-                key=f"{button_key_prefix}_remove_{recipe_id}"
-            ):
-                remove_favorite(recipe_id)
-                st.rerun()
-
-
-def compact_recipe_card(recipe, key_prefix):
-    with st.container(border=True):
-        st.markdown(f"### {recipe.get('title', 'Ricetta')}")
-        st.write(recipe.get("description", ""))
-        st.caption(
-            f"{recipe.get('goal', '-')} · {recipe.get('prep_time', '-')} · "
-            f"{recipe.get('estimated_cost', '-')}"
-        )
-
-        if st.button("Apri nel catalogo", key=f"{key_prefix}_{recipe.get('id')}"):
-            go_to("Ricette")
-            st.session_state.catalog_search = recipe.get("title", "")
-            st.rerun()
-
-
-# -----------------------------
-# Motore ricerca ricette
-# -----------------------------
-
-def find_best_recipes(recipes, user_ingredients, goal, available_time):
-    user_words = extract_user_words(user_ingredients)
-    max_minutes = parse_minutes(available_time)
-
-    scored = []
-
-    for recipe in recipes:
-        score = 0
-
-        recipe_ingredients = normalize_text(" ".join(recipe.get("ingredients", [])))
-        recipe_goal = normalize_text(recipe.get("goal", ""))
-        recipe_tags = normalize_text(" ".join(recipe.get("tags", [])))
-        recipe_title = normalize_text(recipe.get("title", ""))
-        recipe_category = normalize_text(recipe.get("category", ""))
-        recipe_time = parse_minutes(recipe.get("prep_time", ""))
-
-        for word in user_words:
-            if word and word in recipe_ingredients:
-                score += 5
-            if word and word in recipe_title:
-                score += 2
-            if word and word in recipe_tags:
-                score += 1
-
-        goal_norm = normalize_text(goal)
-
-        if goal_norm == "svuota frigo":
-            score += len(user_words)
-        elif goal_norm in recipe_goal:
-            score += 4
-        elif goal_norm in recipe_tags or goal_norm in recipe_category:
-            score += 2
-
-        if recipe_time <= max_minutes:
-            score += 2
-        else:
-            score -= 1
-
-        scored.append((score, recipe))
-
-    scored.sort(key=lambda item: item[0], reverse=True)
-
-    best = [item[1] for item in scored if item[0] > 0]
-
-    if best:
-        return best[:3]
-
-    return recipes[:3]
-
-
-# -----------------------------
-# Lista spesa
-# -----------------------------
-
-def get_meal_plan_recipe_ids():
-    days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
-    recipe_ids = []
-
-    for day in days:
-        recipe_id = st.session_state.get(f"meal_{day}", "")
-        if recipe_id:
-            recipe_ids.append(recipe_id)
-
-    return recipe_ids
-
-
-def build_shopping_list(selected_recipes):
-    counter = Counter()
-    sources = defaultdict(list)
-
-    for recipe in selected_recipes:
-        title = recipe.get("title", "Ricetta")
-        for ingredient in recipe.get("ingredients", []):
-            normalized = normalize_text(ingredient)
-            counter[normalized] += 1
-            sources[normalized].append(title)
-
-    rows = []
-
-    for ingredient, count in counter.most_common():
-        rows.append(
-            {
-                "Ingrediente": ingredient,
-                "Presente in ricette": count,
-                "Ricette": ", ".join(sources[ingredient][:3])
-            }
-        )
-
-    return rows
 
 
 # -----------------------------
@@ -308,12 +325,10 @@ load_css("styles/custom.css")
 recipes = load_json("data/recipes.json")
 categories = load_json("data/categories.json")
 tags = load_json("data/tags.json")
+ingredients_data = load_json("data/ingredients.json")
+ingredients_by_name = ingredient_lookup(ingredients_data)
 
-recipes_by_id = {
-    recipe.get("id"): recipe
-    for recipe in recipes
-    if recipe.get("id")
-}
+WORK_DAYS = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
 
 
 # -----------------------------
@@ -329,8 +344,13 @@ if "generated_recipe_ids" not in st.session_state:
 if "page" not in st.session_state:
     st.session_state.page = "Home"
 
-if "catalog_search" not in st.session_state:
-    st.session_state.catalog_search = ""
+if "extra_shopping_items" not in st.session_state:
+    st.session_state.extra_shopping_items = []
+
+for day in WORK_DAYS:
+    key = f"meal_{day}"
+    if key not in st.session_state:
+        st.session_state[key] = "Nessuna ricetta"
 
 
 # -----------------------------
@@ -357,9 +377,8 @@ selected_page = st.sidebar.radio(
 st.session_state.page = selected_page
 
 st.sidebar.divider()
-st.sidebar.caption("MVP gratuito con Streamlit, GitHub e database locale.")
-st.sidebar.metric("Ricette", len(recipes))
-st.sidebar.metric("Preferiti", len(st.session_state.favorites))
+st.sidebar.caption("MVP gratuito")
+st.sidebar.caption("GitHub + Streamlit + database locale")
 
 
 # -----------------------------
@@ -369,16 +388,9 @@ st.sidebar.metric("Preferiti", len(st.session_state.favorites))
 st.title("🍱 SchiscettAI")
 st.subheader("La schiscetta non è mai stata così smart.")
 
-h1, h2, h3 = st.columns(3)
-
-with h1:
-    st.write("**La tua pausa pranzo intelligente**")
-
-with h2:
-    st.write("**Ricette smart per mangiare meglio ogni giorno**")
-
-with h3:
-    st.write("**Prepara, risparmia, gusta**")
+st.write("**La tua pausa pranzo intelligente**")
+st.write("**Ricette smart per mangiare meglio ogni giorno**")
+st.write("**Prepara, risparmia, gusta**")
 
 st.write(
     "Trasforma quello che hai in frigo in una schiscetta bella, pratica e intelligente. "
@@ -395,19 +407,21 @@ st.divider()
 if st.session_state.page == "Home":
     st.markdown("## Benvenuto in SchiscettAI")
 
-    c1, c2, c3, c4 = st.columns(4)
+    m1, m2, m3, m4 = st.columns(4)
 
-    with c1:
-        st.metric("Ricette disponibili", len(recipes))
+    with m1:
+        st.metric("Ricette", len(recipes))
 
-    with c2:
-        st.metric("Preferiti salvati", len(st.session_state.favorites))
+    with m2:
+        st.metric("Preferiti", len(st.session_state.favorites))
 
-    with c3:
-        st.metric("Giorni meal plan", 5)
+    with m3:
+        planned_count = len(get_meal_plan_recipes(recipes))
+        st.metric("Giorni pianificati", planned_count)
 
-    with c4:
-        st.metric("Costo app", "Gratis")
+    with m4:
+        goal_counts = recipe_goal_counts(recipes)
+        st.metric("Categorie", len(goal_counts))
 
     st.write("")
 
@@ -428,8 +442,7 @@ if st.session_state.page == "Home":
         with st.container(border=True):
             st.markdown("### ✨ Esplora")
             st.write(
-                "Sfoglia il catalogo, filtra per obiettivo e cerca ispirazioni "
-                "proteiche, light, veloci o gourmet."
+                "Filtra il catalogo per obiettivo, tempo, ingredienti e tag."
             )
             if st.button("Vai alle ricette"):
                 go_to("Ricette")
@@ -439,8 +452,7 @@ if st.session_state.page == "Home":
         with st.container(border=True):
             st.markdown("### 🛒 Organizza")
             st.write(
-                "Salva preferiti, costruisci il meal plan e genera una prima "
-                "lista della spesa."
+                "Salva preferiti, crea il meal plan e genera la lista della spesa."
             )
             if st.button("Vai alla lista spesa"):
                 go_to("Lista spesa")
@@ -452,14 +464,32 @@ if st.session_state.page == "Home":
     featured = recipes[:3]
 
     if featured:
-        f1, f2, f3 = st.columns(3)
-        columns = [f1, f2, f3]
+        fcols = st.columns(3)
 
         for index, recipe in enumerate(featured):
-            with columns[index]:
-                compact_recipe_card(recipe, key_prefix=f"featured_{index}")
-    else:
-        st.warning("Nessuna ricetta trovata nel database.")
+            with fcols[index % 3]:
+                with st.container(border=True):
+                    st.markdown(f"### {recipe.get('title', 'Ricetta')}")
+                    st.write(recipe.get("description", ""))
+                    st.caption(
+                        f"{recipe.get('goal', '-')} · {recipe.get('prep_time', '-')}"
+                    )
+                    if st.button(
+                        "Salva",
+                        key=f"home_featured_save_{recipe['id']}"
+                    ):
+                        save_favorite(recipe["id"])
+
+    st.write("")
+    st.markdown("## Distribuzione obiettivi")
+
+    counts = recipe_goal_counts(recipes)
+
+    if counts:
+        goal_cols = st.columns(min(4, len(counts)))
+        for index, (goal, count) in enumerate(counts.items()):
+            with goal_cols[index % len(goal_cols)]:
+                st.metric(goal, count)
 
 
 # -----------------------------
@@ -474,15 +504,23 @@ elif st.session_state.page == "Crea schiscetta":
             "Il database ricette non è stato caricato. Controlla che esista il file data/recipes.json."
         )
 
-    left, right = st.columns([1, 1])
+    with st.container(border=True):
+        st.markdown("### Generatore smart gratuito")
+        st.write(
+            "Per ora SchiscettAI cerca nel database locale e propone le ricette più vicine "
+            "agli ingredienti che hai inserito. Il prossimo step sarà il motore modulare "
+            "base + proteina + verdura + salsa + topping."
+        )
 
-    with left:
-        with st.form("schiscetta_form"):
-            ingredienti = st.text_input(
-                "Che ingredienti hai in casa?",
-                placeholder="Esempio: pollo, riso, zucchine"
-            )
+    with st.form("schiscetta_form"):
+        ingredienti = st.text_input(
+            "Che ingredienti hai in casa?",
+            placeholder="Esempio: pollo, riso, zucchine"
+        )
 
+        col1, col2 = st.columns(2)
+
+        with col1:
             obiettivo = st.selectbox(
                 "Qual è il tuo obiettivo?",
                 [
@@ -497,6 +535,7 @@ elif st.session_state.page == "Crea schiscetta":
                 ]
             )
 
+        with col2:
             tempo = st.selectbox(
                 "Quanto tempo hai?",
                 [
@@ -507,35 +546,21 @@ elif st.session_state.page == "Crea schiscetta":
                 ]
             )
 
-            submitted = st.form_submit_button("Genera la mia schiscetta")
+        preferenze = st.text_input(
+            "Preferenze o vincoli",
+            placeholder="Esempio: senza pesce, più proteica, da mangiare fredda"
+        )
 
-        if submitted:
-            if not ingredienti.strip():
-                st.warning("Inserisci almeno un ingrediente.")
-            else:
-                matched_recipes = find_best_recipes(
-                    recipes,
-                    ingredienti,
-                    obiettivo,
-                    tempo
-                )
-                st.session_state.generated_recipe_ids = [
-                    recipe["id"] for recipe in matched_recipes
-                ]
+        submitted = st.form_submit_button("Genera la mia schiscetta")
 
-    with right:
-        with st.container(border=True):
-            st.markdown("### Come ragiona SchiscettAI")
-            st.write(
-                "In questa versione gratuita il generatore confronta gli ingredienti "
-                "che inserisci con il database locale e seleziona le ricette più coerenti."
-            )
-            st.write(
-                "La logica considera ingredienti, obiettivo, tag e tempo disponibile."
-            )
-            st.caption(
-                "Prossimo upgrade: motore modulare base + proteina + verdura + salsa + topping."
-            )
+    if submitted:
+        if not ingredienti.strip():
+            st.warning("Inserisci almeno un ingrediente.")
+        else:
+            matched_recipes = find_best_recipes(recipes, ingredienti, obiettivo, tempo)
+            st.session_state.generated_recipe_ids = [
+                recipe["id"] for recipe in matched_recipes
+            ]
 
     if st.session_state.generated_recipe_ids:
         st.success("Ecco le idee più adatte alla tua schiscetta.")
@@ -544,11 +569,7 @@ elif st.session_state.page == "Crea schiscetta":
             recipe = get_recipe_by_id(recipes, recipe_id)
 
             if recipe:
-                recipe_card(
-                    recipe,
-                    button_mode="save",
-                    button_key_prefix="generated"
-                )
+                recipe_card(recipe, key_prefix="generated", show_save=True)
 
 
 # -----------------------------
@@ -558,73 +579,78 @@ elif st.session_state.page == "Crea schiscetta":
 elif st.session_state.page == "Ricette":
     st.markdown("## Catalogo ricette")
 
-    filter_col1, filter_col2, filter_col3 = st.columns([1.2, 1, 1])
+    with st.container(border=True):
+        st.markdown("### Filtri")
+        search_col, goal_col = st.columns(2)
 
-    with filter_col1:
-        search = st.text_input(
-            "Cerca ricetta o ingrediente",
-            value=st.session_state.catalog_search,
-            placeholder="Esempio: pollo, couscous, feta..."
+        with search_col:
+            text_query = st.text_input(
+                "Cerca per ingrediente, nome o parola chiave",
+                placeholder="Esempio: pollo, ceci, pasta, light"
+            )
+
+        with goal_col:
+            goal_filter = st.selectbox(
+                "Filtra per obiettivo",
+                [
+                    "Tutte",
+                    "Proteica",
+                    "Light",
+                    "Economica",
+                    "Vegetariana",
+                    "Veloce",
+                    "Gourmet",
+                    "Meal prep",
+                    "Svuota frigo"
+                ]
+            )
+
+        tag_col, time_col = st.columns(2)
+
+        with tag_col:
+            tag_values = ["Tutti"] + sorted(set(tags))
+            tag_filter = st.selectbox("Filtra per tag", tag_values)
+
+        with time_col:
+            max_time_filter = st.selectbox(
+                "Tempo massimo",
+                [
+                    "Qualsiasi",
+                    "10 minuti",
+                    "20 minuti",
+                    "30 minuti",
+                    "45 minuti"
+                ]
+            )
+
+        max_cards = st.slider(
+            "Quante ricette mostrare",
+            min_value=6,
+            max_value=30,
+            value=12,
+            step=3
         )
-        st.session_state.catalog_search = search
 
-    with filter_col2:
-        goal_filter = st.selectbox(
-            "Obiettivo",
-            all_goals(recipes)
-        )
-
-    with filter_col3:
-        category_filter = st.selectbox(
-            "Categoria",
-            all_categories(recipes)
-        )
-
-    filtered_recipes = recipes
-
-    if search.strip():
-        search_norm = normalize_text(search)
-        filtered_recipes = [
-            recipe for recipe in filtered_recipes
-            if search_norm in normalize_text(recipe.get("title", ""))
-            or search_norm in normalize_text(recipe.get("description", ""))
-            or search_norm in normalize_text(" ".join(recipe.get("ingredients", [])))
-            or search_norm in normalize_text(" ".join(recipe.get("tags", [])))
-        ]
-
-    if goal_filter != "Tutte":
-        filtered_recipes = [
-            recipe for recipe in filtered_recipes
-            if normalize_text(recipe.get("goal", "")) == normalize_text(goal_filter)
-        ]
-
-    if category_filter != "Tutte":
-        filtered_recipes = [
-            recipe for recipe in filtered_recipes
-            if normalize_text(recipe.get("category", "")) == normalize_text(category_filter)
-        ]
+    filtered_recipes = filter_recipes(
+        recipes,
+        text_query,
+        goal_filter,
+        tag_filter,
+        max_time_filter
+    )
 
     st.write(f"Ricette trovate: {len(filtered_recipes)}")
 
-    show_limit = st.slider(
-        "Quante ricette vuoi visualizzare?",
-        min_value=6,
-        max_value=min(60, max(6, len(filtered_recipes))),
-        value=min(12, max(6, len(filtered_recipes))),
-        step=6
-    )
+    if not filtered_recipes:
+        st.warning("Nessuna ricetta trovata con questi filtri.")
 
-    for recipe in filtered_recipes[:show_limit]:
-        recipe_card(
-            recipe,
-            button_mode="save",
-            button_key_prefix="catalog"
-        )
+    for recipe in filtered_recipes[:max_cards]:
+        recipe_card(recipe, key_prefix="catalog", show_save=True)
 
-    if len(filtered_recipes) > show_limit:
+    if len(filtered_recipes) > max_cards:
         st.info(
-            f"Stai vedendo {show_limit} ricette su {len(filtered_recipes)}. "
-            "Usa ricerca e filtri per restringere i risultati."
+            f"Stai vedendo {max_cards} ricette su {len(filtered_recipes)}. "
+            "Aumenta il numero o restringi i filtri."
         )
 
 
@@ -635,10 +661,7 @@ elif st.session_state.page == "Ricette":
 elif st.session_state.page == "Preferiti":
     st.markdown("## Le tue ricette preferite")
 
-    favorite_recipes = [
-        recipe for recipe in recipes
-        if recipe.get("id") in st.session_state.favorites
-    ]
+    favorite_recipes = get_favorite_recipes(recipes)
 
     if not favorite_recipes:
         st.info("Non hai ancora salvato ricette preferite.")
@@ -646,17 +669,16 @@ elif st.session_state.page == "Preferiti":
             go_to("Ricette")
             st.rerun()
     else:
-        st.success(f"Hai {len(favorite_recipes)} ricette preferite.")
-
-        if st.button("Crea lista spesa dai preferiti"):
-            go_to("Lista spesa")
-            st.rerun()
+        st.success(
+            "Le ricette preferite alimentano automaticamente anche la lista della spesa."
+        )
 
         for recipe in favorite_recipes:
             recipe_card(
                 recipe,
-                button_mode="remove",
-                button_key_prefix="favorite"
+                key_prefix="favorite",
+                show_save=False,
+                show_remove=True
             )
 
 
@@ -667,89 +689,94 @@ elif st.session_state.page == "Preferiti":
 elif st.session_state.page == "Lista spesa":
     st.markdown("## Lista della spesa")
 
-    meal_plan_ids = get_meal_plan_recipe_ids()
+    favorite_recipes = get_favorite_recipes(recipes)
+    meal_plan_recipes = get_meal_plan_recipes(recipes)
 
-    source = st.radio(
-        "Da quali ricette vuoi generare la lista?",
-        [
-            "Preferiti",
-            "Meal plan",
-            "Preferiti + Meal plan"
-        ],
-        horizontal=True
+    with st.container(border=True):
+        st.markdown("### Fonti della lista")
+
+        use_favorites = st.checkbox(
+            "Usa ricette preferite",
+            value=True
+        )
+
+        use_meal_plan = st.checkbox(
+            "Usa meal plan settimanale",
+            value=True
+        )
+
+        extra_item = st.text_input(
+            "Aggiungi ingrediente extra",
+            placeholder="Esempio: yogurt greco"
+        )
+
+        if st.button("Aggiungi extra"):
+            if extra_item.strip():
+                st.session_state.extra_shopping_items.append(extra_item.strip())
+                st.success("Ingrediente extra aggiunto.")
+                st.rerun()
+
+    selected_recipes = []
+
+    if use_favorites:
+        selected_recipes.extend(favorite_recipes)
+
+    if use_meal_plan:
+        selected_recipes.extend(meal_plan_recipes)
+
+    shopping_counter = aggregate_ingredients(
+        selected_recipes,
+        st.session_state.extra_shopping_items
     )
 
-    selected_ids = []
+    st.write("")
 
-    if source in ["Preferiti", "Preferiti + Meal plan"]:
-        selected_ids.extend(st.session_state.favorites)
+    source_col1, source_col2, source_col3 = st.columns(3)
 
-    if source in ["Meal plan", "Preferiti + Meal plan"]:
-        selected_ids.extend(meal_plan_ids)
+    with source_col1:
+        st.metric("Ricette preferite", len(favorite_recipes))
 
-    selected_ids = list(dict.fromkeys(selected_ids))
+    with source_col2:
+        st.metric("Ricette meal plan", len(meal_plan_recipes))
 
-    selected_recipes = [
-        recipes_by_id[recipe_id]
-        for recipe_id in selected_ids
-        if recipe_id in recipes_by_id
-    ]
+    with source_col3:
+        st.metric("Ingredienti in lista", len(shopping_counter))
 
-    if not selected_recipes:
+    if not shopping_counter:
         st.info(
-            "Non ci sono ancora ricette selezionate. Salva qualche ricetta nei preferiti "
-            "o compila il meal plan."
+            "La lista è vuota. Salva ricette nei preferiti o scegli ricette nel meal plan."
         )
-
-        col_a, col_b = st.columns(2)
-
-        with col_a:
-            if st.button("Vai alle ricette"):
-                go_to("Ricette")
-                st.rerun()
-
-        with col_b:
-            if st.button("Vai al meal plan"):
-                go_to("Meal plan")
-                st.rerun()
-
     else:
-        st.success(
-            f"Lista generata da {len(selected_recipes)} ricette selezionate."
-        )
+        st.markdown("### Ingredienti da comprare")
 
-        shopping_rows = build_shopping_list(selected_recipes)
+        for ingredient, count in sorted(shopping_counter.items()):
+            lookup_key = normalize_text(ingredient)
+            info = ingredients_by_name.get(lookup_key, {})
+            category = info.get("category", "categoria non disponibile")
 
-        st.markdown("### Ingredienti da controllare o acquistare")
+            label = ingredient
+            if count > 1:
+                label = f"{ingredient} x{count}"
 
-        for row in shopping_rows:
-            item = row["Ingrediente"]
-            count = row["Presente in ricette"]
-            recipe_names = row["Ricette"]
-
-            checked = st.checkbox(
-                f"{item}  — presente in {count} ricetta/e",
-                key=f"shopping_{item}"
+            st.checkbox(
+                f"{label} — {category}",
+                key=f"shop_{normalize_text(ingredient)}"
             )
 
-            if recipe_names:
-                st.caption(f"Usato in: {recipe_names}")
+        st.write("")
 
-        st.markdown("### Ricette considerate")
-
-        for recipe in selected_recipes:
-            st.write(f"- {recipe.get('title', 'Ricetta')}")
-
-        export_text = "Lista spesa SchiscettAI\n\n"
-        for row in shopping_rows:
-            export_text += f"- {row['Ingrediente']} ({row['Presente in ricette']} ricetta/e)\n"
+        shopping_text = build_shopping_text(shopping_counter)
 
         st.download_button(
-            "Scarica lista spesa in TXT",
-            data=export_text,
+            "Scarica lista della spesa",
+            data=shopping_text,
             file_name="lista_spesa_schiscettai.txt",
             mime="text/plain"
         )
+
+        if st.button("Svuota ingredienti extra"):
+            st.session_state.extra_shopping_items = []
+            st.rerun()
 
 
 # -----------------------------
@@ -763,7 +790,40 @@ elif st.session_state.page == "Meal plan":
         st.markdown("### Organizza la tua settimana")
         st.write(
             "Scegli una schiscetta per ogni giorno lavorativo. "
-            "Poi passa alla Lista spesa per aggregare gli ingredienti."
+            "Le ricette selezionate alimentano automaticamente la lista della spesa."
         )
 
-    days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì
+    recipe_options = get_recipe_options(recipes)
+
+    for day in WORK_DAYS:
+        st.selectbox(
+            day,
+            recipe_options,
+            key=f"meal_{day}"
+        )
+
+    st.write("")
+    st.markdown("### Riepilogo settimana")
+
+    planned_recipes = get_meal_plan_recipes(recipes)
+
+    if not planned_recipes:
+        st.info("Non hai ancora selezionato ricette per la settimana.")
+    else:
+        for day in WORK_DAYS:
+            title = st.session_state.get(f"meal_{day}", "Nessuna ricetta")
+            recipe = get_recipe_by_title(recipes, title)
+
+            if recipe:
+                st.write(
+                    f"**{day}:** {recipe.get('title')} "
+                    f"— {recipe.get('goal', '-')} · {recipe.get('prep_time', '-')}"
+                )
+            else:
+                st.write(f"**{day}:** Nessuna ricetta")
+
+        st.write("")
+
+        if st.button("Vai alla lista della spesa"):
+            go_to("Lista spesa")
+            st.rerun()
