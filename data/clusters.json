@@ -1,0 +1,83 @@
+[
+  {
+    "id": "riso_pollo",
+    "name": "Riso & proteine",
+    "emoji": "🍚",
+    "description": "Bowl proteiche, sazianti e perfette da ufficio.",
+    "mood": "ordinata, nutriente, pratica",
+    "color": "#D8D0C4",
+    "image_prompt": "Elegant Italian lunch box with basmati rice, grilled chicken, zucchini, warm ivory and sage green tones, natural light, premium food photography."
+  },
+  {
+    "id": "pasta_fredda",
+    "name": "Pasta fredda",
+    "emoji": "🍝",
+    "description": "Mediterranea, veloce e facile da trasportare.",
+    "mood": "solare, semplice, italiana",
+    "color": "#F8F3EA",
+    "image_prompt": "Premium cold pasta lunch box with cherry tomatoes, tuna, olives, basil, ivory greige background, sage green accents, natural light."
+  },
+  {
+    "id": "couscous_verdure",
+    "name": "Couscous & verdure",
+    "emoji": "🥙",
+    "description": "Colorato, economico e pronto in pochi minuti.",
+    "mood": "vivace, smart, low cost",
+    "color": "#E6DED2",
+    "image_prompt": "Colorful couscous lunch box with chickpeas, carrots, zucchini and herbs, elegant meal prep composition, warm natural light."
+  },
+  {
+    "id": "bowl_mediterranea",
+    "name": "Bowl mediterranea",
+    "emoji": "🥗",
+    "description": "Fresca, bilanciata e molto meal prep.",
+    "mood": "fresca, bilanciata, appetitosa",
+    "color": "#8FA99A",
+    "image_prompt": "Mediterranean grain bowl with farro, feta, tomatoes, olives and greens, premium lunch box, ivory greige sage palette."
+  },
+  {
+    "id": "vegetariana_legumi",
+    "name": "Vegetariana smart",
+    "emoji": "🫘",
+    "description": "Legumi, cereali e verdure in versione glamour.",
+    "mood": "vegetale, saziante, colorata",
+    "color": "#C9D6C8",
+    "image_prompt": "Vegetarian lunch box with legumes, rice, tofu, vegetables and herbs, clean premium food app style, sage green and ivory tones."
+  },
+  {
+    "id": "meal_prep_box",
+    "name": "Meal prep box",
+    "emoji": "🍱",
+    "description": "Organizzata, pratica e pronta per la settimana.",
+    "mood": "ordinata, settimanale, efficiente",
+    "color": "#A89F91",
+    "image_prompt": "Elegant weekly meal prep boxes with balanced Italian lunches, organized layout, warm ivory and greige background, natural light."
+  },
+  {
+    "id": "insalata_proteica",
+    "name": "Insalata proteica",
+    "emoji": "🥬",
+    "description": "Leggera ma saziante, buona anche fredda.",
+    "mood": "light, fresca, proteica",
+    "color": "#DDE7DD",
+    "image_prompt": "Protein salad lunch box with eggs, chicken, greens, seeds and lemon dressing, elegant food photography, sage green tones."
+  },
+  {
+    "id": "wrap_integrale",
+    "name": "Wrap integrale",
+    "emoji": "🌯",
+    "description": "Compatto, veloce e perfetto da portare via.",
+    "mood": "veloce, pratico, urbano",
+    "color": "#EFE7DA",
+    "image_prompt": "Whole wheat wrap lunch box cut in halves with fresh vegetables and protein filling, premium casual food app aesthetic."
+  },
+  {
+    "id": "gourmet_light",
+    "name": "Gourmet light",
+    "emoji": "✨",
+    "description": "Più curata, elegante e bella da vedere.",
+    "mood": "premium, curata, glamour",
+    "color": "#F2E9DC",
+    "image_prompt": "Gourmet light Italian lunch box with refined composition, fresh ingredients, elegant plating, ivory greige sage palette."
+  }
+]
