@@ -99,15 +99,19 @@ def go_to(page_name):
     st.session_state.page = page_name
 
 
-def get_recipe_by_id(recipes, recipe_id):
-    for recipe in recipes:
+def combined_recipes():
+    return recipes + st.session_state.custom_recipes
+
+
+def get_recipe_by_id(recipe_list, recipe_id):
+    for recipe in recipe_list:
         if recipe.get("id") == recipe_id:
             return recipe
     return None
 
 
-def get_recipe_by_title(recipes, title):
-    for recipe in recipes:
+def get_recipe_by_title(recipe_list, title):
+    for recipe in recipe_list:
         if recipe.get("title") == title:
             return recipe
     return None
@@ -127,19 +131,19 @@ def remove_favorite(recipe_id):
         st.success("Ricetta rimossa dai preferiti.")
 
 
-def get_favorite_recipes(recipes):
+def get_favorite_recipes(recipe_list):
     return [
-        recipe for recipe in recipes
+        recipe for recipe in recipe_list
         if recipe.get("id") in st.session_state.favorites
     ]
 
 
-def get_meal_plan_recipes(recipes):
+def get_meal_plan_recipes(recipe_list):
     selected = []
 
     for day in WORK_DAYS:
         title = st.session_state.get(f"meal_{day}", "Nessuna ricetta")
-        recipe = get_recipe_by_title(recipes, title)
+        recipe = get_recipe_by_title(recipe_list, title)
         if recipe:
             selected.append(recipe)
 
@@ -188,13 +192,13 @@ def ingredient_lookup(ingredients):
     return lookup
 
 
-def recipe_goal_counts(recipes):
-    return Counter(recipe.get("goal", "Altro") for recipe in recipes)
+def recipe_goal_counts(recipe_list):
+    return Counter(recipe.get("goal", "Altro") for recipe in recipe_list)
 
 
-def recipes_by_cluster(recipes):
+def recipes_by_cluster(recipe_list):
     grouped = {}
-    for recipe in recipes:
+    for recipe in recipe_list:
         cluster = recipe.get("image_cluster", "smart")
         grouped.setdefault(cluster, []).append(recipe)
     return grouped
@@ -210,6 +214,246 @@ def get_cluster_visual(recipe):
             "subtitle": "Ricetta pratica, buona e facile da portare",
         },
     )
+
+
+def get_module_options(modules, key):
+    if isinstance(modules, dict):
+        return modules.get(key, [])
+    return []
+
+
+def score_module(option, user_words, goal):
+    name = normalize_text(option.get("name", ""))
+    good_for = [normalize_text(item) for item in option.get("good_for", [])]
+    score = 0
+
+    for word in user_words:
+        if word and word in name:
+            score += 10
+        elif word and name in word:
+            score += 8
+
+    if normalize_text(goal) in good_for:
+        score += 5
+
+    return score
+
+
+def pick_module(options, user_words, goal, vegetarian_only=False):
+    candidates = options
+
+    if vegetarian_only:
+        candidates = [
+            item for item in options
+            if normalize_text(item.get("type", "")) not in ["animale", "pesce"]
+        ]
+
+    if not candidates:
+        candidates = options
+
+    scored = [
+        (score_module(item, user_words, goal), index, item)
+        for index, item in enumerate(candidates)
+    ]
+
+    scored.sort(key=lambda item: (item[0], -item[1]), reverse=True)
+
+    if scored:
+        return scored[0][2]
+
+    return {}
+
+
+def pick_style(styles, goal):
+    goal_norm = normalize_text(goal)
+
+    for style in styles:
+        if normalize_text(style.get("name", "")) == goal_norm:
+            return style
+        if normalize_text(style.get("id", "")) == goal_norm:
+            return style
+
+    if styles:
+        return styles[0]
+
+    return {
+        "id": "smart",
+        "name": "smart",
+        "title_template": "Schiscetta smart con {base}, {protein} e {vegetable}",
+        "description": "Una schiscetta semplice, pratica e pensata per la pausa pranzo.",
+    }
+
+
+def estimate_nutrition(base, protein, vegetable, style_name):
+    calories = 460
+    protein_value = 24
+    carbs = 55
+    fat = 14
+
+    protein_name = normalize_text(protein.get("name", ""))
+
+    if protein_name in ["pollo", "tonno"]:
+        protein_value += 10
+        calories += 40
+
+    if protein_name in ["ceci", "tofu"]:
+        protein_value += 4
+        fat += 3
+
+    if normalize_text(style_name) == "light":
+        calories -= 70
+        fat -= 3
+
+    if normalize_text(style_name) == "gourmet":
+        calories += 60
+        fat += 5
+
+    if normalize_text(style_name) == "economica":
+        calories -= 20
+
+    return {
+        "calories": max(calories, 300),
+        "protein": max(protein_value, 12),
+        "carbs": max(carbs, 25),
+        "fat": max(fat, 7),
+    }
+
+
+def choose_cluster(base, protein, style):
+    base_name = normalize_text(base.get("name", ""))
+    protein_name = normalize_text(protein.get("name", ""))
+    style_name = normalize_text(style.get("name", ""))
+
+    if "pasta" in base_name:
+        return "pasta_fredda"
+
+    if "couscous" in base_name:
+        return "couscous_verdure"
+
+    if protein_name in ["ceci", "tofu"]:
+        return "vegetariana_legumi"
+
+    if protein_name == "pollo":
+        return "riso_pollo"
+
+    if style_name == "gourmet":
+        return "gourmet_light"
+
+    if style_name == "light":
+        return "insalata_proteica"
+
+    return "bowl_mediterranea"
+
+
+def generate_modular_recipe(modules, user_ingredients, goal, max_time, preferences=""):
+    if not isinstance(modules, dict) or not modules:
+        return None
+
+    user_words = [
+        normalize_text(word)
+        for word in user_ingredients.replace(";", ",").split(",")
+        if word.strip()
+    ]
+
+    preference_words = [
+        normalize_text(word)
+        for word in preferences.replace(";", ",").split(",")
+        if word.strip()
+    ]
+
+    all_words = user_words + preference_words
+
+    bases = get_module_options(modules, "bases")
+    proteins = get_module_options(modules, "proteins")
+    vegetables = get_module_options(modules, "vegetables")
+    sauces = get_module_options(modules, "sauces")
+    toppings = get_module_options(modules, "toppings")
+    styles = get_module_options(modules, "styles")
+
+    vegetarian_only = normalize_text(goal) == "vegetariana"
+
+    base = pick_module(bases, all_words, goal)
+    protein = pick_module(proteins, all_words, goal, vegetarian_only=vegetarian_only)
+    vegetable = pick_module(vegetables, all_words, goal)
+    sauce = pick_module(sauces, all_words, goal)
+    topping = pick_module(toppings, all_words, goal)
+    style = pick_style(styles, goal)
+
+    if not base or not protein or not vegetable:
+        return None
+
+    title_template = style.get(
+        "title_template",
+        "Schiscetta smart con {base}, {protein} e {vegetable}",
+    )
+
+    title = title_template.format(
+        base=base.get("name", "base"),
+        protein=protein.get("name", "proteina"),
+        vegetable=vegetable.get("name", "verdura"),
+    )
+
+    style_name = style.get("name", goal)
+    recipe_id = "modular_" + "_".join(
+        [
+            normalize_text(style_name).replace(" ", "_"),
+            normalize_text(base.get("id", base.get("name", "base"))).replace(" ", "_"),
+            normalize_text(protein.get("id", protein.get("name", "protein"))).replace(" ", "_"),
+            normalize_text(vegetable.get("id", vegetable.get("name", "vegetable"))).replace(" ", "_"),
+        ]
+    )
+
+    recipe = {
+        "id": recipe_id,
+        "title": title,
+        "description": style.get(
+            "description",
+            "Una schiscetta modulare, pratica e pensata per la pausa pranzo.",
+        ),
+        "category": "Ricetta modulare",
+        "goal": goal,
+        "prep_time": max_time,
+        "difficulty": "Facile",
+        "estimated_cost": "basso" if normalize_text(goal) == "economica" else "medio",
+        "storage_info": "Si conserva 1-2 giorni in frigorifero in contenitore ermetico.",
+        "transport_tip": "Tieni la salsa separata e aggiungila poco prima di mangiare.",
+        "glamour_tip": f"Completa con {topping.get('name', 'un topping croccante')} per dare colore, texture e un effetto più curato.",
+        "ingredients": [
+            base.get("name", ""),
+            protein.get("name", ""),
+            vegetable.get("name", ""),
+            sauce.get("name", ""),
+            topping.get("name", ""),
+        ],
+        "steps": [
+            f"Prepara la base: {base.get('prep_note', 'cuocila e lasciala raffreddare')}.",
+            f"Prepara la proteina: {protein.get('prep_note', 'condiscila in modo semplice')}.",
+            f"Aggiungi la verdura: {vegetable.get('prep_note', 'tagliala e aggiungila alla lunch box')}.",
+            f"Completa con {sauce.get('name', 'una salsa leggera')}: {sauce.get('prep_note', 'meglio tenerla a parte')}.",
+            f"Prima di chiudere, aggiungi {topping.get('name', 'un topping')}: effetto {topping.get('effect', 'più curato')}.",
+        ],
+        "nutrition": estimate_nutrition(base, protein, vegetable, style_name),
+        "tags": [
+            normalize_text(goal),
+            "modulare",
+            "svuota frigo",
+            "facile da trasportare",
+            "meal prep",
+        ],
+        "image_cluster": choose_cluster(base, protein, style),
+        "is_modular": True,
+    }
+
+    return recipe
+
+
+def upsert_custom_recipe(recipe):
+    if not recipe:
+        return
+
+    existing_ids = [item.get("id") for item in st.session_state.custom_recipes]
+    if recipe.get("id") not in existing_ids:
+        st.session_state.custom_recipes.append(recipe)
 
 
 def find_best_recipes(recipes, user_ingredients, goal, max_time, preferences=""):
@@ -353,6 +597,8 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
             st.markdown(f"# {visual['emoji']}")
             st.markdown(f"**{visual['title']}**")
             st.caption(visual["subtitle"])
+            if recipe.get("is_modular"):
+                st.caption("Ricetta modulare originale")
 
         with content_col:
             top_col, action_col = st.columns([4, 1])
@@ -428,11 +674,14 @@ recipes = load_json("data/recipes.json")
 categories = load_json("data/categories.json")
 tags = load_json("data/tags.json")
 ingredients_data = load_json("data/ingredients.json")
+modules = load_json("data/modules.json")
 ingredients_by_name = ingredient_lookup(ingredients_data)
-cluster_groups = recipes_by_cluster(recipes)
 
 if "favorites" not in st.session_state:
     st.session_state.favorites = []
+
+if "custom_recipes" not in st.session_state:
+    st.session_state.custom_recipes = []
 
 if "generated_recipe_ids" not in st.session_state:
     st.session_state.generated_recipe_ids = []
@@ -448,6 +697,9 @@ for day in WORK_DAYS:
     if key not in st.session_state:
         st.session_state[key] = "Nessuna ricetta"
 
+
+all_recipes = combined_recipes()
+cluster_groups = recipes_by_cluster(all_recipes)
 
 pages = [
     "Home",
@@ -471,6 +723,7 @@ st.session_state.page = selected_page
 st.sidebar.divider()
 st.sidebar.caption("MVP gratuito")
 st.sidebar.caption("GitHub + Streamlit + database locale")
+st.sidebar.caption(f"Ricette modulari create: {len(st.session_state.custom_recipes)}")
 
 
 st.title("🍱 SchiscettAI")
@@ -494,17 +747,17 @@ if st.session_state.page == "Home":
     m1, m2, m3, m4 = st.columns(4)
 
     with m1:
-        st.metric("Ricette", len(recipes))
+        st.metric("Ricette", len(all_recipes))
 
     with m2:
         st.metric("Preferiti", len(st.session_state.favorites))
 
     with m3:
-        planned_count = len(get_meal_plan_recipes(recipes))
+        planned_count = len(get_meal_plan_recipes(all_recipes))
         st.metric("Giorni pianificati", planned_count)
 
     with m4:
-        st.metric("Cluster visuali", len(cluster_groups))
+        st.metric("Modulari", len(st.session_state.custom_recipes))
 
     st.write("")
 
@@ -514,8 +767,8 @@ if st.session_state.page == "Home":
         with st.container(border=True):
             st.markdown("### 🥗 Crea")
             st.write(
-                "Inserisci gli ingredienti che hai già e ricevi idee pratiche "
-                "per la tua pausa pranzo."
+                "Inserisci gli ingredienti che hai già e ricevi sia ricette dal catalogo "
+                "sia una nuova schiscetta modulare originale."
             )
             if st.button("Crea la mia schiscetta"):
                 go_to("Crea schiscetta")
@@ -550,7 +803,7 @@ if st.session_state.page == "Home":
     st.write("")
     st.markdown("## Ricette in evidenza")
 
-    featured = recipes[:3]
+    featured = all_recipes[:3]
 
     if featured:
         fcols = st.columns(3)
@@ -563,7 +816,7 @@ if st.session_state.page == "Home":
 elif st.session_state.page == "Crea schiscetta":
     st.markdown("## Crea la tua schiscetta")
 
-    if not recipes:
+    if not all_recipes:
         st.error(
             "Il database ricette non è stato caricato. Controlla che esista il file data/recipes.json."
         )
@@ -571,8 +824,8 @@ elif st.session_state.page == "Crea schiscetta":
     with st.container(border=True):
         st.markdown("### Generatore smart gratuito")
         st.write(
-            "SchiscettAI confronta ingredienti, obiettivo e tempo con il database locale. "
-            "Poi mostra le ricette più vicine, usando cluster visuali per dare un'identità più food app."
+            "SchiscettAI ora fa due cose: cerca nel catalogo le ricette più vicine "
+            "e crea anche una schiscetta modulare originale usando base + proteina + verdura + salsa + topping."
         )
 
     with st.form("schiscetta_form"):
@@ -620,6 +873,17 @@ elif st.session_state.page == "Crea schiscetta":
         if not ingredienti.strip():
             st.warning("Inserisci almeno un ingrediente.")
         else:
+            modular_recipe = generate_modular_recipe(
+                modules,
+                ingredienti,
+                obiettivo,
+                tempo,
+                preferences=preferenze,
+            )
+
+            if modular_recipe:
+                upsert_custom_recipe(modular_recipe)
+
             matched_recipes = find_best_recipes(
                 recipes,
                 ingredienti,
@@ -627,15 +891,23 @@ elif st.session_state.page == "Crea schiscetta":
                 tempo,
                 preferences=preferenze,
             )
-            st.session_state.generated_recipe_ids = [
-                recipe["id"] for recipe in matched_recipes
-            ]
+
+            generated_ids = []
+
+            if modular_recipe:
+                generated_ids.append(modular_recipe["id"])
+
+            generated_ids.extend([recipe["id"] for recipe in matched_recipes])
+            st.session_state.generated_recipe_ids = generated_ids[:4]
+            all_recipes = combined_recipes()
 
     if st.session_state.generated_recipe_ids:
-        st.success("Ecco le idee più adatte alla tua schiscetta.")
+        st.success("Ecco la tua schiscetta modulare più le ricette più vicine dal catalogo.")
+
+        current_recipes = combined_recipes()
 
         for recipe_id in st.session_state.generated_recipe_ids:
-            recipe = get_recipe_by_id(recipes, recipe_id)
+            recipe = get_recipe_by_id(current_recipes, recipe_id)
 
             if recipe:
                 recipe_card(recipe, key_prefix="generated", show_save=True)
@@ -643,6 +915,9 @@ elif st.session_state.page == "Crea schiscetta":
 
 elif st.session_state.page == "Ricette":
     st.markdown("## Catalogo ricette")
+
+    current_recipes = combined_recipes()
+    current_clusters = recipes_by_cluster(current_recipes)
 
     with st.container(border=True):
         st.markdown("### Filtri")
@@ -673,7 +948,7 @@ elif st.session_state.page == "Ricette":
         tag_col, time_col, cluster_col = st.columns(3)
 
         with tag_col:
-            tag_values = ["Tutti"] + sorted(set(tags))
+            tag_values = ["Tutti"] + sorted(set(tags + ["modulare"]))
             tag_filter = st.selectbox("Filtra per tag", tag_values)
 
         with time_col:
@@ -689,7 +964,7 @@ elif st.session_state.page == "Ricette":
             )
 
         with cluster_col:
-            cluster_values = ["Tutti"] + sorted(cluster_groups.keys())
+            cluster_values = ["Tutti"] + sorted(current_clusters.keys())
             cluster_filter = st.selectbox("Filtra per cluster", cluster_values)
 
         max_cards = st.slider(
@@ -701,7 +976,7 @@ elif st.session_state.page == "Ricette":
         )
 
     filtered_recipes = filter_recipes(
-        recipes,
+        current_recipes,
         text_query,
         goal_filter,
         tag_filter,
@@ -727,7 +1002,7 @@ elif st.session_state.page == "Ricette":
 elif st.session_state.page == "Preferiti":
     st.markdown("## Le tue ricette preferite")
 
-    favorite_recipes = get_favorite_recipes(recipes)
+    favorite_recipes = get_favorite_recipes(combined_recipes())
 
     if not favorite_recipes:
         st.info("Non hai ancora salvato ricette preferite.")
@@ -751,8 +1026,9 @@ elif st.session_state.page == "Preferiti":
 elif st.session_state.page == "Lista spesa":
     st.markdown("## Lista della spesa")
 
-    favorite_recipes = get_favorite_recipes(recipes)
-    meal_plan_recipes = get_meal_plan_recipes(recipes)
+    current_recipes = combined_recipes()
+    favorite_recipes = get_favorite_recipes(current_recipes)
+    meal_plan_recipes = get_meal_plan_recipes(current_recipes)
 
     with st.container(border=True):
         st.markdown("### Fonti della lista")
@@ -837,6 +1113,8 @@ elif st.session_state.page == "Lista spesa":
 elif st.session_state.page == "Meal plan":
     st.markdown("## Meal plan settimanale")
 
+    current_recipes = combined_recipes()
+
     with st.container(border=True):
         st.markdown("### Organizza la tua settimana")
         st.write(
@@ -845,7 +1123,7 @@ elif st.session_state.page == "Meal plan":
         )
 
     recipe_options = ["Nessuna ricetta"] + [
-        recipe.get("title", "Ricetta") for recipe in recipes
+        recipe.get("title", "Ricetta") for recipe in current_recipes
     ]
 
     for day in WORK_DAYS:
@@ -854,14 +1132,14 @@ elif st.session_state.page == "Meal plan":
     st.write("")
     st.markdown("### Riepilogo settimana")
 
-    planned_recipes = get_meal_plan_recipes(recipes)
+    planned_recipes = get_meal_plan_recipes(current_recipes)
 
     if not planned_recipes:
         st.info("Non hai ancora selezionato ricette per la settimana.")
     else:
         for day in WORK_DAYS:
             title = st.session_state.get(f"meal_{day}", "Nessuna ricetta")
-            recipe = get_recipe_by_title(recipes, title)
+            recipe = get_recipe_by_title(current_recipes, title)
 
             if recipe:
                 st.write(
