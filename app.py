@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from html import escape
+from textwrap import dedent
 
 import streamlit as st
 
@@ -12,17 +13,20 @@ st.set_page_config(
 )
 
 
+# -----------------------------
+# Utility
+# -----------------------------
+
 def load_css(file_path):
     css_path = Path(file_path)
     if css_path.exists():
-        st.markdown(
-            f"<style>{css_path.read_text(encoding='utf-8')}</style>",
-            unsafe_allow_html=True
-        )
+        css = css_path.read_text(encoding="utf-8")
+        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 
 def load_json(file_path):
     path = Path(file_path)
+
     if not path.exists():
         return []
 
@@ -48,63 +52,6 @@ def get_recipe_by_id(recipes, recipe_id):
     return None
 
 
-def recipe_card(recipe):
-    tags_html = " ".join(
-        [
-            f"<span class='tag-pill'>{escape(str(tag))}</span>"
-            for tag in recipe.get("tags", [])
-        ]
-    )
-
-    steps_html = "".join(
-        [
-            f"<li>{escape(str(step))}</li>"
-            for step in recipe.get("steps", [])
-        ]
-    )
-
-    ingredients_text = ", ".join(recipe.get("ingredients", []))
-    nutrition = recipe.get("nutrition", {})
-
-    st.markdown(
-        f"""
-        <div class="schiscetta-card">
-            <h2>{escape(recipe.get("title", "Ricetta"))}</h2>
-            <p>{escape(recipe.get("description", ""))}</p>
-
-            <p>
-                <strong>Obiettivo:</strong> {escape(recipe.get("goal", "-"))} ·
-                <strong>Tempo:</strong> {escape(recipe.get("prep_time", "-"))} ·
-                <strong>Difficoltà:</strong> {escape(recipe.get("difficulty", "-"))} ·
-                <strong>Costo:</strong> {escape(recipe.get("estimated_cost", "-"))}
-            </p>
-
-            <h3>Ingredienti</h3>
-            <p>{escape(ingredients_text)}</p>
-
-            <h3>Procedimento</h3>
-            <ol>{steps_html}</ol>
-
-            <h3>Valori indicativi</h3>
-            <p>
-                {nutrition.get("calories", "-")} kcal ·
-                Proteine {nutrition.get("protein", "-")} g ·
-                Carboidrati {nutrition.get("carbs", "-")} g ·
-                Grassi {nutrition.get("fat", "-")} g
-            </p>
-
-            <h3>Consigli</h3>
-            <p><strong>Trasporto:</strong> {escape(recipe.get("transport_tip", "-"))}</p>
-            <p><strong>Consiglio glamour:</strong> {escape(recipe.get("glamour_tip", "-"))}</p>
-            <p><strong>Conservazione:</strong> {escape(recipe.get("storage_info", "-"))}</p>
-
-            <div>{tags_html}</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-
 def save_favorite(recipe_id):
     if recipe_id not in st.session_state.favorites:
         st.session_state.favorites.append(recipe_id)
@@ -112,6 +59,81 @@ def save_favorite(recipe_id):
     else:
         st.info("Questa ricetta è già nei preferiti.")
 
+
+# -----------------------------
+# Card ricetta
+# -----------------------------
+
+def recipe_card(recipe):
+    title = escape(recipe.get("title", "Ricetta"))
+    description = escape(recipe.get("description", ""))
+    goal = escape(recipe.get("goal", "-"))
+    prep_time = escape(recipe.get("prep_time", "-"))
+    difficulty = escape(recipe.get("difficulty", "-"))
+    estimated_cost = escape(recipe.get("estimated_cost", "-"))
+    ingredients = escape(", ".join(recipe.get("ingredients", [])))
+    transport_tip = escape(recipe.get("transport_tip", "-"))
+    glamour_tip = escape(recipe.get("glamour_tip", "-"))
+    storage_info = escape(recipe.get("storage_info", "-"))
+
+    nutrition = recipe.get("nutrition", {})
+    calories = nutrition.get("calories", "-")
+    protein = nutrition.get("protein", "-")
+    carbs = nutrition.get("carbs", "-")
+    fat = nutrition.get("fat", "-")
+
+    steps_html = "".join(
+        f"<li>{escape(str(step))}</li>"
+        for step in recipe.get("steps", [])
+    )
+
+    tags_html = "".join(
+        f"<span class='tag-pill'>{escape(str(tag))}</span>"
+        for tag in recipe.get("tags", [])
+    )
+
+    card_html = f"""
+<div class="schiscetta-card">
+    <h2>{title}</h2>
+    <p>{description}</p>
+
+    <div class="recipe-meta">
+        <span><strong>Obiettivo:</strong> {goal}</span>
+        <span><strong>Tempo:</strong> {prep_time}</span>
+        <span><strong>Difficoltà:</strong> {difficulty}</span>
+        <span><strong>Costo:</strong> {estimated_cost}</span>
+    </div>
+
+    <h3>Ingredienti</h3>
+    <p>{ingredients}</p>
+
+    <h3>Procedimento</h3>
+    <ol>
+        {steps_html}
+    </ol>
+
+    <h3>Valori indicativi</h3>
+    <p>
+        {calories} kcal · Proteine {protein} g · Carboidrati {carbs} g · Grassi {fat} g
+    </p>
+
+    <h3>Consigli</h3>
+    <p><strong>Trasporto:</strong> {transport_tip}</p>
+    <p><strong>Consiglio glamour:</strong> {glamour_tip}</p>
+    <p><strong>Conservazione:</strong> {storage_info}</p>
+
+    <div class="tag-container">
+        {tags_html}
+    </div>
+</div>
+"""
+
+    st.markdown(dedent(card_html), unsafe_allow_html=True)
+
+
+# -----------------------------
+# Motore ricerca ricette
+# -----------------------------
 
 def find_best_recipes(recipes, user_ingredients, goal):
     user_words = [
@@ -125,16 +147,17 @@ def find_best_recipes(recipes, user_ingredients, goal):
     for recipe in recipes:
         score = 0
 
-        recipe_ingredients = normalize_text(
-            " ".join(recipe.get("ingredients", []))
-        )
+        recipe_ingredients = normalize_text(" ".join(recipe.get("ingredients", [])))
         recipe_goal = normalize_text(recipe.get("goal", ""))
         recipe_tags = normalize_text(" ".join(recipe.get("tags", [])))
+        recipe_title = normalize_text(recipe.get("title", ""))
 
         for word in user_words:
-            if word and word in recipe_ingredients:
+            if word in recipe_ingredients:
                 score += 4
-            if word and word in recipe_tags:
+            if word in recipe_title:
+                score += 2
+            if word in recipe_tags:
                 score += 1
 
         if normalize_text(goal) in recipe_goal:
@@ -152,11 +175,20 @@ def find_best_recipes(recipes, user_ingredients, goal):
     return recipes[:3]
 
 
+# -----------------------------
+# Caricamento dati
+# -----------------------------
+
 load_css("styles/custom.css")
 
 recipes = load_json("data/recipes.json")
 categories = load_json("data/categories.json")
 tags = load_json("data/tags.json")
+
+
+# -----------------------------
+# Stato sessione
+# -----------------------------
 
 if "favorites" not in st.session_state:
     st.session_state.favorites = []
@@ -168,6 +200,10 @@ if "page" not in st.session_state:
     st.session_state.page = "Home"
 
 
+# -----------------------------
+# Sidebar
+# -----------------------------
+
 pages = [
     "Home",
     "Crea schiscetta",
@@ -177,34 +213,42 @@ pages = [
 ]
 
 st.sidebar.title("SchiscettAI")
+
 selected_page = st.sidebar.radio(
     "Menu",
     pages,
     index=pages.index(st.session_state.page)
 )
+
 st.session_state.page = selected_page
 
 
-st.markdown(
-    """
-    <div class="hero-box">
-        <h1>🍱 SchiscettAI</h1>
-        <h3>La schiscetta non è mai stata così smart.</h3>
-        <p><strong>La tua pausa pranzo intelligente</strong></p>
-        <p><strong>Ricette smart per mangiare meglio ogni giorno</strong></p>
-        <p><strong>Prepara, risparmia, gusta</strong></p>
-        <p>
-            Trasforma quello che hai in frigo in una schiscetta bella,
-            pratica e intelligente. Una web app gratuita, glamour e pensata
-            per pranzi da portare al lavoro senza stress.
-        </p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+# -----------------------------
+# Hero
+# -----------------------------
 
+hero_html = """
+<div class="hero-box">
+    <h1>🍱 SchiscettAI</h1>
+    <h3>La schiscetta non è mai stata così smart.</h3>
+    <p><strong>La tua pausa pranzo intelligente</strong></p>
+    <p><strong>Ricette smart per mangiare meglio ogni giorno</strong></p>
+    <p><strong>Prepara, risparmia, gusta</strong></p>
+    <p>
+        Trasforma quello che hai in frigo in una schiscetta bella,
+        pratica e intelligente. Una web app gratuita, glamour e pensata
+        per pranzi da portare al lavoro senza stress.
+    </p>
+</div>
+"""
+
+st.markdown(dedent(hero_html), unsafe_allow_html=True)
 st.write("")
 
+
+# -----------------------------
+# Home
+# -----------------------------
 
 if st.session_state.page == "Home":
     st.markdown("## Benvenuto in SchiscettAI")
@@ -213,15 +257,17 @@ if st.session_state.page == "Home":
 
     with col1:
         st.markdown(
-            """
-            <div class="schiscetta-card">
-                <h3>🥗 Crea</h3>
-                <p>
-                    Inserisci gli ingredienti che hai già e ricevi idee
-                    pratiche per la tua pausa pranzo.
-                </p>
-            </div>
-            """,
+            dedent(
+                """
+                <div class="schiscetta-card">
+                    <h3>🥗 Crea</h3>
+                    <p>
+                        Inserisci gli ingredienti che hai già e ricevi idee
+                        pratiche per la tua pausa pranzo.
+                    </p>
+                </div>
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -231,15 +277,17 @@ if st.session_state.page == "Home":
 
     with col2:
         st.markdown(
-            """
-            <div class="schiscetta-card">
-                <h3>✨ Esplora</h3>
-                <p>
-                    Guarda il catalogo iniziale di ricette proteiche,
-                    vegetariane, economiche e veloci.
-                </p>
-            </div>
-            """,
+            dedent(
+                """
+                <div class="schiscetta-card">
+                    <h3>✨ Esplora</h3>
+                    <p>
+                        Guarda il catalogo iniziale di ricette proteiche,
+                        vegetariane, economiche e veloci.
+                    </p>
+                </div>
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -249,15 +297,17 @@ if st.session_state.page == "Home":
 
     with col3:
         st.markdown(
-            """
-            <div class="schiscetta-card">
-                <h3>🍱 Organizza</h3>
-                <p>
-                    Salva preferiti e prepara la tua settimana
-                    con un meal plan semplice.
-                </p>
-            </div>
-            """,
+            dedent(
+                """
+                <div class="schiscetta-card">
+                    <h3>🍱 Organizza</h3>
+                    <p>
+                        Salva preferiti e prepara la tua settimana
+                        con un meal plan semplice.
+                    </p>
+                </div>
+                """
+            ),
             unsafe_allow_html=True
         )
 
@@ -268,6 +318,10 @@ if st.session_state.page == "Home":
     st.write("")
     st.info(f"Ricette disponibili nel database: {len(recipes)}")
 
+
+# -----------------------------
+# Crea schiscetta
+# -----------------------------
 
 elif st.session_state.page == "Crea schiscetta":
     st.markdown("## Crea la tua schiscetta")
@@ -323,6 +377,7 @@ elif st.session_state.page == "Crea schiscetta":
 
         for recipe_id in st.session_state.generated_recipe_ids:
             recipe = get_recipe_by_id(recipes, recipe_id)
+
             if recipe:
                 recipe_card(recipe)
 
@@ -332,6 +387,10 @@ elif st.session_state.page == "Crea schiscetta":
                 ):
                     save_favorite(recipe["id"])
 
+
+# -----------------------------
+# Catalogo ricette
+# -----------------------------
 
 elif st.session_state.page == "Ricette":
     st.markdown("## Catalogo ricette")
@@ -370,6 +429,10 @@ elif st.session_state.page == "Ricette":
             save_favorite(recipe["id"])
 
 
+# -----------------------------
+# Preferiti
+# -----------------------------
+
 elif st.session_state.page == "Preferiti":
     st.markdown("## Le tue ricette preferite")
 
@@ -392,19 +455,25 @@ elif st.session_state.page == "Preferiti":
                 st.rerun()
 
 
+# -----------------------------
+# Meal plan
+# -----------------------------
+
 elif st.session_state.page == "Meal plan":
     st.markdown("## Meal plan settimanale")
 
     st.markdown(
-        """
-        <div class="schiscetta-card">
-            <h3>Organizza la tua settimana</h3>
-            <p>
-                Scegli una schiscetta per ogni giorno lavorativo.
-                Questa è la prima versione del meal plan.
-            </p>
-        </div>
-        """,
+        dedent(
+            """
+            <div class="schiscetta-card">
+                <h3>Organizza la tua settimana</h3>
+                <p>
+                    Scegli una schiscetta per ogni giorno lavorativo.
+                    Questa è la prima versione del meal plan.
+                </p>
+            </div>
+            """
+        ),
         unsafe_allow_html=True
     )
 
