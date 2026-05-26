@@ -1,7 +1,5 @@
 import json
 from pathlib import Path
-from html import escape
-from textwrap import dedent
 
 import streamlit as st
 
@@ -61,74 +59,68 @@ def save_favorite(recipe_id):
 
 
 # -----------------------------
-# Card ricetta
+# Card ricetta Streamlit nativa
 # -----------------------------
 
 def recipe_card(recipe):
-    title = escape(recipe.get("title", "Ricetta"))
-    description = escape(recipe.get("description", ""))
-    goal = escape(recipe.get("goal", "-"))
-    prep_time = escape(recipe.get("prep_time", "-"))
-    difficulty = escape(recipe.get("difficulty", "-"))
-    estimated_cost = escape(recipe.get("estimated_cost", "-"))
-    ingredients = escape(", ".join(recipe.get("ingredients", [])))
-    transport_tip = escape(recipe.get("transport_tip", "-"))
-    glamour_tip = escape(recipe.get("glamour_tip", "-"))
-    storage_info = escape(recipe.get("storage_info", "-"))
+    with st.container(border=True):
+        st.subheader(recipe.get("title", "Ricetta"))
+        st.write(recipe.get("description", ""))
 
-    nutrition = recipe.get("nutrition", {})
-    calories = nutrition.get("calories", "-")
-    protein = nutrition.get("protein", "-")
-    carbs = nutrition.get("carbs", "-")
-    fat = nutrition.get("fat", "-")
+        col1, col2, col3, col4 = st.columns(4)
 
-    steps_html = "".join(
-        f"<li>{escape(str(step))}</li>"
-        for step in recipe.get("steps", [])
-    )
+        with col1:
+            st.metric("Obiettivo", recipe.get("goal", "-"))
 
-    tags_html = "".join(
-        f"<span class='tag-pill'>{escape(str(tag))}</span>"
-        for tag in recipe.get("tags", [])
-    )
+        with col2:
+            st.metric("Tempo", recipe.get("prep_time", "-"))
 
-    card_html = f"""
-<div class="schiscetta-card">
-    <h2>{title}</h2>
-    <p>{description}</p>
+        with col3:
+            st.metric("Difficoltà", recipe.get("difficulty", "-"))
 
-    <div class="recipe-meta">
-        <span><strong>Obiettivo:</strong> {goal}</span>
-        <span><strong>Tempo:</strong> {prep_time}</span>
-        <span><strong>Difficoltà:</strong> {difficulty}</span>
-        <span><strong>Costo:</strong> {estimated_cost}</span>
-    </div>
+        with col4:
+            st.metric("Costo", recipe.get("estimated_cost", "-"))
 
-    <h3>Ingredienti</h3>
-    <p>{ingredients}</p>
+        st.markdown("### Ingredienti")
+        ingredients = recipe.get("ingredients", [])
+        if ingredients:
+            st.write(", ".join(ingredients))
+        else:
+            st.write("-")
 
-    <h3>Procedimento</h3>
-    <ol>
-        {steps_html}
-    </ol>
+        st.markdown("### Procedimento")
+        steps = recipe.get("steps", [])
+        if steps:
+            for index, step in enumerate(steps, start=1):
+                st.write(f"{index}. {step}")
+        else:
+            st.write("-")
 
-    <h3>Valori indicativi</h3>
-    <p>
-        {calories} kcal · Proteine {protein} g · Carboidrati {carbs} g · Grassi {fat} g
-    </p>
+        st.markdown("### Valori indicativi")
+        nutrition = recipe.get("nutrition", {})
+        n1, n2, n3, n4 = st.columns(4)
 
-    <h3>Consigli</h3>
-    <p><strong>Trasporto:</strong> {transport_tip}</p>
-    <p><strong>Consiglio glamour:</strong> {glamour_tip}</p>
-    <p><strong>Conservazione:</strong> {storage_info}</p>
+        with n1:
+            st.metric("Kcal", nutrition.get("calories", "-"))
 
-    <div class="tag-container">
-        {tags_html}
-    </div>
-</div>
-"""
+        with n2:
+            st.metric("Proteine", f"{nutrition.get('protein', '-')} g")
 
-    st.markdown(dedent(card_html), unsafe_allow_html=True)
+        with n3:
+            st.metric("Carboidrati", f"{nutrition.get('carbs', '-')} g")
+
+        with n4:
+            st.metric("Grassi", f"{nutrition.get('fat', '-')} g")
+
+        st.markdown("### Consigli")
+        st.write(f"**Trasporto:** {recipe.get('transport_tip', '-')}")
+        st.write(f"**Consiglio glamour:** {recipe.get('glamour_tip', '-')}")
+        st.write(f"**Conservazione:** {recipe.get('storage_info', '-')}")
+
+        tags = recipe.get("tags", [])
+        if tags:
+            st.markdown("### Tag")
+            st.caption(" · ".join(tags))
 
 
 # -----------------------------
@@ -224,26 +216,22 @@ st.session_state.page = selected_page
 
 
 # -----------------------------
-# Hero
+# Header
 # -----------------------------
 
-hero_html = """
-<div class="hero-box">
-    <h1>🍱 SchiscettAI</h1>
-    <h3>La schiscetta non è mai stata così smart.</h3>
-    <p><strong>La tua pausa pranzo intelligente</strong></p>
-    <p><strong>Ricette smart per mangiare meglio ogni giorno</strong></p>
-    <p><strong>Prepara, risparmia, gusta</strong></p>
-    <p>
-        Trasforma quello che hai in frigo in una schiscetta bella,
-        pratica e intelligente. Una web app gratuita, glamour e pensata
-        per pranzi da portare al lavoro senza stress.
-    </p>
-</div>
-"""
+st.title("🍱 SchiscettAI")
+st.subheader("La schiscetta non è mai stata così smart.")
 
-st.markdown(dedent(hero_html), unsafe_allow_html=True)
-st.write("")
+st.write("**La tua pausa pranzo intelligente**")
+st.write("**Ricette smart per mangiare meglio ogni giorno**")
+st.write("**Prepara, risparmia, gusta**")
+
+st.write(
+    "Trasforma quello che hai in frigo in una schiscetta bella, pratica e intelligente. "
+    "Una web app gratuita, glamour e pensata per pranzi da portare al lavoro senza stress."
+)
+
+st.divider()
 
 
 # -----------------------------
@@ -256,66 +244,37 @@ if st.session_state.page == "Home":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown(
-            dedent(
-                """
-                <div class="schiscetta-card">
-                    <h3>🥗 Crea</h3>
-                    <p>
-                        Inserisci gli ingredienti che hai già e ricevi idee
-                        pratiche per la tua pausa pranzo.
-                    </p>
-                </div>
-                """
-            ),
-            unsafe_allow_html=True
-        )
-
-        if st.button("Crea la mia schiscetta"):
-            go_to("Crea schiscetta")
-            st.rerun()
+        with st.container(border=True):
+            st.markdown("### 🥗 Crea")
+            st.write(
+                "Inserisci gli ingredienti che hai già e ricevi idee pratiche "
+                "per la tua pausa pranzo."
+            )
+            if st.button("Crea la mia schiscetta"):
+                go_to("Crea schiscetta")
+                st.rerun()
 
     with col2:
-        st.markdown(
-            dedent(
-                """
-                <div class="schiscetta-card">
-                    <h3>✨ Esplora</h3>
-                    <p>
-                        Guarda il catalogo iniziale di ricette proteiche,
-                        vegetariane, economiche e veloci.
-                    </p>
-                </div>
-                """
-            ),
-            unsafe_allow_html=True
-        )
-
-        if st.button("Vai alle ricette"):
-            go_to("Ricette")
-            st.rerun()
+        with st.container(border=True):
+            st.markdown("### ✨ Esplora")
+            st.write(
+                "Guarda il catalogo iniziale di ricette proteiche, vegetariane, "
+                "economiche e veloci."
+            )
+            if st.button("Vai alle ricette"):
+                go_to("Ricette")
+                st.rerun()
 
     with col3:
-        st.markdown(
-            dedent(
-                """
-                <div class="schiscetta-card">
-                    <h3>🍱 Organizza</h3>
-                    <p>
-                        Salva preferiti e prepara la tua settimana
-                        con un meal plan semplice.
-                    </p>
-                </div>
-                """
-            ),
-            unsafe_allow_html=True
-        )
+        with st.container(border=True):
+            st.markdown("### 🍱 Organizza")
+            st.write(
+                "Salva preferiti e prepara la tua settimana con un meal plan semplice."
+            )
+            if st.button("Crea meal plan"):
+                go_to("Meal plan")
+                st.rerun()
 
-        if st.button("Crea meal plan"):
-            go_to("Meal plan")
-            st.rerun()
-
-    st.write("")
     st.info(f"Ricette disponibili nel database: {len(recipes)}")
 
 
@@ -462,20 +421,12 @@ elif st.session_state.page == "Preferiti":
 elif st.session_state.page == "Meal plan":
     st.markdown("## Meal plan settimanale")
 
-    st.markdown(
-        dedent(
-            """
-            <div class="schiscetta-card">
-                <h3>Organizza la tua settimana</h3>
-                <p>
-                    Scegli una schiscetta per ogni giorno lavorativo.
-                    Questa è la prima versione del meal plan.
-                </p>
-            </div>
-            """
-        ),
-        unsafe_allow_html=True
-    )
+    with st.container(border=True):
+        st.markdown("### Organizza la tua settimana")
+        st.write(
+            "Scegli una schiscetta per ogni giorno lavorativo. "
+            "Questa è la prima versione del meal plan."
+        )
 
     days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
 
