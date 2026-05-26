@@ -1,0 +1,90 @@
+[
+  {
+    "id": "centro_siena_coop",
+    "name": "Centro*Siena / Coop.fi",
+    "chain": "Coop",
+    "type": "centro commerciale + supermercato",
+    "address": "Strada del Paradiso, 1, Siena",
+    "lat": 43.3317,
+    "lon": 11.3189,
+    "area": "Nord / Le Grondaie",
+    "notes": "Dato demo da verificare prima dell'uso pubblico."
+  },
+  {
+    "id": "galleria_portasiena",
+    "name": "Galleria PortaSiena",
+    "chain": "Galleria commerciale",
+    "type": "centro commerciale",
+    "address": "Piazzale Carlo Rosselli, Siena",
+    "lat": 43.331,
+    "lon": 11.322,
+    "area": "Stazione",
+    "notes": "Dato demo da verificare prima dell'uso pubblico."
+  },
+  {
+    "id": "coop_cittadini",
+    "name": "Coop.fi Siena Cittadini",
+    "chain": "Coop",
+    "type": "supermercato",
+    "address": "Via Cittadini, 64, Siena",
+    "lat": 43.338,
+    "lon": 11.333,
+    "area": "Nord",
+    "notes": "Dato demo da verificare prima dell'uso pubblico."
+  },
+  {
+    "id": "coop_san_miniato",
+    "name": "Coop Siena San Miniato",
+    "chain": "Coop",
+    "type": "supermercato",
+    "address": "Piazza P. Togliatti, Siena",
+    "lat": 43.3405,
+    "lon": 11.3502,
+    "area": "San Miniato",
+    "notes": "Dato demo da verificare prima dell'uso pubblico."
+  },
+  {
+    "id": "pam_rosselli",
+    "name": "PAM Supermercato Siena",
+    "chain": "PAM",
+    "type": "supermercato",
+    "address": "Piazza Rosselli, Siena",
+    "lat": 43.3312,
+    "lon": 11.3226,
+    "area": "Stazione",
+    "notes": "Dato demo da verificare prima dell'uso pubblico."
+  },
+  {
+    "id": "penny_massetana",
+    "name": "Penny Market Massetana Romana",
+    "chain": "Penny",
+    "type": "discount",
+    "address": "Via Massetana Romana, Siena",
+    "lat": 43.3068,
+    "lon": 11.3108,
+    "area": "Sud/Ovest",
+    "notes": "Dato demo da verificare prima dell'uso pubblico."
+  },
+  {
+    "id": "penny_toselli",
+    "name": "Penny Market Via Toselli",
+    "chain": "Penny",
+    "type": "discount",
+    "address": "Via Toselli, Siena",
+    "lat": 43.329,
+    "lon": 11.356,
+    "area": "Est",
+    "notes": "Dato demo da verificare prima dell'uso pubblico."
+  },
+  {
+    "id": "conad_curtatone_demo",
+    "name": "Conad / supermercato area Curtatone",
+    "chain": "Conad",
+    "type": "supermercato",
+    "address": "Viale Curtatone, Siena",
+    "lat": 43.3202,
+    "lon": 11.3287,
+    "area": "Centro",
+    "notes": "Dato demo da verificare prima dell'uso pubblico."
+  }
+]

@@ -1,8 +1,21 @@
 import json
 from pathlib import Path
 from collections import Counter
+from math import radians, sin, cos, sqrt, atan2
 
+import pandas as pd
 import streamlit as st
+
+try:
+    import folium
+    from streamlit_folium import st_folium
+    MAP_AVAILABLE = True
+    MAP_ERROR = None
+except Exception as error:
+    folium = None
+    st_folium = None
+    MAP_AVAILABLE = False
+    MAP_ERROR = error
 
 
 st.set_page_config(
@@ -206,6 +219,112 @@ def build_shopping_text(counter):
             lines.append(f"- {ingredient}")
 
     return "\n".join(lines)
+
+
+
+def store_lookup(stores):
+    lookup = {}
+    for store in stores:
+        store_id = store.get("id", "")
+        if store_id:
+            lookup[store_id] = store
+    return lookup
+
+
+def haversine_km(lat1, lon1, lat2, lon2):
+    radius_km = 6371.0
+    d_lat = radians(lat2 - lat1)
+    d_lon = radians(lon2 - lon1)
+    a = (
+        sin(d_lat / 2) ** 2
+        + cos(radians(lat1)) * cos(radians(lat2)) * sin(d_lon / 2) ** 2
+    )
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return radius_km * c
+
+
+def offers_for_ingredients(offers, ingredients):
+    wanted = [normalize_text(item) for item in ingredients]
+    matched = []
+
+    for offer in offers:
+        ingredient = normalize_text(offer.get("ingredient", ""))
+        if ingredient and any(ingredient in item or item in ingredient for item in wanted):
+            matched.append(offer)
+
+    return matched
+
+
+def offer_rows(offers, stores_by_id, user_lat=None, user_lon=None):
+    rows = []
+
+    for offer in offers:
+        store = stores_by_id.get(offer.get("store_id", ""), {})
+        distance = None
+
+        if user_lat is not None and user_lon is not None and store.get("lat") and store.get("lon"):
+            distance = haversine_km(user_lat, user_lon, store["lat"], store["lon"])
+
+        rows.append(
+            {
+                "ingrediente": offer.get("ingredient", ""),
+                "prodotto": offer.get("product_name", ""),
+                "prezzo": f"{offer.get('price', '')} {offer.get('unit', '')}",
+                "prima": f"{offer.get('old_price', '')} {offer.get('unit', '')}",
+                "negozio": store.get("name", offer.get("store_id", "")),
+                "zona": store.get("area", ""),
+                "distanza_km": round(distance, 1) if distance is not None else "",
+                "note": offer.get("notes", ""),
+            }
+        )
+
+    return rows
+
+
+def create_stores_map(stores, offers, center_lat=43.3188, center_lon=11.3308):
+    if not MAP_AVAILABLE:
+        return None
+
+    store_offer_counts = Counter(offer.get("store_id", "") for offer in offers)
+
+    m = folium.Map(
+        location=[center_lat, center_lon],
+        zoom_start=13,
+        tiles="OpenStreetMap",
+    )
+
+    folium.Marker(
+        [center_lat, center_lon],
+        popup="Centro Siena",
+        tooltip="Centro Siena",
+        icon=folium.Icon(color="green", icon="home"),
+    ).add_to(m)
+
+    for store in stores:
+        lat = store.get("lat")
+        lon = store.get("lon")
+
+        if lat is None or lon is None:
+            continue
+
+        count = store_offer_counts.get(store.get("id", ""), 0)
+
+        popup_html = f"""
+        <b>{store.get('name', '')}</b><br>
+        {store.get('type', '')}<br>
+        {store.get('address', '')}<br>
+        Offerte demo collegate: {count}
+        """
+
+        folium.Marker(
+            [lat, lon],
+            popup=popup_html,
+            tooltip=store.get("name", ""),
+            icon=folium.Icon(color="cadetblue", icon="shopping-cart", prefix="fa"),
+        ).add_to(m)
+
+    return m
+
 
 
 def ingredient_lookup(ingredients):
@@ -703,11 +822,14 @@ tags = load_json("data/tags.json")
 ingredients_data = load_json("data/ingredients.json")
 modules = load_json("data/modules.json")
 clusters_data = load_json("data/clusters.json")
+stores_data = load_json("data/stores.json")
+offers_data = load_json("data/offers.json")
 
 if clusters_data:
     CLUSTER_VISUALS.update(build_cluster_visuals(clusters_data))
 
 ingredients_by_name = ingredient_lookup(ingredients_data)
+stores_by_id = store_lookup(stores_data)
 
 if "favorites" not in st.session_state:
     st.session_state.favorites = []
@@ -739,6 +861,7 @@ pages = [
     "Ricette",
     "Preferiti",
     "Lista spesa",
+    "Spesa smart",
     "Meal plan",
 ]
 
@@ -1140,6 +1263,139 @@ elif st.session_state.page == "Lista spesa":
         if st.button("Svuota ingredienti extra"):
             st.session_state.extra_shopping_items = []
             st.rerun()
+
+
+
+elif st.session_state.page == "Spesa smart":
+    st.markdown("## Spesa smart")
+
+    st.info(
+        "Demo Siena: i punti vendita e le offerte sono dati dimostrativi/manuali. "
+        "Le coordinate e i prezzi vanno verificati prima di usare la funzione come dato reale."
+    )
+
+    current_recipes = combined_recipes()
+
+    with st.container(border=True):
+        st.markdown("### Scegli una ricetta e trova offerte collegate")
+
+        recipe_titles = ["Nessuna ricetta"] + [
+            recipe.get("title", "Ricetta") for recipe in current_recipes
+        ]
+
+        selected_recipe_title = st.selectbox(
+            "Ricetta da collegare alle offerte",
+            recipe_titles,
+        )
+
+        selected_recipe = get_recipe_by_title(current_recipes, selected_recipe_title)
+
+        if selected_recipe:
+            selected_ingredients = selected_recipe.get("ingredients", [])
+            st.write("Ingredienti ricetta:")
+            st.write(", ".join(selected_ingredients))
+        else:
+            selected_ingredients = []
+
+        manual_ingredient = st.text_input(
+            "Oppure cerca un ingrediente",
+            placeholder="Esempio: pollo, riso basmati, zucchine",
+        )
+
+        if manual_ingredient.strip():
+            selected_ingredients.append(manual_ingredient.strip())
+
+    with st.container(border=True):
+        st.markdown("### Punto di partenza")
+
+        location_choice = st.selectbox(
+            "Zona",
+            [
+                "Siena centro",
+                "Stazione / PortaSiena",
+                "San Miniato",
+                "Massetana Romana",
+            ],
+        )
+
+        location_centers = {
+            "Siena centro": (43.3188, 11.3308),
+            "Stazione / PortaSiena": (43.3311, 11.3223),
+            "San Miniato": (43.3405, 11.3502),
+            "Massetana Romana": (43.3068, 11.3108),
+        }
+
+        user_lat, user_lon = location_centers.get(location_choice, (43.3188, 11.3308))
+
+    if selected_ingredients:
+        matched_offers = offers_for_ingredients(offers_data, selected_ingredients)
+    else:
+        matched_offers = offers_data
+
+    map_col, info_col = st.columns([1.4, 1])
+
+    with map_col:
+        st.markdown("### Mappa punti vendita")
+
+        if MAP_AVAILABLE:
+            stores_map = create_stores_map(
+                stores_data,
+                matched_offers if matched_offers else offers_data,
+                center_lat=user_lat,
+                center_lon=user_lon,
+            )
+            st_folium(stores_map, width=760, height=520)
+        else:
+            st.warning(f"Mappa non disponibile: {MAP_ERROR}")
+
+    with info_col:
+        st.markdown("### Negozi demo")
+
+        nearest_rows = []
+
+        for store in stores_data:
+            distance = haversine_km(user_lat, user_lon, store.get("lat", user_lat), store.get("lon", user_lon))
+            nearest_rows.append((distance, store))
+
+        nearest_rows.sort(key=lambda item: item[0])
+
+        for distance, store in nearest_rows[:6]:
+            with st.container(border=True):
+                st.markdown(f"**{store.get('name', '')}**")
+                st.caption(f"{store.get('type', '')} · {store.get('area', '')}")
+                st.write(store.get("address", ""))
+                st.write(f"Distanza indicativa: {distance:.1f} km")
+
+    st.write("")
+    st.markdown("### Offerte collegate")
+
+    if not matched_offers:
+        st.warning("Nessuna offerta demo trovata per questi ingredienti.")
+    else:
+        rows = offer_rows(matched_offers, stores_by_id, user_lat=user_lat, user_lon=user_lon)
+        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+        best = sorted(
+            rows,
+            key=lambda row: row["distanza_km"] if row["distanza_km"] != "" else 999,
+        )[:3]
+
+        st.markdown("### Suggerimento SchiscettAI")
+
+        for item in best:
+            with st.container(border=True):
+                st.write(
+                    f"Per **{item['ingrediente']}** guarda **{item['negozio']}** "
+                    f"({item['zona']}) — {item['prezzo']}."
+                )
+
+    st.write("")
+    st.markdown("### Come evolverà questa funzione")
+    st.write(
+        "Ora usiamo dati demo/manuali. Il prossimo step sarà importare offerte da CSV/JSON "
+        "e solo dopo valutare scraping controllato o fonti ufficiali dove consentito."
+    )
+
 
 
 elif st.session_state.page == "Meal plan":
