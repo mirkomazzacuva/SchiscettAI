@@ -1,0 +1,52 @@
+.main {
+    background: linear-gradient(135deg, #FFF4E6 0%, #FFFDF8 45%, #FDE2C8 100%);
+}
+
+h1 {
+    color: #4A2F24;
+    font-size: 3.2rem !important;
+    font-weight: 800 !important;
+}
+
+h2, h3 {
+    color: #4A2F24;
+}
+
+.stButton > button {
+    background-color: #D96C3B;
+    color: white;
+    border-radius: 999px;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 700;
+}
+
+.stButton > button:hover {
+    background-color: #B9542B;
+    color: white;
+}
+
+[data-testid="stTextInput"] input {
+    border-radius: 16px;
+}
+
+[data-testid="stSelectbox"] {
+    border-radius: 16px;
+}
+
+.schiscetta-card {
+    background: #FFFDF8;
+    padding: 1.5rem;
+    border-radius: 28px;
+    box-shadow: 0 12px 35px rgba(74, 47, 36, 0.12);
+    border: 1px solid rgba(217, 108, 59, 0.18);
+    margin-top: 1rem;
+}
+
+.hero-box {
+    background: rgba(255, 253, 248, 0.75);
+    padding: 2rem;
+    border-radius: 32px;
+    box-shadow: 0 16px 40px rgba(74, 47, 36, 0.10);
+    border: 1px solid rgba(217, 108, 59, 0.18);
+}
