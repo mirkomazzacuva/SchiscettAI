@@ -14,6 +14,54 @@ st.set_page_config(
 
 WORK_DAYS = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
 
+CLUSTER_VISUALS = {
+    "riso_pollo": {
+        "emoji": "🍚",
+        "title": "Riso & proteine",
+        "subtitle": "Bowl proteiche, sazianti e perfette da ufficio",
+    },
+    "pasta_fredda": {
+        "emoji": "🍝",
+        "title": "Pasta fredda",
+        "subtitle": "Mediterranea, veloce e facile da trasportare",
+    },
+    "couscous_verdure": {
+        "emoji": "🥙",
+        "title": "Couscous & verdure",
+        "subtitle": "Colorato, economico e pronto in pochi minuti",
+    },
+    "bowl_mediterranea": {
+        "emoji": "🥗",
+        "title": "Bowl mediterranea",
+        "subtitle": "Fresca, bilanciata e molto meal prep",
+    },
+    "vegetariana_legumi": {
+        "emoji": "🫘",
+        "title": "Vegetariana smart",
+        "subtitle": "Legumi, cereali e verdure in versione glamour",
+    },
+    "meal_prep_box": {
+        "emoji": "🍱",
+        "title": "Meal prep box",
+        "subtitle": "Organizzata, pratica e pronta per la settimana",
+    },
+    "insalata_proteica": {
+        "emoji": "🥬",
+        "title": "Insalata proteica",
+        "subtitle": "Leggera ma saziante, buona anche fredda",
+    },
+    "wrap_integrale": {
+        "emoji": "🌯",
+        "title": "Wrap integrale",
+        "subtitle": "Compatto, veloce e perfetto da portare via",
+    },
+    "gourmet_light": {
+        "emoji": "✨",
+        "title": "Gourmet light",
+        "subtitle": "Più curata, elegante e bella da vedere",
+    },
+}
+
 
 def load_css(file_path):
     css_path = Path(file_path)
@@ -144,6 +192,26 @@ def recipe_goal_counts(recipes):
     return Counter(recipe.get("goal", "Altro") for recipe in recipes)
 
 
+def recipes_by_cluster(recipes):
+    grouped = {}
+    for recipe in recipes:
+        cluster = recipe.get("image_cluster", "smart")
+        grouped.setdefault(cluster, []).append(recipe)
+    return grouped
+
+
+def get_cluster_visual(recipe):
+    cluster = recipe.get("image_cluster", "")
+    return CLUSTER_VISUALS.get(
+        cluster,
+        {
+            "emoji": "🍽️",
+            "title": recipe.get("category", "Schiscetta smart"),
+            "subtitle": "Ricetta pratica, buona e facile da portare",
+        },
+    )
+
+
 def find_best_recipes(recipes, user_ingredients, goal, max_time, preferences=""):
     user_words = [
         normalize_text(word)
@@ -208,7 +276,7 @@ def find_best_recipes(recipes, user_ingredients, goal, max_time, preferences="")
     return recipes[:3]
 
 
-def filter_recipes(recipes, text_query, goal_filter, tag_filter, max_time_filter):
+def filter_recipes(recipes, text_query, goal_filter, tag_filter, max_time_filter, cluster_filter):
     results = []
 
     query = normalize_text(text_query)
@@ -221,6 +289,7 @@ def filter_recipes(recipes, text_query, goal_filter, tag_filter, max_time_filter
         tags = [normalize_text(tag) for tag in recipe.get("tags", [])]
         ingredients = normalize_text(" ".join(recipe.get("ingredients", [])))
         prep_minutes = parse_minutes(recipe.get("prep_time", ""))
+        cluster = recipe.get("image_cluster", "smart")
 
         match_query = (
             not query
@@ -233,30 +302,74 @@ def filter_recipes(recipes, text_query, goal_filter, tag_filter, max_time_filter
         match_goal = goal_filter == "Tutte" or normalize_text(goal_filter) == goal
         match_tag = tag_filter == "Tutti" or normalize_text(tag_filter) in tags
         match_time = prep_minutes <= max_minutes
+        match_cluster = cluster_filter == "Tutti" or cluster_filter == cluster
 
-        if match_query and match_goal and match_tag and match_time:
+        if match_query and match_goal and match_tag and match_time and match_cluster:
             results.append(recipe)
 
     return results
 
 
-def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
+def cluster_tile(cluster_id, recipes_count=None):
+    visual = CLUSTER_VISUALS.get(
+        cluster_id,
+        {
+            "emoji": "🍽️",
+            "title": "Schiscetta smart",
+            "subtitle": "Idee pratiche per la pausa pranzo",
+        },
+    )
+
     with st.container(border=True):
-        top_col, action_col = st.columns([4, 1])
+        st.markdown(f"## {visual['emoji']}")
+        st.markdown(f"### {visual['title']}")
+        st.write(visual["subtitle"])
+        if recipes_count is not None:
+            st.caption(f"{recipes_count} ricette disponibili")
 
-        with top_col:
-            st.subheader(recipe.get("title", "Ricetta"))
-            st.write(recipe.get("description", ""))
 
-        with action_col:
-            if show_save:
-                if st.button("Salva", key=f"{key_prefix}_save_{recipe['id']}"):
-                    save_favorite(recipe["id"])
+def compact_recipe_preview(recipe, key_prefix):
+    visual = get_cluster_visual(recipe)
 
-            if show_remove:
-                if st.button("Rimuovi", key=f"{key_prefix}_remove_{recipe['id']}"):
-                    remove_favorite(recipe["id"])
-                    st.rerun()
+    with st.container(border=True):
+        st.markdown(f"## {visual['emoji']}")
+        st.markdown(f"### {recipe.get('title', 'Ricetta')}")
+        st.write(recipe.get("description", ""))
+        st.caption(
+            f"{visual['title']} · {recipe.get('goal', '-')} · {recipe.get('prep_time', '-')}"
+        )
+
+        if st.button("Salva", key=f"{key_prefix}_save_{recipe['id']}"):
+            save_favorite(recipe["id"])
+
+
+def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
+    visual = get_cluster_visual(recipe)
+
+    with st.container(border=True):
+        visual_col, content_col = st.columns([1, 3])
+
+        with visual_col:
+            st.markdown(f"# {visual['emoji']}")
+            st.markdown(f"**{visual['title']}**")
+            st.caption(visual["subtitle"])
+
+        with content_col:
+            top_col, action_col = st.columns([4, 1])
+
+            with top_col:
+                st.subheader(recipe.get("title", "Ricetta"))
+                st.write(recipe.get("description", ""))
+
+            with action_col:
+                if show_save:
+                    if st.button("Salva", key=f"{key_prefix}_save_{recipe['id']}"):
+                        save_favorite(recipe["id"])
+
+                if show_remove:
+                    if st.button("Rimuovi", key=f"{key_prefix}_remove_{recipe['id']}"):
+                        remove_favorite(recipe["id"])
+                        st.rerun()
 
         col1, col2, col3, col4 = st.columns(4)
 
@@ -316,6 +429,7 @@ categories = load_json("data/categories.json")
 tags = load_json("data/tags.json")
 ingredients_data = load_json("data/ingredients.json")
 ingredients_by_name = ingredient_lookup(ingredients_data)
+cluster_groups = recipes_by_cluster(recipes)
 
 if "favorites" not in st.session_state:
     st.session_state.favorites = []
@@ -390,8 +504,7 @@ if st.session_state.page == "Home":
         st.metric("Giorni pianificati", planned_count)
 
     with m4:
-        goal_counts = recipe_goal_counts(recipes)
-        st.metric("Categorie", len(goal_counts))
+        st.metric("Cluster visuali", len(cluster_groups))
 
     st.write("")
 
@@ -411,7 +524,7 @@ if st.session_state.page == "Home":
     with col2:
         with st.container(border=True):
             st.markdown("### ✨ Esplora")
-            st.write("Filtra il catalogo per obiettivo, tempo, ingredienti e tag.")
+            st.write("Filtra il catalogo per obiettivo, tempo, ingredienti, tag e cluster.")
             if st.button("Vai alle ricette"):
                 go_to("Ricette")
                 st.rerun()
@@ -425,6 +538,16 @@ if st.session_state.page == "Home":
                 st.rerun()
 
     st.write("")
+    st.markdown("## Mood schiscetta")
+
+    cluster_items = list(cluster_groups.items())[:6]
+    cluster_cols = st.columns(3)
+
+    for index, (cluster_id, cluster_recipes) in enumerate(cluster_items):
+        with cluster_cols[index % 3]:
+            cluster_tile(cluster_id, recipes_count=len(cluster_recipes))
+
+    st.write("")
     st.markdown("## Ricette in evidenza")
 
     featured = recipes[:3]
@@ -434,14 +557,7 @@ if st.session_state.page == "Home":
 
         for index, recipe in enumerate(featured):
             with fcols[index % 3]:
-                with st.container(border=True):
-                    st.markdown(f"### {recipe.get('title', 'Ricetta')}")
-                    st.write(recipe.get("description", ""))
-                    st.caption(
-                        f"{recipe.get('goal', '-')} · {recipe.get('prep_time', '-')}"
-                    )
-                    if st.button("Salva", key=f"home_featured_save_{recipe['id']}"):
-                        save_favorite(recipe["id"])
+                compact_recipe_preview(recipe, key_prefix="home_featured")
 
 
 elif st.session_state.page == "Crea schiscetta":
@@ -455,8 +571,8 @@ elif st.session_state.page == "Crea schiscetta":
     with st.container(border=True):
         st.markdown("### Generatore smart gratuito")
         st.write(
-            "Per ora SchiscettAI cerca nel database locale e propone le ricette più vicine "
-            "agli ingredienti che hai inserito."
+            "SchiscettAI confronta ingredienti, obiettivo e tempo con il database locale. "
+            "Poi mostra le ricette più vicine, usando cluster visuali per dare un'identità più food app."
         )
 
     with st.form("schiscetta_form"):
@@ -554,7 +670,7 @@ elif st.session_state.page == "Ricette":
                 ],
             )
 
-        tag_col, time_col = st.columns(2)
+        tag_col, time_col, cluster_col = st.columns(3)
 
         with tag_col:
             tag_values = ["Tutti"] + sorted(set(tags))
@@ -572,6 +688,10 @@ elif st.session_state.page == "Ricette":
                 ],
             )
 
+        with cluster_col:
+            cluster_values = ["Tutti"] + sorted(cluster_groups.keys())
+            cluster_filter = st.selectbox("Filtra per cluster", cluster_values)
+
         max_cards = st.slider(
             "Quante ricette mostrare",
             min_value=6,
@@ -586,6 +706,7 @@ elif st.session_state.page == "Ricette":
         goal_filter,
         tag_filter,
         max_time_filter,
+        cluster_filter,
     )
 
     st.write(f"Ricette trovate: {len(filtered_recipes)}")
