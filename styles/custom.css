@@ -1,33 +1,56 @@
+./* Palette SchiscettAI:
+   Avorio: #F8F3EA
+   Avorio chiaro: #FFFDF8
+   Greige: #D8D0C4
+   Greige scuro: #A89F91
+   Verde salvia: #8FA99A
+   Verde salvia scuro: #6F8C7A
+   Testo cacao/taupe: #3F3830
+*/
+
+.stApp {
+    background: linear-gradient(135deg, #F8F3EA 0%, #FFFDF8 45%, #D8D0C4 100%);
+}
+
 .main {
-    background: linear-gradient(135deg, #FFF4E6 0%, #FFFDF8 45%, #FDE2C8 100%);
+    background: transparent;
 }
 
 h1 {
-    color: #4A2F24;
+    color: #3F3830;
     font-size: 3.2rem !important;
     font-weight: 800 !important;
+    letter-spacing: -0.03em;
 }
 
 h2, h3 {
-    color: #4A2F24;
+    color: #3F3830;
+}
+
+p, li, label {
+    color: #4B453D;
 }
 
 .stButton > button {
-    background-color: #D96C3B;
-    color: white;
+    background-color: #8FA99A;
+    color: #FFFDF8;
     border-radius: 999px;
     border: none;
     padding: 0.75rem 1.5rem;
     font-weight: 700;
+    box-shadow: 0 10px 24px rgba(111, 140, 122, 0.25);
 }
 
 .stButton > button:hover {
-    background-color: #B9542B;
-    color: white;
+    background-color: #6F8C7A;
+    color: #FFFDF8;
+    border: none;
 }
 
 [data-testid="stTextInput"] input {
     border-radius: 16px;
+    border: 1px solid #D8D0C4;
+    background-color: #FFFDF8;
 }
 
 [data-testid="stSelectbox"] {
@@ -35,18 +58,26 @@ h2, h3 {
 }
 
 .schiscetta-card {
-    background: #FFFDF8;
+    background: rgba(255, 253, 248, 0.88);
     padding: 1.5rem;
     border-radius: 28px;
-    box-shadow: 0 12px 35px rgba(74, 47, 36, 0.12);
-    border: 1px solid rgba(217, 108, 59, 0.18);
+    box-shadow: 0 14px 38px rgba(63, 56, 48, 0.10);
+    border: 1px solid rgba(143, 169, 154, 0.35);
     margin-top: 1rem;
 }
 
 .hero-box {
-    background: rgba(255, 253, 248, 0.75);
-    padding: 2rem;
-    border-radius: 32px;
-    box-shadow: 0 16px 40px rgba(74, 47, 36, 0.10);
-    border: 1px solid rgba(217, 108, 59, 0.18);
+    background: rgba(255, 253, 248, 0.82);
+    padding: 2.2rem;
+    border-radius: 34px;
+    box-shadow: 0 18px 44px rgba(63, 56, 48, 0.10);
+    border: 1px solid rgba(143, 169, 154, 0.38);
+}
+
+div[data-testid="stAlert"] {
+    border-radius: 18px;
+}
+
+hr {
+    border-color: #D8D0C4;
 }
