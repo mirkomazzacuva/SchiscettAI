@@ -1,0 +1,230 @@
+{
+  "bases": [
+    {
+      "id": "riso_basmati",
+      "name": "riso basmati",
+      "category": "cereale",
+      "good_for": ["proteica", "meal prep", "light", "economica"],
+      "prep_note": "cuocilo al dente e lascialo raffreddare prima di chiudere la lunch box"
+    },
+    {
+      "id": "farro",
+      "name": "farro",
+      "category": "cereale",
+      "good_for": ["vegetariana", "meal prep", "gourmet"],
+      "prep_note": "condiscilo con poco olio per mantenerlo morbido"
+    },
+    {
+      "id": "couscous",
+      "name": "couscous",
+      "category": "cereale",
+      "good_for": ["veloce", "economica", "vegetariana"],
+      "prep_note": "sgranalo bene con una forchetta e aggiungi limone"
+    },
+    {
+      "id": "pasta_integrale",
+      "name": "pasta integrale",
+      "category": "pasta",
+      "good_for": ["veloce", "meal prep", "economica"],
+      "prep_note": "scolala al dente e raffreddala prima di condirla"
+    },
+    {
+      "id": "quinoa",
+      "name": "quinoa",
+      "category": "cereale",
+      "good_for": ["light", "vegetariana", "gourmet"],
+      "prep_note": "sciacquala bene prima della cottura"
+    },
+    {
+      "id": "orzo",
+      "name": "orzo",
+      "category": "cereale",
+      "good_for": ["meal prep", "economica", "mediterranea"],
+      "prep_note": "ottimo freddo con verdure e proteine semplici"
+    }
+  ],
+  "proteins": [
+    {
+      "id": "pollo",
+      "name": "pollo",
+      "type": "animale",
+      "good_for": ["proteica", "light", "meal prep"],
+      "prep_note": "cuocilo a bocconcini con spezie delicate"
+    },
+    {
+      "id": "tonno",
+      "name": "tonno",
+      "type": "pesce",
+      "good_for": ["veloce", "proteica", "economica"],
+      "prep_note": "aggiungilo sgocciolato solo alla fine"
+    },
+    {
+      "id": "uova",
+      "name": "uova",
+      "type": "animale",
+      "good_for": ["economica", "proteica", "vegetariana"],
+      "prep_note": "meglio sode o in frittata per il trasporto"
+    },
+    {
+      "id": "ceci",
+      "name": "ceci",
+      "type": "vegetale",
+      "good_for": ["vegetariana", "economica", "meal prep"],
+      "prep_note": "condiscili con limone, paprika e olio EVO"
+    },
+    {
+      "id": "tofu",
+      "name": "tofu",
+      "type": "vegetale",
+      "good_for": ["vegetariana", "light", "proteica"],
+      "prep_note": "rosolalo in padella per renderlo più saporito"
+    },
+    {
+      "id": "feta",
+      "name": "feta",
+      "type": "latticino",
+      "good_for": ["vegetariana", "gourmet", "mediterranea"],
+      "prep_note": "aggiungila a cubetti dopo il raffreddamento"
+    }
+  ],
+  "vegetables": [
+    {
+      "id": "zucchine",
+      "name": "zucchine",
+      "good_for": ["light", "meal prep", "proteica"],
+      "prep_note": "saltale velocemente per mantenerle compatte"
+    },
+    {
+      "id": "carote",
+      "name": "carote",
+      "good_for": ["economica", "vegetariana", "veloce"],
+      "prep_note": "tagliale a julienne per dare colore"
+    },
+    {
+      "id": "pomodorini",
+      "name": "pomodorini",
+      "good_for": ["mediterranea", "veloce", "light"],
+      "prep_note": "aggiungili crudi solo dopo aver raffreddato la base"
+    },
+    {
+      "id": "spinaci",
+      "name": "spinaci",
+      "good_for": ["light", "proteica", "vegetariana"],
+      "prep_note": "saltali o usali freschi se la schiscetta è fredda"
+    },
+    {
+      "id": "peperoni",
+      "name": "peperoni",
+      "good_for": ["gourmet", "meal prep", "vegetariana"],
+      "prep_note": "arrostiscili o saltali per un gusto più dolce"
+    },
+    {
+      "id": "melanzane",
+      "name": "melanzane",
+      "good_for": ["mediterranea", "gourmet", "meal prep"],
+      "prep_note": "grigliale o cuocile a cubetti con poco olio"
+    }
+  ],
+  "sauces": [
+    {
+      "id": "olio_limone",
+      "name": "olio EVO e limone",
+      "good_for": ["light", "mediterranea", "veloce"],
+      "prep_note": "tienilo a parte e aggiungilo al momento"
+    },
+    {
+      "id": "yogurt_erbe",
+      "name": "salsa yogurt alle erbe",
+      "good_for": ["light", "proteica", "gourmet"],
+      "prep_note": "ottima in un contenitore separato"
+    },
+    {
+      "id": "hummus",
+      "name": "hummus",
+      "good_for": ["vegetariana", "saziante", "economica"],
+      "prep_note": "usalo come crema compatta sul fondo o a lato"
+    },
+    {
+      "id": "pesto_leggero",
+      "name": "pesto leggero",
+      "good_for": ["gourmet", "mediterranea", "veloce"],
+      "prep_note": "ne basta poco per profumare tutta la bowl"
+    },
+    {
+      "id": "senape_miele",
+      "name": "senape e miele",
+      "good_for": ["gourmet", "proteica", "wrap"],
+      "prep_note": "dosala bene per non coprire gli ingredienti"
+    }
+  ],
+  "toppings": [
+    {
+      "id": "semi_sesamo",
+      "name": "semi di sesamo",
+      "effect": "croccantezza"
+    },
+    {
+      "id": "semi_zucca",
+      "name": "semi di zucca",
+      "effect": "croccantezza e gusto tostato"
+    },
+    {
+      "id": "erbe_fresche",
+      "name": "erbe fresche",
+      "effect": "profumo e colore"
+    },
+    {
+      "id": "scorza_limone",
+      "name": "scorza di limone",
+      "effect": "freschezza e nota glamour"
+    },
+    {
+      "id": "olive",
+      "name": "olive",
+      "effect": "gusto mediterraneo"
+    },
+    {
+      "id": "frutta_secca",
+      "name": "frutta secca tritata",
+      "effect": "texture premium"
+    }
+  ],
+  "styles": [
+    {
+      "id": "proteica",
+      "name": "proteica",
+      "title_template": "Bowl proteica con {base}, {protein} e {vegetable}",
+      "description": "Una schiscetta saziante e bilanciata, pensata per darti energia senza appesantire."
+    },
+    {
+      "id": "light",
+      "name": "light",
+      "title_template": "Schiscetta light con {base}, {protein} e {vegetable}",
+      "description": "Una proposta leggera, fresca e ordinata, ideale per una pausa pranzo più delicata."
+    },
+    {
+      "id": "economica",
+      "name": "economica",
+      "title_template": "Schiscetta smart low cost con {base}, {protein} e {vegetable}",
+      "description": "Una combinazione semplice e conveniente, pensata per mangiare bene senza sprechi."
+    },
+    {
+      "id": "vegetariana",
+      "name": "vegetariana",
+      "title_template": "Bowl vegetariana con {base}, {protein} e {vegetable}",
+      "description": "Una schiscetta vegetale, colorata e pratica da preparare in anticipo."
+    },
+    {
+      "id": "veloce",
+      "name": "veloce",
+      "title_template": "Schiscetta veloce con {base}, {protein} e {vegetable}",
+      "description": "Un'idea rapida e furba per preparare un pranzo da portare via senza complicazioni."
+    },
+    {
+      "id": "gourmet",
+      "name": "gourmet",
+      "title_template": "Lunch box gourmet con {base}, {protein} e {vegetable}",
+      "description": "Una schiscetta più curata, bella da vedere e con un tocco premium."
+    }
+  ]
+}
