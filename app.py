@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from html import escape
 
 import streamlit as st
 
@@ -22,38 +23,67 @@ def load_css(file_path):
 
 def load_json(file_path):
     path = Path(file_path)
-    if path.exists():
+    if not path.exists():
+        return []
+
+    try:
         return json.loads(path.read_text(encoding="utf-8"))
-    return []
+    except Exception as error:
+        st.error(f"Errore nel caricamento di {file_path}: {error}")
+        return []
+
+
+def normalize_text(text):
+    return str(text).strip().lower()
+
+
+def go_to(page_name):
+    st.session_state.page = page_name
+
+
+def get_recipe_by_id(recipes, recipe_id):
+    for recipe in recipes:
+        if recipe.get("id") == recipe_id:
+            return recipe
+    return None
 
 
 def recipe_card(recipe):
     tags_html = " ".join(
-        [f"<span class='tag-pill'>{tag}</span>" for tag in recipe.get("tags", [])]
+        [
+            f"<span class='tag-pill'>{escape(str(tag))}</span>"
+            for tag in recipe.get("tags", [])
+        ]
     )
 
+    steps_html = "".join(
+        [
+            f"<li>{escape(str(step))}</li>"
+            for step in recipe.get("steps", [])
+        ]
+    )
+
+    ingredients_text = ", ".join(recipe.get("ingredients", []))
     nutrition = recipe.get("nutrition", {})
 
     st.markdown(
         f"""
         <div class="schiscetta-card">
-            <h2>{recipe.get("title", "Ricetta")}</h2>
-            <p>{recipe.get("description", "")}</p>
+            <h2>{escape(recipe.get("title", "Ricetta"))}</h2>
+            <p>{escape(recipe.get("description", ""))}</p>
 
             <p>
-                <strong>Obiettivo:</strong> {recipe.get("goal", "-")} ·
-                <strong>Tempo:</strong> {recipe.get("prep_time", "-")} ·
-                <strong>Difficoltà:</strong> {recipe.get("difficulty", "-")} ·
-                <strong>Costo:</strong> {recipe.get("estimated_cost", "-")}
+                <strong>Obiettivo:</strong> {escape(recipe.get("goal", "-"))} ·
+                <strong>Tempo:</strong> {escape(recipe.get("prep_time", "-"))} ·
+                <strong>Difficoltà:</strong> {escape(recipe.get("difficulty", "-"))} ·
+                <strong>Costo:</strong> {escape(recipe.get("estimated_cost", "-"))}
             </p>
 
             <h3>Ingredienti</h3>
-            <p>{", ".join(recipe.get("ingredients", []))}</p>
+            <p>{escape(ingredients_text)}</p>
 
             <h3>Procedimento</h3>
-            <ol>
-                {"".join([f"<li>{step}</li>" for step in recipe.get("steps", [])])}
-            </ol>
+            <ol>{steps_html}</ol>
 
             <h3>Valori indicativi</h3>
             <p>
@@ -64,9 +94,9 @@ def recipe_card(recipe):
             </p>
 
             <h3>Consigli</h3>
-            <p><strong>Trasporto:</strong> {recipe.get("transport_tip", "-")}</p>
-            <p><strong>Consiglio glamour:</strong> {recipe.get("glamour_tip", "-")}</p>
-            <p><strong>Conservazione:</strong> {recipe.get("storage_info", "-")}</p>
+            <p><strong>Trasporto:</strong> {escape(recipe.get("transport_tip", "-"))}</p>
+            <p><strong>Consiglio glamour:</strong> {escape(recipe.get("glamour_tip", "-"))}</p>
+            <p><strong>Conservazione:</strong> {escape(recipe.get("storage_info", "-"))}</p>
 
             <div>{tags_html}</div>
         </div>
@@ -75,9 +105,17 @@ def recipe_card(recipe):
     )
 
 
+def save_favorite(recipe_id):
+    if recipe_id not in st.session_state.favorites:
+        st.session_state.favorites.append(recipe_id)
+        st.success("Ricetta salvata nei preferiti.")
+    else:
+        st.info("Questa ricetta è già nei preferiti.")
+
+
 def find_best_recipes(recipes, user_ingredients, goal):
     user_words = [
-        word.strip().lower()
+        normalize_text(word)
         for word in user_ingredients.replace(";", ",").split(",")
         if word.strip()
     ]
@@ -86,25 +124,30 @@ def find_best_recipes(recipes, user_ingredients, goal):
 
     for recipe in recipes:
         score = 0
-        recipe_ingredients = " ".join(recipe.get("ingredients", [])).lower()
-        recipe_goal = recipe.get("goal", "").lower()
-        recipe_tags = " ".join(recipe.get("tags", [])).lower()
+
+        recipe_ingredients = normalize_text(
+            " ".join(recipe.get("ingredients", []))
+        )
+        recipe_goal = normalize_text(recipe.get("goal", ""))
+        recipe_tags = normalize_text(" ".join(recipe.get("tags", [])))
 
         for word in user_words:
-            if word in recipe_ingredients:
-                score += 3
-            if word in recipe_tags:
+            if word and word in recipe_ingredients:
+                score += 4
+            if word and word in recipe_tags:
                 score += 1
 
-        if goal.lower() in recipe_goal:
-            score += 2
+        if normalize_text(goal) in recipe_goal:
+            score += 3
 
         scored.append((score, recipe))
 
     scored.sort(key=lambda item: item[0], reverse=True)
 
-    if scored and scored[0][0] > 0:
-        return [item[1] for item in scored[:3]]
+    best = [item[1] for item in scored if item[0] > 0]
+
+    if best:
+        return best[:3]
 
     return recipes[:3]
 
@@ -117,6 +160,29 @@ tags = load_json("data/tags.json")
 
 if "favorites" not in st.session_state:
     st.session_state.favorites = []
+
+if "generated_recipe_ids" not in st.session_state:
+    st.session_state.generated_recipe_ids = []
+
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
+
+
+pages = [
+    "Home",
+    "Crea schiscetta",
+    "Ricette",
+    "Preferiti",
+    "Meal plan"
+]
+
+st.sidebar.title("SchiscettAI")
+selected_page = st.sidebar.radio(
+    "Menu",
+    pages,
+    index=pages.index(st.session_state.page)
+)
+st.session_state.page = selected_page
 
 
 st.markdown(
@@ -139,18 +205,8 @@ st.markdown(
 
 st.write("")
 
-tab_home, tab_generator, tab_recipes, tab_favorites, tab_plan = st.tabs(
-    [
-        "Home",
-        "Crea schiscetta",
-        "Ricette",
-        "Preferiti",
-        "Meal plan"
-    ]
-)
 
-
-with tab_home:
+if st.session_state.page == "Home":
     st.markdown("## Benvenuto in SchiscettAI")
 
     col1, col2, col3 = st.columns(3)
@@ -169,19 +225,27 @@ with tab_home:
             unsafe_allow_html=True
         )
 
+        if st.button("Crea la mia schiscetta"):
+            go_to("Crea schiscetta")
+            st.rerun()
+
     with col2:
         st.markdown(
             """
             <div class="schiscetta-card">
-                <h3>✨ Personalizza</h3>
+                <h3>✨ Esplora</h3>
                 <p>
-                    Scegli obiettivo, tempo disponibile e stile:
-                    proteica, light, economica, veloce o gourmet.
+                    Guarda il catalogo iniziale di ricette proteiche,
+                    vegetariane, economiche e veloci.
                 </p>
             </div>
             """,
             unsafe_allow_html=True
         )
+
+        if st.button("Vai alle ricette"):
+            go_to("Ricette")
+            st.rerun()
 
     with col3:
         st.markdown(
@@ -189,7 +253,7 @@ with tab_home:
             <div class="schiscetta-card">
                 <h3>🍱 Organizza</h3>
                 <p>
-                    Esplora ricette, salva preferiti e prepara la settimana
+                    Salva preferiti e prepara la tua settimana
                     con un meal plan semplice.
                 </p>
             </div>
@@ -197,18 +261,23 @@ with tab_home:
             unsafe_allow_html=True
         )
 
+        if st.button("Crea meal plan"):
+            go_to("Meal plan")
+            st.rerun()
+
     st.write("")
-    st.markdown("## Ricette già disponibili")
-
-    st.info(f"Al momento il database contiene {len(recipes)} ricette iniziali.")
+    st.info(f"Ricette disponibili nel database: {len(recipes)}")
 
 
-with tab_generator:
+elif st.session_state.page == "Crea schiscetta":
     st.markdown("## Crea la tua schiscetta")
 
-    col1, col2 = st.columns([1, 1])
+    if not recipes:
+        st.error(
+            "Il database ricette non è stato caricato. Controlla che esista il file data/recipes.json."
+        )
 
-    with col1:
+    with st.form("schiscetta_form"):
         ingredienti = st.text_input(
             "Che ingredienti hai in casa?",
             placeholder="Esempio: pollo, riso, zucchine"
@@ -238,50 +307,33 @@ with tab_generator:
             ]
         )
 
-        genera = st.button("Genera la mia schiscetta")
+        submitted = st.form_submit_button("Genera la mia schiscetta")
 
-    with col2:
-        st.markdown(
-            """
-            <div class="schiscetta-card">
-                <h3>Come ragiona SchiscettAI</h3>
-                <p>
-                    Per ora usiamo un motore gratuito basato sul database locale:
-                    l'app confronta gli ingredienti che inserisci con le ricette
-                    disponibili e ti propone le combinazioni più adatte.
-                </p>
-                <p>
-                    È il primo passo verso un generatore modulare più intelligente:
-                    base + proteina + verdura + salsa + topping + stile.
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-
-    if genera:
-        if ingredienti:
+    if submitted:
+        if not ingredienti.strip():
+            st.warning("Inserisci almeno un ingrediente.")
+        else:
             matched_recipes = find_best_recipes(recipes, ingredienti, obiettivo)
+            st.session_state.generated_recipe_ids = [
+                recipe["id"] for recipe in matched_recipes
+            ]
 
-            st.success("Ecco le idee più adatte alla tua schiscetta.")
+    if st.session_state.generated_recipe_ids:
+        st.success("Ecco le idee più adatte alla tua schiscetta.")
 
-            for recipe in matched_recipes:
+        for recipe_id in st.session_state.generated_recipe_ids:
+            recipe = get_recipe_by_id(recipes, recipe_id)
+            if recipe:
                 recipe_card(recipe)
 
                 if st.button(
                     "Salva nei preferiti",
                     key=f"save_generated_{recipe['id']}"
                 ):
-                    if recipe["id"] not in st.session_state.favorites:
-                        st.session_state.favorites.append(recipe["id"])
-                        st.success("Ricetta salvata nei preferiti.")
-                    else:
-                        st.info("Questa ricetta è già nei preferiti.")
-        else:
-            st.warning("Inserisci almeno un ingrediente.")
+                    save_favorite(recipe["id"])
 
 
-with tab_recipes:
+elif st.session_state.page == "Ricette":
     st.markdown("## Catalogo ricette")
 
     goal_filter = st.selectbox(
@@ -303,7 +355,7 @@ with tab_recipes:
     else:
         filtered_recipes = [
             recipe for recipe in recipes
-            if recipe.get("goal", "").lower() == goal_filter.lower()
+            if normalize_text(recipe.get("goal", "")) == normalize_text(goal_filter)
         ]
 
     st.write(f"Ricette trovate: {len(filtered_recipes)}")
@@ -315,14 +367,10 @@ with tab_recipes:
             "Salva nei preferiti",
             key=f"save_catalog_{recipe['id']}"
         ):
-            if recipe["id"] not in st.session_state.favorites:
-                st.session_state.favorites.append(recipe["id"])
-                st.success("Ricetta salvata nei preferiti.")
-            else:
-                st.info("Questa ricetta è già nei preferiti.")
+            save_favorite(recipe["id"])
 
 
-with tab_favorites:
+elif st.session_state.page == "Preferiti":
     st.markdown("## Le tue ricette preferite")
 
     favorite_recipes = [
@@ -344,7 +392,7 @@ with tab_favorites:
                 st.rerun()
 
 
-with tab_plan:
+elif st.session_state.page == "Meal plan":
     st.markdown("## Meal plan settimanale")
 
     st.markdown(
@@ -352,8 +400,8 @@ with tab_plan:
         <div class="schiscetta-card">
             <h3>Organizza la tua settimana</h3>
             <p>
-                Questa è la prima bozza del meal plan. Nel prossimo step
-                collegheremo ogni giorno a una ricetta del catalogo.
+                Scegli una schiscetta per ogni giorno lavorativo.
+                Questa è la prima versione del meal plan.
             </p>
         </div>
         """,
