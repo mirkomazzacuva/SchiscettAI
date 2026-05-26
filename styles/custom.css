@@ -1,34 +1,29 @@
-./* Palette SchiscettAI:
-   Avorio: #F8F3EA
-   Avorio chiaro: #FFFDF8
-   Greige: #D8D0C4
-   Greige scuro: #A89F91
-   Verde salvia: #8FA99A
-   Verde salvia scuro: #6F8C7A
-   Testo cacao/taupe: #3F3830
-*/
+/* SchiscettAI - Avorio, greige, verde salvia */
 
 .stApp {
-    background: linear-gradient(135deg, #F8F3EA 0%, #FFFDF8 45%, #D8D0C4 100%);
-}
-
-.main {
-    background: transparent;
-}
-
-h1 {
-    color: #3F3830;
-    font-size: 3.2rem !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.03em;
-}
-
-h2, h3 {
+    background: linear-gradient(135deg, #F8F3EA 0%, #FFFDF8 46%, #D8D0C4 100%);
     color: #3F3830;
 }
 
-p, li, label {
+section[data-testid="stSidebar"] {
+    background: #F8F3EA;
+    border-right: 1px solid rgba(143, 169, 154, 0.35);
+}
+
+h1, h2, h3 {
+    color: #3F3830;
+    letter-spacing: -0.02em;
+}
+
+p, li, label, span {
     color: #4B453D;
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255, 253, 248, 0.76);
+    border: 1px solid rgba(143, 169, 154, 0.32);
+    border-radius: 24px;
+    box-shadow: 0 14px 34px rgba(63, 56, 48, 0.08);
 }
 
 .stButton > button {
@@ -36,9 +31,9 @@ p, li, label {
     color: #FFFDF8;
     border-radius: 999px;
     border: none;
-    padding: 0.75rem 1.5rem;
+    padding: 0.65rem 1.25rem;
     font-weight: 700;
-    box-shadow: 0 10px 24px rgba(111, 140, 122, 0.25);
+    box-shadow: 0 10px 24px rgba(111, 140, 122, 0.22);
 }
 
 .stButton > button:hover {
@@ -57,21 +52,11 @@ p, li, label {
     border-radius: 16px;
 }
 
-.schiscetta-card {
-    background: rgba(255, 253, 248, 0.88);
-    padding: 1.5rem;
-    border-radius: 28px;
-    box-shadow: 0 14px 38px rgba(63, 56, 48, 0.10);
-    border: 1px solid rgba(143, 169, 154, 0.35);
-    margin-top: 1rem;
-}
-
-.hero-box {
-    background: rgba(255, 253, 248, 0.82);
-    padding: 2.2rem;
-    border-radius: 34px;
-    box-shadow: 0 18px 44px rgba(63, 56, 48, 0.10);
-    border: 1px solid rgba(143, 169, 154, 0.38);
+div[data-testid="stMetric"] {
+    background: rgba(248, 243, 234, 0.72);
+    border: 1px solid rgba(143, 169, 154, 0.25);
+    border-radius: 18px;
+    padding: 0.75rem;
 }
 
 div[data-testid="stAlert"] {
@@ -79,5 +64,24 @@ div[data-testid="stAlert"] {
 }
 
 hr {
-    border-color: #D8D0C4;
+    border-color: rgba(168, 159, 145, 0.45);
+}
+
+.stTabs [data-baseweb="tab-list"] {
+    gap: 0.5rem;
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: 999px;
+    background: rgba(255, 253, 248, 0.65);
+    padding: 0.5rem 1rem;
+}
+
+.stTabs [aria-selected="true"] {
+    background: #8FA99A !important;
+    color: #FFFDF8 !important;
+}
+
+small {
+    color: #6F8C7A !important;
 }
