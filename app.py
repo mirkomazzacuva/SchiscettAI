@@ -673,6 +673,215 @@ def offers_to_csv_text(offers):
 
 
 
+
+def source_lookup(offer_sources):
+    lookup = {}
+
+    if not isinstance(offer_sources, list):
+        return lookup
+
+    for source in offer_sources:
+        chain = source.get("chain", "")
+        aliases = source.get("aliases", [])
+
+        if chain:
+            lookup[normalize_text(chain)] = source
+
+        for alias in aliases:
+            lookup[normalize_text(alias)] = source
+
+    return lookup
+
+
+def normalize_chain_name(name, offer_sources):
+    text_name = normalize_text(name)
+
+    if not text_name:
+        return "Altro"
+
+    for source in offer_sources:
+        chain = source.get("chain", "")
+        aliases = source.get("aliases", [])
+
+        candidates = [chain] + aliases
+
+        for candidate in candidates:
+            candidate_norm = normalize_text(candidate)
+            if candidate_norm and candidate_norm in text_name:
+                return chain
+
+    known = {
+        "coop": "Coop",
+        "conad": "Conad",
+        "penny": "PENNY",
+        "pam": "PAM",
+        "lidl": "Lidl",
+        "eurospin": "Eurospin",
+        "esselunga": "Esselunga",
+        "carrefour": "Carrefour",
+        "md": "MD",
+        "aldi": "ALDI",
+    }
+
+    for key, value in known.items():
+        if key in text_name:
+            return value
+
+    return name.strip().title()
+
+
+@st.cache_data(ttl=3600)
+def fetch_osm_supermarkets(lat, lon, radius_km):
+    radius_m = int(radius_km * 1000)
+
+    query = f"""
+    [out:json][timeout:25];
+    (
+      node["shop"~"supermarket|convenience|greengrocer|grocery|mall"](around:{radius_m},{lat},{lon});
+      way["shop"~"supermarket|convenience|greengrocer|grocery|mall"](around:{radius_m},{lat},{lon});
+      relation["shop"~"supermarket|convenience|greengrocer|grocery|mall"](around:{radius_m},{lat},{lon});
+    );
+    out center tags;
+    """
+
+    response = requests.post(
+        "https://overpass-api.de/api/interpreter",
+        data={"data": query},
+        headers={"User-Agent": "SchiscettAI-demo/1.0"},
+        timeout=25,
+    )
+
+    if response.status_code != 200:
+        raise RuntimeError(f"Overpass status code {response.status_code}")
+
+    data = response.json()
+    stores = []
+
+    for element in data.get("elements", []):
+        tags = element.get("tags", {})
+
+        lat_value = element.get("lat")
+        lon_value = element.get("lon")
+
+        if lat_value is None or lon_value is None:
+            center = element.get("center", {})
+            lat_value = center.get("lat")
+            lon_value = center.get("lon")
+
+        if lat_value is None or lon_value is None:
+            continue
+
+        name = tags.get("name", "Punto vendita")
+        brand = tags.get("brand", "")
+        chain_name = brand or name
+
+        store_id = "osm_" + str(element.get("type", "node")) + "_" + str(element.get("id", ""))
+
+        street = tags.get("addr:street", "")
+        housenumber = tags.get("addr:housenumber", "")
+        city = tags.get("addr:city", "")
+        address_parts = [part for part in [street, housenumber, city] if part]
+        address = " ".join(address_parts)
+
+        stores.append(
+            {
+                "id": store_id,
+                "name": name,
+                "chain": chain_name,
+                "type": tags.get("shop", "supermarket"),
+                "address": address,
+                "lat": float(lat_value),
+                "lon": float(lon_value),
+                "area": city or "zona cercata",
+                "source": "OpenStreetMap",
+                "osm_type": element.get("type", ""),
+                "osm_id": element.get("id", ""),
+                "notes": "Punto vendita trovato automaticamente da OpenStreetMap/Overpass.",
+            }
+        )
+
+    return stores
+
+
+def enrich_discovered_stores(stores, offer_sources, user_lat, user_lon):
+    enriched = []
+
+    for store in stores:
+        item = dict(store)
+        chain = normalize_chain_name(
+            item.get("chain") or item.get("name", ""),
+            offer_sources,
+        )
+        item["chain_normalized"] = chain
+
+        lat = item.get("lat")
+        lon = item.get("lon")
+
+        if lat is not None and lon is not None:
+            item["distance_km"] = round(haversine_km(user_lat, user_lon, lat, lon), 1)
+
+        source = get_offer_source_for_chain(chain, offer_sources)
+        item["offer_source_status"] = source.get("status", "not_configured") if source else "not_configured"
+        item["offer_source_url"] = source.get("url", "") if source else ""
+
+        enriched.append(item)
+
+    enriched.sort(key=lambda store: store.get("distance_km", 999))
+    return enriched
+
+
+def get_offer_source_for_chain(chain, offer_sources):
+    chain_norm = normalize_text(chain)
+
+    for source in offer_sources:
+        if normalize_text(source.get("chain", "")) == chain_norm:
+            return source
+
+        for alias in source.get("aliases", []):
+            if normalize_text(alias) == chain_norm:
+                return source
+
+    return {}
+
+
+def offer_sources_for_stores(stores, offer_sources):
+    chains = sorted(set(store.get("chain_normalized", store.get("chain", "")) for store in stores))
+    rows = []
+
+    for chain in chains:
+        source = get_offer_source_for_chain(chain, offer_sources)
+
+        rows.append(
+            {
+                "catena": chain,
+                "stato": source.get("status", "not_configured") if source else "not_configured",
+                "modalità": source.get("mode", "da configurare") if source else "da configurare",
+                "fonte": source.get("url", "") if source else "",
+                "note": source.get("notes", "Fonte offerte non ancora collegata.") if source else "Fonte offerte non ancora collegata.",
+            }
+        )
+
+    return rows
+
+
+def merge_discovered_and_manual_stores(discovered_stores, manual_stores, user_lat, user_lon, radius_km):
+    if discovered_stores:
+        return discovered_stores, "OpenStreetMap"
+
+    nearby_manual = stores_within_radius(
+        manual_stores,
+        user_lat,
+        user_lon,
+        radius_km,
+    )
+
+    if nearby_manual:
+        return nearby_manual, "Fallback manuale"
+
+    return manual_stores, "Fallback manuale completo"
+
+
+
 def create_stores_map(stores, offers, center_lat=43.3188, center_lon=11.3308):
     if not MAP_AVAILABLE:
         return None
@@ -1215,6 +1424,7 @@ ingredients_data = load_json("data/ingredients.json")
 modules = load_json("data/modules.json")
 clusters_data = load_json("data/clusters.json")
 stores_data = load_json("data/stores.json")
+offer_sources_data = load_json("data/offer_sources.json")
 offers_data = load_offers_data(REMOTE_OFFERS_CSV_URL, "data/offers_template.csv", "data/offers.json")
 
 if clusters_data:
@@ -1270,7 +1480,7 @@ st.session_state.page = selected_page
 st.sidebar.divider()
 st.sidebar.caption("Smart lunch planner")
 st.sidebar.caption("GitHub + Streamlit + database locale")
-st.sidebar.caption("Offerte: Google Sheet automatico")
+st.sidebar.caption("Offerte: Google Sheet + fonti web")
 st.sidebar.caption(f"Ricette modulari create: {len(st.session_state.custom_recipes)}")
 
 
@@ -1818,19 +2028,29 @@ elif st.session_state.page == "Spesa smart":
             "Per ora i punti vendita restano quelli demo caricati in data/stores.json."
         )
 
-    nearby_stores = stores_within_radius(
+    try:
+        discovered_stores_raw = fetch_osm_supermarkets(user_lat, user_lon, radius_km)
+    except Exception as error:
+        discovered_stores_raw = []
+        st.warning(
+            "Ricerca automatica supermercati non disponibile in questo momento. "
+            f"Uso i punti vendita manuali come fallback. Dettaglio: {error}"
+        )
+
+    discovered_stores = enrich_discovered_stores(
+        discovered_stores_raw,
+        offer_sources_data,
+        user_lat,
+        user_lon,
+    )
+
+    nearby_stores, stores_source_label = merge_discovered_and_manual_stores(
+        discovered_stores,
         stores_data,
         user_lat,
         user_lon,
         radius_km,
     )
-
-    if not nearby_stores:
-        st.warning(
-            "Nessun punto vendita demo nel raggio selezionato. "
-            "Mostro tutti i punti vendita demo come fallback."
-        )
-        nearby_stores = stores_data
 
     offers_nearby = offers_for_stores(offers_data, nearby_stores)
 
@@ -1838,6 +2058,30 @@ elif st.session_state.page == "Spesa smart":
         matched_offers = offers_for_ingredients(offers_nearby, selected_ingredients)
     else:
         matched_offers = offers_nearby
+
+    st.write("")
+    st.markdown("### Supermercati trovati nel raggio")
+
+    s1, s2, s3, s4 = st.columns(4)
+
+    with s1:
+        st.metric("Punti vendita", len(nearby_stores))
+
+    with s2:
+        st.metric("Fonte negozi", stores_source_label)
+
+    with s3:
+        chains_count = len(set(store.get("chain_normalized", store.get("chain", "")) for store in nearby_stores))
+        st.metric("Catene", chains_count)
+
+    with s4:
+        st.metric("Raggio", f"{radius_km} km")
+
+    source_rows = offer_sources_for_stores(nearby_stores, offer_sources_data)
+
+    if source_rows:
+        with st.expander("Fonti offerte per le catene trovate", expanded=False):
+            st.dataframe(pd.DataFrame(source_rows), use_container_width=True, hide_index=True)
 
     st.write("")
     st.markdown("### Offerte attive")
