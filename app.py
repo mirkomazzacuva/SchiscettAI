@@ -367,6 +367,77 @@ def parse_price(value):
         return None
 
 
+
+def deal_score_for_recipe(recipe, offers, stores_by_id):
+    ingredients = [
+        normalize_text(ingredient)
+        for ingredient in recipe.get("ingredients", [])
+        if str(ingredient).strip()
+    ]
+
+    if not ingredients:
+        return None
+
+    matched_offers = offers_for_ingredients(offers, ingredients)
+    covered_ingredients = set()
+    store_ids = set()
+    total_demo_price = 0.0
+    priced_items = 0
+
+    for offer in matched_offers:
+        offer_ingredient = normalize_text(offer.get("ingredient", ""))
+
+        for ingredient in ingredients:
+            if offer_ingredient and (offer_ingredient in ingredient or ingredient in offer_ingredient):
+                covered_ingredients.add(ingredient)
+
+        store_id = offer.get("store_id", "")
+        if store_id:
+            store_ids.add(store_id)
+
+        price = parse_price(offer.get("price", None))
+        if price is not None:
+            total_demo_price += price
+            priced_items += 1
+
+    coverage = len(covered_ingredients)
+    coverage_ratio = coverage / len(ingredients) if ingredients else 0
+
+    return {
+        "recipe": recipe,
+        "matched_offers": matched_offers,
+        "covered_ingredients": sorted(covered_ingredients),
+        "store_ids": sorted(store_ids),
+        "coverage": coverage,
+        "total_ingredients": len(ingredients),
+        "coverage_ratio": coverage_ratio,
+        "total_demo_price": round(total_demo_price, 2),
+        "priced_items": priced_items,
+        "score": coverage * 100 + len(matched_offers) * 5 - total_demo_price,
+    }
+
+
+def best_deal_recipes(recipe_list, offers, stores_by_id, limit=5):
+    scored = []
+
+    for recipe in recipe_list:
+        item = deal_score_for_recipe(recipe, offers, stores_by_id)
+
+        if item and item["coverage"] > 0:
+            scored.append(item)
+
+    scored.sort(
+        key=lambda item: (
+            -item["coverage_ratio"],
+            -item["coverage"],
+            item["total_demo_price"],
+        )
+    )
+
+    return scored[:limit]
+
+
+
 def best_store_recommendations(offers, stores_by_id, target_ingredients, user_lat, user_lon):
     wanted = [normalize_text(item) for item in target_ingredients if str(item).strip()]
     if not wanted:
@@ -1844,10 +1915,56 @@ elif st.session_state.page == "Spesa smart":
                 st.caption("Ingredienti coperti: " + ", ".join(item["ingredients"]))
 
     st.write("")
+    st.markdown("### Ricette convenienti con le offerte attive")
+
+    deal_recipes = best_deal_recipes(
+        current_recipes,
+        matched_offers if matched_offers else offers_nearby,
+        stores_by_id,
+        limit=5,
+    )
+
+    if not deal_recipes:
+        st.info(
+            "Non ci sono ancora abbastanza offerte collegate agli ingredienti delle ricette. "
+            "Aggiungi offerte nel Google Sheet per vedere suggerimenti migliori."
+        )
+    else:
+        for item in deal_recipes:
+            recipe = item["recipe"]
+            stores_names = [
+                stores_by_id.get(store_id, {}).get("name", store_id)
+                for store_id in item["store_ids"]
+            ]
+
+            with st.container(border=True):
+                st.markdown(f"#### {recipe.get('title', 'Ricetta')}")
+                st.write(recipe.get("description", ""))
+                st.write(
+                    f"Ingredienti coperti da offerte: **{item['coverage']} su {item['total_ingredients']}**"
+                )
+                st.write(
+                    "Ingredienti in offerta: "
+                    + ", ".join(item["covered_ingredients"])
+                )
+                st.write(
+                    f"Totale prezzi demo considerati: **{item['total_demo_price']} €** "
+                    f"su {item['priced_items']} prodotti."
+                )
+                if stores_names:
+                    st.caption("Punti vendita coinvolti: " + " · ".join(stores_names[:4]))
+
+                if st.button(
+                    "Salva questa ricetta",
+                    key=f"deal_recipe_save_{recipe['id']}",
+                ):
+                    save_favorite(recipe["id"])
+
+    st.write("")
     st.markdown("### Come evolverà questa funzione")
     st.write(
-        "Ora usiamo CSV/offerte manuali. Il prossimo step sarà importare offerte reali "
-        "da file aggiornabili e poi valutare fonti ufficiali o scraping controllato dove consentito."
+        "Ora usiamo Google Sheet/CSV aggiornabile. Il prossimo step sarà collegare volantini reali "
+        "e fonti ufficiali o scraping controllato dove consentito."
     )
 
 
