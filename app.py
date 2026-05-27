@@ -4,6 +4,7 @@ from collections import Counter
 from math import radians, sin, cos, sqrt, atan2
 
 import pandas as pd
+import requests
 import streamlit as st
 
 try:
@@ -401,6 +402,50 @@ def best_store_recommendations(offers, stores_by_id, target_ingredients, user_la
 
     return recommendations
 
+
+
+
+@st.cache_data(ttl=86400)
+def geocode_postcode(postcode, country="Italia"):
+    clean_postcode = str(postcode).strip()
+
+    if not clean_postcode:
+        return None
+
+    try:
+        response = requests.get(
+            "https://nominatim.openstreetmap.org/search",
+            params={
+                "postalcode": clean_postcode,
+                "country": country,
+                "format": "json",
+                "limit": 1,
+                "addressdetails": 1,
+            },
+            headers={
+                "User-Agent": "SchiscettAI-demo/1.0 (Streamlit app; contact: demo)"
+            },
+            timeout=8,
+        )
+
+        if response.status_code != 200:
+            return None
+
+        data = response.json()
+
+        if not data:
+            return None
+
+        result = data[0]
+
+        return {
+            "lat": float(result["lat"]),
+            "lon": float(result["lon"]),
+            "display_name": result.get("display_name", f"CAP {clean_postcode}"),
+        }
+
+    except Exception:
+        return None
 
 
 def create_stores_map(stores, offers, center_lat=43.3188, center_lon=11.3308):
@@ -1393,7 +1438,7 @@ elif st.session_state.page == "Spesa smart":
     st.markdown("## Spesa smart")
 
     st.info(
-        "Demo Siena: i punti vendita e le offerte sono dati dimostrativi/manuali. "
+        "Demo Siena: puoi inserire un CAP per centrare la mappa. I punti vendita e le offerte sono dati dimostrativi/manuali. "
         "Le coordinate e i prezzi vanno verificati prima di usare la funzione come dato reale."
     )
 
@@ -1452,14 +1497,13 @@ elif st.session_state.page == "Spesa smart":
     with st.container(border=True):
         st.markdown("### Punto di partenza")
 
-        location_choice = st.selectbox(
-            "Zona",
+        start_mode = st.radio(
+            "Come vuoi posizionare la mappa?",
             [
-                "Siena centro",
-                "Stazione / PortaSiena",
-                "San Miniato",
-                "Massetana Romana",
+                "Usa CAP",
+                "Usa zona demo Siena",
             ],
+            horizontal=True,
         )
 
         location_centers = {
@@ -1469,7 +1513,46 @@ elif st.session_state.page == "Spesa smart":
             "Massetana Romana": (43.3068, 11.3108),
         }
 
-        user_lat, user_lon = location_centers.get(location_choice, (43.3188, 11.3308))
+        user_lat, user_lon = (43.3188, 11.3308)
+        location_label = "Siena centro"
+
+        if start_mode == "Usa CAP":
+            cap = st.text_input(
+                "Inserisci CAP",
+                value="53100",
+                placeholder="Esempio: 53100",
+            )
+
+            geocoded_location = geocode_postcode(cap, country="Italia")
+
+            if geocoded_location:
+                user_lat = geocoded_location["lat"]
+                user_lon = geocoded_location["lon"]
+                location_label = geocoded_location["display_name"]
+                st.success(f"Mappa centrata su: {location_label}")
+            else:
+                st.warning(
+                    "Non sono riuscito a geolocalizzare il CAP. Uso Siena centro come fallback."
+                )
+
+        else:
+            location_choice = st.selectbox(
+                "Zona demo",
+                [
+                    "Siena centro",
+                    "Stazione / PortaSiena",
+                    "San Miniato",
+                    "Massetana Romana",
+                ],
+            )
+
+            user_lat, user_lon = location_centers.get(location_choice, (43.3188, 11.3308))
+            location_label = location_choice
+
+        st.caption(
+            "La geolocalizzazione del CAP usa Nominatim/OpenStreetMap con cache giornaliera. "
+            "Per ora i punti vendita restano quelli demo di Siena."
+        )
 
     if selected_ingredients:
         matched_offers = offers_for_ingredients(offers_data, selected_ingredients)
