@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "parser_pending",
+    "mode": "parser_v1",
     "url": "https://www.penny.it/offerte",
-    "status": "source_mapped",
-    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
+    "status": "parser_ready",
+    "notes": "Parser PENNY v1 sperimentale collegato. Estrae snippet/prezzi dal sito ufficiale e mantiene fallback manuale."
   },
   {
     "chain": "Coop",
