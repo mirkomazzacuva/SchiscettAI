@@ -1776,7 +1776,7 @@ elif st.session_state.page == "Spesa smart":
         radius_km = st.select_slider(
             "Raggio ricerca negozi",
             options=[2, 5, 10, 20, 30],
-            value=10,
+            value=30,
             format_func=lambda value: f"{value} km",
         )
 
@@ -1806,6 +1806,29 @@ elif st.session_state.page == "Spesa smart":
     else:
         matched_offers = offers_nearby
 
+    st.write("")
+    st.markdown("### Offerte attive")
+
+    o1, o2, o3, o4 = st.columns(4)
+
+    with o1:
+        st.metric("Offerte Google Sheet", len(offers_data))
+
+    with o2:
+        st.metric("Negozi nel raggio", len(nearby_stores))
+
+    with o3:
+        st.metric("Offerte nel raggio", len(offers_nearby))
+
+    with o4:
+        st.metric("Offerte collegate", len(matched_offers))
+
+    if not offers_data:
+        st.warning(
+            "Non sto leggendo offerte dal Google Sheet. Apri Admin offerte e clicca Aggiorna offerte ora; "
+            "se resta vuoto, controlla che il foglio pubblicato abbia intestazioni e righe compilate."
+        )
+
     map_col, info_col = st.columns([1.4, 1])
 
     with map_col:
@@ -1814,7 +1837,7 @@ elif st.session_state.page == "Spesa smart":
         if MAP_AVAILABLE:
             stores_map = create_stores_map(
                 nearby_stores,
-                matched_offers if matched_offers else offers_nearby,
+                offers_to_show if "offers_to_show" in locals() and offers_to_show else offers_nearby,
                 center_lat=user_lat,
                 center_lon=user_lon,
             )
@@ -1854,16 +1877,33 @@ elif st.session_state.page == "Spesa smart":
                 st.write(f"Distanza indicativa: {distance:.1f} km")
 
     st.write("")
-    st.markdown("### Offerte collegate")
+    st.markdown("### Offerte visibili")
 
     if selected_ingredients:
         st.caption("Ingredienti considerati: " + ", ".join(selected_ingredients))
-
-    if not matched_offers:
-        st.warning("Nessuna offerta demo trovata per questi ingredienti.")
+        offers_to_show = matched_offers
     else:
-        rows = offer_rows(matched_offers, stores_by_id, user_lat=user_lat, user_lon=user_lon)
+        st.caption("Nessuna ricetta/ingrediente selezionato: mostro tutte le offerte nel raggio.")
+        offers_to_show = offers_nearby
+
+    if not offers_to_show and offers_nearby:
+        st.warning(
+            "Nessuna offerta collegata agli ingredienti selezionati. "
+            "Mostro comunque tutte le offerte nel raggio."
+        )
+        offers_to_show = offers_nearby
+
+    if not offers_to_show:
+        st.warning(
+            "Nessuna offerta visibile nel raggio selezionato. Prova raggio 30 km oppure aggiorna le offerte."
+        )
+    else:
+        rows = offer_rows(offers_to_show, stores_by_id, user_lat=user_lat, user_lon=user_lon)
         st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+        with st.expander("Vedi tutte le offerte caricate dal Google Sheet", expanded=False):
+            all_rows = offer_rows(offers_data, stores_by_id, user_lat=user_lat, user_lon=user_lon)
+            st.dataframe(pd.DataFrame(all_rows), use_container_width=True, hide_index=True)
 
     st.write("")
     st.markdown("### Negozio migliore per la tua spesa")
@@ -1917,7 +1957,7 @@ elif st.session_state.page == "Spesa smart":
 
     deal_recipes = best_deal_recipes(
         current_recipes,
-        matched_offers if matched_offers else offers_nearby,
+        offers_to_show if "offers_to_show" in locals() and offers_to_show else offers_nearby,
         stores_by_id,
         limit=5,
     )
@@ -1963,7 +2003,7 @@ elif st.session_state.page == "Spesa smart":
         st.markdown("### Fonte offerte automatica")
         st.write("Google Sheet pubblicato come CSV:")
         st.code(REMOTE_OFFERS_CSV_URL)
-        st.caption("Cache aggiornamento: circa ogni 30 minuti.")
+        st.caption("Cache aggiornamento: circa ogni 30 minuti. Se le offerte non compaiono, premi il bottone qui sotto.")
 
         if st.button("Aggiorna offerte ora"):
             st.cache_data.clear()
