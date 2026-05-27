@@ -1,0 +1,11 @@
+id,store_id,ingredient,product_name,price,unit,old_price,valid_from,valid_until,source,category,notes
+off_001,centro_siena_coop,pollo,Petto di pollo a fette,8.90,€/kg,10.90,2026-05-27,2026-06-03,volantino demo,proteine,Offerta da verificare
+off_002,centro_siena_coop,zucchine,Zucchine chiare,1.79,€/kg,2.49,2026-05-27,2026-06-03,volantino demo,verdure,Offerta da verificare
+off_003,pam_rosselli,riso basmati,Riso basmati 1 kg,2.29,pezzo,3.10,2026-05-27,2026-06-03,volantino demo,cereali,Offerta da verificare
+off_004,penny_massetana,ceci,Ceci lessati 3x400 g,1.99,conf.,2.59,2026-05-27,2026-06-03,volantino demo,legumi,Offerta da verificare
+off_005,penny_toselli,couscous,Couscous 500 g,1.19,pezzo,1.59,2026-05-27,2026-06-03,volantino demo,cereali,Offerta da verificare
+off_006,coop_cittadini,tonno,Tonno al naturale multipack,3.49,conf.,4.49,2026-05-27,2026-06-03,volantino demo,proteine,Offerta da verificare
+off_007,coop_san_miniato,pomodorini,Pomodorini ciliegino,2.49,€/kg,3.20,2026-05-27,2026-06-03,volantino demo,verdure,Offerta da verificare
+off_008,conad_curtatone_demo,pasta integrale,Pasta integrale 500 g,0.99,pezzo,1.39,2026-05-27,2026-06-03,volantino demo,pasta,Offerta da verificare
+off_009,galleria_portasiena,feta,Feta greca 200 g,1.89,pezzo,2.49,2026-05-27,2026-06-03,volantino demo,latticini,Offerta da verificare
+off_010,pam_rosselli,olio EVO,Olio EVO 750 ml,6.90,bottiglia,8.90,2026-05-27,2026-06-03,volantino demo,condimenti,Offerta da verificare
