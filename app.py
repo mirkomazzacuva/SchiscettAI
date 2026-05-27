@@ -31,7 +31,7 @@ st.set_page_config(
 
 WORK_DAYS = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
 
-REMOTE_OFFERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQADckMEswns4YcXqZyqaUxh_6YCPrFuPzLL3xJlg9UH6lBVtBJhk0T0RmK4aqLIucK1VV0XFCArepX/pub?gid=0&single=true&output=csv"
+REMOTE_OFFERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQADckMEswns4YcXqZyqaUxh_6YCPrFuPzLL3xJlg9UH6lBVtBJhk0T0RmK4aqLIucK1VV0XFCArepX/pub?gid=1684172085&single=true&output=csv"
 
 CLUSTER_VISUALS = {
     "riso_pollo": {
