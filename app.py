@@ -309,6 +309,100 @@ def offer_rows(offers, stores_by_id, user_lat=None, user_lon=None):
     return rows
 
 
+
+def parse_price(value):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def best_store_recommendations(offers, stores_by_id, target_ingredients, user_lat, user_lon):
+    wanted = [normalize_text(item) for item in target_ingredients if str(item).strip()]
+    if not wanted:
+        return []
+
+    by_store = {}
+
+    for offer in offers:
+        ingredient = normalize_text(offer.get("ingredient", ""))
+
+        if not ingredient:
+            continue
+
+        is_match = any(ingredient in item or item in ingredient for item in wanted)
+
+        if not is_match:
+            continue
+
+        store_id = offer.get("store_id", "")
+        store = stores_by_id.get(store_id, {})
+
+        if not store:
+            continue
+
+        price = parse_price(offer.get("price", None))
+
+        if store_id not in by_store:
+            distance = None
+
+            if store.get("lat") and store.get("lon"):
+                distance = haversine_km(user_lat, user_lon, store["lat"], store["lon"])
+
+            by_store[store_id] = {
+                "store": store,
+                "distance": distance,
+                "ingredients": set(),
+                "offers": [],
+                "total_price": 0.0,
+                "priced_items": 0,
+            }
+
+        by_store[store_id]["ingredients"].add(ingredient)
+        by_store[store_id]["offers"].append(offer)
+
+        if price is not None:
+            by_store[store_id]["total_price"] += price
+            by_store[store_id]["priced_items"] += 1
+
+    recommendations = []
+
+    for store_id, data in by_store.items():
+        covered = len(data["ingredients"])
+        distance = data["distance"]
+        total_price = data["total_price"]
+
+        score = covered * 100
+        score -= total_price
+        if distance is not None:
+            score -= distance * 2
+
+        recommendations.append(
+            {
+                "store_id": store_id,
+                "store": data["store"],
+                "covered": covered,
+                "ingredients": sorted(data["ingredients"]),
+                "offers": data["offers"],
+                "total_price": round(total_price, 2),
+                "priced_items": data["priced_items"],
+                "distance": round(distance, 1) if distance is not None else None,
+                "score": score,
+            }
+        )
+
+    recommendations.sort(
+        key=lambda item: (
+            -item["covered"],
+            item["total_price"],
+            item["distance"] if item["distance"] is not None else 999,
+        )
+    )
+
+    return recommendations
+
+
+
 def create_stores_map(stores, offers, center_lat=43.3188, center_lon=11.3308):
     if not MAP_AVAILABLE:
         return None
@@ -1304,9 +1398,11 @@ elif st.session_state.page == "Spesa smart":
     )
 
     current_recipes = combined_recipes()
+    favorite_recipes = get_favorite_recipes(current_recipes)
+    meal_plan_recipes = get_meal_plan_recipes(current_recipes)
 
     with st.container(border=True):
-        st.markdown("### Scegli una ricetta e trova offerte collegate")
+        st.markdown("### Scegli cosa vuoi ottimizzare")
 
         recipe_titles = ["Nessuna ricetta"] + [
             recipe.get("title", "Ricetta") for recipe in current_recipes
@@ -1319,12 +1415,29 @@ elif st.session_state.page == "Spesa smart":
 
         selected_recipe = get_recipe_by_title(current_recipes, selected_recipe_title)
 
+        selected_ingredients = []
+
         if selected_recipe:
-            selected_ingredients = selected_recipe.get("ingredients", [])
+            selected_ingredients.extend(selected_recipe.get("ingredients", []))
             st.write("Ingredienti ricetta:")
-            st.write(", ".join(selected_ingredients))
-        else:
-            selected_ingredients = []
+            st.write(", ".join(selected_recipe.get("ingredients", [])))
+
+        use_current_shopping = st.checkbox(
+            "Includi lista spesa da preferiti e meal plan",
+            value=True,
+        )
+
+        if use_current_shopping:
+            shopping_counter_for_map = aggregate_ingredients(
+                favorite_recipes + meal_plan_recipes,
+                st.session_state.extra_shopping_items,
+            )
+            selected_ingredients.extend(list(shopping_counter_for_map.keys()))
+
+            if shopping_counter_for_map:
+                st.caption(
+                    f"Aggiunti {len(shopping_counter_for_map)} ingredienti dalla lista spesa attuale."
+                )
 
         manual_ingredient = st.text_input(
             "Oppure cerca un ingrediente",
@@ -1333,6 +1446,8 @@ elif st.session_state.page == "Spesa smart":
 
         if manual_ingredient.strip():
             selected_ingredients.append(manual_ingredient.strip())
+
+        selected_ingredients = sorted(set([item for item in selected_ingredients if str(item).strip()]))
 
     with st.container(border=True):
         st.markdown("### Punto di partenza")
@@ -1378,12 +1493,17 @@ elif st.session_state.page == "Spesa smart":
             st.warning(f"Mappa non disponibile: {MAP_ERROR}")
 
     with info_col:
-        st.markdown("### Negozi demo")
+        st.markdown("### Negozi più vicini")
 
         nearest_rows = []
 
         for store in stores_data:
-            distance = haversine_km(user_lat, user_lon, store.get("lat", user_lat), store.get("lon", user_lon))
+            distance = haversine_km(
+                user_lat,
+                user_lon,
+                store.get("lat", user_lat),
+                store.get("lon", user_lon),
+            )
             nearest_rows.append((distance, store))
 
         nearest_rows.sort(key=lambda item: item[0])
@@ -1398,31 +1518,67 @@ elif st.session_state.page == "Spesa smart":
     st.write("")
     st.markdown("### Offerte collegate")
 
+    if selected_ingredients:
+        st.caption("Ingredienti considerati: " + ", ".join(selected_ingredients))
+
     if not matched_offers:
         st.warning("Nessuna offerta demo trovata per questi ingredienti.")
     else:
         rows = offer_rows(matched_offers, stores_by_id, user_lat=user_lat, user_lon=user_lon)
         st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
-        best = sorted(
-            rows,
-            key=lambda row: row["distanza_km"] if row["distanza_km"] != "" else 999,
-        )[:3]
+    st.write("")
+    st.markdown("### Negozio migliore per la tua spesa")
 
-        st.markdown("### Suggerimento SchiscettAI")
+    recommendations = best_store_recommendations(
+        offers_data,
+        stores_by_id,
+        selected_ingredients,
+        user_lat,
+        user_lon,
+    )
 
-        for item in best:
+    if not selected_ingredients:
+        st.info("Seleziona una ricetta, usa la lista spesa o cerca un ingrediente per calcolare il negozio migliore.")
+    elif not recommendations:
+        st.warning("Non ci sono abbastanza offerte demo per calcolare un negozio consigliato.")
+    else:
+        best_store = recommendations[0]
+        store = best_store["store"]
+
+        with st.container(border=True):
+            st.markdown(f"### 🏆 {store.get('name', '')}")
+            st.write(
+                f"Copre **{best_store['covered']} ingredienti** della tua lista "
+                f"con offerte demo disponibili."
+            )
+            st.write(f"Zona: **{store.get('area', '')}**")
+            st.write(f"Distanza indicativa: **{best_store['distance']} km**")
+            st.write(
+                f"Totale prezzi demo considerati: **{best_store['total_price']} €** "
+                f"su {best_store['priced_items']} prodotti."
+            )
+            st.caption(
+                "Il totale è indicativo: le unità sono miste (kg, pezzo, confezione). "
+                "Serve per confrontare la convenienza demo, non come scontrino reale."
+            )
+
+        st.markdown("#### Alternative")
+
+        for item in recommendations[1:4]:
+            store = item["store"]
             with st.container(border=True):
                 st.write(
-                    f"Per **{item['ingrediente']}** guarda **{item['negozio']}** "
-                    f"({item['zona']}) — {item['prezzo']}."
+                    f"**{store.get('name', '')}** — copre {item['covered']} ingredienti, "
+                    f"distanza {item['distance']} km, totale demo {item['total_price']} €."
                 )
+                st.caption("Ingredienti coperti: " + ", ".join(item["ingredients"]))
 
     st.write("")
     st.markdown("### Come evolverà questa funzione")
     st.write(
-        "Ora usiamo dati demo/manuali. Il prossimo step sarà importare offerte da CSV/JSON "
-        "e solo dopo valutare scraping controllato o fonti ufficiali dove consentito."
+        "Ora usiamo CSV/offerte manuali. Il prossimo step sarà importare offerte reali "
+        "da file aggiornabili e poi valutare fonti ufficiali o scraping controllato dove consentito."
     )
 
 
