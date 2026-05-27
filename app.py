@@ -480,6 +480,79 @@ def offers_for_stores(offers, stores):
 
 
 
+
+def validate_offers(offers, stores_by_id):
+    required_fields = [
+        "id",
+        "store_id",
+        "ingredient",
+        "product_name",
+        "price",
+        "unit",
+        "old_price",
+        "valid_from",
+        "valid_until",
+        "source",
+        "category",
+        "notes",
+    ]
+
+    issues = []
+
+    for index, offer in enumerate(offers, start=1):
+        row_label = offer.get("id", f"riga {index}")
+
+        for field in required_fields:
+            if field not in offer or str(offer.get(field, "")).strip() == "":
+                issues.append(
+                    {
+                        "offerta": row_label,
+                        "campo": field,
+                        "problema": "Campo mancante o vuoto",
+                    }
+                )
+
+        store_id = offer.get("store_id", "")
+        if store_id and store_id not in stores_by_id:
+            issues.append(
+                {
+                    "offerta": row_label,
+                    "campo": "store_id",
+                    "problema": f"Negozio non trovato in stores.json: {store_id}",
+                }
+            )
+
+        price = parse_price(offer.get("price", None))
+        if price is None:
+            issues.append(
+                {
+                    "offerta": row_label,
+                    "campo": "price",
+                    "problema": "Prezzo non numerico",
+                }
+            )
+
+    return issues
+
+
+def offers_template_text():
+    return (
+        "id,store_id,ingredient,product_name,price,unit,old_price,valid_from,valid_until,source,category,notes\n"
+        "off_001,centro_siena_coop,pollo,Petto di pollo a fette,8.90,€/kg,10.90,2026-05-27,2026-06-03,volantino demo,proteine,Offerta da verificare\n"
+        "off_002,pam_rosselli,riso basmati,Riso basmati 1 kg,2.29,pezzo,3.10,2026-05-27,2026-06-03,volantino demo,cereali,Offerta da verificare\n"
+        "off_003,penny_massetana,ceci,Ceci lessati 3x400 g,1.99,conf.,2.59,2026-05-27,2026-06-03,volantino demo,legumi,Offerta da verificare\n"
+    )
+
+
+def offers_to_csv_text(offers):
+    if not offers:
+        return offers_template_text()
+
+    rows = pd.DataFrame(offers)
+    return rows.to_csv(index=False)
+
+
+
 def create_stores_map(stores, offers, center_lat=43.3188, center_lon=11.3308):
     if not MAP_AVAILABLE:
         return None
@@ -1061,6 +1134,7 @@ pages = [
     "Preferiti",
     "Lista spesa",
     "Spesa smart",
+    "Gestione offerte",
     "Meal plan",
 ]
 
@@ -1726,6 +1800,102 @@ elif st.session_state.page == "Spesa smart":
         "Ora usiamo CSV/offerte manuali. Il prossimo step sarà importare offerte reali "
         "da file aggiornabili e poi valutare fonti ufficiali o scraping controllato dove consentito."
     )
+
+
+
+
+elif st.session_state.page == "Gestione offerte":
+    st.markdown("## Gestione offerte")
+
+    st.write(
+        "Questa sezione serve per aggiornare le offerte senza toccare il codice. "
+        "L'app legge prima `data/offers_template.csv`; se il CSV non è disponibile, usa `data/offers.json` come fallback."
+    )
+
+    with st.container(border=True):
+        st.markdown("### Come aggiornare le offerte reali")
+
+        st.write(
+            "1. Apri `data/offers_template.csv` su GitHub.\n"
+            "2. Sostituisci o aggiungi righe usando gli stessi nomi colonna.\n"
+            "3. Usa `store_id` identici a quelli presenti in `data/stores.json`.\n"
+            "4. Salva e fai commit.\n"
+            "5. Aggiorna Streamlit con `CTRL + F5`."
+        )
+
+        st.download_button(
+            "Scarica template CSV vuoto/esempio",
+            data=offers_template_text(),
+            file_name="offers_template.csv",
+            mime="text/csv",
+        )
+
+        st.download_button(
+            "Scarica offerte attualmente caricate",
+            data=offers_to_csv_text(offers_data),
+            file_name="offers_attuali_schiscettai.csv",
+            mime="text/csv",
+        )
+
+    st.write("")
+    st.markdown("### Offerte caricate")
+
+    if not offers_data:
+        st.warning("Nessuna offerta caricata.")
+    else:
+        offers_rows = offer_rows(offers_data, stores_by_id)
+        st.dataframe(pd.DataFrame(offers_rows), use_container_width=True, hide_index=True)
+
+    st.write("")
+    st.markdown("### Controllo qualità offerte")
+
+    issues = validate_offers(offers_data, stores_by_id)
+
+    q1, q2, q3 = st.columns(3)
+
+    with q1:
+        st.metric("Offerte caricate", len(offers_data))
+
+    with q2:
+        st.metric("Punti vendita", len(stores_data))
+
+    with q3:
+        st.metric("Problemi trovati", len(issues))
+
+    if not issues:
+        st.success("Formato offerte OK: nessun problema evidente trovato.")
+    else:
+        st.warning("Sono stati trovati problemi da correggere nel CSV.")
+        st.dataframe(pd.DataFrame(issues), use_container_width=True, hide_index=True)
+
+    st.write("")
+    st.markdown("### Store ID disponibili")
+
+    stores_table = []
+
+    for store in stores_data:
+        stores_table.append(
+            {
+                "store_id": store.get("id", ""),
+                "nome": store.get("name", ""),
+                "catena": store.get("chain", ""),
+                "tipo": store.get("type", ""),
+                "zona": store.get("area", ""),
+                "indirizzo": store.get("address", ""),
+            }
+        )
+
+    if stores_table:
+        st.dataframe(pd.DataFrame(stores_table), use_container_width=True, hide_index=True)
+
+    st.write("")
+    st.markdown("### Regole importanti")
+    st.info(
+        "Per la demo va bene aggiornare il CSV manualmente. "
+        "Per le offerte reali, bisogna indicare sempre fonte, data validità e verificare i prezzi. "
+        "Lo scraping automatico arriverà solo dopo, e solo da fonti dove è consentito."
+    )
+
 
 
 
