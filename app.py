@@ -1671,6 +1671,39 @@ elif st.session_state.page == "Spesa smart":
     meal_plan_recipes = get_meal_plan_recipes(current_recipes)
 
     with st.container(border=True):
+        st.markdown("### Fonte offerte")
+        st.write("Le offerte sono lette automaticamente dal Google Sheet pubblicato.")
+        st.caption("Cache automatica: circa ogni 30 minuti. Usa il bottone per forzare subito la rilettura.")
+        st.code(REMOTE_OFFERS_CSV_URL)
+
+        if st.button("Aggiorna offerte ora", key="refresh_offers_admin"):
+            st.cache_data.clear()
+            st.success("Cache svuotata. Rileggo subito le offerte dal Google Sheet.")
+            st.rerun()
+
+        source_col1, source_col2, source_col3 = st.columns(3)
+
+        with source_col1:
+            st.metric("Offerte caricate", len(offers_data))
+
+        with source_col2:
+            st.metric("Punti vendita", len(stores_data))
+
+        with source_col3:
+            st.metric("Fonte", "Google Sheet")
+
+        if st.button("Aggiorna offerte ora", key="refresh_offers_top"):
+            st.cache_data.clear()
+            st.success("Cache svuotata. Rileggo subito le offerte dal Google Sheet.")
+            st.rerun()
+
+        if not offers_data:
+            st.warning(
+                "Non vedo offerte caricate. Controlla che il Google Sheet abbia intestazioni corrette "
+                "e almeno una riga di offerte, poi clicca Aggiorna offerte ora."
+            )
+
+    with st.container(border=True):
         st.markdown("### Scegli cosa vuoi ottimizzare")
 
         recipe_titles = ["Nessuna ricetta"] + [
