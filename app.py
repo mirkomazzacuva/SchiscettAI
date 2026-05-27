@@ -101,6 +101,26 @@ def load_json(file_path):
 
 def clean_offers_dataframe(df):
     df = df.fillna("")
+
+    # Elimina righe completamente vuote o righe senza campi minimi.
+    core_fields = ["id", "store_id", "ingredient", "product_name", "price"]
+
+    for field in core_fields:
+        if field not in df.columns:
+            df[field] = ""
+
+    df = df[
+        df[core_fields]
+        .astype(str)
+        .apply(lambda row: any(value.strip() for value in row), axis=1)
+    ]
+
+    df = df[
+        df[["store_id", "ingredient", "product_name"]]
+        .astype(str)
+        .apply(lambda row: all(value.strip() for value in row), axis=1)
+    ]
+
     offers = df.to_dict(orient="records")
 
     for offer in offers:
@@ -1851,11 +1871,18 @@ elif st.session_state.page == "Gestione offerte":
         st.markdown("### Come aggiornare le offerte reali")
 
         st.write(
-            "1. Apri `data/offers_template.csv` su GitHub.\n"
-            "2. Sostituisci o aggiungi righe usando gli stessi nomi colonna.\n"
-            "3. Usa `store_id` identici a quelli presenti in `data/stores.json`.\n"
-            "4. Salva e fai commit.\n"
-            "5. Aggiorna Streamlit con `CTRL + F5`."
+            "1. Apri il Google Sheet **SchiscettAI offerte**.\n"
+            "2. Inserisci le offerte dalla riga 2 in poi.\n"
+            "3. Non cambiare i nomi delle colonne nella prima riga.\n"
+            "4. Usa `store_id` identici a quelli presenti in `data/stores.json`.\n"
+            "5. Lascia vuote zero righe intermedie: ogni offerta deve avere almeno `store_id`, `ingredient`, `product_name` e `price`.\n"
+            "6. Attendi qualche minuto e aggiorna Streamlit con `CTRL + F5`.\n"
+            "7. Se vuoi forzare subito l'aggiornamento, riavvia l'app da Streamlit Cloud."
+        )
+
+        st.info(
+            "Da ora non serve più modificare `data/offers_template.csv` per aggiornare le offerte. "
+            "Quel file resta solo come backup/template locale. La fonte principale è il Google Sheet."
         )
 
         st.download_button(
@@ -1876,7 +1903,10 @@ elif st.session_state.page == "Gestione offerte":
     st.markdown("### Offerte caricate")
 
     if not offers_data:
-        st.warning("Nessuna offerta caricata.")
+        st.warning(
+            "Nessuna offerta caricata. Controlla che il Google Sheet abbia almeno una riga di dati "
+            "oltre alle intestazioni e che sia pubblicato come CSV."
+        )
     else:
         offers_rows = offer_rows(offers_data, stores_by_id)
         st.dataframe(pd.DataFrame(offers_rows), use_container_width=True, hide_index=True)
