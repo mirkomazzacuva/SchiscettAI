@@ -1865,7 +1865,12 @@ elif st.session_state.page == "Gestione offerte":
         st.markdown("### Fonte offerte automatica")
         st.write("Google Sheet pubblicato come CSV:")
         st.code(REMOTE_OFFERS_CSV_URL)
-        st.caption("Cache aggiornamento: circa ogni 30 minuti. Per forzare prima, riavvia l'app da Streamlit Cloud.")
+        st.caption("Cache aggiornamento: circa ogni 30 minuti.")
+
+        if st.button("Aggiorna offerte ora"):
+            st.cache_data.clear()
+            st.success("Cache svuotata. Rileggo subito le offerte dal Google Sheet.")
+            st.rerun()
 
     with st.container(border=True):
         st.markdown("### Come aggiornare le offerte reali")
@@ -1877,7 +1882,7 @@ elif st.session_state.page == "Gestione offerte":
             "4. Usa `store_id` identici a quelli presenti in `data/stores.json`.\n"
             "5. Lascia vuote zero righe intermedie: ogni offerta deve avere almeno `store_id`, `ingredient`, `product_name` e `price`.\n"
             "6. Attendi qualche minuto e aggiorna Streamlit con `CTRL + F5`.\n"
-            "7. Se vuoi forzare subito l'aggiornamento, riavvia l'app da Streamlit Cloud."
+            "7. Se vuoi forzare subito l'aggiornamento, clicca **Aggiorna offerte ora** in questa pagina."
         )
 
         st.info(
