@@ -1250,12 +1250,11 @@ cluster_groups = recipes_by_cluster(all_recipes)
 pages = [
     "Home",
     "Crea schiscetta",
-    "Ricette",
-    "Preferiti",
-    "Lista spesa",
     "Spesa smart",
-    "Gestione offerte",
+    "Ricette",
+    "Lista spesa",
     "Meal plan",
+    "Preferiti",
 ]
 
 st.sidebar.title("🍱 SchiscettAI")
@@ -1269,7 +1268,7 @@ selected_page = st.sidebar.radio(
 st.session_state.page = selected_page
 
 st.sidebar.divider()
-st.sidebar.caption("MVP gratuito")
+st.sidebar.caption("Smart lunch planner")
 st.sidebar.caption("GitHub + Streamlit + database locale")
 st.sidebar.caption("Offerte: Google Sheet automatico")
 st.sidebar.caption(f"Ricette modulari create: {len(st.session_state.custom_recipes)}")
@@ -1325,18 +1324,18 @@ if st.session_state.page == "Home":
 
     with col2:
         with st.container(border=True):
-            st.markdown("### ✨ Esplora")
-            st.write("Filtra il catalogo per obiettivo, tempo, ingredienti, tag e cluster.")
-            if st.button("Vai alle ricette"):
-                go_to("Ricette")
+            st.markdown("### 🛒 Spesa smart")
+            st.write("Trova offerte vicino al tuo CAP e scopri quali schiscette convengono oggi.")
+            if st.button("Vai a Spesa smart"):
+                go_to("Spesa smart")
                 st.rerun()
 
     with col3:
         with st.container(border=True):
-            st.markdown("### 🛒 Organizza")
-            st.write("Salva preferiti, crea il meal plan e genera la lista della spesa.")
-            if st.button("Vai alla lista spesa"):
-                go_to("Lista spesa")
+            st.markdown("### ✨ Esplora")
+            st.write("Filtra ricette, salva preferiti e costruisci il meal plan della settimana.")
+            if st.button("Vai alle ricette"):
+                go_to("Ricette")
                 st.rerun()
 
     st.write("")
@@ -1664,8 +1663,7 @@ elif st.session_state.page == "Spesa smart":
     st.markdown("## Spesa smart")
 
     st.info(
-        "Demo Siena: puoi inserire un CAP per centrare la mappa. I punti vendita e le offerte sono dati dimostrativi/manuali. "
-        "Le coordinate e i prezzi vanno verificati prima di usare la funzione come dato reale."
+        "Beta Siena: inserisci il CAP, scegli il raggio e SchiscettAI incrocia ricette, lista spesa, negozi vicini e offerte lette dal Google Sheet."
     )
 
     current_recipes = combined_recipes()
@@ -1960,25 +1958,8 @@ elif st.session_state.page == "Spesa smart":
                 ):
                     save_favorite(recipe["id"])
 
-    st.write("")
-    st.markdown("### Come evolverà questa funzione")
-    st.write(
-        "Ora usiamo Google Sheet/CSV aggiornabile. Il prossimo step sarà collegare volantini reali "
-        "e fonti ufficiali o scraping controllato dove consentito."
-    )
 
-
-
-
-elif st.session_state.page == "Gestione offerte":
-    st.markdown("## Gestione offerte")
-
-    st.write(
-        "Questa sezione serve per aggiornare le offerte senza toccare il codice. "
-        "L'app legge prima il Google Sheet pubblicato come CSV; se non riesce, usa `data/offers_template.csv`; se anche quello non è disponibile, usa `data/offers.json` come fallback."
-    )
-
-    with st.container(border=True):
+    with st.expander("Admin offerte", expanded=False):
         st.markdown("### Fonte offerte automatica")
         st.write("Google Sheet pubblicato come CSV:")
         st.code(REMOTE_OFFERS_CSV_URL)
@@ -1989,29 +1970,13 @@ elif st.session_state.page == "Gestione offerte":
             st.success("Cache svuotata. Rileggo subito le offerte dal Google Sheet.")
             st.rerun()
 
-    with st.container(border=True):
-        st.markdown("### Come aggiornare le offerte reali")
-
+        st.markdown("### Come aggiornare le offerte")
         st.write(
             "1. Apri il Google Sheet **SchiscettAI offerte**.\n"
             "2. Inserisci le offerte dalla riga 2 in poi.\n"
             "3. Non cambiare i nomi delle colonne nella prima riga.\n"
             "4. Usa `store_id` identici a quelli presenti in `data/stores.json`.\n"
-            "5. Lascia vuote zero righe intermedie: ogni offerta deve avere almeno `store_id`, `ingredient`, `product_name` e `price`.\n"
-            "6. Attendi qualche minuto e aggiorna Streamlit con `CTRL + F5`.\n"
-            "7. Se vuoi forzare subito l'aggiornamento, clicca **Aggiorna offerte ora** in questa pagina."
-        )
-
-        st.info(
-            "Da ora non serve più modificare `data/offers_template.csv` per aggiornare le offerte. "
-            "Quel file resta solo come backup/template locale. La fonte principale è il Google Sheet."
-        )
-
-        st.download_button(
-            "Scarica template CSV vuoto/esempio",
-            data=offers_template_text(),
-            file_name="offers_template.csv",
-            mime="text/csv",
+            "5. Attendi qualche minuto o clicca **Aggiorna offerte ora**."
         )
 
         st.download_button(
@@ -2021,66 +1986,50 @@ elif st.session_state.page == "Gestione offerte":
             mime="text/csv",
         )
 
-    st.write("")
-    st.markdown("### Offerte caricate")
+        issues = validate_offers(offers_data, stores_by_id)
 
-    if not offers_data:
-        st.warning(
-            "Nessuna offerta caricata. Controlla che il Google Sheet abbia almeno una riga di dati "
-            "oltre alle intestazioni e che sia pubblicato come CSV."
-        )
-    else:
-        offers_rows = offer_rows(offers_data, stores_by_id)
-        st.dataframe(pd.DataFrame(offers_rows), use_container_width=True, hide_index=True)
+        q1, q2, q3 = st.columns(3)
 
-    st.write("")
-    st.markdown("### Controllo qualità offerte")
+        with q1:
+            st.metric("Offerte caricate", len(offers_data))
 
-    issues = validate_offers(offers_data, stores_by_id)
+        with q2:
+            st.metric("Punti vendita", len(stores_data))
 
-    q1, q2, q3 = st.columns(3)
+        with q3:
+            st.metric("Problemi trovati", len(issues))
 
-    with q1:
-        st.metric("Offerte caricate", len(offers_data))
+        if not issues:
+            st.success("Formato offerte OK.")
+        else:
+            st.warning("Sono stati trovati problemi da correggere nel Google Sheet.")
+            st.dataframe(pd.DataFrame(issues), use_container_width=True, hide_index=True)
 
-    with q2:
-        st.metric("Punti vendita", len(stores_data))
+        st.markdown("### Store ID disponibili")
 
-    with q3:
-        st.metric("Problemi trovati", len(issues))
+        stores_table = []
 
-    if not issues:
-        st.success("Formato offerte OK: nessun problema evidente trovato.")
-    else:
-        st.warning("Sono stati trovati problemi da correggere nel CSV.")
-        st.dataframe(pd.DataFrame(issues), use_container_width=True, hide_index=True)
+        for store in stores_data:
+            stores_table.append(
+                {
+                    "store_id": store.get("id", ""),
+                    "nome": store.get("name", ""),
+                    "catena": store.get("chain", ""),
+                    "tipo": store.get("type", ""),
+                    "zona": store.get("area", ""),
+                    "indirizzo": store.get("address", ""),
+                }
+            )
 
-    st.write("")
-    st.markdown("### Store ID disponibili")
+        if stores_table:
+            st.dataframe(pd.DataFrame(stores_table), use_container_width=True, hide_index=True)
 
-    stores_table = []
-
-    for store in stores_data:
-        stores_table.append(
-            {
-                "store_id": store.get("id", ""),
-                "nome": store.get("name", ""),
-                "catena": store.get("chain", ""),
-                "tipo": store.get("type", ""),
-                "zona": store.get("area", ""),
-                "indirizzo": store.get("address", ""),
-            }
-        )
-
-    if stores_table:
-        st.dataframe(pd.DataFrame(stores_table), use_container_width=True, hide_index=True)
 
     st.write("")
-    st.markdown("### Regole importanti")
-    st.info(
-        "Per la demo va bene aggiornare il CSV manualmente. "
-        "Per le offerte reali, bisogna indicare sempre fonte, data validità e verificare i prezzi. "
-        "Lo scraping automatico arriverà solo dopo, e solo da fonti dove è consentito."
+    st.markdown("### Come evolverà questa funzione")
+    st.write(
+        "Ora usiamo Google Sheet/CSV aggiornabile. Il prossimo step sarà collegare volantini reali "
+        "e fonti ufficiali o scraping controllato dove consentito."
     )
 
 
