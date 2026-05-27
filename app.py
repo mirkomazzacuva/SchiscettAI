@@ -464,6 +464,197 @@ def parse_price(value):
 
 
 
+
+# =========================================================
+# PENNY Parser v1 - experimental and safe
+# =========================================================
+
+PENNY_OFFERS_URL = "https://www.penny.it/offerte"
+
+
+def price_to_float(value):
+    text = str(value or "").replace("€", "").replace(",", ".").strip()
+
+    try:
+        return float(text)
+    except ValueError:
+        return None
+
+
+def infer_ingredient_from_product_text(product_text):
+    text = normalize_for_match(product_text) if "normalize_for_match" in globals() else normalize_text(product_text)
+
+    mapping = [
+        ("pollo", "pollo"),
+        ("tacchino", "tacchino"),
+        ("tonno", "tonno"),
+        ("uova", "uova"),
+        ("yogurt", "yogurt"),
+        ("hipro", "yogurt proteico"),
+        ("tofu", "tofu"),
+        ("ceci", "ceci"),
+        ("fagioli", "fagioli"),
+        ("cannellini", "fagioli"),
+        ("piselli", "piselli"),
+        ("pasta integrale", "pasta integrale"),
+        ("fusilli", "pasta integrale"),
+        ("penne", "pasta integrale"),
+        ("spaghetti", "pasta integrale"),
+        ("riso", "riso"),
+        ("basmati", "riso basmati"),
+        ("farro", "farro"),
+        ("couscous", "couscous"),
+        ("passata", "passata pomodoro"),
+        ("pomodoro", "pomodoro"),
+        ("zucchine", "zucchine"),
+        ("carote", "carote"),
+        ("carciofi", "carciofi"),
+        ("patate", "patate"),
+        ("olio", "olio EVO"),
+        ("limone", "limone"),
+        ("feta", "feta"),
+        ("mozzarella", "mozzarella"),
+        ("pane", "pane"),
+        ("wrap", "wrap"),
+        ("piadina", "piadina"),
+    ]
+
+    for keyword, ingredient in mapping:
+        if keyword in text:
+            return ingredient
+
+    words = [word for word in text.split() if len(word) > 3]
+
+    if words:
+        return words[0]
+
+    return "offerta"
+
+
+def clean_offer_snippet(snippet):
+    snippet = html.unescape(str(snippet or ""))
+    snippet = re.sub(r"\s+", " ", snippet)
+    snippet = snippet.strip(" -–—|•·")
+    return snippet[:160]
+
+
+def extract_price_snippets_from_text(text_body):
+    cleaned = re.sub(r"<script.*?</script>", " ", text_body, flags=re.S | re.I)
+    cleaned = re.sub(r"<style.*?</style>", " ", cleaned, flags=re.S | re.I)
+    cleaned = re.sub(r"<[^>]+>", " ", cleaned)
+    cleaned = html.unescape(cleaned)
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+
+    pattern = re.compile(
+        r"(?P<before>.{0,90})(?P<price>\d{1,3}[,.]\d{2})\s*€(?P<after>.{0,80})",
+        flags=re.I,
+    )
+
+    results = []
+    seen = set()
+
+    for match in pattern.finditer(cleaned):
+        price_raw = match.group("price")
+        price = price_to_float(price_raw)
+
+        if price is None:
+            continue
+
+        snippet = clean_offer_snippet(match.group("before") + price_raw + " €" + match.group("after"))
+
+        if len(snippet) < 12:
+            continue
+
+        # Keep likely grocery/product snippets, avoid footer/legal/cookie noise when possible.
+        bad_words = ["privacy", "cookie", "newsletter", "diritto", "termini", "accessibilità", "javascript"]
+        if any(word in normalize_text(snippet) for word in bad_words):
+            continue
+
+        key = normalize_text(snippet)
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+        results.append(
+            {
+                "snippet": snippet,
+                "price": price,
+            }
+        )
+
+        if len(results) >= 25:
+            break
+
+    return results
+
+
+@st.cache_data(ttl=3600)
+def fetch_penny_offers_v1():
+    try:
+        response = requests.get(
+            PENNY_OFFERS_URL,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/125.0 Safari/537.36 SchiscettAI/1.0"
+                ),
+                "Accept": "text/html,text/plain,*/*",
+            },
+            timeout=18,
+            allow_redirects=True,
+        )
+
+        if response.status_code != 200:
+            return {
+                "ok": False,
+                "message": f"PENNY non leggibile ora: HTTP {response.status_code}",
+                "offers": [],
+            }
+
+        snippets = extract_price_snippets_from_text(response.text)
+
+        offers = []
+
+        for index, item in enumerate(snippets, start=1):
+            snippet = item["snippet"]
+            ingredient = infer_ingredient_from_product_text(snippet)
+
+            offers.append(
+                {
+                    "id": f"penny_web_{index:03d}",
+                    "store_id": "penny_web",
+                    "chain": "PENNY",
+                    "ingredient": ingredient,
+                    "product_name": snippet,
+                    "price": item["price"],
+                    "unit": "web",
+                    "old_price": "",
+                    "valid_from": "",
+                    "valid_until": "",
+                    "source": PENNY_OFFERS_URL,
+                    "category": "offerte web",
+                    "notes": "Estratta automaticamente dal parser PENNY v1. Da verificare sul sito ufficiale.",
+                    "origin": "web_penny",
+                }
+            )
+
+        return {
+            "ok": True,
+            "message": f"Parser PENNY v1: {len(offers)} offerte/snippet estratti.",
+            "offers": offers,
+        }
+
+    except Exception as error:
+        return {
+            "ok": False,
+            "message": f"Parser PENNY v1 non disponibile: {error}",
+            "offers": [],
+        }
+
+
+
 def deal_score_for_recipe(recipe, offers, stores_by_id):
     ingredients = [
         normalize_text(ingredient)
@@ -1280,7 +1471,7 @@ def classify_manual_offers(offers, stores_by_id, offer_sources):
     for offer in offers:
         item = dict(offer)
         item["chain_inferred"] = infer_offer_chain_v2(offer, stores_by_id, offer_sources)
-        item["offer_origin"] = "manual"
+        item["offer_origin"] = offer.get("origin", offer.get("offer_origin", "manual"))
         classified.append(item)
 
     return classified
@@ -2405,35 +2596,57 @@ elif st.session_state.page == "Spesa smart":
 
     with st.container(border=True):
         st.markdown("### Fonte offerte")
-        st.write("Le offerte sono lette automaticamente dal Google Sheet pubblicato.")
+        st.write(
+            "Le offerte strutturate arrivano dal Google Sheet/CSV manuale. "
+            "In più puoi attivare il primo parser sperimentale PENNY."
+        )
         st.caption("Cache automatica: circa ogni 30 minuti. Usa il bottone per forzare subito la rilettura.")
         st.code(REMOTE_OFFERS_CSV_URL)
 
-        if st.button("Aggiorna offerte ora", key="refresh_offers_admin"):
-            st.cache_data.clear()
-            st.success("Cache svuotata. Rileggo subito le offerte dal Google Sheet.")
-            st.rerun()
+        use_penny_parser = st.checkbox(
+            "Attiva parser PENNY v1 sperimentale",
+            value=True,
+        )
 
-        source_col1, source_col2, source_col3 = st.columns(3)
+        penny_parser_result = {
+            "ok": False,
+            "message": "Parser PENNY non attivo.",
+            "offers": [],
+        }
+
+        if use_penny_parser:
+            penny_parser_result = fetch_penny_offers_v1()
+
+        penny_web_offers = penny_parser_result.get("offers", [])
+        structured_offers = offers_data + penny_web_offers
+
+        source_col1, source_col2, source_col3, source_col4 = st.columns(4)
 
         with source_col1:
-            st.metric("Offerte caricate", len(offers_data))
+            st.metric("Offerte manuali", len(offers_data))
 
         with source_col2:
-            st.metric("Punti vendita", len(stores_data))
+            st.metric("PENNY web", len(penny_web_offers))
 
         with source_col3:
-            st.metric("Fonte", "Google Sheet")
+            st.metric("Totale offerte", len(structured_offers))
+
+        with source_col4:
+            st.metric("Punti vendita", len(stores_data))
+
+        if penny_parser_result.get("ok"):
+            st.success(penny_parser_result.get("message", "Parser PENNY completato."))
+        elif use_penny_parser:
+            st.info(penny_parser_result.get("message", "Parser PENNY non disponibile."))
 
         if st.button("Aggiorna offerte ora", key="refresh_offers_top"):
             st.cache_data.clear()
-            st.success("Cache svuotata. Rileggo subito le offerte dal Google Sheet.")
+            st.success("Cache svuotata. Rileggo offerte manuali e parser PENNY.")
             st.rerun()
 
-        if not offers_data:
+        if not structured_offers:
             st.warning(
-                "Non vedo offerte caricate. Controlla che il Google Sheet abbia intestazioni corrette "
-                "e almeno una riga di offerte, poi clicca Aggiorna offerte ora."
+                "Non vedo offerte caricate. Controlla il Google Sheet/CSV oppure disattiva e riattiva il parser PENNY."
             )
 
     with st.container(border=True):
@@ -2576,7 +2789,7 @@ elif st.session_state.page == "Spesa smart":
     )
 
     offer_engine = build_offer_engine_state(
-        offers_data,
+        structured_offers if "structured_offers" in locals() else offers_data,
         nearby_stores,
         stores_by_id,
         offer_sources_data,
@@ -2678,7 +2891,7 @@ elif st.session_state.page == "Spesa smart":
     o1, o2, o3, o4 = st.columns(4)
 
     with o1:
-        st.metric("Offerte Google Sheet", len(offers_data))
+        st.metric("Offerte strutturate", len(structured_offers if "structured_offers" in locals() else offers_data))
 
     with o2:
         st.metric("Negozi nel raggio", len(nearby_stores))
@@ -2691,7 +2904,7 @@ elif st.session_state.page == "Spesa smart":
 
     if not offers_data:
         st.warning(
-            "Non sto leggendo offerte dal Google Sheet. Apri Admin offerte e clicca Aggiorna offerte ora; "
+            "Non sto leggendo offerte strutturate. Apri Admin offerte e clicca Aggiorna offerte ora; "
             "se resta vuoto, controlla che il foglio pubblicato abbia intestazioni e righe compilate."
         )
 
