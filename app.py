@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from collections import Counter
+from io import StringIO
 from math import radians, sin, cos, sqrt, atan2
 
 import pandas as pd
@@ -141,7 +142,35 @@ def load_offers_from_remote_csv(csv_url):
     if not csv_url:
         return []
 
-    df = pd.read_csv(csv_url)
+    response = requests.get(
+        csv_url,
+        headers={
+            "User-Agent": "SchiscettAI/1.0 Streamlit offers reader",
+            "Accept": "text/csv,text/plain,*/*",
+        },
+        timeout=20,
+    )
+
+    if response.status_code != 200:
+        preview = response.text[:300] if response.text else ""
+        raise RuntimeError(
+            f"Google Sheet HTTP {response.status_code}. "
+            f"Risposta iniziale: {preview}"
+        )
+
+    csv_text = response.text.strip()
+
+    if not csv_text:
+        raise RuntimeError("Google Sheet vuoto o risposta CSV vuota.")
+
+    if "id,store_id,ingredient,product_name" not in csv_text[:500]:
+        preview = csv_text[:300]
+        raise RuntimeError(
+            "Il CSV pubblicato non sembra avere le intestazioni corrette. "
+            f"Inizio file: {preview}"
+        )
+
+    df = pd.read_csv(StringIO(csv_text))
     return clean_offers_dataframe(df)
 
 
@@ -154,7 +183,7 @@ def load_offers_data(remote_csv_url, local_csv_path, json_path):
         except Exception as error:
             st.warning(
                 "Non riesco a leggere il Google Sheet pubblicato. "
-                f"Uso il CSV locale o il JSON di fallback. Errore: {error}"
+                f"Uso il CSV locale o il JSON di fallback. Dettaglio: {error}"
             )
 
     csv_file = Path(local_csv_path)
