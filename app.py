@@ -1,7 +1,9 @@
 import json
+import html
 from pathlib import Path
 from collections import Counter
 from io import StringIO
+from urllib.parse import urlparse, parse_qs
 from math import radians, sin, cos, sqrt, atan2
 
 import pandas as pd
@@ -137,41 +139,105 @@ def clean_offers_dataframe(df):
     return offers
 
 
+
+def google_sheet_csv_url_variants(csv_url):
+    clean_url = html.unescape(str(csv_url).strip())
+    variants = []
+
+    def add(url):
+        if url and url not in variants:
+            variants.append(url)
+
+    add(clean_url)
+
+    parsed = urlparse(clean_url)
+    query = parse_qs(parsed.query)
+    gid = query.get("gid", ["0"])[0]
+
+    if "/spreadsheets/d/e/" in clean_url:
+        try:
+            pub_id = clean_url.split("/spreadsheets/d/e/", 1)[1].split("/", 1)[0]
+
+            add(f"https://docs.google.com/spreadsheets/d/e/{pub_id}/pub?output=csv&gid={gid}")
+            add(f"https://docs.google.com/spreadsheets/d/e/{pub_id}/pub?gid={gid}&output=csv")
+            add(f"https://docs.google.com/spreadsheets/d/e/{pub_id}/pub?single=true&output=csv&gid={gid}")
+            add(f"https://docs.google.com/spreadsheets/d/e/{pub_id}/pub?gid={gid}&single=true&output=csv")
+            add(f"https://docs.google.com/spreadsheets/d/e/{pub_id}/gviz/tq?tqx=out:csv&gid={gid}")
+        except Exception:
+            pass
+
+    if "/spreadsheets/d/" in clean_url and "/spreadsheets/d/e/" not in clean_url:
+        try:
+            sheet_id = clean_url.split("/spreadsheets/d/", 1)[1].split("/", 1)[0]
+
+            add(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid={gid}")
+            add(f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&gid={gid}")
+        except Exception:
+            pass
+
+    return variants
+
+
+def response_looks_like_csv(text_value):
+    if not text_value:
+        return False
+
+    start = text_value.strip()[:500].lower()
+
+    if start.startswith("<!doctype") or start.startswith("<html") or "<html" in start:
+        return False
+
+    return "id,store_id,ingredient,product_name" in start
+
+
 @st.cache_data(ttl=1800)
 def load_offers_from_remote_csv(csv_url):
     if not csv_url:
         return []
 
-    response = requests.get(
-        csv_url,
-        headers={
-            "User-Agent": "SchiscettAI/1.0 Streamlit offers reader",
-            "Accept": "text/csv,text/plain,*/*",
-        },
-        timeout=20,
+    attempted = []
+    last_preview = ""
+
+    for candidate_url in google_sheet_csv_url_variants(csv_url):
+        try:
+            response = requests.get(
+                candidate_url,
+                headers={
+                    "User-Agent": (
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) "
+                        "Chrome/125.0 Safari/537.36 SchiscettAI/1.0"
+                    ),
+                    "Accept": "text/csv,text/plain,*/*",
+                },
+                timeout=20,
+                allow_redirects=True,
+            )
+
+            preview = response.text[:300] if response.text else ""
+            last_preview = preview
+            attempted.append(f"{response.status_code} - {candidate_url}")
+
+            if response.status_code != 200:
+                continue
+
+            csv_text = response.text.strip()
+
+            if not response_looks_like_csv(csv_text):
+                last_preview = csv_text[:300]
+                continue
+
+            df = pd.read_csv(StringIO(csv_text))
+            return clean_offers_dataframe(df)
+
+        except Exception as error:
+            attempted.append(f"ERRORE - {candidate_url} - {error}")
+
+    raise RuntimeError(
+        "Non ho trovato un URL CSV valido tra le varianti provate. "
+        f"Tentativi: {' | '.join(attempted[:6])}. "
+        f"Ultima risposta iniziale: {last_preview}"
     )
-
-    if response.status_code != 200:
-        preview = response.text[:300] if response.text else ""
-        raise RuntimeError(
-            f"Google Sheet HTTP {response.status_code}. "
-            f"Risposta iniziale: {preview}"
-        )
-
-    csv_text = response.text.strip()
-
-    if not csv_text:
-        raise RuntimeError("Google Sheet vuoto o risposta CSV vuota.")
-
-    if "id,store_id,ingredient,product_name" not in csv_text[:500]:
-        preview = csv_text[:300]
-        raise RuntimeError(
-            "Il CSV pubblicato non sembra avere le intestazioni corrette. "
-            f"Inizio file: {preview}"
-        )
-
-    df = pd.read_csv(StringIO(csv_text))
-    return clean_offers_dataframe(df)
 
 
 def load_offers_data(remote_csv_url, local_csv_path, json_path):
