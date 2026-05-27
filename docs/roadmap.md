@@ -16,35 +16,44 @@ Funzioni attive:
 - ricerca punti vendita tramite OpenStreetMap/Overpass
 - mappa interattiva
 - offerte manuali/CSV come fonte strutturata
-- Offer Engine v1 per separare offerte manuali, catene trovate e fonti web future
+- Offer Engine v1
+- Parser PENNY v1 sperimentale
 
 ## Offer Engine v1
 
-Obiettivo: rendere stabile la logica offerte prima di collegare parser automatici.
-
-Il motore ora distingue:
+Il motore distingue:
 
 - offerte manuali/CSV
+- offerte web future
 - supermercati trovati nel raggio
 - catene riconosciute
 - fonti web mappate
-- parser ancora da collegare
+- parser collegati o ancora da collegare
 
-La UI mostra perché una catena non ha ancora offerte automatiche e mantiene visibili le offerte manuali come fallback.
+## Parser PENNY v1
+
+Il primo parser dedicato è sperimentale e sicuro:
+
+- usa la pagina ufficiale PENNY offerte
+- non blocca l'app se il sito non risponde
+- estrae snippet con prezzi quando leggibili
+- normalizza alcune parole chiave in ingredienti
+- aggiunge le offerte come `origin = web_penny`
+- mantiene il Google Sheet/CSV come fallback manuale
 
 ## Prossimi step
 
-1. Collegare il primo parser dedicato per una sola catena.
-2. Testare il parser su dati reali e limitarlo per non rompere l'app.
-3. Salvare le offerte web in una struttura compatibile con le offerte manuali.
-4. Unire offerte manuali e offerte web con campo `origin`.
-5. Aggiungere filtro fonte: manuale / web / tutte.
-6. Calcolare convenienza per lista spesa completa.
+1. Testare Parser PENNY v1 su Streamlit.
+2. Migliorare estrazione nome prodotto / ingrediente.
+3. Aggiungere filtro fonte: manuale / PENNY web / tutte.
+4. Evitare duplicati tra offerte manuali e web.
+5. Aggiungere data validità quando disponibile.
+6. Collegare il secondo parser: Coop o Conad.
 7. Migliorare ranking negozio consigliato.
-8. Aggiungere data validità e avvisi offerte scadute.
-9. Preparare import/export offerte.
-10. Aggiornare README con uso e limiti della funzione Spesa smart.
+8. Calcolare convenienza per lista spesa completa.
+9. Aggiungere avvisi offerte scadute.
+10. Aggiornare README con limiti parser e fonti.
 
 ## Regola tecnica
 
-Non fare scraping live fragile nella UI principale. Ogni fonte web deve avere un parser dedicato, isolato e con fallback.
+Ogni fonte web deve avere un parser dedicato, isolato e con fallback. Non fare scraping fragile direttamente nella UI principale.
