@@ -9,7 +9,7 @@
     "mode": "official_page",
     "url": "https://www.penny.it/offerte",
     "status": "ready_to_parse",
-    "notes": "Pagina ufficiale offerte. Parser automatico da implementare nello step successivo."
+    "notes": "Pagina ufficiale offerte PENNY. Buona candidata per parser dedicato."
   },
   {
     "chain": "Coop",
@@ -22,8 +22,8 @@
     ],
     "mode": "official_page",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
-    "status": "source_available",
-    "notes": "Fonte ufficiale offerte e volantini Coop Firenze. Da collegare con parser dedicato."
+    "status": "source_available_dynamic",
+    "notes": "Fonte ufficiale Unicoop Firenze. La pagina può richiedere negozio preferito o sezioni dinamiche."
   },
   {
     "chain": "Conad",
@@ -34,9 +34,9 @@
       "sapori e dintorni conad"
     ],
     "mode": "official_page",
-    "url": "https://volantini.conad.it/",
-    "status": "source_available",
-    "notes": "Fonte volantini/offerte Conad. Da collegare con parser dedicato."
+    "url": "https://www.conad.it/app-internal/home_leaflets",
+    "status": "source_available_dynamic",
+    "notes": "Fonte ufficiale Conad per negozi e volantini. Spesso richiede selezione negozio."
   },
   {
     "chain": "PAM",
@@ -49,7 +49,7 @@
     "mode": "official_page_or_app",
     "url": "https://www.pampanorama.it/",
     "status": "dynamic_source",
-    "notes": "Fonte potenzialmente dinamica/app. Richiede verifica tecnica prima del parser."
+    "notes": "Fonte dinamica/app. Richiede verifica tecnica prima del parser."
   },
   {
     "chain": "Lidl",
@@ -68,8 +68,8 @@
     ],
     "mode": "official_page",
     "url": "https://www.eurospin.it/volantino/",
-    "status": "source_available",
-    "notes": "Fonte ufficiale volantino Eurospin. Da collegare con parser dedicato."
+    "status": "source_available_dynamic",
+    "notes": "Fonte ufficiale volantino Eurospin. Può richiedere parser dedicato o dati dinamici."
   },
   {
     "chain": "Esselunga",
@@ -78,7 +78,7 @@
     ],
     "mode": "official_page",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-    "status": "source_available",
+    "status": "source_available_dynamic",
     "notes": "Fonte ufficiale volantino Esselunga. Da collegare con parser dedicato."
   },
   {
@@ -89,9 +89,9 @@
       "carrefour express"
     ],
     "mode": "official_page",
-    "url": "https://www.carrefour.it/offerte-volantino/",
-    "status": "source_available",
-    "notes": "Fonte ufficiale offerte/volantino Carrefour. Da collegare con parser dedicato."
+    "url": "https://www.carrefour.it/promozioni/",
+    "status": "ready_to_parse",
+    "notes": "Fonte ufficiale promozioni Carrefour. La pagina contiene promozioni e prezzi leggibili."
   },
   {
     "chain": "MD",
@@ -101,7 +101,7 @@
     ],
     "mode": "official_page",
     "url": "https://www.mdspa.it/volantino/",
-    "status": "source_available",
+    "status": "source_available_dynamic",
     "notes": "Fonte ufficiale volantino MD. Da collegare con parser dedicato."
   }
 ]
