@@ -1,4 +1,5 @@
 import json
+import re
 import html
 from pathlib import Path
 from collections import Counter
@@ -1067,89 +1068,13 @@ def merge_discovered_and_manual_stores(discovered_stores, manual_stores, user_la
 
 
 
-@st.cache_data(ttl=3600)
 def fetch_offer_source_preview(url):
-    if not url:
-        return {
-            "status": "no_url",
-            "ok": False,
-            "message": "URL non configurato",
-            "matches": [],
-        }
-
-    try:
-        response = requests.get(
-            url,
-            headers={
-                "User-Agent": (
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) "
-                    "Chrome/125.0 Safari/537.36 SchiscettAI/1.0"
-                ),
-                "Accept": "text/html,text/plain,*/*",
-            },
-            timeout=15,
-            allow_redirects=True,
-        )
-
-        text_body = response.text or ""
-
-        if response.status_code != 200:
-            return {
-                "status": f"http_{response.status_code}",
-                "ok": False,
-                "message": f"HTTP {response.status_code}",
-                "matches": [],
-            }
-
-        cleaned = re.sub(r"<script.*?</script>", " ", text_body, flags=re.S | re.I)
-        cleaned = re.sub(r"<style.*?</style>", " ", cleaned, flags=re.S | re.I)
-        cleaned = re.sub(r"<[^>]+>", " ", cleaned)
-        cleaned = re.sub(r"\s+", " ", cleaned).strip()
-
-        price_patterns = [
-            r".{0,80}\b\d{1,3},\d{2}\s*€.{0,120}",
-            r".{0,80}€\s*\d{1,3},\d{2}.{0,120}",
-            r".{0,80}\b\d{1,3}\.\d{2}\s*€.{0,120}",
-        ]
-
-        matches = []
-
-        for pattern in price_patterns:
-            for match in re.finditer(pattern, cleaned, flags=re.I):
-                snippet = match.group(0).strip()
-
-                if snippet and snippet not in matches:
-                    matches.append(snippet)
-
-                if len(matches) >= 8:
-                    break
-
-            if len(matches) >= 8:
-                break
-
-        if matches:
-            return {
-                "status": "ok",
-                "ok": True,
-                "message": "Fonte raggiunta, possibili offerte/prezzi trovati.",
-                "matches": matches[:8],
-            }
-
-        return {
-            "status": "ok_no_prices",
-            "ok": True,
-            "message": "Fonte raggiunta, ma non ho trovato prezzi leggibili nel testo HTML.",
-            "matches": [],
-        }
-
-    except Exception as error:
-        return {
-            "status": "error",
-            "ok": False,
-            "message": str(error),
-            "matches": [],
-        }
+    return {
+        "status": "parser_pending",
+        "ok": False,
+        "message": "Fonte predisposta. Parser dedicato da collegare nello step successivo.",
+        "matches": [],
+    }
 
 
 def web_sources_for_nearby_chains(nearby_stores, offer_sources):
@@ -1172,21 +1097,19 @@ def web_sources_for_nearby_chains(nearby_stores, offer_sources):
                     "catena": chain,
                     "stato": "not_configured",
                     "fonte": "",
-                    "risultato": "Fonte non ancora configurata",
-                    "preview": "",
+                    "prossimo_step": "Fonte da configurare",
+                    "note": "Catena trovata nel raggio ma non ancora mappata.",
                 }
             )
             continue
-
-        preview = fetch_offer_source_preview(source.get("url", ""))
 
         rows.append(
             {
                 "catena": chain,
                 "stato": source.get("status", "source_available"),
                 "fonte": source.get("url", ""),
-                "risultato": preview.get("message", ""),
-                "preview": " | ".join(preview.get("matches", [])[:2]),
+                "prossimo_step": "Parser dedicato",
+                "note": source.get("notes", ""),
             }
         )
 
@@ -1208,15 +1131,24 @@ def web_offer_preview_cards(nearby_stores, offer_sources):
         source = get_offer_source_for_chain(chain, offer_sources)
 
         if not source:
+            cards.append(
+                {
+                    "chain": chain,
+                    "source": {
+                        "url": "",
+                        "status": "not_configured",
+                        "notes": "Fonte da configurare.",
+                    },
+                    "preview": fetch_offer_source_preview(""),
+                }
+            )
             continue
-
-        preview = fetch_offer_source_preview(source.get("url", ""))
 
         cards.append(
             {
                 "chain": chain,
                 "source": source,
-                "preview": preview,
+                "preview": fetch_offer_source_preview(source.get("url", "")),
             }
         )
 
@@ -2438,10 +2370,10 @@ elif st.session_state.page == "Spesa smart":
         with st.expander("Fonti offerte per le catene trovate", expanded=False):
             st.dataframe(pd.DataFrame(source_rows), use_container_width=True, hide_index=True)
 
-    with st.expander("Check fonti web ufficiali", expanded=False):
+    with st.expander("Fonti web predisposte", expanded=False):
         st.write(
             "Controllo sperimentale: l'app prova a raggiungere le fonti ufficiali delle catene trovate. "
-            "Per ora mostra lo stato e alcuni testi/prezzi leggibili, senza usarli ancora come offerte strutturate."
+            "Per ora mostra lo stato e alcuni testi/prezzi leggibili, senza usarli ancora come offerte strutturate. Alcuni siti sono dinamici o richiedono negozio preferito, quindi serviranno parser dedicati."
         )
 
         web_source_rows = web_sources_for_nearby_chains(nearby_stores, offer_sources_data)
@@ -2534,7 +2466,7 @@ elif st.session_state.page == "Spesa smart":
                 st.write(f"Distanza indicativa: {distance:.1f} km")
 
     st.write("")
-    st.markdown("### Preview offerte web")
+    st.markdown("### Parser offerte web")
 
     web_cards = web_offer_preview_cards(nearby_stores, offer_sources_data)
 
@@ -2550,20 +2482,8 @@ elif st.session_state.page == "Spesa smart":
                 st.markdown(f"#### {chain}")
                 st.caption(source.get("url", ""))
 
-                if preview.get("ok"):
-                    st.success(preview.get("message", "Fonte raggiunta."))
-                else:
-                    st.warning(preview.get("message", "Fonte non raggiunta."))
-
-                matches = preview.get("matches", [])
-
-                if matches:
-                    for snippet in matches[:3]:
-                        st.write(f"- {snippet}")
-                else:
-                    st.caption(
-                        "Nessuna offerta strutturata estratta. Questa fonte richiederà un parser dedicato."
-                    )
+                st.info(preview.get("message", "Parser dedicato da collegare."))
+                st.caption(source.get("notes", "Fonte predisposta per parser dedicato."))
 
     st.write("")
     st.markdown("### Offerte visibili")
