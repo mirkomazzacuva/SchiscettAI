@@ -448,6 +448,38 @@ def geocode_postcode(postcode, country="Italia"):
         return None
 
 
+
+def stores_within_radius(stores, center_lat, center_lon, radius_km):
+    nearby = []
+
+    for store in stores:
+        lat = store.get("lat")
+        lon = store.get("lon")
+
+        if lat is None or lon is None:
+            continue
+
+        distance = haversine_km(center_lat, center_lon, lat, lon)
+
+        if distance <= radius_km:
+            enriched_store = dict(store)
+            enriched_store["distance_km"] = round(distance, 1)
+            nearby.append(enriched_store)
+
+    nearby.sort(key=lambda item: item.get("distance_km", 999))
+    return nearby
+
+
+def offers_for_stores(offers, stores):
+    allowed_store_ids = {store.get("id") for store in stores}
+
+    return [
+        offer for offer in offers
+        if offer.get("store_id") in allowed_store_ids
+    ]
+
+
+
 def create_stores_map(stores, offers, center_lat=43.3188, center_lon=11.3308):
     if not MAP_AVAILABLE:
         return None
@@ -1549,15 +1581,38 @@ elif st.session_state.page == "Spesa smart":
             user_lat, user_lon = location_centers.get(location_choice, (43.3188, 11.3308))
             location_label = location_choice
 
-        st.caption(
-            "La geolocalizzazione del CAP usa Nominatim/OpenStreetMap con cache giornaliera. "
-            "Per ora i punti vendita restano quelli demo di Siena."
+        radius_km = st.select_slider(
+            "Raggio ricerca negozi",
+            options=[2, 5, 10, 20, 30],
+            value=10,
+            format_func=lambda value: f"{value} km",
         )
 
+        st.caption(
+            "La geolocalizzazione del CAP usa Nominatim/OpenStreetMap con cache giornaliera. "
+            "Per ora i punti vendita restano quelli demo caricati in data/stores.json."
+        )
+
+    nearby_stores = stores_within_radius(
+        stores_data,
+        user_lat,
+        user_lon,
+        radius_km,
+    )
+
+    if not nearby_stores:
+        st.warning(
+            "Nessun punto vendita demo nel raggio selezionato. "
+            "Mostro tutti i punti vendita demo come fallback."
+        )
+        nearby_stores = stores_data
+
+    offers_nearby = offers_for_stores(offers_data, nearby_stores)
+
     if selected_ingredients:
-        matched_offers = offers_for_ingredients(offers_data, selected_ingredients)
+        matched_offers = offers_for_ingredients(offers_nearby, selected_ingredients)
     else:
-        matched_offers = offers_data
+        matched_offers = offers_nearby
 
     map_col, info_col = st.columns([1.4, 1])
 
@@ -1566,8 +1621,8 @@ elif st.session_state.page == "Spesa smart":
 
         if MAP_AVAILABLE:
             stores_map = create_stores_map(
-                stores_data,
-                matched_offers if matched_offers else offers_data,
+                nearby_stores,
+                matched_offers if matched_offers else offers_nearby,
                 center_lat=user_lat,
                 center_lon=user_lon,
             )
@@ -1580,16 +1635,24 @@ elif st.session_state.page == "Spesa smart":
 
         nearest_rows = []
 
-        for store in stores_data:
-            distance = haversine_km(
-                user_lat,
-                user_lon,
-                store.get("lat", user_lat),
-                store.get("lon", user_lon),
+        for store in nearby_stores:
+            distance = store.get(
+                "distance_km",
+                round(
+                    haversine_km(
+                        user_lat,
+                        user_lon,
+                        store.get("lat", user_lat),
+                        store.get("lon", user_lon),
+                    ),
+                    1,
+                ),
             )
             nearest_rows.append((distance, store))
 
         nearest_rows.sort(key=lambda item: item[0])
+
+        st.caption(f"Punti vendita nel raggio: {len(nearest_rows)}")
 
         for distance, store in nearest_rows[:6]:
             with st.container(border=True):
@@ -1614,7 +1677,7 @@ elif st.session_state.page == "Spesa smart":
     st.markdown("### Negozio migliore per la tua spesa")
 
     recommendations = best_store_recommendations(
-        offers_data,
+        offers_nearby,
         stores_by_id,
         selected_ingredients,
         user_lat,
