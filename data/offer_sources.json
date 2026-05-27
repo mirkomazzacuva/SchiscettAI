@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "official_page",
+    "mode": "parser_pending",
     "url": "https://www.penny.it/offerte",
-    "status": "ready_to_parse",
-    "notes": "Pagina ufficiale offerte PENNY. Buona candidata per parser dedicato."
+    "status": "source_mapped",
+    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
   },
   {
     "chain": "Coop",
@@ -20,10 +20,10 @@
       "unicoop firenze",
       "centro*siena"
     ],
-    "mode": "official_page",
+    "mode": "parser_pending",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
-    "status": "source_available_dynamic",
-    "notes": "Fonte ufficiale Unicoop Firenze. La pagina può richiedere negozio preferito o sezioni dinamiche."
+    "status": "source_mapped_dynamic",
+    "notes": "Fonte ufficiale mappata. Può richiedere negozio preferito o parser dedicato."
   },
   {
     "chain": "Conad",
@@ -33,10 +33,10 @@
       "conad superstore",
       "sapori e dintorni conad"
     ],
-    "mode": "official_page",
-    "url": "https://www.conad.it/app-internal/home_leaflets",
-    "status": "source_available_dynamic",
-    "notes": "Fonte ufficiale Conad per negozi e volantini. Spesso richiede selezione negozio."
+    "mode": "parser_pending",
+    "url": "https://volantini.conad.it/",
+    "status": "source_mapped_dynamic",
+    "notes": "Fonte ufficiale mappata. Probabile parser dedicato per negozio/volantino."
   },
   {
     "chain": "PAM",
@@ -46,40 +46,40 @@
       "pam local",
       "panorama"
     ],
-    "mode": "official_page_or_app",
+    "mode": "parser_pending",
     "url": "https://www.pampanorama.it/",
-    "status": "dynamic_source",
-    "notes": "Fonte dinamica/app. Richiede verifica tecnica prima del parser."
+    "status": "source_mapped_dynamic",
+    "notes": "Fonte mappata. Probabile sito dinamico/app."
   },
   {
     "chain": "Lidl",
     "aliases": [
       "lidl"
     ],
-    "mode": "official_page",
+    "mode": "parser_pending",
     "url": "https://www.lidl.it/c/offerte/c10026788",
-    "status": "source_available",
-    "notes": "Fonte ufficiale offerte Lidl. Da collegare con parser dedicato."
+    "status": "source_mapped",
+    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
   },
   {
     "chain": "Eurospin",
     "aliases": [
       "eurospin"
     ],
-    "mode": "official_page",
+    "mode": "parser_pending",
     "url": "https://www.eurospin.it/volantino/",
-    "status": "source_available_dynamic",
-    "notes": "Fonte ufficiale volantino Eurospin. Può richiedere parser dedicato o dati dinamici."
+    "status": "source_mapped_dynamic",
+    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
   },
   {
     "chain": "Esselunga",
     "aliases": [
       "esselunga"
     ],
-    "mode": "official_page",
+    "mode": "parser_pending",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-    "status": "source_available_dynamic",
-    "notes": "Fonte ufficiale volantino Esselunga. Da collegare con parser dedicato."
+    "status": "source_mapped_dynamic",
+    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
   },
   {
     "chain": "Carrefour",
@@ -88,10 +88,10 @@
       "carrefour market",
       "carrefour express"
     ],
-    "mode": "official_page",
+    "mode": "parser_pending",
     "url": "https://www.carrefour.it/promozioni/",
-    "status": "ready_to_parse",
-    "notes": "Fonte ufficiale promozioni Carrefour. La pagina contiene promozioni e prezzi leggibili."
+    "status": "source_mapped",
+    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
   },
   {
     "chain": "MD",
@@ -99,9 +99,9 @@
       "md",
       "md discount"
     ],
-    "mode": "official_page",
+    "mode": "parser_pending",
     "url": "https://www.mdspa.it/volantino/",
-    "status": "source_available_dynamic",
-    "notes": "Fonte ufficiale volantino MD. Da collegare con parser dedicato."
+    "status": "source_mapped_dynamic",
+    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
   }
 ]
