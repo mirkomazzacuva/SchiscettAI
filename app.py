@@ -28,6 +28,8 @@ st.set_page_config(
 
 WORK_DAYS = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
 
+REMOTE_OFFERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQADckMEswns4YcXqZyqaUxh_6YCPrFuPzLL3xJlg9UH6lBVtBJhk0T0RmK4aqLIucK1VV0XFCArepX/pub?gid=0&single=true&output=csv"
+
 CLUSTER_VISUALS = {
     "riso_pollo": {
         "emoji": "🍚",
@@ -97,29 +99,56 @@ def load_json(file_path):
         return []
 
 
-def load_offers_data(csv_path, json_path):
-    csv_file = Path(csv_path)
+def clean_offers_dataframe(df):
+    df = df.fillna("")
+    offers = df.to_dict(orient="records")
+
+    for offer in offers:
+        for numeric_field in ["price", "old_price"]:
+            value = offer.get(numeric_field, "")
+            if value == "":
+                continue
+            try:
+                offer[numeric_field] = float(value)
+            except ValueError:
+                offer[numeric_field] = value
+
+    return offers
+
+
+@st.cache_data(ttl=1800)
+def load_offers_from_remote_csv(csv_url):
+    if not csv_url:
+        return []
+
+    df = pd.read_csv(csv_url)
+    return clean_offers_dataframe(df)
+
+
+def load_offers_data(remote_csv_url, local_csv_path, json_path):
+    if remote_csv_url:
+        try:
+            offers = load_offers_from_remote_csv(remote_csv_url)
+            if offers:
+                return offers
+        except Exception as error:
+            st.warning(
+                "Non riesco a leggere il Google Sheet pubblicato. "
+                f"Uso il CSV locale o il JSON di fallback. Errore: {error}"
+            )
+
+    csv_file = Path(local_csv_path)
 
     if csv_file.exists():
         try:
             df = pd.read_csv(csv_file)
-            df = df.fillna("")
-            offers = df.to_dict(orient="records")
+            offers = clean_offers_dataframe(df)
 
-            for offer in offers:
-                for numeric_field in ["price", "old_price"]:
-                    value = offer.get(numeric_field, "")
-                    if value == "":
-                        continue
-                    try:
-                        offer[numeric_field] = float(value)
-                    except ValueError:
-                        offer[numeric_field] = value
-
-            return offers
+            if offers:
+                return offers
         except Exception as error:
             st.warning(
-                f"Non riesco a leggere {csv_path}. Uso il JSON di fallback. Errore: {error}"
+                f"Non riesco a leggere {local_csv_path}. Uso il JSON di fallback. Errore: {error}"
             )
 
     return load_json(json_path)
@@ -1095,7 +1124,7 @@ ingredients_data = load_json("data/ingredients.json")
 modules = load_json("data/modules.json")
 clusters_data = load_json("data/clusters.json")
 stores_data = load_json("data/stores.json")
-offers_data = load_offers_data("data/offers_template.csv", "data/offers.json")
+offers_data = load_offers_data(REMOTE_OFFERS_CSV_URL, "data/offers_template.csv", "data/offers.json")
 
 if clusters_data:
     CLUSTER_VISUALS.update(build_cluster_visuals(clusters_data))
@@ -1151,7 +1180,7 @@ st.session_state.page = selected_page
 st.sidebar.divider()
 st.sidebar.caption("MVP gratuito")
 st.sidebar.caption("GitHub + Streamlit + database locale")
-st.sidebar.caption("Offerte: CSV con fallback JSON")
+st.sidebar.caption("Offerte: Google Sheet automatico")
 st.sidebar.caption(f"Ricette modulari create: {len(st.session_state.custom_recipes)}")
 
 
@@ -1809,8 +1838,14 @@ elif st.session_state.page == "Gestione offerte":
 
     st.write(
         "Questa sezione serve per aggiornare le offerte senza toccare il codice. "
-        "L'app legge prima `data/offers_template.csv`; se il CSV non è disponibile, usa `data/offers.json` come fallback."
+        "L'app legge prima il Google Sheet pubblicato come CSV; se non riesce, usa `data/offers_template.csv`; se anche quello non è disponibile, usa `data/offers.json` come fallback."
     )
+
+    with st.container(border=True):
+        st.markdown("### Fonte offerte automatica")
+        st.write("Google Sheet pubblicato come CSV:")
+        st.code(REMOTE_OFFERS_CSV_URL)
+        st.caption("Cache aggiornamento: circa ogni 30 minuti. Per forzare prima, riavvia l'app da Streamlit Cloud.")
 
     with st.container(border=True):
         st.markdown("### Come aggiornare le offerte reali")
