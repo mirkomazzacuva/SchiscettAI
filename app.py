@@ -1155,6 +1155,256 @@ def web_offer_preview_cards(nearby_stores, offer_sources):
     return cards
 
 
+
+# =========================================================
+# Offer Engine v1
+# =========================================================
+
+def safe_text(value):
+    return str(value or "").strip()
+
+
+def normalize_for_match(value):
+    text = normalize_text(value)
+    text = re.sub(r"[^a-z0-9àèéìòùç\s]", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def offer_source_status_label(status):
+    labels = {
+        "manual_active": "Offerte manuali attive",
+        "source_mapped": "Fonte web mappata",
+        "source_mapped_dynamic": "Fonte web dinamica",
+        "parser_ready": "Parser pronto",
+        "parser_pending": "Parser da collegare",
+        "not_configured": "Fonte non configurata",
+    }
+
+    return labels.get(status, status or "Fonte non configurata")
+
+
+def infer_chain_from_text(value, offer_sources):
+    candidate = normalize_for_match(value)
+
+    if not candidate:
+        return "Altro"
+
+    for source in offer_sources:
+        chain = source.get("chain", "")
+        aliases = source.get("aliases", [])
+        candidates = [chain] + aliases
+
+        for alias in candidates:
+            alias_norm = normalize_for_match(alias)
+            if alias_norm and alias_norm in candidate:
+                return chain
+
+    known = {
+        "penny": "PENNY",
+        "coop": "Coop",
+        "unicoop": "Coop",
+        "conad": "Conad",
+        "pam": "PAM",
+        "panorama": "PAM",
+        "lidl": "Lidl",
+        "eurospin": "Eurospin",
+        "esselunga": "Esselunga",
+        "carrefour": "Carrefour",
+        "md": "MD",
+        "aldi": "ALDI",
+        "interspar": "Spar",
+        "despar": "Spar",
+        "cra": "CRA",
+    }
+
+    for key, chain in known.items():
+        if key in candidate:
+            return chain
+
+    return safe_text(value).title() or "Altro"
+
+
+def infer_store_chain_v2(store, offer_sources):
+    fields = [
+        store.get("chain_normalized", ""),
+        store.get("chain", ""),
+        store.get("brand", ""),
+        store.get("operator", ""),
+        store.get("name", ""),
+        store.get("id", ""),
+    ]
+
+    return infer_chain_from_text(" ".join(safe_text(field) for field in fields), offer_sources)
+
+
+def infer_offer_chain_v2(offer, stores_by_id, offer_sources):
+    store = stores_by_id.get(offer.get("store_id", ""), {})
+
+    fields = [
+        offer.get("chain", ""),
+        offer.get("store_id", ""),
+        offer.get("source", ""),
+        offer.get("notes", ""),
+        store.get("chain", ""),
+        store.get("name", ""),
+        store.get("id", ""),
+    ]
+
+    return infer_chain_from_text(" ".join(safe_text(field) for field in fields), offer_sources)
+
+
+def get_offer_source_for_chain_v2(chain, offer_sources):
+    chain_norm = normalize_for_match(chain)
+
+    for source in offer_sources:
+        if normalize_for_match(source.get("chain", "")) == chain_norm:
+            return source
+
+        for alias in source.get("aliases", []):
+            if normalize_for_match(alias) == chain_norm:
+                return source
+
+    return {
+        "chain": chain,
+        "status": "not_configured",
+        "mode": "not_configured",
+        "url": "",
+        "notes": "Fonte offerte non ancora configurata.",
+    }
+
+
+def classify_manual_offers(offers, stores_by_id, offer_sources):
+    classified = []
+
+    for offer in offers:
+        item = dict(offer)
+        item["chain_inferred"] = infer_offer_chain_v2(offer, stores_by_id, offer_sources)
+        item["offer_origin"] = "manual"
+        classified.append(item)
+
+    return classified
+
+
+def build_offer_engine_state(
+    offers,
+    nearby_stores,
+    stores_by_id,
+    offer_sources,
+    selected_ingredients=None,
+):
+    selected_ingredients = selected_ingredients or []
+    manual_offers = classify_manual_offers(offers, stores_by_id, offer_sources)
+
+    nearby_chains = sorted(
+        set(
+            infer_store_chain_v2(store, offer_sources)
+            for store in nearby_stores
+            if infer_store_chain_v2(store, offer_sources)
+        )
+    )
+
+    manual_offer_chains = sorted(
+        set(
+            offer.get("chain_inferred", "Altro")
+            for offer in manual_offers
+            if offer.get("chain_inferred")
+        )
+    )
+
+    nearby_chain_keys = {normalize_for_match(chain) for chain in nearby_chains}
+    selected_offer_pool = []
+
+    for offer in manual_offers:
+        chain_key = normalize_for_match(offer.get("chain_inferred", ""))
+
+        if chain_key in nearby_chain_keys:
+            selected_offer_pool.append(offer)
+
+    if not selected_offer_pool and manual_offers:
+        selected_offer_pool = manual_offers
+
+    if selected_ingredients:
+        matched_by_ingredient = offers_for_ingredients(selected_offer_pool, selected_ingredients)
+    else:
+        matched_by_ingredient = selected_offer_pool
+
+    missing_chain_rows = []
+
+    for chain in nearby_chains:
+        source = get_offer_source_for_chain_v2(chain, offer_sources)
+        has_manual_offers = normalize_for_match(chain) in {
+            normalize_for_match(item) for item in manual_offer_chains
+        }
+
+        if has_manual_offers:
+            status = "manual_active"
+            reason = "Sono presenti offerte manuali/CSV per questa catena."
+        else:
+            status = source.get("status", "not_configured")
+            reason = source.get(
+                "notes",
+                "Fonte web non ancora collegata con parser dedicato.",
+            )
+
+        missing_chain_rows.append(
+            {
+                "catena": chain,
+                "stato": offer_source_status_label(status),
+                "offerte_manuali": "sì" if has_manual_offers else "no",
+                "fonte_web": source.get("url", ""),
+                "prossimo_step": "parser dedicato" if not has_manual_offers else "monitoraggio offerte",
+                "nota": reason,
+            }
+        )
+
+    return {
+        "manual_offers": manual_offers,
+        "nearby_chains": nearby_chains,
+        "manual_offer_chains": manual_offer_chains,
+        "offers_nearby": selected_offer_pool,
+        "matched_offers": matched_by_ingredient,
+        "offers_to_show": matched_by_ingredient if matched_by_ingredient else selected_offer_pool,
+        "missing_chain_rows": missing_chain_rows,
+    }
+
+
+def offer_engine_summary_cards(engine_state, nearby_stores):
+    return {
+        "stores": len(nearby_stores),
+        "nearby_chains": len(engine_state.get("nearby_chains", [])),
+        "manual_offers": len(engine_state.get("manual_offers", [])),
+        "visible_offers": len(engine_state.get("offers_to_show", [])),
+    }
+
+
+def offer_engine_explanation(engine_state):
+    nearby = engine_state.get("nearby_chains", [])
+    offer_chains = engine_state.get("manual_offer_chains", [])
+
+    if not nearby:
+        return "Non ho trovato catene nel raggio selezionato."
+
+    if not offer_chains:
+        return (
+            "Ho trovato supermercati nel raggio, ma non ci sono ancora offerte manuali "
+            "caricate per quelle catene."
+        )
+
+    common = sorted(
+        set(normalize_for_match(chain) for chain in nearby)
+        & set(normalize_for_match(chain) for chain in offer_chains)
+    )
+
+    if common:
+        return "Ho trovato catene nel raggio con offerte manuali disponibili."
+
+    return (
+        "Le offerte manuali sono caricate, ma appartengono a catene diverse da quelle "
+        "trovate nel raggio. Mostro comunque le offerte come fallback."
+    )
+
+
 def create_stores_map(stores, offers, center_lat=43.3188, center_lon=11.3308):
     if not MAP_AVAILABLE:
         return None
@@ -2325,26 +2575,19 @@ elif st.session_state.page == "Spesa smart":
         radius_km,
     )
 
-    offers_nearby = offers_for_nearby_context(
+    offer_engine = build_offer_engine_state(
         offers_data,
         nearby_stores,
         stores_by_id,
         offer_sources_data,
+        selected_ingredients=selected_ingredients,
     )
 
-    nearby_chains, offer_chains, common_chains = chain_match_summary(
-        offers_data,
-        nearby_stores,
-        stores_by_id,
-        offer_sources_data,
-    )
-
-    if selected_ingredients:
-        matched_offers = offers_for_ingredients(offers_nearby, selected_ingredients)
-        offers_to_show = matched_offers
-    else:
-        matched_offers = offers_nearby
-        offers_to_show = offers_nearby
+    offers_nearby = offer_engine["offers_nearby"]
+    matched_offers = offer_engine["matched_offers"]
+    offers_to_show = offer_engine["offers_to_show"]
+    nearby_chains = offer_engine["nearby_chains"]
+    offer_chains = offer_engine["manual_offer_chains"]
 
     st.write("")
     st.markdown("### Supermercati trovati nel raggio")
@@ -2394,6 +2637,40 @@ elif st.session_state.page == "Spesa smart":
             "Le offerte sono caricate, ma non corrispondono ai negozi trovati nel raggio. "
             "Mostro comunque tutte le offerte manuali sotto come fallback."
         )
+
+    st.markdown("### Stato Offer Engine")
+
+    summary = offer_engine_summary_cards(offer_engine, nearby_stores)
+
+    e1, e2, e3, e4 = st.columns(4)
+
+    with e1:
+        st.metric("Negozi nel raggio", summary["stores"])
+
+    with e2:
+        st.metric("Catene trovate", summary["nearby_chains"])
+
+    with e3:
+        st.metric("Offerte manuali", summary["manual_offers"])
+
+    with e4:
+        st.metric("Offerte visibili", summary["visible_offers"])
+
+    st.info(offer_engine_explanation(offer_engine))
+
+    if offer_engine["missing_chain_rows"]:
+        with st.expander("Perché alcune catene non hanno ancora offerte automatiche", expanded=False):
+            st.dataframe(
+                pd.DataFrame(offer_engine["missing_chain_rows"]),
+                use_container_width=True,
+                hide_index=True,
+            )
+
+    if nearby_chains:
+        st.caption("Catene trovate nel raggio: " + ", ".join(nearby_chains[:12]))
+
+    if offer_chains:
+        st.caption("Catene presenti nelle offerte manuali: " + ", ".join(offer_chains[:12]))
 
     st.write("")
     st.markdown("### Offerte attive")
@@ -2464,26 +2741,6 @@ elif st.session_state.page == "Spesa smart":
                 st.caption(f"{store.get('type', '')} · {store.get('area', '')}")
                 st.write(store.get("address", ""))
                 st.write(f"Distanza indicativa: {distance:.1f} km")
-
-    st.write("")
-    st.markdown("### Parser offerte web")
-
-    web_cards = web_offer_preview_cards(nearby_stores, offer_sources_data)
-
-    if not web_cards:
-        st.info("Nessuna fonte web configurata per le catene trovate nel raggio.")
-    else:
-        for card in web_cards[:4]:
-            chain = card["chain"]
-            source = card["source"]
-            preview = card["preview"]
-
-            with st.container(border=True):
-                st.markdown(f"#### {chain}")
-                st.caption(source.get("url", ""))
-
-                st.info(preview.get("message", "Parser dedicato da collegare."))
-                st.caption(source.get("notes", "Fonte predisposta per parser dedicato."))
 
     st.write("")
     st.markdown("### Offerte visibili")
