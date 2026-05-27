@@ -694,6 +694,95 @@ def offers_for_stores(offers, stores):
     ]
 
 
+def text_for_chain_matching(*values):
+    parts = []
+
+    for value in values:
+        if value:
+            parts.append(str(value).replace("_", " ").replace("-", " "))
+
+    return " ".join(parts)
+
+
+def infer_offer_chain(offer, stores_by_id, offer_sources):
+    store = stores_by_id.get(offer.get("store_id", ""), {})
+
+    candidate_text = text_for_chain_matching(
+        offer.get("store_id", ""),
+        offer.get("source", ""),
+        offer.get("notes", ""),
+        store.get("name", ""),
+        store.get("chain", ""),
+        store.get("type", ""),
+    )
+
+    return normalize_chain_name(candidate_text, offer_sources)
+
+
+def infer_store_chain(store, offer_sources):
+    candidate_text = text_for_chain_matching(
+        store.get("chain_normalized", ""),
+        store.get("chain", ""),
+        store.get("brand", ""),
+        store.get("name", ""),
+        store.get("id", ""),
+    )
+
+    return normalize_chain_name(candidate_text, offer_sources)
+
+
+def offers_for_nearby_context(offers, nearby_stores, stores_by_id, offer_sources):
+    nearby_store_ids = {store.get("id") for store in nearby_stores}
+
+    nearby_chains = set()
+
+    for store in nearby_stores:
+        chain = infer_store_chain(store, offer_sources)
+        if chain:
+            nearby_chains.add(normalize_text(chain))
+
+    matched = []
+
+    for offer in offers:
+        store_id = offer.get("store_id", "")
+
+        if store_id in nearby_store_ids:
+            matched.append(offer)
+            continue
+
+        offer_chain = infer_offer_chain(offer, stores_by_id, offer_sources)
+
+        if normalize_text(offer_chain) in nearby_chains:
+            matched.append(offer)
+
+    return matched
+
+
+def chain_match_summary(offers, nearby_stores, stores_by_id, offer_sources):
+    nearby_chains = sorted(
+        set(
+            infer_store_chain(store, offer_sources)
+            for store in nearby_stores
+            if infer_store_chain(store, offer_sources)
+        )
+    )
+
+    offer_chains = sorted(
+        set(
+            infer_offer_chain(offer, stores_by_id, offer_sources)
+            for offer in offers
+            if infer_offer_chain(offer, stores_by_id, offer_sources)
+        )
+    )
+
+    common = sorted(
+        set(normalize_text(chain) for chain in nearby_chains)
+        & set(normalize_text(chain) for chain in offer_chains)
+    )
+
+    return nearby_chains, offer_chains, common
+
+
 
 
 def validate_offers(offers, stores_by_id):
@@ -2147,12 +2236,26 @@ elif st.session_state.page == "Spesa smart":
         radius_km,
     )
 
-    offers_nearby = offers_for_stores(offers_data, nearby_stores)
+    offers_nearby = offers_for_nearby_context(
+        offers_data,
+        nearby_stores,
+        stores_by_id,
+        offer_sources_data,
+    )
+
+    nearby_chains, offer_chains, common_chains = chain_match_summary(
+        offers_data,
+        nearby_stores,
+        stores_by_id,
+        offer_sources_data,
+    )
 
     if selected_ingredients:
         matched_offers = offers_for_ingredients(offers_nearby, selected_ingredients)
+        offers_to_show = matched_offers
     else:
         matched_offers = offers_nearby
+        offers_to_show = offers_nearby
 
     st.write("")
     st.markdown("### Supermercati trovati nel raggio")
@@ -2177,6 +2280,18 @@ elif st.session_state.page == "Spesa smart":
     if source_rows:
         with st.expander("Fonti offerte per le catene trovate", expanded=False):
             st.dataframe(pd.DataFrame(source_rows), use_container_width=True, hide_index=True)
+
+    if nearby_chains:
+        st.caption("Catene trovate nel raggio: " + ", ".join(nearby_chains[:12]))
+
+    if offer_chains:
+        st.caption("Catene presenti nelle offerte caricate: " + ", ".join(offer_chains[:12]))
+
+    if offers_data and not offers_nearby:
+        st.warning(
+            "Le offerte sono caricate, ma non corrispondono ai negozi trovati nel raggio. "
+            "Mostro comunque tutte le offerte manuali sotto come fallback."
+        )
 
     st.write("")
     st.markdown("### Offerte attive")
@@ -2265,9 +2380,16 @@ elif st.session_state.page == "Spesa smart":
         )
         offers_to_show = offers_nearby
 
+    if not offers_to_show and offers_data:
+        st.warning(
+            "Nessuna offerta associata alle catene nel raggio. "
+            "Mostro tutte le offerte caricate come fallback, così puoi verificare subito i dati."
+        )
+        offers_to_show = offers_data
+
     if not offers_to_show:
         st.warning(
-            "Nessuna offerta visibile nel raggio selezionato. Prova raggio 30 km oppure aggiorna le offerte."
+            "Nessuna offerta visibile. Clicca Aggiorna offerte ora o controlla il CSV pubblicato."
         )
     else:
         rows = offer_rows(offers_to_show, stores_by_id, user_lat=user_lat, user_lon=user_lon)
@@ -2281,7 +2403,7 @@ elif st.session_state.page == "Spesa smart":
     st.markdown("### Negozio migliore per la tua spesa")
 
     recommendations = best_store_recommendations(
-        offers_nearby,
+        offers_to_show if "offers_to_show" in locals() and offers_to_show else offers_nearby,
         stores_by_id,
         selected_ingredients,
         user_lat,
