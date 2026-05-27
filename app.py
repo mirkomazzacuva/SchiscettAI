@@ -96,6 +96,34 @@ def load_json(file_path):
         return []
 
 
+def load_offers_data(csv_path, json_path):
+    csv_file = Path(csv_path)
+
+    if csv_file.exists():
+        try:
+            df = pd.read_csv(csv_file)
+            df = df.fillna("")
+            offers = df.to_dict(orient="records")
+
+            for offer in offers:
+                for numeric_field in ["price", "old_price"]:
+                    value = offer.get(numeric_field, "")
+                    if value == "":
+                        continue
+                    try:
+                        offer[numeric_field] = float(value)
+                    except ValueError:
+                        offer[numeric_field] = value
+
+            return offers
+        except Exception as error:
+            st.warning(
+                f"Non riesco a leggere {csv_path}. Uso il JSON di fallback. Errore: {error}"
+            )
+
+    return load_json(json_path)
+
+
 def build_cluster_visuals(clusters):
     visuals = {}
 
@@ -823,7 +851,7 @@ ingredients_data = load_json("data/ingredients.json")
 modules = load_json("data/modules.json")
 clusters_data = load_json("data/clusters.json")
 stores_data = load_json("data/stores.json")
-offers_data = load_json("data/offers.json")
+offers_data = load_offers_data("data/offers_template.csv", "data/offers.json")
 
 if clusters_data:
     CLUSTER_VISUALS.update(build_cluster_visuals(clusters_data))
@@ -878,6 +906,7 @@ st.session_state.page = selected_page
 st.sidebar.divider()
 st.sidebar.caption("MVP gratuito")
 st.sidebar.caption("GitHub + Streamlit + database locale")
+st.sidebar.caption("Offerte: CSV con fallback JSON")
 st.sidebar.caption(f"Ricette modulari create: {len(st.session_state.custom_recipes)}")
 
 
