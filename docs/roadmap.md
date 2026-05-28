@@ -2,7 +2,7 @@
 
 ## Stato attuale
 
-SchiscettAI è una web app Streamlit per creare schiscette, pianificare la settimana e collegare ricette, lista spesa e offerte.
+SchiscettAI collega ricette, lista spesa, punti vendita nel raggio e offerte.
 
 Funzioni attive:
 
@@ -17,32 +17,36 @@ Funzioni attive:
 - mappa interattiva
 - offerte manuali/CSV come fonte strutturata
 - Offer Engine v1
-- Multi-chain Offer Parser v1 sperimentale
+- Multi-chain Offer Parser v1.1 sperimentale
 
-## Multi-chain Offer Parser v1
+## Multi-chain Offer Parser v1.1
 
-Il parser non è più centrato su una sola catena. Ora:
+Il parser è applicato alle catene trovate nel raggio scelto dall'utente.
 
-- legge le catene trovate nel raggio scelto dall'utente
-- prova a collegare solo le fonti mappate per quelle catene
-- non blocca l'app se una fonte non risponde
-- somma offerte web e manuali
-- mantiene fallback manuale/CSV
-- mostra lo stato parser per ogni catena
+Miglioramenti v1.1:
+
+- filtro fonte: tutte / solo manuali / solo web
+- deduplica manuale-web
+- limite massimo offerte web
+- colonna origine nella tabella offerte
+- nomi prodotto più puliti
+- stato parser più leggibile
+- fallback manuale sempre attivo
+- ranking ricette basato sulle offerte visibili
 
 ## Prossimi step
 
-1. Migliorare il parser generico per singola catena.
-2. Aggiungere filtro fonte: manuale / web / tutte.
-3. Rimuovere duplicati manuale-web.
-4. Migliorare estrazione nome prodotto / ingrediente.
-5. Aggiungere data validità quando disponibile.
-6. Collegare parser dedicato Coop o Conad.
+1. Migliorare parser dedicato PENNY.
+2. Aggiungere parser dedicato Coop o Conad.
+3. Migliorare estrazione nome prodotto / validità.
+4. Aggiungere controllo offerte scadute.
+5. Rafforzare deduplica prodotto/prezzo.
+6. Calcolare convenienza su lista spesa completa.
 7. Migliorare ranking negozio consigliato.
-8. Calcolare convenienza per lista spesa completa.
-9. Aggiungere avvisi offerte scadute.
-10. Aggiornare README con limiti parser e fonti.
+8. Aggiungere impostazioni utente per preferenze catene.
+9. Aggiornare README con limiti e fonti.
+10. Preparare rilascio demo stabile.
 
 ## Regola tecnica
 
-Ogni fonte web deve avere fallback. Nessun errore di parser deve rompere la UI principale.
+Ogni parser deve essere isolato, non bloccante e sempre accompagnato da fallback manuale.
