@@ -466,15 +466,24 @@ def parse_price(value):
 
 
 # =========================================================
-# PENNY Parser v1 - experimental and safe
+# Multi-chain Offer Parser v1 - safe and non-blocking
 # =========================================================
 
-PENNY_OFFERS_URL = "https://www.penny.it/offerte"
+CHAIN_PARSER_URLS = {
+    "PENNY": "https://www.penny.it/offerte",
+    "Coop": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
+    "Conad": "https://volantini.conad.it/",
+    "PAM": "https://www.pampanorama.it/",
+    "Lidl": "https://www.lidl.it/c/offerte/c10026788",
+    "Eurospin": "https://www.eurospin.it/volantino/",
+    "Esselunga": "https://www.esselunga.it/it-it/negozi/volantino.html",
+    "Carrefour": "https://www.carrefour.it/promozioni/",
+    "MD": "https://www.mdspa.it/volantino/",
+}
 
 
 def price_to_float(value):
     text = str(value or "").replace("€", "").replace(",", ".").strip()
-
     try:
         return float(text)
     except ValueError:
@@ -485,38 +494,21 @@ def infer_ingredient_from_product_text(product_text):
     text = normalize_for_match(product_text) if "normalize_for_match" in globals() else normalize_text(product_text)
 
     mapping = [
-        ("pollo", "pollo"),
-        ("tacchino", "tacchino"),
-        ("tonno", "tonno"),
-        ("uova", "uova"),
-        ("yogurt", "yogurt"),
-        ("hipro", "yogurt proteico"),
-        ("tofu", "tofu"),
-        ("ceci", "ceci"),
-        ("fagioli", "fagioli"),
-        ("cannellini", "fagioli"),
-        ("piselli", "piselli"),
-        ("pasta integrale", "pasta integrale"),
-        ("fusilli", "pasta integrale"),
-        ("penne", "pasta integrale"),
-        ("spaghetti", "pasta integrale"),
-        ("riso", "riso"),
-        ("basmati", "riso basmati"),
-        ("farro", "farro"),
-        ("couscous", "couscous"),
-        ("passata", "passata pomodoro"),
-        ("pomodoro", "pomodoro"),
-        ("zucchine", "zucchine"),
-        ("carote", "carote"),
-        ("carciofi", "carciofi"),
-        ("patate", "patate"),
-        ("olio", "olio EVO"),
-        ("limone", "limone"),
-        ("feta", "feta"),
-        ("mozzarella", "mozzarella"),
-        ("pane", "pane"),
-        ("wrap", "wrap"),
-        ("piadina", "piadina"),
+        ("pollo", "pollo"), ("tacchino", "tacchino"), ("tonno", "tonno"),
+        ("salmone", "salmone"), ("merluzzo", "merluzzo"), ("uova", "uova"),
+        ("yogurt", "yogurt"), ("hipro", "yogurt proteico"), ("tofu", "tofu"),
+        ("ceci", "ceci"), ("lenticchie", "lenticchie"), ("fagioli", "fagioli"),
+        ("cannellini", "fagioli"), ("piselli", "piselli"),
+        ("pasta integrale", "pasta integrale"), ("fusilli", "pasta"),
+        ("penne", "pasta"), ("spaghetti", "pasta"), ("riso", "riso"),
+        ("basmati", "riso basmati"), ("farro", "farro"), ("orzo", "orzo"),
+        ("couscous", "couscous"), ("passata", "passata pomodoro"),
+        ("pomodoro", "pomodoro"), ("zucchine", "zucchine"),
+        ("carote", "carote"), ("carciofi", "carciofi"), ("melanzane", "melanzane"),
+        ("peperoni", "peperoni"), ("insalata", "insalata"), ("patate", "patate"),
+        ("olio", "olio EVO"), ("limone", "limone"), ("feta", "feta"),
+        ("mozzarella", "mozzarella"), ("ricotta", "ricotta"), ("pane", "pane"),
+        ("wrap", "wrap"), ("piadina", "piadina"),
     ]
 
     for keyword, ingredient in mapping:
@@ -524,18 +516,14 @@ def infer_ingredient_from_product_text(product_text):
             return ingredient
 
     words = [word for word in text.split() if len(word) > 3]
-
-    if words:
-        return words[0]
-
-    return "offerta"
+    return words[0] if words else "offerta"
 
 
 def clean_offer_snippet(snippet):
     snippet = html.unescape(str(snippet or ""))
     snippet = re.sub(r"\s+", " ", snippet)
     snippet = snippet.strip(" -–—|•·")
-    return snippet[:160]
+    return snippet[:180]
 
 
 def extract_price_snippets_from_text(text_body):
@@ -546,7 +534,7 @@ def extract_price_snippets_from_text(text_body):
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
 
     pattern = re.compile(
-        r"(?P<before>.{0,90})(?P<price>\d{1,3}[,.]\d{2})\s*€(?P<after>.{0,80})",
+        r"(?P<before>.{0,90})(?P<price>\d{1,3}[,.]\d{2})\s*€(?P<after>.{0,90})",
         flags=re.I,
     )
 
@@ -554,78 +542,65 @@ def extract_price_snippets_from_text(text_body):
     seen = set()
 
     for match in pattern.finditer(cleaned):
-        price_raw = match.group("price")
-        price = price_to_float(price_raw)
-
+        price = price_to_float(match.group("price"))
         if price is None:
             continue
 
-        snippet = clean_offer_snippet(match.group("before") + price_raw + " €" + match.group("after"))
-
+        snippet = clean_offer_snippet(match.group("before") + match.group("price") + " €" + match.group("after"))
         if len(snippet) < 12:
             continue
 
-        # Keep likely grocery/product snippets, avoid footer/legal/cookie noise when possible.
-        bad_words = ["privacy", "cookie", "newsletter", "diritto", "termini", "accessibilità", "javascript"]
+        bad_words = ["privacy", "cookie", "newsletter", "termini", "accessibilità", "javascript", "facebook", "instagram"]
         if any(word in normalize_text(snippet) for word in bad_words):
             continue
 
         key = normalize_text(snippet)
-
         if key in seen:
             continue
 
         seen.add(key)
-        results.append(
-            {
-                "snippet": snippet,
-                "price": price,
-            }
-        )
+        results.append({"snippet": snippet, "price": price})
 
-        if len(results) >= 25:
+        if len(results) >= 20:
             break
 
     return results
 
 
 @st.cache_data(ttl=3600)
-def fetch_penny_offers_v1():
+def fetch_chain_offers_v1(chain, url):
+    if not chain or not url:
+        return {"chain": chain, "ok": False, "message": "Parser non configurato.", "offers": []}
+
     try:
         response = requests.get(
-            PENNY_OFFERS_URL,
+            url,
             headers={
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) "
-                    "Chrome/125.0 Safari/537.36 SchiscettAI/1.0"
+                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36 SchiscettAI/1.0"
                 ),
                 "Accept": "text/html,text/plain,*/*",
             },
-            timeout=18,
+            timeout=16,
             allow_redirects=True,
         )
 
         if response.status_code != 200:
-            return {
-                "ok": False,
-                "message": f"PENNY non leggibile ora: HTTP {response.status_code}",
-                "offers": [],
-            }
+            return {"chain": chain, "ok": False, "message": f"{chain}: fonte non leggibile ora, HTTP {response.status_code}.", "offers": []}
 
         snippets = extract_price_snippets_from_text(response.text)
-
         offers = []
+        chain_slug = normalize_for_match(chain).replace(" ", "_")
 
         for index, item in enumerate(snippets, start=1):
             snippet = item["snippet"]
             ingredient = infer_ingredient_from_product_text(snippet)
-
             offers.append(
                 {
-                    "id": f"penny_web_{index:03d}",
-                    "store_id": "penny_web",
-                    "chain": "PENNY",
+                    "id": f"{chain_slug}_web_{index:03d}",
+                    "store_id": f"{chain_slug}_web",
+                    "chain": chain,
                     "ingredient": ingredient,
                     "product_name": snippet,
                     "price": item["price"],
@@ -633,25 +608,49 @@ def fetch_penny_offers_v1():
                     "old_price": "",
                     "valid_from": "",
                     "valid_until": "",
-                    "source": PENNY_OFFERS_URL,
+                    "source": url,
                     "category": "offerte web",
-                    "notes": "Estratta automaticamente dal parser PENNY v1. Da verificare sul sito ufficiale.",
-                    "origin": "web_penny",
+                    "notes": f"Estratta automaticamente dal parser {chain} v1. Da verificare sul sito ufficiale.",
+                    "origin": f"web_{chain_slug}",
                 }
             )
 
-        return {
-            "ok": True,
-            "message": f"Parser PENNY v1: {len(offers)} offerte/snippet estratti.",
-            "offers": offers,
-        }
+        if offers:
+            return {"chain": chain, "ok": True, "message": f"{chain}: {len(offers)} offerte/snippet estratti.", "offers": offers}
+
+        return {"chain": chain, "ok": True, "message": f"{chain}: fonte raggiunta ma nessuna offerta strutturata estratta.", "offers": []}
 
     except Exception as error:
-        return {
-            "ok": False,
-            "message": f"Parser PENNY v1 non disponibile: {error}",
-            "offers": [],
-        }
+        return {"chain": chain, "ok": False, "message": f"{chain}: parser non disponibile: {error}", "offers": []}
+
+
+def parser_url_for_chain(chain, offer_sources):
+    source = get_offer_source_for_chain_v2(chain, offer_sources) if "get_offer_source_for_chain_v2" in globals() else {}
+    if source and source.get("url"):
+        return source.get("url")
+    return CHAIN_PARSER_URLS.get(chain, "")
+
+
+def chains_with_parser_enabled(nearby_stores, offer_sources):
+    chains = sorted(
+        set(
+            infer_store_chain_v2(store, offer_sources)
+            for store in nearby_stores
+            if infer_store_chain_v2(store, offer_sources)
+        )
+    )
+    return [chain for chain in chains if parser_url_for_chain(chain, offer_sources)]
+
+
+def fetch_multi_chain_offers_v1(chains, offer_sources, max_chains=5):
+    results = []
+    web_offers = []
+    for chain in chains[:max_chains]:
+        url = parser_url_for_chain(chain, offer_sources)
+        result = fetch_chain_offers_v1(chain, url)
+        results.append(result)
+        web_offers.extend(result.get("offers", []))
+    return results, web_offers
 
 
 
@@ -2598,27 +2597,23 @@ elif st.session_state.page == "Spesa smart":
         st.markdown("### Fonte offerte")
         st.write(
             "Le offerte strutturate arrivano dal Google Sheet/CSV manuale. "
-            "In più puoi attivare il primo parser sperimentale PENNY."
+            "Il parser multi-catena prova a leggere solo le catene trovate nel raggio selezionato."
         )
         st.caption("Cache automatica: circa ogni 30 minuti. Usa il bottone per forzare subito la rilettura.")
         st.code(REMOTE_OFFERS_CSV_URL)
 
-        use_penny_parser = st.checkbox(
-            "Attiva parser PENNY v1 sperimentale",
+        use_web_parsers = st.checkbox(
+            "Attiva parser web multi-catena sperimentale",
             value=True,
         )
 
-        penny_parser_result = {
-            "ok": False,
-            "message": "Parser PENNY non attivo.",
-            "offers": [],
-        }
+        st.caption(
+            "Il parser è sicuro e non bloccante: se una catena non risponde, l'app usa comunque le offerte manuali."
+        )
 
-        if use_penny_parser:
-            penny_parser_result = fetch_penny_offers_v1()
-
-        penny_web_offers = penny_parser_result.get("offers", [])
-        structured_offers = offers_data + penny_web_offers
+        parser_results = []
+        web_offers = []
+        structured_offers = offers_data
 
         source_col1, source_col2, source_col3, source_col4 = st.columns(4)
 
@@ -2626,7 +2621,7 @@ elif st.session_state.page == "Spesa smart":
             st.metric("Offerte manuali", len(offers_data))
 
         with source_col2:
-            st.metric("PENNY web", len(penny_web_offers))
+            st.metric("Web parser", len(web_offers))
 
         with source_col3:
             st.metric("Totale offerte", len(structured_offers))
@@ -2634,19 +2629,14 @@ elif st.session_state.page == "Spesa smart":
         with source_col4:
             st.metric("Punti vendita", len(stores_data))
 
-        if penny_parser_result.get("ok"):
-            st.success(penny_parser_result.get("message", "Parser PENNY completato."))
-        elif use_penny_parser:
-            st.info(penny_parser_result.get("message", "Parser PENNY non disponibile."))
-
         if st.button("Aggiorna offerte ora", key="refresh_offers_top"):
             st.cache_data.clear()
-            st.success("Cache svuotata. Rileggo offerte manuali e parser PENNY.")
+            st.success("Cache svuotata. Rileggo offerte manuali, parser e negozi.")
             st.rerun()
 
         if not structured_offers:
             st.warning(
-                "Non vedo offerte caricate. Controlla il Google Sheet/CSV oppure disattiva e riattiva il parser PENNY."
+                "Non vedo offerte caricate. Controlla il Google Sheet/CSV oppure disattiva e riattiva il parser web."
             )
 
     with st.container(border=True):
@@ -2788,8 +2778,22 @@ elif st.session_state.page == "Spesa smart":
         radius_km,
     )
 
+    if "use_web_parsers" in locals() and use_web_parsers:
+        parser_chains = chains_with_parser_enabled(nearby_stores, offer_sources_data)
+        parser_results, web_offers = fetch_multi_chain_offers_v1(
+            parser_chains,
+            offer_sources_data,
+            max_chains=5,
+        )
+        structured_offers = offers_data + web_offers
+    else:
+        parser_chains = []
+        parser_results = []
+        web_offers = []
+        structured_offers = offers_data
+
     offer_engine = build_offer_engine_state(
-        structured_offers if "structured_offers" in locals() else offers_data,
+        structured_offers,
         nearby_stores,
         stores_by_id,
         offer_sources_data,
@@ -2884,6 +2888,20 @@ elif st.session_state.page == "Spesa smart":
 
     if offer_chains:
         st.caption("Catene presenti nelle offerte manuali: " + ", ".join(offer_chains[:12]))
+
+    if "parser_results" in locals() and parser_results:
+        with st.expander("Stato parser web per le catene nel raggio", expanded=False):
+            parser_rows = []
+            for result in parser_results:
+                parser_rows.append(
+                    {
+                        "catena": result.get("chain", ""),
+                        "stato": "ok" if result.get("ok") else "non disponibile",
+                        "offerte_estratte": len(result.get("offers", [])),
+                        "messaggio": result.get("message", ""),
+                    }
+                )
+            st.dataframe(pd.DataFrame(parser_rows), use_container_width=True, hide_index=True)
 
     st.write("")
     st.markdown("### Offerte attive")
