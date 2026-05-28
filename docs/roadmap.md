@@ -1,26 +1,23 @@
 # SKiscettAI Roadmap
 
-## Release: SKAI Copilot v7
+## Release: SKAI Copilot v9
 
-Problema risolto: l'app era bella ma ancora macchinosa.
+Correzioni basate sul beta report automatico e sui problemi UX osservati:
 
-Nuova logica:
-
-- l'utente sceglie cosa vuole ottenere
-- SKAI mostra solo i campi necessari
-- la mappa resta centrale
-- le offerte sono un acceleratore, non un ostacolo
-- piano settimanale e creazione SKiscetta diventano flussi guidati
+- app pubblica verificata dal report
+- vecchio tester non cliccava la sidebar: script QA aggiornato
+- dropdown/selectbox con contrasto corretto
+- topbar più compatta
+- apertura diretta sulla missione SKAI Radar
+- riduzione dei passaggi visibili
+- offerte come supporto, non come blocco
 
 ## Prossimi step
 
-1. Parser dedicato Carrefour.
-2. Parser dedicato Coop.
-3. Parser dedicato Conad.
-4. Parser dedicato PENNY.
-5. Parser dedicato Lidl.
-6. Migliore estrazione prodotto.
-7. Prezzo al kg.
-8. Validità offerta.
-9. Piano settimanale più intelligente.
-10. Lista spesa ottimizzata per negozio.
+1. Ripetere beta test con tester v2.
+2. Verificare screenshot SKAI Radar.
+3. Parser dedicato Carrefour.
+4. Parser dedicato Coop.
+5. Parser dedicato Conad.
+6. Migliorare card offerte con nome prodotto reale.
+7. Piano spesa settimanale ottimizzato per negozio.
