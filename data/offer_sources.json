@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "parser_v1",
+    "mode": "multi_chain_parser_v1",
     "url": "https://www.penny.it/offerte",
-    "status": "parser_ready",
-    "notes": "Parser PENNY v1 sperimentale collegato. Estrae snippet/prezzi dal sito ufficiale e mantiene fallback manuale."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   },
   {
     "chain": "Coop",
@@ -20,10 +20,10 @@
       "unicoop firenze",
       "centro*siena"
     ],
-    "mode": "parser_pending",
+    "mode": "multi_chain_parser_v1",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
-    "status": "source_mapped_dynamic",
-    "notes": "Fonte ufficiale mappata. Può richiedere negozio preferito o parser dedicato."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   },
   {
     "chain": "Conad",
@@ -33,10 +33,10 @@
       "conad superstore",
       "sapori e dintorni conad"
     ],
-    "mode": "parser_pending",
+    "mode": "multi_chain_parser_v1",
     "url": "https://volantini.conad.it/",
-    "status": "source_mapped_dynamic",
-    "notes": "Fonte ufficiale mappata. Probabile parser dedicato per negozio/volantino."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   },
   {
     "chain": "PAM",
@@ -46,40 +46,40 @@
       "pam local",
       "panorama"
     ],
-    "mode": "parser_pending",
+    "mode": "multi_chain_parser_v1",
     "url": "https://www.pampanorama.it/",
-    "status": "source_mapped_dynamic",
-    "notes": "Fonte mappata. Probabile sito dinamico/app."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   },
   {
     "chain": "Lidl",
     "aliases": [
       "lidl"
     ],
-    "mode": "parser_pending",
+    "mode": "multi_chain_parser_v1",
     "url": "https://www.lidl.it/c/offerte/c10026788",
-    "status": "source_mapped",
-    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   },
   {
     "chain": "Eurospin",
     "aliases": [
       "eurospin"
     ],
-    "mode": "parser_pending",
+    "mode": "multi_chain_parser_v1",
     "url": "https://www.eurospin.it/volantino/",
-    "status": "source_mapped_dynamic",
-    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   },
   {
     "chain": "Esselunga",
     "aliases": [
       "esselunga"
     ],
-    "mode": "parser_pending",
+    "mode": "multi_chain_parser_v1",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-    "status": "source_mapped_dynamic",
-    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   },
   {
     "chain": "Carrefour",
@@ -88,10 +88,10 @@
       "carrefour market",
       "carrefour express"
     ],
-    "mode": "parser_pending",
+    "mode": "multi_chain_parser_v1",
     "url": "https://www.carrefour.it/promozioni/",
-    "status": "source_mapped",
-    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   },
   {
     "chain": "MD",
@@ -99,9 +99,9 @@
       "md",
       "md discount"
     ],
-    "mode": "parser_pending",
+    "mode": "multi_chain_parser_v1",
     "url": "https://www.mdspa.it/volantino/",
-    "status": "source_mapped_dynamic",
-    "notes": "Fonte ufficiale mappata. Parser dedicato da collegare."
+    "status": "parser_experimental",
+    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
   }
 ]
