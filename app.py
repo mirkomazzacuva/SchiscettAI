@@ -439,15 +439,21 @@ def offer_rows(offers, stores_by_id, user_lat=None, user_lon=None):
         if user_lat is not None and user_lon is not None and store.get("lat") and store.get("lon"):
             distance = haversine_km(user_lat, user_lon, store["lat"], store["lon"])
 
+        origin = offer.get("origin", offer.get("offer_origin", "manual"))
+        chain = offer.get("chain", offer.get("chain_inferred", store.get("chain", "")))
+
         rows.append(
             {
+                "origine": format_offer_origin(origin),
+                "catena": chain,
                 "ingrediente": offer.get("ingredient", ""),
-                "prodotto": offer.get("product_name", ""),
+                "prodotto": clean_display_product_name(offer.get("product_name", "")),
                 "prezzo": f"{offer.get('price', '')} {offer.get('unit', '')}",
                 "prima": f"{offer.get('old_price', '')} {offer.get('unit', '')}",
                 "negozio": store.get("name", offer.get("store_id", "")),
                 "zona": store.get("area", ""),
                 "distanza_km": round(distance, 1) if distance is not None else "",
+                "fonte": offer.get("source", ""),
                 "note": offer.get("notes", ""),
             }
         )
@@ -651,6 +657,123 @@ def fetch_multi_chain_offers_v1(chains, offer_sources, max_chains=5):
         results.append(result)
         web_offers.extend(result.get("offers", []))
     return results, web_offers
+
+
+
+
+# =========================================================
+# Multi-chain Parser v1.1 utilities
+# =========================================================
+
+def format_offer_origin(origin):
+    origin = str(origin or "manual")
+
+    if origin == "manual":
+        return "manuale"
+
+    if origin.startswith("web_"):
+        chain = origin.replace("web_", "").replace("_", " ").strip().upper()
+        return f"web {chain}"
+
+    return origin
+
+
+def offer_origin_group(offer):
+    origin = str(offer.get("origin", offer.get("offer_origin", "manual")))
+
+    if origin == "manual":
+        return "manual"
+
+    if origin.startswith("web_"):
+        return "web"
+
+    return "manual"
+
+
+def clean_display_product_name(value):
+    text = html.unescape(str(value or ""))
+    text = re.sub(r"\s+", " ", text).strip()
+
+    # Remove very common website fragments when parser extracts surrounding text.
+    noise_fragments = [
+        "Aggiungi al carrello",
+        "Scopri di più",
+        "Mostra dettagli",
+        "Offerte",
+        "Volantino",
+    ]
+
+    for fragment in noise_fragments:
+        text = text.replace(fragment, " ")
+
+    text = re.sub(r"\s+", " ", text).strip(" -–—|•·")
+
+    if len(text) > 140:
+        text = text[:137].rstrip() + "..."
+
+    return text
+
+
+def offer_dedupe_key(offer):
+    chain = normalize_for_match(offer.get("chain", offer.get("chain_inferred", "")))
+    ingredient = normalize_for_match(offer.get("ingredient", ""))
+    product = normalize_for_match(clean_display_product_name(offer.get("product_name", "")))[:60]
+    price = str(offer.get("price", "")).replace(",", ".").strip()
+
+    return (chain, ingredient, product, price)
+
+
+def dedupe_offers(offers):
+    seen = set()
+    result = []
+
+    # Prefer manual offers first because they are curated/override.
+    sorted_offers = sorted(
+        offers,
+        key=lambda offer: 0 if offer_origin_group(offer) == "manual" else 1,
+    )
+
+    for offer in sorted_offers:
+        key = offer_dedupe_key(offer)
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+        result.append(offer)
+
+    return result
+
+
+def filter_offers_by_source(offers, source_filter):
+    if source_filter == "Solo manuali":
+        return [offer for offer in offers if offer_origin_group(offer) == "manual"]
+
+    if source_filter == "Solo web":
+        return [offer for offer in offers if offer_origin_group(offer) == "web"]
+
+    return offers
+
+
+def limit_web_offers(offers, limit):
+    manual = [offer for offer in offers if offer_origin_group(offer) == "manual"]
+    web = [offer for offer in offers if offer_origin_group(offer) == "web"]
+
+    return manual + web[:limit]
+
+
+def offer_source_counts(offers):
+    manual = len([offer for offer in offers if offer_origin_group(offer) == "manual"])
+    web = len([offer for offer in offers if offer_origin_group(offer) == "web"])
+    return manual, web, len(offers)
+
+
+def source_filter_label():
+    return [
+        "Tutte",
+        "Solo manuali",
+        "Solo web",
+    ]
 
 
 
@@ -2602,10 +2725,27 @@ elif st.session_state.page == "Spesa smart":
         st.caption("Cache automatica: circa ogni 30 minuti. Usa il bottone per forzare subito la rilettura.")
         st.code(REMOTE_OFFERS_CSV_URL)
 
-        use_web_parsers = st.checkbox(
-            "Attiva parser web multi-catena sperimentale",
-            value=True,
-        )
+        control_col1, control_col2, control_col3 = st.columns([1, 1, 1])
+
+        with control_col1:
+            use_web_parsers = st.checkbox(
+                "Attiva parser web multi-catena sperimentale",
+                value=True,
+            )
+
+        with control_col2:
+            source_filter = st.selectbox(
+                "Fonte offerte",
+                source_filter_label(),
+                index=0,
+            )
+
+        with control_col3:
+            max_web_offers = st.select_slider(
+                "Limite offerte web",
+                options=[10, 20, 30, 50, 100],
+                value=30,
+            )
 
         st.caption(
             "Il parser è sicuro e non bloccante: se una catena non risponde, l'app usa comunque le offerte manuali."
@@ -2785,12 +2925,21 @@ elif st.session_state.page == "Spesa smart":
             offer_sources_data,
             max_chains=5,
         )
-        structured_offers = offers_data + web_offers
     else:
         parser_chains = []
         parser_results = []
         web_offers = []
-        structured_offers = offers_data
+
+    raw_structured_offers = offers_data + web_offers
+    deduped_offers = dedupe_offers(raw_structured_offers)
+    limited_offers = limit_web_offers(
+        deduped_offers,
+        max_web_offers if "max_web_offers" in locals() else 30,
+    )
+    structured_offers = filter_offers_by_source(
+        limited_offers,
+        source_filter if "source_filter" in locals() else "Tutte",
+    )
 
     offer_engine = build_offer_engine_state(
         structured_offers,
@@ -2893,15 +3042,18 @@ elif st.session_state.page == "Spesa smart":
         with st.expander("Stato parser web per le catene nel raggio", expanded=False):
             parser_rows = []
             for result in parser_results:
+                extracted = len(result.get("offers", []))
                 parser_rows.append(
                     {
                         "catena": result.get("chain", ""),
-                        "stato": "ok" if result.get("ok") else "non disponibile",
-                        "offerte_estratte": len(result.get("offers", [])),
+                        "stato": "ok" if extracted > 0 else "nessuna offerta strutturata",
+                        "offerte_estratte": extracted,
                         "messaggio": result.get("message", ""),
                     }
                 )
             st.dataframe(pd.DataFrame(parser_rows), use_container_width=True, hide_index=True)
+
+    manual_count, web_count, total_count = offer_source_counts(structured_offers)
 
     st.write("")
     st.markdown("### Offerte attive")
@@ -2909,16 +3061,16 @@ elif st.session_state.page == "Spesa smart":
     o1, o2, o3, o4 = st.columns(4)
 
     with o1:
-        st.metric("Offerte strutturate", len(structured_offers if "structured_offers" in locals() else offers_data))
+        st.metric("Manuali", manual_count if "manual_count" in locals() else len(offers_data))
 
     with o2:
-        st.metric("Negozi nel raggio", len(nearby_stores))
+        st.metric("Web", web_count if "web_count" in locals() else 0)
 
     with o3:
-        st.metric("Offerte nel raggio", len(offers_nearby))
+        st.metric("Nel raggio", len(offers_nearby))
 
     with o4:
-        st.metric("Offerte collegate", len(matched_offers))
+        st.metric("Visibili", len(offers_to_show))
 
     if not offers_data:
         st.warning(
@@ -2977,10 +3129,17 @@ elif st.session_state.page == "Spesa smart":
     st.markdown("### Offerte visibili")
 
     if selected_ingredients:
-        st.caption("Ingredienti considerati: " + ", ".join(selected_ingredients))
+        st.caption(
+            "Ingredienti considerati: "
+            + ", ".join(selected_ingredients)
+            + f" · Filtro fonte: {source_filter if 'source_filter' in locals() else 'Tutte'}"
+        )
         offers_to_show = matched_offers
     else:
-        st.caption("Nessuna ricetta/ingrediente selezionato: mostro tutte le offerte nel raggio.")
+        st.caption(
+            "Nessuna ricetta/ingrediente selezionato: mostro le offerte nel raggio. "
+            f"Filtro fonte: {source_filter if 'source_filter' in locals() else 'Tutte'}"
+        )
         offers_to_show = offers_nearby
 
     if not offers_to_show and offers_nearby:
