@@ -1,19 +1,20 @@
-# SKiscettAI · SKAI Copilot v7
+# SKiscettAI · SKAI Copilot v9
 
-SKAI ora parte dal problema dell'utente, non da una dashboard da compilare.
+SKAI ora apre direttamente il flusso utile: scegli il problema da risolvere e l'app mostra solo i campi necessari.
 
-## Flussi principali
+## Migliorie v9
 
-1. **Crea una SKiscetta con quello che ho**
-2. **Faccio il piano spesa settimanale**
-3. **Vedo offerte vicino a me**
+- apertura diretta su SKAI Radar/Copilot
+- topbar compatta al posto della hero pesante su ogni pagina
+- dropdown/selectbox corretti: niente più bianco-su-bianco
+- flusso più guidato e meno dashboard
+- impostazioni tecniche nascoste
+- parser web con quality gate
+- beta tester Playwright aggiornato
 
-## Migliorie v7
+## Avvio
 
-- rimosso “Usa demo Siena” dal flusso principale
-- rimosso “ricetta target” come blocco centrale
-- CAP + raggio semplificati
-- intent-first UX
-- piano settimanale guidato da ricette/offerte
-- card offerte solo se leggibili
-- raw parser nascosto nel controllo tecnico
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
