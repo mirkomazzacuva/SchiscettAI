@@ -24,7 +24,7 @@ except Exception as error:
 
 
 st.set_page_config(
-    page_title="SKiscettAI · SKAI Black Label",
+    page_title="SKiscettAI · SKAI Copilot",
     page_icon="⚡",
     layout="wide",
 )
@@ -533,7 +533,125 @@ def clean_offer_snippet(snippet):
     return snippet[:180]
 
 
+def cleanup_product_candidate(value):
+    text = html.unescape(str(value or ""))
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"\\u[0-9a-fA-F]{4}", " ", text)
+    text = re.sub(r"\s+", " ", text).strip(" -–—|•·:,;")
+
+    bad_fragments = [
+        "prezzo al",
+        "prezzo totale",
+        "peso confezione",
+        "per poter usare",
+        "codice promozionale",
+        "fino al",
+        "privacy",
+        "cookie",
+        "newsletter",
+        "javascript",
+        "carrello",
+        "login",
+        "registrati",
+    ]
+
+    low = normalize_text(text)
+
+    for fragment in bad_fragments:
+        low = low.replace(fragment, " ")
+
+    text = re.sub(r"\s+", " ", text).strip(" -–—|•·:,;")
+
+    # Remove date-heavy / legal-like prefixes.
+    text = re.sub(r"(?i)\bFino al\s+\d{2}/\d{2}/\d{4}.*", "", text).strip()
+    text = re.sub(r"(?i)\bPrezzo al.*", "", text).strip()
+    text = re.sub(r"(?i)\bPeso confezione.*", "", text).strip()
+
+    return text[:110].strip()
+
+
+def is_bad_offer_text(text):
+    low = normalize_text(text)
+
+    bad_words = [
+        "privacy",
+        "cookie",
+        "newsletter",
+        "termini",
+        "accessibilità",
+        "javascript",
+        "facebook",
+        "instagram",
+        "prezzo al kg",
+        "prezzo al l",
+        "prezzo totale",
+        "peso confezione",
+        "per poter usare",
+        "codice promozionale",
+    ]
+
+    if any(word in low for word in bad_words):
+        return True
+
+    # Reject snippets that are mostly units/dates/pricing mechanics and not product names.
+    alpha_words = [word for word in re.findall(r"[a-zA-ZàèéìòùÀÈÉÌÒÙ]{4,}", text)]
+    if len(alpha_words) < 2:
+        return True
+
+    return False
+
+
+def extract_structured_price_products(text_body):
+    raw = html.unescape(str(text_body or ""))
+    results = []
+    seen = set()
+
+    patterns = [
+        re.compile(
+            r'"(?:name|productName|displayName|title)"\s*:\s*"(?P<name>[^"]{4,140})".{0,1200}?"(?:price|salePrice|currentPrice|value)"\s*:\s*"?(?P<price>\d{1,3}[,.]\d{2})',
+            flags=re.I | re.S,
+        ),
+        re.compile(
+            r'"(?:price|salePrice|currentPrice|value)"\s*:\s*"?(?P<price>\d{1,3}[,.]\d{2}).{0,1200}?"(?:name|productName|displayName|title)"\s*:\s*"(?P<name>[^"]{4,140})"',
+            flags=re.I | re.S,
+        ),
+        re.compile(
+            r'itemprop=["\']name["\'][^>]*>(?P<name>[^<]{4,140})<.{0,1200}?itemprop=["\']price["\'][^>]*content=["\'](?P<price>\d{1,3}[,.]\d{2})',
+            flags=re.I | re.S,
+        ),
+    ]
+
+    for pattern in patterns:
+        for match in pattern.finditer(raw):
+            name = cleanup_product_candidate(match.group("name"))
+            price = price_to_float(match.group("price"))
+
+            if not name or price is None:
+                continue
+
+            if is_bad_offer_text(name):
+                continue
+
+            key = (normalize_text(name), price)
+
+            if key in seen:
+                continue
+
+            seen.add(key)
+            results.append({"product": name, "snippet": name, "price": price})
+
+            if len(results) >= 30:
+                return results
+
+    return results
+
+
 def extract_price_snippets_from_text(text_body):
+    structured = extract_structured_price_products(text_body)
+
+    if structured:
+        return structured
+
     cleaned = re.sub(r"<script.*?</script>", " ", text_body, flags=re.S | re.I)
     cleaned = re.sub(r"<style.*?</style>", " ", cleaned, flags=re.S | re.I)
     cleaned = re.sub(r"<[^>]+>", " ", cleaned)
@@ -541,7 +659,7 @@ def extract_price_snippets_from_text(text_body):
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
 
     pattern = re.compile(
-        r"(?P<before>.{0,90})(?P<price>\d{1,3}[,.]\d{2})\s*€(?P<after>.{0,90})",
+        r"(?P<before>.{0,120})(?P<price>\d{1,3}[,.]\d{2})\s*€(?P<after>.{0,90})",
         flags=re.I,
     )
 
@@ -550,23 +668,27 @@ def extract_price_snippets_from_text(text_body):
 
     for match in pattern.finditer(cleaned):
         price = price_to_float(match.group("price"))
+
         if price is None:
             continue
 
-        snippet = clean_offer_snippet(match.group("before") + match.group("price") + " €" + match.group("after"))
-        if len(snippet) < 12:
+        before = cleanup_product_candidate(match.group("before"))
+        after = cleanup_product_candidate(match.group("after"))
+        snippet = before or after
+
+        if not snippet:
             continue
 
-        bad_words = ["privacy", "cookie", "newsletter", "termini", "accessibilità", "javascript", "facebook", "instagram"]
-        if any(word in normalize_text(snippet) for word in bad_words):
+        if is_bad_offer_text(snippet):
             continue
 
-        key = normalize_text(snippet)
+        key = (normalize_text(snippet), price)
+
         if key in seen:
             continue
 
         seen.add(key)
-        results.append({"snippet": snippet, "price": price})
+        results.append({"product": snippet, "snippet": snippet, "price": price})
 
         if len(results) >= 20:
             break
@@ -601,15 +723,16 @@ def fetch_chain_offers_v1(chain, url):
         chain_slug = normalize_for_match(chain).replace(" ", "_")
 
         for index, item in enumerate(snippets, start=1):
-            snippet = item["snippet"]
-            ingredient = infer_ingredient_from_product_text(snippet)
+            product_name = item.get("product", item.get("snippet", ""))
+            snippet = item.get("snippet", product_name)
+            ingredient = infer_ingredient_from_product_text(product_name or snippet)
             offers.append(
                 {
                     "id": f"{chain_slug}_web_{index:03d}",
                     "store_id": f"{chain_slug}_web",
                     "chain": chain,
                     "ingredient": ingredient,
-                    "product_name": snippet,
+                    "product_name": product_name or snippet,
                     "price": item["price"],
                     "unit": "web",
                     "old_price": "",
@@ -644,8 +767,17 @@ def chains_with_parser_enabled(nearby_stores, offer_sources):
             infer_store_chain_v2(store, offer_sources)
             for store in nearby_stores
             if infer_store_chain_v2(store, offer_sources)
+            and infer_store_chain_v2(store, offer_sources) != "Altro"
         )
     )
+
+    priority = ["Coop", "Conad", "PAM", "PENNY", "Lidl", "Eurospin", "Carrefour", "MD", "Esselunga"]
+
+    chains = sorted(
+        chains,
+        key=lambda chain: priority.index(chain) if chain in priority else 99,
+    )
+
     return [chain for chain in chains if parser_url_for_chain(chain, offer_sources)]
 
 
@@ -780,6 +912,175 @@ def source_filter_label():
 # SKAI Black Label UX helpers
 # =========================================================
 
+
+
+def skai_parser_chain_candidates(nearby_stores, offer_sources, minimum=5):
+    """Return parser chains to check.
+    First use chains actually found nearby, then top configured sources so the app
+    is not silently stuck on a single recognized OSM chain.
+    """
+    priority = ["Coop", "Conad", "PAM", "PENNY", "Lidl", "Eurospin", "Carrefour", "MD", "Esselunga"]
+
+    found = []
+    for store in nearby_stores:
+        chain = infer_store_chain_v2(store, offer_sources)
+        if chain and chain != "Altro" and parser_url_for_chain(chain, offer_sources):
+            found.append(chain)
+
+    ordered_found = []
+    for chain in priority:
+        if chain in found and chain not in ordered_found:
+            ordered_found.append(chain)
+
+    for chain in found:
+        if chain not in ordered_found:
+            ordered_found.append(chain)
+
+    configured = [
+        source.get("chain")
+        for source in offer_sources
+        if source.get("chain") and parser_url_for_chain(source.get("chain"), offer_sources)
+    ]
+
+    for chain in priority:
+        if chain in configured and chain not in ordered_found and len(ordered_found) < minimum:
+            ordered_found.append(chain)
+
+    return ordered_found
+
+
+def recipe_ingredient_score(recipe, ingredients):
+    wanted = [normalize_text(item) for item in ingredients if str(item).strip()]
+    recipe_ingredients = [normalize_text(item) for item in recipe.get("ingredients", [])]
+
+    if not wanted:
+        return 0
+
+    score = 0
+    for item in wanted:
+        for recipe_item in recipe_ingredients:
+            if item and (item in recipe_item or recipe_item in item):
+                score += 1
+                break
+
+    return score
+
+
+def skai_recipes_for_home_ingredients(recipes, ingredients, goal, limit=4):
+    scored = []
+
+    for recipe in recipes:
+        score = recipe_ingredient_score(recipe, ingredients)
+        meta = recipe.get("meta", {})
+        goal_text = normalize_text(goal)
+
+        if goal_text and goal_text in normalize_text(meta.get("goal", "")):
+            score += 1
+
+        scored.append((score, recipe))
+
+    scored.sort(key=lambda item: item[0], reverse=True)
+    return [recipe for score, recipe in scored[:limit] if score > 0] or [recipe for _, recipe in scored[:limit]]
+
+
+def skai_week_plan_from_recipes(recipes, offers, days=5):
+    deal_items = best_deal_recipes(recipes, offers, {}, limit=max(days, 5)) if offers else []
+    selected = []
+
+    for item in deal_items:
+        selected.append(
+            {
+                "recipe": item["recipe"],
+                "reason": f"{item['coverage']} ingredienti coperti da offerte",
+                "score": item.get("coverage", 0),
+            }
+        )
+
+    if len(selected) < days:
+        used = {item["recipe"].get("id") for item in selected}
+        for recipe in recipes:
+            if recipe.get("id") not in used:
+                selected.append(
+                    {
+                        "recipe": recipe,
+                        "reason": "scelta bilanciata dal catalogo",
+                        "score": 0,
+                    }
+                )
+            if len(selected) >= days:
+                break
+
+    return selected[:days]
+
+
+def skai_store_label(store):
+    name = store.get("name", "Punto vendita")
+    chain = store.get("chain_normalized") or store.get("chain", "")
+    distance = store.get("distance_km", "")
+    parts = [name]
+
+    if chain and chain != "Altro" and normalize_text(chain) not in normalize_text(name):
+        parts.append(chain)
+
+    if distance != "":
+        parts.append(f"{distance} km")
+
+    return " · ".join(str(part) for part in parts if str(part).strip())
+
+
+def render_skai_action_plan(intent):
+    if intent == "Crea una SKiscetta con quello che ho":
+        title = "1. Scrivi cosa hai · 2. SKAI crea · 3. Salva la ricetta"
+        subtitle = "Non devi scegliere una ricetta target: parti dagli ingredienti."
+    elif intent == "Faccio il piano spesa settimanale":
+        title = "1. Scegli giorni · 2. SKAI guarda le offerte · 3. Crea piano + lista"
+        subtitle = "La spesa settimanale parte da ricette e offerte, non da una tabella vuota."
+    else:
+        title = "1. Inserisci CAP · 2. Guarda la mappa · 3. Confronta offerte pulite"
+        subtitle = "Radar puro per capire cosa c'è vicino e quali parser danno dati leggibili."
+
+    st.markdown(
+        f"""
+        <div class="skai-action-plan">
+            <strong>{title}</strong>
+            <span>{subtitle}</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def is_offer_displayable(offer):
+    product = clean_display_product_name(offer.get("product_name", ""))
+
+    if not product:
+        return False
+
+    if is_bad_offer_text(product):
+        return False
+
+    price = parse_price(offer.get("price", None))
+
+    if price is None:
+        return False
+
+    return True
+
+
+def split_offer_quality(offers):
+    clean = []
+    raw = []
+
+    for offer in offers:
+        if is_offer_displayable(offer):
+            clean.append(offer)
+        else:
+            raw.append(offer)
+
+    return clean, raw
+
+
+
 def skai_chain_summary(offers):
     summary = {}
 
@@ -845,6 +1146,9 @@ def render_skai_offer_card(offer, index):
     ingredient = offer.get("ingredient", "")
     origin = format_offer_origin(offer.get("origin", "web")) if "format_offer_origin" in globals() else "web"
 
+    if not product or is_bad_offer_text(product):
+        product = f"Offerta {chain} da verificare sul volantino"
+
     st.markdown(
         f"""
         <div class="skai-offer-card">
@@ -859,6 +1163,7 @@ def render_skai_offer_card(offer, index):
         """,
         unsafe_allow_html=True,
     )
+
 
 
 def render_skai_section_label(kicker, title, subtitle=""):
@@ -1042,40 +1347,64 @@ def geocode_postcode(postcode, country="Italia"):
     if not clean_postcode:
         return None
 
-    try:
-        response = requests.get(
-            "https://nominatim.openstreetmap.org/search",
-            params={
-                "postalcode": clean_postcode,
-                "country": country,
-                "format": "json",
-                "limit": 1,
-                "addressdetails": 1,
-            },
-            headers={
-                "User-Agent": "SKiscettAI-demo/1.0 (Streamlit app; contact: demo)"
-            },
-            timeout=8,
-        )
-
-        if response.status_code != 200:
-            return None
-
-        data = response.json()
-
-        if not data:
-            return None
-
-        result = data[0]
-
-        return {
-            "lat": float(result["lat"]),
-            "lon": float(result["lon"]),
-            "display_name": result.get("display_name", f"CAP {clean_postcode}"),
+    known_postcodes = {
+        "53100": {
+            "lat": 43.3188,
+            "lon": 11.3308,
+            "display_name": "53100 Siena, Toscana, Italia",
         }
+    }
 
-    except Exception:
-        return None
+    if clean_postcode in known_postcodes:
+        return known_postcodes[clean_postcode]
+
+    queries = [
+        {
+            "postalcode": clean_postcode,
+            "country": country,
+            "format": "json",
+            "limit": 1,
+            "addressdetails": 1,
+        },
+        {
+            "q": f"{clean_postcode}, {country}",
+            "format": "json",
+            "limit": 1,
+            "addressdetails": 1,
+        },
+    ]
+
+    for params in queries:
+        try:
+            response = requests.get(
+                "https://nominatim.openstreetmap.org/search",
+                params=params,
+                headers={
+                    "User-Agent": "SKiscettAI-demo/1.0 (Streamlit app; contact: demo)"
+                },
+                timeout=8,
+            )
+
+            if response.status_code != 200:
+                continue
+
+            data = response.json()
+
+            if not data:
+                continue
+
+            result = data[0]
+
+            return {
+                "lat": float(result["lat"]),
+                "lon": float(result["lon"]),
+                "display_name": result.get("display_name", f"CAP {clean_postcode}"),
+            }
+
+        except Exception:
+            continue
+
+    return None
 
 
 
@@ -1616,6 +1945,7 @@ def infer_chain_from_text(value, offer_sources):
 
     known = {
         "penny": "PENNY",
+        "penny market": "PENNY",
         "coop": "Coop",
         "unicoop": "Coop",
         "conad": "Conad",
@@ -1627,8 +1957,8 @@ def infer_chain_from_text(value, offer_sources):
         "carrefour": "Carrefour",
         "md": "MD",
         "aldi": "ALDI",
-        "interspar": "Spar",
         "despar": "Spar",
+        "interspar": "Spar",
         "cra": "CRA",
     }
 
@@ -1636,7 +1966,8 @@ def infer_chain_from_text(value, offer_sources):
         if key in candidate:
             return chain
 
-    return safe_text(value).title() or "Altro"
+    return "Altro"
+
 
 
 def infer_store_chain_v2(store, offer_sources):
@@ -1715,6 +2046,7 @@ def build_offer_engine_state(
             infer_store_chain_v2(store, offer_sources)
             for store in nearby_stores
             if infer_store_chain_v2(store, offer_sources)
+            and infer_store_chain_v2(store, offer_sources) != "Altro"
         )
     )
 
@@ -1723,6 +2055,7 @@ def build_offer_engine_state(
             offer.get("chain_inferred", "Altro")
             for offer in manual_offers
             if offer.get("chain_inferred")
+            and offer.get("chain_inferred") != "Altro"
         )
     )
 
@@ -2884,9 +3217,9 @@ elif st.session_state.page == "Lista spesa":
 
 elif st.session_state.page == "SKAI Radar":
     render_skai_section_label(
-        "SKAI Radar",
-        "Trova dove conviene andare, prima ancora di uscire.",
-        "CAP, raggio, supermercati, parser web e ricette convenienti in una sola regia."
+        "SKAI Copilot",
+        "Dimmi il problema. SKAI sceglie il flusso.",
+        "Non è una dashboard da compilare: è un assistente operativo per pranzo, spesa e offerte."
     )
 
     current_recipes = combined_recipes()
@@ -2894,118 +3227,183 @@ elif st.session_state.page == "SKAI Radar":
     meal_plan_recipes = get_meal_plan_recipes(current_recipes)
 
     with st.container(border=True):
-        st.markdown("### Mission Control")
-        c1, c2, c3 = st.columns([1, 1, 1.15])
+        st.markdown("### Cosa vuoi fare adesso?")
+        intent = st.radio(
+            "Scegli il risultato, non la funzione.",
+            [
+                "Crea una SKiscetta con quello che ho",
+                "Faccio il piano spesa settimanale",
+                "Vedo offerte vicino a me",
+            ],
+            horizontal=True,
+            label_visibility="collapsed",
+            key="skai_intent",
+        )
+        render_skai_action_plan(intent)
 
-        with c1:
-            cap = st.text_input("CAP", value="53100", placeholder="53100", key="skai_cap")
+    with st.container(border=True):
+        st.markdown("### Dove e quanto lontano?")
+        loc1, loc2, loc3 = st.columns([0.9, 1.1, 1])
 
-            use_demo_location = st.checkbox(
-                "Usa demo Siena",
-                value=False,
-                key="skai_demo_location",
+        with loc1:
+            cap = st.text_input(
+                "CAP",
+                value="53100",
+                placeholder="53100",
+                key="skai_cap",
             )
 
+        with loc2:
             radius_km = st.select_slider(
-                "Raggio",
+                "Raggio ricerca",
                 options=[2, 5, 10, 20, 30],
-                value=30,
+                value=10,
                 format_func=lambda value: f"{value} km",
                 key="skai_radius",
             )
 
-        with c2:
-            use_web_parsers = st.checkbox(
-                "Parser web multi-catena",
+        with loc3:
+            use_web_parsers = st.toggle(
+                "Radar offerte web",
                 value=True,
                 key="skai_web_parser_toggle",
             )
-
             max_web_offers = st.select_slider(
-                "Max offerte web",
-                options=[10, 20, 30, 50, 100],
-                value=50,
+                "Max offerte",
+                options=[10, 20, 30, 50],
+                value=20,
                 key="skai_max_web_offers",
             )
 
-            if st.button("Ricarica radar", key="refresh_skai_radar"):
-                st.cache_data.clear()
-                st.success("Radar aggiornato.")
-                st.rerun()
-
-        with c3:
-            recipe_titles = ["Nessuna ricetta"] + [
-                recipe.get("title", "Ricetta") for recipe in current_recipes
-            ]
-
-            selected_recipe_title = st.selectbox("Ricetta target", recipe_titles, key="skai_recipe_target")
-
-            manual_ingredient = st.text_input(
-                "Ingrediente target",
-                placeholder="pollo, riso, zucchine...",
-                key="skai_manual_ingredient",
-            )
-
-            use_current_shopping = st.checkbox(
-                "Includi preferiti e meal plan",
-                value=True,
-                key="skai_use_shopping_context",
-            )
-
-    selected_recipe = get_recipe_by_title(current_recipes, selected_recipe_title)
+    home_ingredients = ""
+    goal = "Svuota frigo"
+    max_time = "20 minuti"
+    weekly_days = 5
+    extra_weekly_items = ""
     selected_ingredients = []
 
-    if selected_recipe:
-        selected_ingredients.extend(selected_recipe.get("ingredients", []))
+    if intent == "Crea una SKiscetta con quello che ho":
+        with st.container(border=True):
+            st.markdown("### Ingredienti disponibili")
+            h1, h2, h3 = st.columns([1.4, 0.8, 0.8])
 
-    if use_current_shopping:
-        shopping_counter_for_map = aggregate_ingredients(
-            favorite_recipes + meal_plan_recipes,
-            st.session_state.extra_shopping_items,
-        )
-        selected_ingredients.extend(list(shopping_counter_for_map.keys()))
+            with h1:
+                home_ingredients = st.text_area(
+                    "Cosa hai in casa?",
+                    placeholder="pollo, riso, zucchine, yogurt...",
+                    height=95,
+                    key="skai_home_ingredients",
+                )
 
-    if manual_ingredient.strip():
-        selected_ingredients.append(manual_ingredient.strip())
+            with h2:
+                goal = st.selectbox(
+                    "Obiettivo",
+                    [
+                        "Svuota frigo",
+                        "Proteica",
+                        "Light",
+                        "Economica",
+                        "Vegetariana",
+                        "Veloce",
+                        "Gourmet",
+                        "Meal prep",
+                    ],
+                    key="skai_home_goal",
+                )
 
-    selected_ingredients = sorted(set([item for item in selected_ingredients if str(item).strip()]))
+            with h3:
+                max_time = st.selectbox(
+                    "Tempo",
+                    ["10 minuti", "20 minuti", "30 minuti", "45 minuti"],
+                    key="skai_home_time",
+                )
+
+            selected_ingredients = [
+                item.strip()
+                for item in re.split(r"[,;\n]", home_ingredients)
+                if item.strip()
+            ]
+
+    elif intent == "Faccio il piano spesa settimanale":
+        with st.container(border=True):
+            st.markdown("### Settimana intelligente")
+            w1, w2, w3 = st.columns([0.8, 1, 1.2])
+
+            with w1:
+                weekly_days = st.select_slider(
+                    "Giorni da pianificare",
+                    options=[3, 4, 5],
+                    value=5,
+                    key="skai_weekly_days",
+                )
+
+            with w2:
+                weekly_focus = st.selectbox(
+                    "Stile settimana",
+                    ["Bilanciata", "Low cost", "Proteica", "Light", "Vegetariana", "Meal prep"],
+                    key="skai_weekly_focus",
+                )
+
+            with w3:
+                extra_weekly_items = st.text_input(
+                    "Ingredienti che vuoi usare",
+                    placeholder="tonno, farro, verdure...",
+                    key="skai_weekly_extra",
+                )
+
+            selected_ingredients = [
+                item.strip()
+                for item in re.split(r"[,;\n]", extra_weekly_items)
+                if item.strip()
+            ]
+
+            if favorite_recipes or meal_plan_recipes:
+                shopping_counter = aggregate_ingredients(
+                    favorite_recipes + meal_plan_recipes,
+                    st.session_state.extra_shopping_items,
+                )
+                selected_ingredients.extend(list(shopping_counter.keys()))
+
+    else:
+        with st.container(border=True):
+            st.markdown("### Radar puro")
+            radar_target = st.text_input(
+                "Ingrediente o prodotto da cercare",
+                placeholder="pollo, pasta, caffè, yogurt...",
+                key="skai_radar_target",
+            )
+            selected_ingredients = [
+                item.strip()
+                for item in re.split(r"[,;\n]", radar_target)
+                if item.strip()
+            ]
 
     location_centers = {
-        "Siena centro": (43.3188, 11.3308),
-        "Stazione / PortaSiena": (43.3311, 11.3223),
-        "San Miniato": (43.3405, 11.3502),
-        "Massetana Romana": (43.3068, 11.3108),
+        "53100": {
+            "lat": 43.3188,
+            "lon": 11.3308,
+            "display_name": "53100 Siena, Toscana, Italia",
+        }
     }
 
-    user_lat, user_lon = location_centers["Siena centro"]
-    location_label = "Siena centro"
+    geocoded_location = geocode_postcode(cap, country="Italia")
 
-    if not use_demo_location:
-        geocoded_location = geocode_postcode(cap, country="Italia")
-
-        if geocoded_location:
-            user_lat = geocoded_location["lat"]
-            user_lon = geocoded_location["lon"]
-            location_label = geocoded_location["display_name"]
-        else:
-            st.warning("CAP non geolocalizzato. Uso Siena centro come fallback.")
+    if geocoded_location:
+        user_lat = geocoded_location["lat"]
+        user_lon = geocoded_location["lon"]
+        location_label = geocoded_location["display_name"]
     else:
-        location_choice = st.selectbox(
-            "Zona demo",
-            list(location_centers.keys()),
-            key="skai_demo_area",
-        )
-        user_lat, user_lon = location_centers.get(location_choice, location_centers["Siena centro"])
-        location_label = location_choice
+        fallback = location_centers["53100"]
+        user_lat = fallback["lat"]
+        user_lon = fallback["lon"]
+        location_label = fallback["display_name"]
+        st.info("Non ho riconosciuto il CAP. Per non bloccarti uso Siena come demo operativa.")
 
     try:
         discovered_stores_raw = fetch_osm_supermarkets(user_lat, user_lon, radius_km)
     except Exception as error:
         discovered_stores_raw = []
-        st.warning(
-            "OpenStreetMap non disponibile ora. Uso i negozi locali come fallback. "
-            f"Dettaglio: {error}"
-        )
+        st.info("OpenStreetMap non risponde ora: uso i punti vendita locali come fallback.")
 
     discovered_stores = enrich_discovered_stores(
         discovered_stores_raw,
@@ -3023,7 +3421,11 @@ elif st.session_state.page == "SKAI Radar":
     )
 
     if use_web_parsers:
-        parser_chains = chains_with_parser_enabled(nearby_stores, offer_sources_data)
+        parser_chains = skai_parser_chain_candidates(
+            nearby_stores,
+            offer_sources_data,
+            minimum=6,
+        )
         parser_results, web_offers = fetch_multi_chain_offers_v1(
             parser_chains,
             offer_sources_data,
@@ -3034,7 +3436,11 @@ elif st.session_state.page == "SKAI Radar":
         parser_results = []
         web_offers = []
 
-    structured_offers = limit_web_offers(dedupe_offers(web_offers), max_web_offers)
+    clean_web_offers, raw_web_offers = split_offer_quality(web_offers)
+    structured_offers = limit_web_offers(
+        dedupe_offers(clean_web_offers),
+        max_web_offers,
+    )
 
     offer_engine = build_offer_engine_state(
         structured_offers,
@@ -3045,7 +3451,6 @@ elif st.session_state.page == "SKAI Radar":
     )
 
     offers_nearby = offer_engine["offers_nearby"]
-    matched_offers = offer_engine["matched_offers"]
     offers_to_show = offer_engine["offers_to_show"]
     nearby_chains = offer_engine["nearby_chains"]
     web_count = len([offer for offer in structured_offers if offer_origin_group(offer) == "web"])
@@ -3065,10 +3470,13 @@ elif st.session_state.page == "SKAI Radar":
         st.metric("Catene", len(nearby_chains))
 
     with k4:
-        st.metric("Offerte web", web_count)
+        st.metric("Offerte pulite", web_count)
 
     with k5:
-        st.metric("Raggio", f"{radius_km} km")
+        st.metric("Raw scartati", len(raw_web_offers))
+
+    if parser_chains:
+        st.caption("Parser controllati: " + ", ".join(parser_chains))
 
     if best_offer:
         st.markdown(
@@ -3101,9 +3509,20 @@ elif st.session_state.page == "SKAI Radar":
                 st.warning(f"Mappa non disponibile: {MAP_ERROR}")
 
         with side_col:
-            st.markdown("### Negozi vicini")
-            st.caption(f"{location_label} · {stores_source_label}")
+            st.markdown("### Prossime mosse")
+            st.caption(location_label)
 
+            if intent == "Crea una SKiscetta con quello che ho":
+                if selected_ingredients:
+                    st.success("Ingredienti letti. SKAI può proporti una ricetta e controllare offerte correlate.")
+                else:
+                    st.info("Scrivi 3-5 ingredienti per generare una SKiscetta più precisa.")
+            elif intent == "Faccio il piano spesa settimanale":
+                st.success("SKAI userà ricette + offerte pulite per costruire una settimana più conveniente.")
+            else:
+                st.success("Guarda mappa, catene controllate e offerte pulite sotto.")
+
+            st.markdown("#### Negozi vicini")
             nearest_rows = []
             for store in nearby_stores:
                 distance = store.get(
@@ -3122,129 +3541,149 @@ elif st.session_state.page == "SKAI Radar":
 
             nearest_rows.sort(key=lambda item: item[0])
 
-            for distance, store in nearest_rows[:5]:
+            for distance, store in nearest_rows[:4]:
                 with st.container(border=True):
                     st.markdown(f"**{store.get('name', '')}**")
                     st.caption(f"{store.get('type', '')} · {distance:.1f} km")
-                    if store.get("address", ""):
-                        st.write(store.get("address", ""))
 
     st.write("")
-    p_col, c_col = st.columns([1, 1])
 
-    with p_col:
-        with st.container(border=True):
-            st.markdown("### Stato parser")
-            p1, p2, p3 = st.columns(3)
-
-            ok_parsers = len([item for item in parser_results if len(item.get("offers", [])) > 0])
-            checked_parsers = len(parser_results)
-
-            with p1:
-                st.metric("Controllati", checked_parsers)
-
-            with p2:
-                st.metric("Con offerte", ok_parsers)
-
-            with p3:
-                st.metric("Catene", len(nearby_chains))
-
-            if parser_results:
-                with st.expander("Dettaglio parser", expanded=False):
-                    parser_rows = []
-                    for result in parser_results:
-                        extracted = len(result.get("offers", []))
-                        parser_rows.append(
-                            {
-                                "catena": result.get("chain", ""),
-                                "stato": "ok" if extracted > 0 else "nessuna offerta strutturata",
-                                "offerte": extracted,
-                                "messaggio": result.get("message", ""),
-                            }
-                        )
-                    st.dataframe(pd.DataFrame(parser_rows), use_container_width=True, hide_index=True)
-
-    with c_col:
-        with st.container(border=True):
-            st.markdown("### Catene")
-            chain_rows = skai_chain_summary(offers_to_show)
-            if chain_rows:
-                st.dataframe(pd.DataFrame(chain_rows[:8]), use_container_width=True, hide_index=True)
-            elif nearby_chains:
-                st.write(", ".join(nearby_chains[:12]))
-            else:
-                st.info("Nessuna catena riconosciuta nel raggio.")
-
-    st.write("")
-    render_skai_section_label(
-        "Deal feed",
-        "Offerte web leggibili.",
-        "Card compatte per capire subito catena, prezzo e match ingrediente."
-    )
-
-    if selected_ingredients:
-        st.caption("Target: " + ", ".join(selected_ingredients[:12]))
-
-    if not offers_to_show:
-        st.warning(
-            "Nessuna offerta web strutturata disponibile per questo raggio. "
-            "Prova ad ampliare il raggio oppure controlla il dettaglio parser."
+    if intent == "Crea una SKiscetta con quello che ho":
+        render_skai_section_label(
+            "SKiscetta mode",
+            "Da ingredienti casuali a pranzo pronto.",
+            "SKAI parte da quello che hai e usa le offerte solo come acceleratore."
         )
+
+        if selected_ingredients:
+            modular_recipe = generate_modular_recipe(
+                modules,
+                ", ".join(selected_ingredients),
+                goal,
+                max_time,
+                preferences="",
+            )
+            suggestions = skai_recipes_for_home_ingredients(
+                current_recipes,
+                selected_ingredients,
+                goal,
+                limit=3,
+            )
+
+            if modular_recipe:
+                with st.container(border=True):
+                    st.markdown(f"### {modular_recipe.get('title', 'SKiscetta smart')}")
+                    st.write(modular_recipe.get("description", ""))
+                    st.caption("Ingredienti: " + ", ".join(modular_recipe.get("ingredients", [])[:8]))
+                    if st.button("Salva questa SKiscetta", key="save_copilot_modular"):
+                        upsert_custom_recipe(modular_recipe)
+                        save_favorite(modular_recipe["id"])
+
+            st.markdown("### Alternative dal catalogo")
+            cols = st.columns(3)
+            for index, recipe in enumerate(suggestions):
+                with cols[index % 3]:
+                    with st.container(border=True):
+                        st.markdown(f"#### {recipe.get('title', 'Ricetta')}")
+                        st.write(recipe.get("description", ""))
+                        st.caption(", ".join(recipe.get("ingredients", [])[:5]))
+                        if st.button("Salva", key=f"copilot_save_{recipe['id']}"):
+                            save_favorite(recipe["id"])
+        else:
+            st.info("Scrivi ingredienti in alto: SKAI genererà la SKiscetta qui.")
+
+    elif intent == "Faccio il piano spesa settimanale":
+        render_skai_section_label(
+            "Weekly planner",
+            "Piano spesa guidato dalle offerte.",
+            "Se i parser trovano offerte pulite, SKAI dà priorità alle ricette più convenienti."
+        )
+
+        plan = skai_week_plan_from_recipes(
+            current_recipes,
+            offers_to_show,
+            days=weekly_days,
+        )
+
+        if plan:
+            plan_cols = st.columns(2)
+
+            for index, item in enumerate(plan):
+                day = WORK_DAYS[index] if index < len(WORK_DAYS) else f"Giorno {index + 1}"
+                recipe = item["recipe"]
+
+                with plan_cols[index % 2]:
+                    with st.container(border=True):
+                        st.caption(day)
+                        st.markdown(f"#### {recipe.get('title', 'Ricetta')}")
+                        st.write(recipe.get("description", ""))
+                        st.caption(item["reason"])
+
+            if st.button("Salva questo piano nel Meal plan", key="save_skai_week_plan"):
+                for index, item in enumerate(plan):
+                    if index < len(WORK_DAYS):
+                        st.session_state[f"meal_{WORK_DAYS[index]}"] = item["recipe"].get("title", "Nessuna ricetta")
+                st.success("Piano salvato nel Meal plan.")
+
+            shopping_counter = aggregate_ingredients([item["recipe"] for item in plan], [])
+            if shopping_counter:
+                with st.expander("Lista spesa suggerita", expanded=True):
+                    rows = [
+                        {"ingrediente": ingredient, "ricette": count}
+                        for ingredient, count in shopping_counter.most_common()
+                    ]
+                    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
     else:
-        offer_cards = offers_to_show[:12]
-        card_cols = st.columns(3)
+        render_skai_section_label(
+            "Deal feed",
+            "Offerte web pulite.",
+            "Mostro solo card con prodotto e prezzo leggibili. I dati grezzi restano nel pannello tecnico."
+        )
 
-        for index, offer in enumerate(offer_cards):
-            with card_cols[index % 3]:
-                render_skai_offer_card(offer, index)
+    if intent != "Faccio il piano spesa settimanale":
+        if selected_ingredients:
+            st.caption("Target: " + ", ".join(selected_ingredients[:12]))
 
-        with st.expander("Tabella tecnica offerte web", expanded=False):
+        if not offers_to_show:
+            st.warning(
+                "I parser hanno raggiunto le fonti, ma non hanno estratto prodotti abbastanza leggibili per le card. "
+                "Controlla il dettaglio parser o prova un raggio diverso."
+            )
+        else:
+            offer_cards = offers_to_show[:12]
+            card_cols = st.columns(3)
+
+            for index, offer in enumerate(offer_cards):
+                with card_cols[index % 3]:
+                    render_skai_offer_card(offer, index)
+
+    st.write("")
+    with st.expander("Controllo tecnico parser e fonti", expanded=False):
+        parser_rows = []
+        for result in parser_results:
+            extracted = len(result.get("offers", []))
+            parser_rows.append(
+                {
+                    "catena": result.get("chain", ""),
+                    "stato": "ok" if extracted > 0 else "nessuna offerta strutturata",
+                    "offerte_raw": extracted,
+                    "messaggio": result.get("message", ""),
+                }
+            )
+
+        if parser_rows:
+            st.dataframe(pd.DataFrame(parser_rows), use_container_width=True, hide_index=True)
+
+        if offers_to_show:
+            st.caption("Offerte pulite mostrate nelle card")
             rows = offer_rows(offers_to_show, stores_by_id, user_lat=user_lat, user_lon=user_lon)
             st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
-    st.write("")
-    render_skai_section_label(
-        "Recipe match",
-        "Ricette convenienti con le offerte attive.",
-        "SKAI collega ingredienti in offerta e ricette del catalogo."
-    )
-
-    deal_recipes = best_deal_recipes(
-        current_recipes,
-        offers_to_show if offers_to_show else offers_nearby,
-        stores_by_id,
-        limit=6,
-    )
-
-    if not deal_recipes:
-        st.info("Appena i parser trovano offerte compatibili, SKAI mostrerà qui le ricette più convenienti.")
-    else:
-        recipe_cols = st.columns(2)
-
-        for index, item in enumerate(deal_recipes):
-            recipe = item["recipe"]
-
-            with recipe_cols[index % 2]:
-                with st.container(border=True):
-                    st.markdown(f"#### {recipe.get('title', 'Ricetta')}")
-                    st.write(recipe.get("description", ""))
-                    st.caption(
-                        f"Ingredienti coperti: {item['coverage']} / {item['total_ingredients']} · "
-                        f"Prezzi considerati: {item['priced_items']}"
-                    )
-
-                    if item["covered_ingredients"]:
-                        st.write("Offerte su: " + ", ".join(item["covered_ingredients"][:6]))
-
-                    if st.button("Salva", key=f"deal_recipe_save_{recipe['id']}"):
-                        save_favorite(recipe["id"])
-
-    with st.expander("Fonti web e prossimi parser", expanded=False):
-        source_rows = offer_sources_for_stores(nearby_stores, offer_sources_data)
-        if source_rows:
-            st.dataframe(pd.DataFrame(source_rows), use_container_width=True, hide_index=True)
-        else:
-            st.info("Nessuna fonte mappata per le catene nel raggio.")
+        if raw_web_offers:
+            st.caption("Raw parser scartati dalle card perché non abbastanza leggibili")
+            raw_rows = offer_rows(raw_web_offers[:30], stores_by_id, user_lat=user_lat, user_lon=user_lon)
+            st.dataframe(pd.DataFrame(raw_rows), use_container_width=True, hide_index=True)
 
 
 
