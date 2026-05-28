@@ -1,16 +1,16 @@
-# SKiscettAI · SKAI Copilot v9
+# SKiscettAI · SKAI Lean Copilot v10
 
-SKAI ora apre direttamente il flusso utile: scegli il problema da risolvere e l'app mostra solo i campi necessari.
+Release basata sul beta report automatico.
 
-## Migliorie v9
+## Cosa cambia
 
-- apertura diretta su SKAI Radar/Copilot
-- topbar compatta al posto della hero pesante su ogni pagina
-- dropdown/selectbox corretti: niente più bianco-su-bianco
-- flusso più guidato e meno dashboard
-- impostazioni tecniche nascoste
-- parser web con quality gate
-- beta tester Playwright aggiornato
+- app più leggera e meno macchinosa
+- missione, zona e input nello stesso blocco
+- mappa molto più in alto
+- header compatto
+- dropdown/selectbox hard-fix contro bianco-su-bianco
+- controllo tecnico nascosto
+- offerte come bonus, non come blocco
 
 ## Avvio
 
