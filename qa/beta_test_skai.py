@@ -150,38 +150,42 @@ def collect_visual_issues(page) -> List[Dict[str, Any]]:
 
 
 def click_sidebar_page(page, label: str) -> bool:
-    # Streamlit radio labels are not always exposed with clean ARIA names.
-    # Try accessible selectors, then exact text, then a JS fallback.
-    candidates = [
-        f'role=radio[name="{label}"]',
-        f'role=button[name="{label}"]',
-        f'text="{label}"',
+    # Robust Streamlit sidebar navigation.
+    # Streamlit radio labels can be wrapped in several nested spans/divs.
+    attempts = [
+        lambda: page.get_by_text(label, exact=True).click(timeout=3000),
+        lambda: page.locator(f'text={label}').first.click(timeout=3000),
+        lambda: page.locator('[data-testid="stSidebar"]').get_by_text(label, exact=True).click(timeout=3000),
     ]
 
-    for selector in candidates:
+    for attempt in attempts:
         try:
-            page.locator(selector).first.click(timeout=2500)
-            page.wait_for_timeout(1200)
+            attempt()
+            page.wait_for_timeout(1400)
             return True
         except Exception:
-            continue
+            pass
 
     try:
         clicked = page.evaluate(
             """
             (label) => {
-              const nodes = Array.from(document.querySelectorAll('label, button, div, span, p'));
+              const sidebar = document.querySelector('[data-testid="stSidebar"]') || document.body;
+              const nodes = Array.from(sidebar.querySelectorAll('*'));
               const target = nodes.find(el => (el.innerText || '').trim() === label);
               if (!target) return false;
-              target.scrollIntoView({block: 'center'});
-              target.click();
+              const clickable = target.closest('label, button, [role="radio"], [role="button"]') || target;
+              clickable.scrollIntoView({block: 'center'});
+              clickable.dispatchEvent(new MouseEvent('mousedown', {bubbles: true}));
+              clickable.dispatchEvent(new MouseEvent('mouseup', {bubbles: true}));
+              clickable.dispatchEvent(new MouseEvent('click', {bubbles: true}));
               return true;
             }
             """,
             label,
         )
         if clicked:
-            page.wait_for_timeout(1200)
+            page.wait_for_timeout(1400)
             return True
     except Exception:
         pass
