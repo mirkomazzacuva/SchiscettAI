@@ -17,38 +17,27 @@ Funzioni attive:
 - mappa interattiva
 - offerte manuali/CSV come fonte strutturata
 - Offer Engine v1
-- Parser PENNY v1 sperimentale
+- Multi-chain Offer Parser v1 sperimentale
 
-## Offer Engine v1
+## Multi-chain Offer Parser v1
 
-Il motore distingue:
+Il parser non è più centrato su una sola catena. Ora:
 
-- offerte manuali/CSV
-- offerte web future
-- supermercati trovati nel raggio
-- catene riconosciute
-- fonti web mappate
-- parser collegati o ancora da collegare
-
-## Parser PENNY v1
-
-Il primo parser dedicato è sperimentale e sicuro:
-
-- usa la pagina ufficiale PENNY offerte
-- non blocca l'app se il sito non risponde
-- estrae snippet con prezzi quando leggibili
-- normalizza alcune parole chiave in ingredienti
-- aggiunge le offerte come `origin = web_penny`
-- mantiene il Google Sheet/CSV come fallback manuale
+- legge le catene trovate nel raggio scelto dall'utente
+- prova a collegare solo le fonti mappate per quelle catene
+- non blocca l'app se una fonte non risponde
+- somma offerte web e manuali
+- mantiene fallback manuale/CSV
+- mostra lo stato parser per ogni catena
 
 ## Prossimi step
 
-1. Testare Parser PENNY v1 su Streamlit.
-2. Migliorare estrazione nome prodotto / ingrediente.
-3. Aggiungere filtro fonte: manuale / PENNY web / tutte.
-4. Evitare duplicati tra offerte manuali e web.
+1. Migliorare il parser generico per singola catena.
+2. Aggiungere filtro fonte: manuale / web / tutte.
+3. Rimuovere duplicati manuale-web.
+4. Migliorare estrazione nome prodotto / ingrediente.
 5. Aggiungere data validità quando disponibile.
-6. Collegare il secondo parser: Coop o Conad.
+6. Collegare parser dedicato Coop o Conad.
 7. Migliorare ranking negozio consigliato.
 8. Calcolare convenienza per lista spesa completa.
 9. Aggiungere avvisi offerte scadute.
@@ -56,4 +45,4 @@ Il primo parser dedicato è sperimentale e sicuro:
 
 ## Regola tecnica
 
-Ogni fonte web deve avere un parser dedicato, isolato e con fallback. Non fare scraping fragile direttamente nella UI principale.
+Ogni fonte web deve avere fallback. Nessun errore di parser deve rompere la UI principale.
