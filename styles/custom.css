@@ -645,3 +645,270 @@ div[role="radiogroup"] label {
     min-height: 95px !important;
 }
 
+
+
+/* =========================================================
+   SKAI God Mode v8 - hard fixes
+   ========================================================= */
+
+/* Fix Streamlit/BaseWeb dropdown white-on-white */
+[data-baseweb="popover"],
+[data-baseweb="menu"],
+[data-baseweb="select"] ul,
+[role="listbox"] {
+    background: #10172d !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255,255,255,0.20) !important;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.55) !important;
+}
+
+[data-baseweb="menu"] li,
+[role="option"],
+[data-baseweb="popover"] li,
+[data-baseweb="popover"] div {
+    color: #ffffff !important;
+    background-color: #10172d !important;
+    font-weight: 800 !important;
+}
+
+[role="option"]:hover,
+[data-baseweb="menu"] li:hover,
+[data-baseweb="popover"] li:hover {
+    background: linear-gradient(90deg, rgba(40,248,255,0.28), rgba(255,79,216,0.18)) !important;
+    color: #ffffff !important;
+}
+
+[data-baseweb="select"] span,
+[data-baseweb="select"] div,
+[data-baseweb="select"] input {
+    color: #ffffff !important;
+}
+
+/* Intent-first radio cards */
+div[role="radiogroup"] {
+    gap: 0.75rem !important;
+}
+
+div[role="radiogroup"] label {
+    min-height: 3.05rem !important;
+    justify-content: center !important;
+    text-align: center !important;
+    background: linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)) !important;
+    border: 1px solid rgba(255,255,255,0.19) !important;
+    border-radius: 999px !important;
+}
+
+/* Make checkboxes/toggles less ugly */
+[data-testid="stCheckbox"] label,
+[data-testid="stToggle"] label {
+    font-size: 0.95rem !important;
+    font-weight: 850 !important;
+}
+
+.skai-action-plan {
+    margin-top: 0.85rem;
+    padding: 0.95rem 1rem;
+    border-radius: 22px;
+    background: linear-gradient(90deg, rgba(93,255,191,0.14), rgba(40,248,255,0.12)), rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.16);
+}
+
+.skai-action-plan strong {
+    display: block;
+    font-size: 1rem;
+    color: #ffffff !important;
+    margin-bottom: 0.25rem;
+}
+
+.skai-action-plan span {
+    color: rgba(255,255,255,0.78) !important;
+    font-weight: 800;
+}
+
+/* Deal cards */
+.skai-offer-card {
+    min-height: 235px;
+    padding: 1rem;
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)), radial-gradient(circle at 20% 0%, rgba(40,248,255,0.18), transparent 34%);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 20px 58px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
+    backdrop-filter: blur(20px);
+    margin-bottom: 0.85rem;
+}
+
+.skai-offer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.7rem;
+}
+
+.skai-offer-top span {
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.38rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.86);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 900;
+}
+
+.skai-offer-price {
+    font-size: 2.25rem;
+    line-height: 1;
+    letter-spacing: -0.055em;
+    font-weight: 1000;
+    color: #ffffff;
+    text-shadow: 0 0 22px rgba(40,248,255,0.20);
+    margin-bottom: 0.7rem;
+}
+
+.skai-offer-product {
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.3;
+    font-weight: 850;
+    min-height: 4.0rem;
+}
+
+.skai-offer-match {
+    margin-top: 0.85rem;
+    color: rgba(93,255,191,0.92);
+    font-weight: 850;
+    font-size: 0.86rem;
+}
+
+[data-testid="stTextArea"] textarea {
+    min-height: 95px !important;
+}
+
+
+/* =========================================================
+   SKAI v9 — hard fix dropdown/select contrast
+   ========================================================= */
+
+/* Streamlit/BaseWeb select control */
+[data-baseweb="select"],
+[data-baseweb="select"] > div,
+[data-baseweb="select"] div {
+    color: #ffffff !important;
+}
+
+[data-baseweb="select"] input {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-baseweb="select"] svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+/* Popover menu opened by selectbox */
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div,
+[data-baseweb="popover"] ul,
+[data-baseweb="popover"] li,
+[data-baseweb="menu"],
+[role="listbox"] {
+    background: #0b1022 !important;
+    color: #ffffff !important;
+    border-color: rgba(255,255,255,0.18) !important;
+}
+
+[role="option"],
+[role="option"] *,
+[data-baseweb="menu"] li,
+[data-baseweb="menu"] li * {
+    background: #0f1730 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[role="option"]:hover,
+[data-baseweb="menu"] li:hover {
+    background: linear-gradient(90deg, rgba(40,248,255,0.22), rgba(255,79,216,0.16)) !important;
+    color: #ffffff !important;
+}
+
+/* Fix selected-value pills/text inside dropdowns */
+[data-testid="stSelectbox"] *,
+[data-testid="stMultiSelect"] * {
+    color: #ffffff !important;
+}
+
+/* But keep text inputs readable: white field, dark typed text */
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea {
+    color: #101225 !important;
+    -webkit-text-fill-color: #101225 !important;
+}
+
+/* Compact global topbar */
+.skai-topbar {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
+    gap: 1rem;
+    align-items: center;
+    padding: 0.95rem 1.05rem;
+    margin-bottom: 0.8rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04)),
+        radial-gradient(circle at 15% 0%, rgba(40,248,255,0.18), transparent 34%);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.30);
+    backdrop-filter: blur(22px);
+}
+
+.skai-topbar-kicker {
+    display: block;
+    color: var(--mint);
+    font-size: 0.72rem;
+    font-weight: 1000;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.22rem;
+}
+
+.skai-topbar strong {
+    color: #ffffff !important;
+    font-size: 1.85rem;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    font-weight: 1000;
+    text-shadow: 0 0 22px rgba(40,248,255,0.22);
+}
+
+.skai-topbar p {
+    margin: 0 !important;
+    color: rgba(255,255,255,0.78) !important;
+    font-weight: 800;
+}
+
+/* Make the mission selector feel like the product's main entry point */
+div[role="radiogroup"] label {
+    min-height: 3.2rem;
+    font-size: 0.98rem !important;
+}
+
+/* Less empty vertical weight */
+.block-container {
+    padding-top: 0.85rem !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stForm"] {
+    border-radius: 22px !important;
+}
+
+@media screen and (max-width: 900px) {
+    .skai-topbar {
+        grid-template-columns: 1fr;
+    }
+}
