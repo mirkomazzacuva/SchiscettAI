@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://www.penny.it/offerte",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   },
   {
     "chain": "Coop",
@@ -20,10 +20,10 @@
       "unicoop firenze",
       "centro*siena"
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   },
   {
     "chain": "Conad",
@@ -33,10 +33,10 @@
       "conad superstore",
       "sapori e dintorni conad"
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://volantini.conad.it/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   },
   {
     "chain": "PAM",
@@ -46,40 +46,40 @@
       "pam local",
       "panorama"
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://www.pampanorama.it/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   },
   {
     "chain": "Lidl",
     "aliases": [
       "lidl"
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://www.lidl.it/c/offerte/c10026788",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   },
   {
     "chain": "Eurospin",
     "aliases": [
       "eurospin"
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://www.eurospin.it/volantino/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   },
   {
     "chain": "Esselunga",
     "aliases": [
       "esselunga"
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   },
   {
     "chain": "Carrefour",
@@ -88,10 +88,10 @@
       "carrefour market",
       "carrefour express"
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://www.carrefour.it/promozioni/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   },
   {
     "chain": "MD",
@@ -99,9 +99,9 @@
       "md",
       "md discount"
     ],
-    "mode": "skai_ultimate_v4",
+    "mode": "skai_black_label_v5",
     "url": "https://www.mdspa.it/volantino/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata al framework SKAI Ultimate v4: parser web non bloccante, mappa-first, offerte web-only."
+    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
   }
 ]
