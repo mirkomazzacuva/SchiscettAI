@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://www.penny.it/offerte",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   },
   {
     "chain": "Coop",
@@ -20,10 +20,10 @@
       "unicoop firenze",
       "centro*siena"
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   },
   {
     "chain": "Conad",
@@ -33,10 +33,10 @@
       "conad superstore",
       "sapori e dintorni conad"
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://volantini.conad.it/",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   },
   {
     "chain": "PAM",
@@ -46,40 +46,40 @@
       "pam local",
       "panorama"
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://www.pampanorama.it/",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   },
   {
     "chain": "Lidl",
     "aliases": [
       "lidl"
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://www.lidl.it/c/offerte/c10026788",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   },
   {
     "chain": "Eurospin",
     "aliases": [
       "eurospin"
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://www.eurospin.it/volantino/",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   },
   {
     "chain": "Esselunga",
     "aliases": [
       "esselunga"
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   },
   {
     "chain": "Carrefour",
@@ -88,10 +88,10 @@
       "carrefour market",
       "carrefour express"
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://www.carrefour.it/promozioni/",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   },
   {
     "chain": "MD",
@@ -99,9 +99,9 @@
       "md",
       "md discount"
     ],
-    "mode": "multi_chain_parser_v1",
+    "mode": "multi_chain_parser_v1_1",
     "url": "https://www.mdspa.it/volantino/",
     "status": "parser_experimental",
-    "notes": "Fonte collegata al parser multi-catena v1 sperimentale. Se non restituisce offerte, resta attivo il fallback manuale."
+    "notes": "Fonte collegata al parser multi-catena v1.1 sperimentale. Include filtro fonte, limite offerte web e fallback manuale."
   }
 ]
