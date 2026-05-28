@@ -24,15 +24,15 @@ except Exception as error:
 
 
 st.set_page_config(
-    page_title="SchiscettAI",
-    page_icon="🍱",
+    page_title="SKiscettAI · SKAI",
+    page_icon="⚡",
     layout="wide",
 )
 
 
 WORK_DAYS = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
 
-REMOTE_OFFERS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQADckMEswns4YcXqZyqaUxh_6YCPrFuPzLL3xJlg9UH6lBVtBJhk0T0RmK4aqLIucK1VV0XFCArepX/pub?gid=1684172085&single=true&output=csv"
+REMOTE_OFFERS_web_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQADckMEswns4YcXqZyqaUxh_6YCPrFuPzLL3xJlg9UH6lBVtBJhk0T0RmK4aqLIucK1VV0XFCArepX/pub?gid=1684172085&single=true&output=csv"
 
 CLUSTER_VISUALS = {
     "riso_pollo": {
@@ -207,7 +207,7 @@ def load_offers_from_remote_csv(csv_url):
                     "User-Agent": (
                         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                         "AppleWebKit/537.36 (KHTML, like Gecko) "
-                        "Chrome/125.0 Safari/537.36 SchiscettAI/1.0"
+                        "Chrome/125.0 Safari/537.36 SKiscettAI/1.0"
                     ),
                     "Accept": "text/csv,text/plain,*/*",
                 },
@@ -235,7 +235,7 @@ def load_offers_from_remote_csv(csv_url):
             attempted.append(f"ERRORE - {candidate_url} - {error}")
 
     raise RuntimeError(
-        "Non ho trovato un URL CSV valido tra le varianti provate. "
+        "Non ho trovato un URL web valido tra le varianti provate. "
         f"Tentativi: {' | '.join(attempted[:6])}. "
         f"Ultima risposta iniziale: {last_preview}"
     )
@@ -249,8 +249,8 @@ def load_offers_data(remote_csv_url, local_csv_path, json_path):
                 return offers
         except Exception as error:
             st.warning(
-                "Non riesco a leggere il Google Sheet pubblicato. "
-                f"Uso il CSV locale o il JSON di fallback. Dettaglio: {error}"
+                "Non riesco a leggere il parser web pubblicato. "
+                f"Uso il web locale o il JSON di fallback. Dettaglio: {error}"
             )
 
     csv_file = Path(local_csv_path)
@@ -282,7 +282,7 @@ def build_cluster_visuals(clusters):
         if cluster_id:
             visuals[cluster_id] = {
                 "emoji": cluster.get("emoji", "🍽️"),
-                "title": cluster.get("name", "Schiscetta smart"),
+                "title": cluster.get("name", "SKiscetta smart"),
                 "subtitle": cluster.get(
                     "description",
                     "Ricetta pratica e facile da portare",
@@ -384,7 +384,7 @@ def build_shopping_text(counter):
     if not counter:
         return "Lista della spesa vuota."
 
-    lines = ["Lista della spesa SchiscettAI", ""]
+    lines = ["Lista della spesa SKiscettAI", ""]
 
     for ingredient, count in sorted(counter.items()):
         if count > 1:
@@ -584,7 +584,7 @@ def fetch_chain_offers_v1(chain, url):
             headers={
                 "User-Agent": (
                     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36 SchiscettAI/1.0"
+                    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0 Safari/537.36 SKiscettAI/1.0"
                 ),
                 "Accept": "text/html,text/plain,*/*",
             },
@@ -669,7 +669,7 @@ def format_offer_origin(origin):
     origin = str(origin or "manual")
 
     if origin == "manual":
-        return "manuale"
+        return "web"
 
     if origin.startswith("web_"):
         chain = origin.replace("web_", "").replace("_", " ").strip().upper()
@@ -746,7 +746,7 @@ def dedupe_offers(offers):
 
 
 def filter_offers_by_source(offers, source_filter):
-    if source_filter == "Solo manuali":
+    if source_filter == "Solo web":
         return [offer for offer in offers if offer_origin_group(offer) == "manual"]
 
     if source_filter == "Solo web":
@@ -771,7 +771,7 @@ def offer_source_counts(offers):
 def source_filter_label():
     return [
         "Tutte",
-        "Solo manuali",
+        "Solo web",
         "Solo web",
     ]
 
@@ -952,7 +952,7 @@ def geocode_postcode(postcode, country="Italia"):
                 "addressdetails": 1,
             },
             headers={
-                "User-Agent": "SchiscettAI-demo/1.0 (Streamlit app; contact: demo)"
+                "User-Agent": "SKiscettAI-demo/1.0 (Streamlit app; contact: demo)"
             },
             timeout=8,
         )
@@ -1245,7 +1245,7 @@ def fetch_osm_supermarkets(lat, lon, radius_km):
     response = requests.post(
         "https://overpass-api.de/api/interpreter",
         data={"data": query},
-        headers={"User-Agent": "SchiscettAI-demo/1.0"},
+        headers={"User-Agent": "SKiscettAI-demo/1.0"},
         timeout=25,
     )
 
@@ -1374,9 +1374,9 @@ def merge_discovered_and_manual_stores(discovered_stores, manual_stores, user_la
     )
 
     if nearby_manual:
-        return nearby_manual, "Fallback manuale"
+        return nearby_manual, "Fallback web"
 
-    return manual_stores, "Fallback manuale completo"
+    return manual_stores, "Fallback web completo"
 
 
 
@@ -1486,7 +1486,7 @@ def normalize_for_match(value):
 
 def offer_source_status_label(status):
     labels = {
-        "manual_active": "Offerte manuali attive",
+        "manual_active": "Offerte web attive",
         "source_mapped": "Fonte web mappata",
         "source_mapped_dynamic": "Fonte web dinamica",
         "parser_ready": "Parser pronto",
@@ -1652,7 +1652,7 @@ def build_offer_engine_state(
 
         if has_manual_offers:
             status = "manual_active"
-            reason = "Sono presenti offerte manuali/CSV per questa catena."
+            reason = "Sono presenti offerte web/web per questa catena."
         else:
             status = source.get("status", "not_configured")
             reason = source.get(
@@ -1664,7 +1664,7 @@ def build_offer_engine_state(
             {
                 "catena": chain,
                 "stato": offer_source_status_label(status),
-                "offerte_manuali": "sì" if has_manual_offers else "no",
+                "offerte_web": "sì" if has_manual_offers else "no",
                 "fonte_web": source.get("url", ""),
                 "prossimo_step": "parser dedicato" if not has_manual_offers else "monitoraggio offerte",
                 "nota": reason,
@@ -1700,7 +1700,7 @@ def offer_engine_explanation(engine_state):
 
     if not offer_chains:
         return (
-            "Ho trovato supermercati nel raggio, ma non ci sono ancora offerte manuali "
+            "Ho trovato supermercati nel raggio, ma non ci sono ancora offerte web "
             "caricate per quelle catene."
         )
 
@@ -1710,10 +1710,10 @@ def offer_engine_explanation(engine_state):
     )
 
     if common:
-        return "Ho trovato catene nel raggio con offerte manuali disponibili."
+        return "Ho trovato catene nel raggio con offerte web disponibili."
 
     return (
-        "Le offerte manuali sono caricate, ma appartengono a catene diverse da quelle "
+        "Le offerte web sono caricate, ma appartengono a catene diverse da quelle "
         "trovate nel raggio. Mostro comunque le offerte come fallback."
     )
 
@@ -1791,7 +1791,7 @@ def get_cluster_visual(recipe):
         cluster,
         {
             "emoji": "🍽️",
-            "title": recipe.get("category", "Schiscetta smart"),
+            "title": recipe.get("category", "SKiscetta smart"),
             "subtitle": "Ricetta pratica, buona e facile da portare",
         },
     )
@@ -1860,8 +1860,8 @@ def pick_style(styles, goal):
     return {
         "id": "smart",
         "name": "smart",
-        "title_template": "Schiscetta smart con {base}, {protein} e {vegetable}",
-        "description": "Una schiscetta semplice, pratica e pensata per la pausa pranzo.",
+        "title_template": "SKiscetta smart con {base}, {protein} e {vegetable}",
+        "description": "Una SKiscetta semplice, pratica e pensata per la pausa pranzo.",
     }
 
 
@@ -1965,7 +1965,7 @@ def generate_modular_recipe(modules, user_ingredients, goal, max_time, preferenc
 
     title_template = style.get(
         "title_template",
-        "Schiscetta smart con {base}, {protein} e {vegetable}",
+        "SKiscetta smart con {base}, {protein} e {vegetable}",
     )
 
     title = title_template.format(
@@ -1989,7 +1989,7 @@ def generate_modular_recipe(modules, user_ingredients, goal, max_time, preferenc
         "title": title,
         "description": style.get(
             "description",
-            "Una schiscetta modulare, pratica e pensata per la pausa pranzo.",
+            "Una SKiscetta modulare, pratica e pensata per la pausa pranzo.",
         ),
         "category": "Ricetta modulare",
         "goal": goal,
@@ -2140,7 +2140,7 @@ def cluster_tile(cluster_id, recipes_count=None):
         cluster_id,
         {
             "emoji": "🍽️",
-            "title": "Schiscetta smart",
+            "title": "SKiscetta smart",
             "subtitle": "Idee pratiche per la pausa pranzo",
         },
     )
@@ -2261,7 +2261,7 @@ modules = load_json("data/modules.json")
 clusters_data = load_json("data/clusters.json")
 stores_data = load_json("data/stores.json")
 offer_sources_data = load_json("data/offer_sources.json")
-offers_data = load_offers_data(REMOTE_OFFERS_CSV_URL, "data/offers_template.csv", "data/offers.json")
+offers_data = []  # SKAI web-only mode: manual offers disabled in the main flow
 
 if clusters_data:
     CLUSTER_VISUALS.update(build_cluster_visuals(clusters_data))
@@ -2295,15 +2295,15 @@ cluster_groups = recipes_by_cluster(all_recipes)
 
 pages = [
     "Home",
-    "Crea schiscetta",
-    "Spesa smart",
+    "Crea SKiscetta",
+    "SKAI Radar",
     "Ricette",
     "Lista spesa",
     "Meal plan",
     "Preferiti",
 ]
 
-st.sidebar.title("🍱 SchiscettAI")
+st.sidebar.title("🍱 SKiscettAI")
 
 selected_page = st.sidebar.radio(
     "Menu",
@@ -2316,19 +2316,19 @@ st.session_state.page = selected_page
 st.sidebar.divider()
 st.sidebar.caption("Smart lunch planner")
 st.sidebar.caption("GitHub + Streamlit + database locale")
-st.sidebar.caption("Offerte: Google Sheet + fonti web")
+st.sidebar.caption("Offerte: parser web + fonti web")
 st.sidebar.caption(f"Ricette modulari create: {len(st.session_state.custom_recipes)}")
 
 
-st.title("🍱 SchiscettAI")
-st.subheader("La schiscetta non è mai stata così smart.")
+st.title("🍱 SKiscettAI")
+st.subheader("La SKiscetta non è mai stata così smart.")
 
 st.write("**La tua pausa pranzo intelligente**")
 st.write("**Ricette smart per mangiare meglio ogni giorno**")
 st.write("**Prepara, risparmia, gusta**")
 
 st.write(
-    "Trasforma quello che hai in frigo in una schiscetta bella, pratica e intelligente. "
+    "Trasforma quello che hai in frigo in una SKiscetta bella, pratica e intelligente. "
     "Una web app gratuita, glamour e pensata per pranzi da portare al lavoro senza stress."
 )
 
@@ -2336,7 +2336,7 @@ st.divider()
 
 
 if st.session_state.page == "Home":
-    st.markdown("## Benvenuto in SchiscettAI")
+    st.markdown("## Benvenuto in SKiscettAI")
 
     m1, m2, m3, m4 = st.columns(4)
 
@@ -2362,18 +2362,18 @@ if st.session_state.page == "Home":
             st.markdown("### 🥗 Crea")
             st.write(
                 "Inserisci gli ingredienti che hai già e ricevi sia ricette dal catalogo "
-                "sia una nuova schiscetta modulare originale."
+                "sia una nuova SKiscetta modulare originale."
             )
-            if st.button("Crea la mia schiscetta"):
-                go_to("Crea schiscetta")
+            if st.button("Crea la mia SKiscetta"):
+                go_to("Crea SKiscetta")
                 st.rerun()
 
     with col2:
         with st.container(border=True):
-            st.markdown("### 🛒 Spesa smart")
+            st.markdown("### 🛒 SKAI Radar")
             st.write("Trova offerte vicino al tuo CAP e scopri quali schiscette convengono oggi.")
-            if st.button("Vai a Spesa smart"):
-                go_to("Spesa smart")
+            if st.button("Vai a SKAI Radar"):
+                go_to("SKAI Radar")
                 st.rerun()
 
     with col3:
@@ -2385,7 +2385,7 @@ if st.session_state.page == "Home":
                 st.rerun()
 
     st.write("")
-    st.markdown("## Mood schiscetta")
+    st.markdown("## Mood SKiscetta")
 
     cluster_items = list(cluster_groups.items())[:6]
     cluster_cols = st.columns(3)
@@ -2407,8 +2407,8 @@ if st.session_state.page == "Home":
                 compact_recipe_preview(recipe, key_prefix="home_featured")
 
 
-elif st.session_state.page == "Crea schiscetta":
-    st.markdown("## Crea la tua schiscetta")
+elif st.session_state.page == "Crea SKiscetta":
+    st.markdown("## Crea la tua SKiscetta")
 
     if not all_recipes:
         st.error(
@@ -2418,11 +2418,11 @@ elif st.session_state.page == "Crea schiscetta":
     with st.container(border=True):
         st.markdown("### Generatore smart gratuito")
         st.write(
-            "SchiscettAI ora fa due cose: cerca nel catalogo le ricette più vicine "
-            "e crea anche una schiscetta modulare originale usando base + proteina + verdura + salsa + topping."
+            "SKiscettAI ora fa due cose: cerca nel catalogo le ricette più vicine "
+            "e crea anche una SKiscetta modulare originale usando base + proteina + verdura + salsa + topping."
         )
 
-    with st.form("schiscetta_form"):
+    with st.form("SKiscetta_form"):
         ingredienti = st.text_input(
             "Che ingredienti hai in casa?",
             placeholder="Esempio: pollo, riso, zucchine",
@@ -2461,7 +2461,7 @@ elif st.session_state.page == "Crea schiscetta":
             placeholder="Esempio: senza pesce, più proteica, da mangiare fredda",
         )
 
-        submitted = st.form_submit_button("Genera la mia schiscetta")
+        submitted = st.form_submit_button("Genera la mia SKiscetta")
 
     if submitted:
         if not ingredienti.strip():
@@ -2496,7 +2496,7 @@ elif st.session_state.page == "Crea schiscetta":
             all_recipes = combined_recipes()
 
     if st.session_state.generated_recipe_ids:
-        st.success("Ecco la tua schiscetta modulare più le ricette più vicine dal catalogo.")
+        st.success("Ecco la tua SKiscetta modulare più le ricette più vicine dal catalogo.")
 
         current_recipes = combined_recipes()
 
@@ -2695,7 +2695,7 @@ elif st.session_state.page == "Lista spesa":
         st.download_button(
             "Scarica lista della spesa",
             data=shopping_text,
-            file_name="lista_spesa_schiscettai.txt",
+            file_name="lista_spesa_skiscettai.txt",
             mime="text/plain",
         )
 
@@ -2705,11 +2705,11 @@ elif st.session_state.page == "Lista spesa":
 
 
 
-elif st.session_state.page == "Spesa smart":
-    st.markdown("## Spesa smart")
+elif st.session_state.page == "SKAI Radar":
+    st.markdown("## SKAI Radar")
 
     st.info(
-        "Beta Siena: inserisci il CAP, scegli il raggio e SchiscettAI incrocia ricette, lista spesa, negozi vicini e offerte lette dal Google Sheet."
+        "Beta Siena: inserisci il CAP, scegli il raggio e SKiscettAI incrocia ricette, lista spesa, negozi vicini e offerte lette dal parser web."
     )
 
     current_recipes = combined_recipes()
@@ -2717,67 +2717,51 @@ elif st.session_state.page == "Spesa smart":
     meal_plan_recipes = get_meal_plan_recipes(current_recipes)
 
     with st.container(border=True):
-        st.markdown("### Fonte offerte")
+        st.markdown("### SKAI Deal Radar")
         st.write(
-            "Le offerte strutturate arrivano dal Google Sheet/CSV manuale. "
-            "Il parser multi-catena prova a leggere solo le catene trovate nel raggio selezionato."
+            "SKAI lavora in modalità **web-only**: trova i supermercati nel raggio scelto "
+            "e prova a leggere offerte web dalle catene presenti nella zona."
         )
-        st.caption("Cache automatica: circa ogni 30 minuti. Usa il bottone per forzare subito la rilettura.")
-        st.code(REMOTE_OFFERS_CSV_URL)
 
-        control_col1, control_col2, control_col3 = st.columns([1, 1, 1])
+        control_col1, control_col2 = st.columns([1, 1])
 
         with control_col1:
             use_web_parsers = st.checkbox(
-                "Attiva parser web multi-catena sperimentale",
+                "Attiva parser web multi-catena",
                 value=True,
             )
 
         with control_col2:
-            source_filter = st.selectbox(
-                "Fonte offerte",
-                source_filter_label(),
-                index=0,
-            )
-
-        with control_col3:
             max_web_offers = st.select_slider(
                 "Limite offerte web",
                 options=[10, 20, 30, 50, 100],
-                value=30,
+                value=50,
             )
 
         st.caption(
-            "Il parser è sicuro e non bloccante: se una catena non risponde, l'app usa comunque le offerte manuali."
+            "Le offerte web/web sono disattivate nel flusso principale. "
+            "Se un sito non risponde, SKAI continua con le altre catene senza rompere l'app."
         )
 
         parser_results = []
         web_offers = []
-        structured_offers = offers_data
+        structured_offers = []
 
-        source_col1, source_col2, source_col3, source_col4 = st.columns(4)
+        source_col1, source_col2, source_col3 = st.columns(3)
 
         with source_col1:
-            st.metric("Offerte manuali", len(offers_data))
+            st.metric("Modalità", "web-only")
 
         with source_col2:
             st.metric("Web parser", len(web_offers))
 
         with source_col3:
-            st.metric("Totale offerte", len(structured_offers))
-
-        with source_col4:
             st.metric("Punti vendita", len(stores_data))
 
-        if st.button("Aggiorna offerte ora", key="refresh_offers_top"):
+        if st.button("Ricarica radar offerte", key="refresh_offers_top"):
             st.cache_data.clear()
-            st.success("Cache svuotata. Rileggo offerte manuali, parser e negozi.")
+            st.success("Cache svuotata. Rileggo parser web e negozi.")
             st.rerun()
-
-        if not structured_offers:
-            st.warning(
-                "Non vedo offerte caricate. Controlla il Google Sheet/CSV oppure disattiva e riattiva il parser web."
-            )
 
     with st.container(border=True):
         st.markdown("### Scegli cosa vuoi ottimizzare")
@@ -2900,7 +2884,7 @@ elif st.session_state.page == "Spesa smart":
         discovered_stores_raw = []
         st.warning(
             "Ricerca automatica supermercati non disponibile in questo momento. "
-            f"Uso i punti vendita manuali come fallback. Dettaglio: {error}"
+            f"Uso i punti vendita web come fallback. Dettaglio: {error}"
         )
 
     discovered_stores = enrich_discovered_stores(
@@ -2923,22 +2907,16 @@ elif st.session_state.page == "Spesa smart":
         parser_results, web_offers = fetch_multi_chain_offers_v1(
             parser_chains,
             offer_sources_data,
-            max_chains=5,
+            max_chains=6,
         )
     else:
         parser_chains = []
         parser_results = []
         web_offers = []
 
-    raw_structured_offers = offers_data + web_offers
-    deduped_offers = dedupe_offers(raw_structured_offers)
-    limited_offers = limit_web_offers(
-        deduped_offers,
-        max_web_offers if "max_web_offers" in locals() else 30,
-    )
-    structured_offers = filter_offers_by_source(
-        limited_offers,
-        source_filter if "source_filter" in locals() else "Tutte",
+    structured_offers = limit_web_offers(
+        dedupe_offers(web_offers),
+        max_web_offers if "max_web_offers" in locals() else 50,
     )
 
     offer_engine = build_offer_engine_state(
@@ -3001,7 +2979,7 @@ elif st.session_state.page == "Spesa smart":
     if offers_data and not offers_nearby:
         st.warning(
             "Le offerte sono caricate, ma non corrispondono ai negozi trovati nel raggio. "
-            "Mostro comunque tutte le offerte manuali sotto come fallback."
+            "Mostro comunque tutte le offerte web sotto come fallback."
         )
 
     st.markdown("### Stato Offer Engine")
@@ -3017,7 +2995,7 @@ elif st.session_state.page == "Spesa smart":
         st.metric("Catene trovate", summary["nearby_chains"])
 
     with e3:
-        st.metric("Offerte manuali", summary["manual_offers"])
+        st.metric("Offerte web", summary["manual_offers"])
 
     with e4:
         st.metric("Offerte visibili", summary["visible_offers"])
@@ -3036,7 +3014,7 @@ elif st.session_state.page == "Spesa smart":
         st.caption("Catene trovate nel raggio: " + ", ".join(nearby_chains[:12]))
 
     if offer_chains:
-        st.caption("Catene presenti nelle offerte manuali: " + ", ".join(offer_chains[:12]))
+        st.caption("Catene presenti nelle offerte web: " + ", ".join(offer_chains[:12]))
 
     if "parser_results" in locals() and parser_results:
         with st.expander("Stato parser web per le catene nel raggio", expanded=False):
@@ -3061,7 +3039,7 @@ elif st.session_state.page == "Spesa smart":
     o1, o2, o3, o4 = st.columns(4)
 
     with o1:
-        st.metric("Manuali", manual_count if "manual_count" in locals() else len(offers_data))
+        st.metric("Web", web_count if "web_count" in locals() else len(structured_offers))
 
     with o2:
         st.metric("Web", web_count if "web_count" in locals() else 0)
@@ -3074,7 +3052,7 @@ elif st.session_state.page == "Spesa smart":
 
     if not offers_data:
         st.warning(
-            "Non sto leggendo offerte strutturate. Apri Admin offerte e clicca Aggiorna offerte ora; "
+            "Non sto leggendo offerte strutturate. Apri Admin offerte e clicca Ricarica offerte web; "
             "se resta vuoto, controlla che il foglio pubblicato abbia intestazioni e righe compilate."
         )
 
@@ -3132,13 +3110,13 @@ elif st.session_state.page == "Spesa smart":
         st.caption(
             "Ingredienti considerati: "
             + ", ".join(selected_ingredients)
-            + f" · Filtro fonte: {source_filter if 'source_filter' in locals() else 'Tutte'}"
+            
         )
         offers_to_show = matched_offers
     else:
         st.caption(
             "Nessuna ricetta/ingrediente selezionato: mostro le offerte nel raggio. "
-            f"Filtro fonte: {source_filter if 'source_filter' in locals() else 'Tutte'}"
+            "web-only"
         )
         offers_to_show = offers_nearby
 
@@ -3149,22 +3127,15 @@ elif st.session_state.page == "Spesa smart":
         )
         offers_to_show = offers_nearby
 
-    if not offers_to_show and offers_data:
-        st.warning(
-            "Nessuna offerta associata alle catene nel raggio. "
-            "Mostro tutte le offerte caricate come fallback, così puoi verificare subito i dati."
-        )
-        offers_to_show = offers_data
-
     if not offers_to_show:
         st.warning(
-            "Nessuna offerta visibile. Clicca Aggiorna offerte ora o controlla il CSV pubblicato."
+            "Nessuna offerta web visibile. Prova ad ampliare il raggio o controlla lo stato parser."
         )
     else:
         rows = offer_rows(offers_to_show, stores_by_id, user_lat=user_lat, user_lon=user_lon)
         st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
-        with st.expander("Vedi tutte le offerte caricate dal Google Sheet", expanded=False):
+        with st.expander("Vedi tutte le offerte caricate dal parser web", expanded=False):
             all_rows = offer_rows(offers_data, stores_by_id, user_lat=user_lat, user_lon=user_lon)
             st.dataframe(pd.DataFrame(all_rows), use_container_width=True, hide_index=True)
 
@@ -3228,7 +3199,7 @@ elif st.session_state.page == "Spesa smart":
     if not deal_recipes:
         st.info(
             "Non ci sono ancora abbastanza offerte collegate agli ingredienti delle ricette. "
-            "Aggiungi offerte nel Google Sheet per vedere suggerimenti migliori."
+            "Aggiungi offerte nel parser web per vedere suggerimenti migliori."
         )
     else:
         for item in deal_recipes:
@@ -3264,28 +3235,28 @@ elif st.session_state.page == "Spesa smart":
 
     with st.expander("Admin offerte", expanded=False):
         st.markdown("### Fonte offerte automatica")
-        st.write("Google Sheet pubblicato come CSV:")
-        st.code(REMOTE_OFFERS_CSV_URL)
+        st.write("parser web pubblicato come web:")
+        st.code(REMOTE_OFFERS_web_URL)
         st.caption("Cache aggiornamento: circa ogni 30 minuti. Se le offerte non compaiono, premi il bottone qui sotto.")
 
-        if st.button("Aggiorna offerte ora"):
+        if st.button("Ricarica offerte web"):
             st.cache_data.clear()
-            st.success("Cache svuotata. Rileggo subito le offerte dal Google Sheet.")
+            st.success("Cache svuotata. Rileggo subito le offerte dal parser web.")
             st.rerun()
 
         st.markdown("### Come aggiornare le offerte")
         st.write(
-            "1. Apri il Google Sheet **SchiscettAI offerte**.\n"
+            "1. Apri il parser web **SKiscettAI offerte**.\n"
             "2. Inserisci le offerte dalla riga 2 in poi.\n"
             "3. Non cambiare i nomi delle colonne nella prima riga.\n"
             "4. Usa `store_id` identici a quelli presenti in `data/stores.json`.\n"
-            "5. Attendi qualche minuto o clicca **Aggiorna offerte ora**."
+            "5. Attendi qualche minuto o clicca **Ricarica offerte web**."
         )
 
         st.download_button(
             "Scarica offerte attualmente caricate",
             data=offers_to_csv_text(offers_data),
-            file_name="offers_attuali_schiscettai.csv",
+            file_name="offers_attuali_skiscettai.csv",
             mime="text/csv",
         )
 
@@ -3305,7 +3276,7 @@ elif st.session_state.page == "Spesa smart":
         if not issues:
             st.success("Formato offerte OK.")
         else:
-            st.warning("Sono stati trovati problemi da correggere nel Google Sheet.")
+            st.warning("Sono stati trovati problemi da correggere nel parser web.")
             st.dataframe(pd.DataFrame(issues), use_container_width=True, hide_index=True)
 
         st.markdown("### Store ID disponibili")
@@ -3331,7 +3302,7 @@ elif st.session_state.page == "Spesa smart":
     st.write("")
     st.markdown("### Come evolverà questa funzione")
     st.write(
-        "Ora usiamo Google Sheet/CSV aggiornabile. Il prossimo step sarà collegare volantini reali "
+        "Ora usiamo parser web aggiornabile. Il prossimo step sarà collegare volantini reali "
         "e fonti ufficiali o scraping controllato dove consentito."
     )
 
@@ -3346,7 +3317,7 @@ elif st.session_state.page == "Meal plan":
     with st.container(border=True):
         st.markdown("### Organizza la tua settimana")
         st.write(
-            "Scegli una schiscetta per ogni giorno lavorativo. "
+            "Scegli una SKiscetta per ogni giorno lavorativo. "
             "Le ricette selezionate alimentano automaticamente la lista della spesa."
         )
 
