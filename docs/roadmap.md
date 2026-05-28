@@ -1,64 +1,123 @@
 # SKiscettAI Roadmap
 
-## Nome progetto
+## Release: SKAI Ultimate v4
 
-Il progetto si chiama **SKiscettAI**.
+Obiettivo: trasformare l'app in una dashboard futuristica, compatta e usabile.
 
-Acronimo: **SKAI**.
+Miglioramenti inclusi:
 
-## Stato attuale
+- hero cinematica compatta
+- sidebar corretta e leggibile
+- Home come command center
+- SKAI Radar mappa-first
+- cockpit unico per CAP, raggio, parser e target ricetta
+- offerte web in card
+- tabella tecnica nascosta
+- stato parser concentrato
+- ricette convenienti in griglia
+- meno testo, meno dispersione
+- maggiore contrasto sui pulsanti
+- UI neon/glass premium
 
-SKiscettAI è una web app Streamlit per creare SKiscette, pianificare la settimana e collegare ricette, lista spesa, supermercati nel raggio e offerte web.
+## Prossimi 100 step accorpati per la fase successiva
 
-Funzioni attive:
-
-- catalogo ricette
-- generatore modulare
-- preferiti
-- lista spesa
-- meal plan
-- cluster visuali
-- SKAI Radar con CAP e raggio
-- ricerca punti vendita tramite OpenStreetMap/Overpass
-- mappa interattiva
-- Multi-chain Web Parser sperimentale
-- modalità web-only nel flusso principale
-
-## SKAI Web-only Parser v2
-
-Le offerte manuali/CSV sono rimosse dal flusso principale.
-
-Il motore ora:
-
-- cerca le catene nel raggio scelto dall'utente
-- attiva i parser web per le catene trovate
-- non blocca l'app se una fonte non risponde
-- mostra lo stato parser per ogni catena
-- usa solo offerte web nella UI principale
-
-## Prossimi 20 step
-
-1. Migliorare parser PENNY.
-2. Migliorare parser Carrefour.
-3. Collegare parser Coop.
-4. Collegare parser Conad.
-5. Collegare parser Lidl.
-6. Collegare parser Eurospin.
-7. Collegare parser PAM se tecnicamente fattibile.
-8. Migliorare estrazione prodotto/prezzo.
-9. Estrarre validità offerta.
-10. Rimuovere duplicati cross-catena.
-11. Calcolare convenienza lista spesa completa.
-12. Migliorare ranking negozio consigliato.
-13. Aggiungere preferenze catene utente.
-14. Aggiungere warning offerte non verificate.
-15. Salvare cache offerte web.
-16. Aggiungere filtro categoria.
-17. Aggiungere ordinamento prezzo/distanza/copertura.
-18. Migliorare UX mobile.
-19. Aggiornare README.
-20. Preparare demo pubblica stabile.
-
-## Regola tecnica
-
-Ogni parser deve essere isolato, non bloccante e con fallback. Nessun errore di parser deve rompere la UI principale.
+1. Parser Carrefour dedicato.
+2. Parser PENNY dedicato.
+3. Parser Coop dedicato.
+4. Parser Conad dedicato.
+5. Parser Lidl dedicato.
+6. Parser Eurospin dedicato.
+7. Parser MD dedicato.
+8. Parser Esselunga dedicato.
+9. Migliore estrazione prezzo.
+10. Migliore estrazione nome prodotto.
+11. Estrarre formato e quantità.
+12. Estrarre validità offerta.
+13. Normalizzare categorie.
+14. Normalizzare ingredienti.
+15. Deduplicare offerte.
+16. Ranking per pertinenza ricetta.
+17. Ranking per risparmio.
+18. Ranking per distanza.
+19. Ranking per copertura lista spesa.
+20. Cache offerte web.
+21. Alert parser falliti.
+22. Filtro catena.
+23. Filtro categoria.
+24. Filtro prezzo.
+25. Ordinamento prezzo.
+26. Ordinamento distanza.
+27. Ordinamento convenienza.
+28. Preferenze supermercati.
+29. Preferenze dieta.
+30. Preferenze tempo.
+31. Preferenze costo.
+32. Onboarding utente.
+33. Modalità demo pubblica.
+34. Miglioramento mobile.
+35. Card ricette premium.
+36. Card offerte premium.
+37. Mappa full width.
+38. Cluster marker mappa.
+39. Store detail panel.
+40. Deep link Google Maps.
+41. Ricette da offerte.
+42. Offerte da lista spesa.
+43. Lista spesa ottimizzata.
+44. Meal plan ottimizzato.
+45. Salvataggio preferenze.
+46. Export lista.
+47. Export meal plan.
+48. PWA.
+49. Icon pack.
+50. Logo finale.
+51. README completo.
+52. Docs parser.
+53. Test app.
+54. Test mobile.
+55. Test deploy.
+56. Cleanup repo.
+57. Monitor performance.
+58. Limitare richieste web.
+59. Gestire rate limit.
+60. Gestire siti dinamici.
+61. Analisi fallimenti parser.
+62. UI stato dati.
+63. Data freshness.
+64. Badge offerte verificate.
+65. Badge offerte non verificate.
+66. Qualità fonte.
+67. Search ricette smart.
+68. Search offerte.
+69. Search negozi.
+70. Suggerimenti ingredienti.
+71. Suggerimenti ricette.
+72. Suggerimenti alternative.
+73. Ingredient substitution.
+74. Stima macro.
+75. Stima costo.
+76. Stima risparmio.
+77. Stima tempo.
+78. Modalità palestra.
+79. Modalità ufficio.
+80. Modalità low cost.
+81. Modalità gourmet.
+82. Modalità vegetariana.
+83. Modalità famiglia.
+84. Modalità batch cooking.
+85. Animazioni leggere.
+86. Skeleton loading.
+87. Error states premium.
+88. Empty states premium.
+89. Accessibilità contrasto.
+90. Accessibilità keyboard.
+91. Analytics privacy-safe.
+92. Backup data.
+93. Data validation.
+94. Versioning release.
+95. Changelog.
+96. Demo script.
+97. Landing page.
+98. User feedback.
+99. Beta release.
+100. Public launch.
