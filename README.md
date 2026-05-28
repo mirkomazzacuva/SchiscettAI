@@ -1,33 +1,24 @@
-# SKiscettAI · SKAI
+# SKiscettAI · SKAI Black Label v5
 
 **SKiscettAI** è una web app Streamlit per creare SKiscette intelligenti e usare **SKAI Radar**: una dashboard che collega CAP, supermercati nel raggio, offerte web e ricette convenienti.
 
-## Release attuale
+## Black Label v5
 
-**SKAI Ultimate v4**
-
-- UI futuristica compatta
-- Sidebar leggibile
-- SKAI Radar mappa-first
-- Offerte web in card
+- Home trasformata in Command Center
+- Hero cinematica
+- Sidebar compatta e leggibile
+- SKAI Radar map-first
+- Mission Control compatta
+- SKAI score
+- Best signal deal
+- Deal feed in card
+- Chain intelligence
 - Parser web multi-catena sperimentale
-- Nessun flusso manuale/CSV nella UI principale
-- Ricette, lista spesa, meal plan e preferiti
+- UI neon/glass premium
 
 ## Avvio
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
-```
-
-## File principali
-
-```text
-app.py
-styles/custom.css
-data/offer_sources.json
-data/recipes.json
-data/stores.json
-docs/roadmap.md
 ```
