@@ -150,6 +150,8 @@ def collect_visual_issues(page) -> List[Dict[str, Any]]:
 
 
 def click_sidebar_page(page, label: str) -> bool:
+    # Streamlit radio labels are not always exposed with clean ARIA names.
+    # Try accessible selectors, then exact text, then a JS fallback.
     candidates = [
         f'role=radio[name="{label}"]',
         f'role=button[name="{label}"]',
@@ -159,10 +161,30 @@ def click_sidebar_page(page, label: str) -> bool:
     for selector in candidates:
         try:
             page.locator(selector).first.click(timeout=2500)
-            page.wait_for_timeout(900)
+            page.wait_for_timeout(1200)
             return True
         except Exception:
             continue
+
+    try:
+        clicked = page.evaluate(
+            """
+            (label) => {
+              const nodes = Array.from(document.querySelectorAll('label, button, div, span, p'));
+              const target = nodes.find(el => (el.innerText || '').trim() === label);
+              if (!target) return false;
+              target.scrollIntoView({block: 'center'});
+              target.click();
+              return true;
+            }
+            """,
+            label,
+        )
+        if clicked:
+            page.wait_for_timeout(1200)
+            return True
+    except Exception:
+        pass
 
     return False
 
