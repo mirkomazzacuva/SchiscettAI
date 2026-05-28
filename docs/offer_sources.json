@@ -1,0 +1,107 @@
+[
+  {
+    "chain": "PENNY",
+    "aliases": [
+      "penny",
+      "penny market",
+      "penny market s.r.l."
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://www.penny.it/offerte",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  },
+  {
+    "chain": "Coop",
+    "aliases": [
+      "coop",
+      "coop.fi",
+      "unicoop",
+      "unicoop firenze",
+      "centro*siena"
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  },
+  {
+    "chain": "Conad",
+    "aliases": [
+      "conad",
+      "conad city",
+      "conad superstore",
+      "sapori e dintorni conad"
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://volantini.conad.it/",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  },
+  {
+    "chain": "PAM",
+    "aliases": [
+      "pam",
+      "pam panorama",
+      "pam local",
+      "panorama"
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://www.pampanorama.it/",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  },
+  {
+    "chain": "Lidl",
+    "aliases": [
+      "lidl"
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://www.lidl.it/c/offerte/c10026788",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  },
+  {
+    "chain": "Eurospin",
+    "aliases": [
+      "eurospin"
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://www.eurospin.it/volantino/",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  },
+  {
+    "chain": "Esselunga",
+    "aliases": [
+      "esselunga"
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  },
+  {
+    "chain": "Carrefour",
+    "aliases": [
+      "carrefour",
+      "carrefour market",
+      "carrefour express"
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://www.carrefour.it/promozioni/",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  },
+  {
+    "chain": "MD",
+    "aliases": [
+      "md",
+      "md discount"
+    ],
+    "mode": "skai_web_only_parser_v2",
+    "url": "https://www.mdspa.it/volantino/",
+    "status": "web_parser_experimental",
+    "notes": "Fonte collegata a SKAI Web-only Parser v2. Le offerte manuali sono disattivate nel flusso principale; resta solo il parsing web con fallback non bloccante."
+  }
+]
