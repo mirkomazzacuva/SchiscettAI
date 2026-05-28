@@ -32,7 +32,7 @@ st.set_page_config(
 
 WORK_DAYS = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
 
-REMOTE_OFFERS_web_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQADckMEswns4YcXqZyqaUxh_6YCPrFuPzLL3xJlg9UH6lBVtBJhk0T0RmK4aqLIucK1VV0XFCArepX/pub?gid=1684172085&single=true&output=csv"
+REMOTE_OFFERS_DISABLED = ""  # SKAI web-only mode
 
 CLUSTER_VISUALS = {
     "riso_pollo": {
@@ -439,18 +439,19 @@ def offer_rows(offers, stores_by_id, user_lat=None, user_lon=None):
         if user_lat is not None and user_lon is not None and store.get("lat") and store.get("lon"):
             distance = haversine_km(user_lat, user_lon, store["lat"], store["lon"])
 
-        origin = offer.get("origin", offer.get("offer_origin", "manual"))
+        origin = offer.get("origin", offer.get("offer_origin", "web"))
         chain = offer.get("chain", offer.get("chain_inferred", store.get("chain", "")))
+        store_name = store.get("name", chain or offer.get("store_id", ""))
 
         rows.append(
             {
-                "origine": format_offer_origin(origin),
+                "origine": format_offer_origin(origin) if "format_offer_origin" in globals() else origin,
                 "catena": chain,
                 "ingrediente": offer.get("ingredient", ""),
-                "prodotto": clean_display_product_name(offer.get("product_name", "")),
+                "prodotto": clean_display_product_name(offer.get("product_name", "")) if "clean_display_product_name" in globals() else offer.get("product_name", ""),
                 "prezzo": f"{offer.get('price', '')} {offer.get('unit', '')}",
                 "prima": f"{offer.get('old_price', '')} {offer.get('unit', '')}",
-                "negozio": store.get("name", offer.get("store_id", "")),
+                "negozio": store_name,
                 "zona": store.get("area", ""),
                 "distanza_km": round(distance, 1) if distance is not None else "",
                 "fonte": offer.get("source", ""),
@@ -2303,7 +2304,16 @@ pages = [
     "Preferiti",
 ]
 
-st.sidebar.title("🍱 SKiscettAI")
+st.sidebar.markdown(
+    """
+    <div class="skai-sidebar-brand">
+        <div class="skai-sidebar-icon">⚡🍱</div>
+        <div class="skai-sidebar-main">SKAI</div>
+        <div class="skai-sidebar-sub">SKiscettAI</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 selected_page = st.sidebar.radio(
     "Menu",
@@ -2315,97 +2325,145 @@ st.session_state.page = selected_page
 
 st.sidebar.divider()
 st.sidebar.caption("Smart lunch planner")
-st.sidebar.caption("GitHub + Streamlit + database locale")
-st.sidebar.caption("Offerte: parser web + fonti web")
+st.sidebar.caption("SKAI · web-only parser")
+st.sidebar.caption("Radar offerte live")
 st.sidebar.caption(f"Ricette modulari create: {len(st.session_state.custom_recipes)}")
 
 
-st.title("🍱 SKiscettAI")
-st.subheader("La SKiscetta non è mai stata così smart.")
-
-st.write("**La tua pausa pranzo intelligente**")
-st.write("**Ricette smart per mangiare meglio ogni giorno**")
-st.write("**Prepara, risparmia, gusta**")
-
-st.write(
-    "Trasforma quello che hai in frigo in una SKiscetta bella, pratica e intelligente. "
-    "Una web app gratuita, glamour e pensata per pranzi da portare al lavoro senza stress."
+st.markdown(
+    """
+    <section class="skai-hero">
+        <div class="skai-hero-kicker">SKAI · Smart Kitchen Artificial Intelligence</div>
+        <div class="skai-hero-title">SKiscettAI</div>
+        <div class="skai-hero-subtitle">Ricette. Supermercati. Offerte web. Una pausa pranzo che ragiona.</div>
+        <div class="skai-hero-pills">
+            <span>⚡ web-only</span>
+            <span>🗺️ radar supermercati</span>
+            <span>🥗 meal prep</span>
+            <span>💸 deal engine</span>
+        </div>
+    </section>
+    """,
+    unsafe_allow_html=True,
 )
 
 st.divider()
 
 
+
 if st.session_state.page == "Home":
-    st.markdown("## Benvenuto in SKiscettAI")
+    st.markdown("## Command Center")
 
-    m1, m2, m3, m4 = st.columns(4)
+    stat1, stat2, stat3, stat4 = st.columns(4)
 
-    with m1:
+    with stat1:
         st.metric("Ricette", len(all_recipes))
 
-    with m2:
+    with stat2:
         st.metric("Preferiti", len(st.session_state.favorites))
 
-    with m3:
+    with stat3:
         planned_count = len(get_meal_plan_recipes(all_recipes))
-        st.metric("Giorni pianificati", planned_count)
+        st.metric("Meal plan", planned_count)
 
-    with m4:
-        st.metric("Modulari", len(st.session_state.custom_recipes))
+    with stat4:
+        st.metric("SKiscette create", len(st.session_state.custom_recipes))
+
+    st.markdown(
+        """
+        <div class="skai-command-strip">
+            <div>
+                <strong>Missione</strong>
+                <span>trasformare ingredienti, tempo e offerte in pranzi migliori.</span>
+            </div>
+            <div>
+                <strong>Modalità</strong>
+                <span>web-only deal radar, nessun flusso manuale visibile.</span>
+            </div>
+            <div>
+                <strong>Focus</strong>
+                <span>meno sprechi, più gusto, più controllo.</span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     st.write("")
 
-    col1, col2, col3 = st.columns(3)
+    action_col1, action_col2, action_col3 = st.columns(3)
 
-    with col1:
+    with action_col1:
         with st.container(border=True):
             st.markdown("### 🥗 Crea")
-            st.write(
-                "Inserisci gli ingredienti che hai già e ricevi sia ricette dal catalogo "
-                "sia una nuova SKiscetta modulare originale."
-            )
-            if st.button("Crea la mia SKiscetta"):
+            st.write("Genera una SKiscetta partendo dagli ingredienti che hai già.")
+            if st.button("Crea SKiscetta", key="home_create_skiscetta"):
                 go_to("Crea SKiscetta")
                 st.rerun()
 
-    with col2:
+    with action_col2:
         with st.container(border=True):
-            st.markdown("### 🛒 SKAI Radar")
-            st.write("Trova offerte vicino al tuo CAP e scopri quali schiscette convengono oggi.")
-            if st.button("Vai a SKAI Radar"):
+            st.markdown("### 🗺️ SKAI Radar")
+            st.write("Inserisci CAP e raggio, poi guarda mappa, negozi e offerte web.")
+            if st.button("Apri Radar", key="home_open_radar"):
                 go_to("SKAI Radar")
                 st.rerun()
 
-    with col3:
+    with action_col3:
         with st.container(border=True):
             st.markdown("### ✨ Esplora")
-            st.write("Filtra ricette, salva preferiti e costruisci il meal plan della settimana.")
-            if st.button("Vai alle ricette"):
+            st.write("Filtra ricette, salva preferiti e costruisci il meal plan.")
+            if st.button("Vai alle ricette", key="home_open_recipes"):
                 go_to("Ricette")
                 st.rerun()
 
     st.write("")
-    st.markdown("## Mood SKiscetta")
+    st.markdown("## Mood SKAI")
 
-    cluster_items = list(cluster_groups.items())[:6]
-    cluster_cols = st.columns(3)
+    current_clusters = recipes_by_cluster(all_recipes)
+    cluster_items = list(current_clusters.items())[:6]
 
-    for index, (cluster_id, cluster_recipes) in enumerate(cluster_items):
-        with cluster_cols[index % 3]:
-            cluster_tile(cluster_id, recipes_count=len(cluster_recipes))
+    mood_cols = st.columns(3)
+
+    for index, (cluster_id, recipes_in_cluster) in enumerate(cluster_items):
+        visual = CLUSTER_VISUALS.get(
+            cluster_id,
+            {
+                "emoji": "🍱",
+                "title": cluster_id.replace("_", " ").title(),
+                "subtitle": "Ricette smart e pronte da portare.",
+            },
+        )
+
+        with mood_cols[index % 3]:
+            with st.container(border=True):
+                st.markdown(f"<div class='skai-mood-emoji'>{visual['emoji']}</div>", unsafe_allow_html=True)
+                st.markdown(f"### {visual['title']}")
+                st.write(visual["subtitle"])
+                st.caption(f"{len(recipes_in_cluster)} ricette disponibili")
 
     st.write("")
     st.markdown("## Ricette in evidenza")
 
     featured = all_recipes[:3]
+    featured_cols = st.columns(3)
 
-    if featured:
-        fcols = st.columns(3)
-
-        for index, recipe in enumerate(featured):
-            with fcols[index % 3]:
-                compact_recipe_preview(recipe, key_prefix="home_featured")
-
+    for index, recipe in enumerate(featured):
+        with featured_cols[index % 3]:
+            with st.container(border=True):
+                cluster_id = recipe.get("cluster", "")
+                visual = CLUSTER_VISUALS.get(cluster_id, {"emoji": "🍱"})
+                st.markdown(f"<div class='skai-mood-emoji'>{visual['emoji']}</div>", unsafe_allow_html=True)
+                st.markdown(f"### {recipe.get('title', 'Ricetta')}")
+                st.write(recipe.get("description", ""))
+                meta = recipe.get("meta", {})
+                st.caption(
+                    f"{meta.get('goal', 'smart')} · {meta.get('time', '')} · {meta.get('difficulty', '')}"
+                )
+                if st.button("Apri", key=f"featured_open_{recipe['id']}"):
+                    st.session_state.recipe_focus = recipe["id"]
+                    go_to("Ricette")
+                    st.rerun()
 
 elif st.session_state.page == "Crea SKiscetta":
     st.markdown("## Crea la tua SKiscetta")
@@ -2707,184 +2765,124 @@ elif st.session_state.page == "Lista spesa":
 
 elif st.session_state.page == "SKAI Radar":
     st.markdown("## SKAI Radar")
-
-    st.info(
-        "Beta Siena: inserisci il CAP, scegli il raggio e SKiscettAI incrocia ricette, lista spesa, negozi vicini e offerte lette dal parser web."
-    )
+    st.caption("CAP → supermercati → mappa → offerte web → ricette convenienti.")
 
     current_recipes = combined_recipes()
     favorite_recipes = get_favorite_recipes(current_recipes)
     meal_plan_recipes = get_meal_plan_recipes(current_recipes)
 
     with st.container(border=True):
-        st.markdown("### SKAI Deal Radar")
-        st.write(
-            "SKAI lavora in modalità **web-only**: trova i supermercati nel raggio scelto "
-            "e prova a leggere offerte web dalle catene presenti nella zona."
-        )
+        st.markdown("### Cockpit")
+        c1, c2, c3 = st.columns([1, 1, 1.15])
 
-        control_col1, control_col2 = st.columns([1, 1])
+        with c1:
+            cap = st.text_input("CAP", value="53100", placeholder="53100", key="skai_cap")
 
-        with control_col1:
-            use_web_parsers = st.checkbox(
-                "Attiva parser web multi-catena",
-                value=True,
+            use_demo_location = st.checkbox(
+                "Usa demo Siena",
+                value=False,
+                key="skai_demo_location",
             )
 
-        with control_col2:
+            radius_km = st.select_slider(
+                "Raggio",
+                options=[2, 5, 10, 20, 30],
+                value=30,
+                format_func=lambda value: f"{value} km",
+                key="skai_radius",
+            )
+
+        with c2:
+            use_web_parsers = st.checkbox(
+                "Parser web multi-catena",
+                value=True,
+                key="skai_web_parser_toggle",
+            )
+
             max_web_offers = st.select_slider(
-                "Limite offerte web",
+                "Max offerte web",
                 options=[10, 20, 30, 50, 100],
                 value=50,
+                key="skai_max_web_offers",
             )
 
-        st.caption(
-            "Le offerte web/web sono disattivate nel flusso principale. "
-            "Se un sito non risponde, SKAI continua con le altre catene senza rompere l'app."
-        )
+            if st.button("Ricarica radar", key="refresh_skai_radar"):
+                st.cache_data.clear()
+                st.success("Radar aggiornato.")
+                st.rerun()
 
-        parser_results = []
-        web_offers = []
-        structured_offers = []
+        with c3:
+            recipe_titles = ["Nessuna ricetta"] + [
+                recipe.get("title", "Ricetta") for recipe in current_recipes
+            ]
 
-        source_col1, source_col2, source_col3 = st.columns(3)
+            selected_recipe_title = st.selectbox("Ricetta target", recipe_titles, key="skai_recipe_target")
 
-        with source_col1:
-            st.metric("Modalità", "web-only")
-
-        with source_col2:
-            st.metric("Web parser", len(web_offers))
-
-        with source_col3:
-            st.metric("Punti vendita", len(stores_data))
-
-        if st.button("Ricarica radar offerte", key="refresh_offers_top"):
-            st.cache_data.clear()
-            st.success("Cache svuotata. Rileggo parser web e negozi.")
-            st.rerun()
-
-    with st.container(border=True):
-        st.markdown("### Scegli cosa vuoi ottimizzare")
-
-        recipe_titles = ["Nessuna ricetta"] + [
-            recipe.get("title", "Ricetta") for recipe in current_recipes
-        ]
-
-        selected_recipe_title = st.selectbox(
-            "Ricetta da collegare alle offerte",
-            recipe_titles,
-        )
-
-        selected_recipe = get_recipe_by_title(current_recipes, selected_recipe_title)
-
-        selected_ingredients = []
-
-        if selected_recipe:
-            selected_ingredients.extend(selected_recipe.get("ingredients", []))
-            st.write("Ingredienti ricetta:")
-            st.write(", ".join(selected_recipe.get("ingredients", [])))
-
-        use_current_shopping = st.checkbox(
-            "Includi lista spesa da preferiti e meal plan",
-            value=True,
-        )
-
-        if use_current_shopping:
-            shopping_counter_for_map = aggregate_ingredients(
-                favorite_recipes + meal_plan_recipes,
-                st.session_state.extra_shopping_items,
-            )
-            selected_ingredients.extend(list(shopping_counter_for_map.keys()))
-
-            if shopping_counter_for_map:
-                st.caption(
-                    f"Aggiunti {len(shopping_counter_for_map)} ingredienti dalla lista spesa attuale."
-                )
-
-        manual_ingredient = st.text_input(
-            "Oppure cerca un ingrediente",
-            placeholder="Esempio: pollo, riso basmati, zucchine",
-        )
-
-        if manual_ingredient.strip():
-            selected_ingredients.append(manual_ingredient.strip())
-
-        selected_ingredients = sorted(set([item for item in selected_ingredients if str(item).strip()]))
-
-    with st.container(border=True):
-        st.markdown("### Punto di partenza")
-
-        start_mode = st.radio(
-            "Come vuoi posizionare la mappa?",
-            [
-                "Usa CAP",
-                "Usa zona demo Siena",
-            ],
-            horizontal=True,
-        )
-
-        location_centers = {
-            "Siena centro": (43.3188, 11.3308),
-            "Stazione / PortaSiena": (43.3311, 11.3223),
-            "San Miniato": (43.3405, 11.3502),
-            "Massetana Romana": (43.3068, 11.3108),
-        }
-
-        user_lat, user_lon = (43.3188, 11.3308)
-        location_label = "Siena centro"
-
-        if start_mode == "Usa CAP":
-            cap = st.text_input(
-                "Inserisci CAP",
-                value="53100",
-                placeholder="Esempio: 53100",
+            manual_ingredient = st.text_input(
+                "Ingrediente target",
+                placeholder="pollo, riso, zucchine...",
+                key="skai_manual_ingredient",
             )
 
-            geocoded_location = geocode_postcode(cap, country="Italia")
+            use_current_shopping = st.checkbox(
+                "Includi preferiti e meal plan",
+                value=True,
+                key="skai_use_shopping_context",
+            )
 
-            if geocoded_location:
-                user_lat = geocoded_location["lat"]
-                user_lon = geocoded_location["lon"]
-                location_label = geocoded_location["display_name"]
-                st.success(f"Mappa centrata su: {location_label}")
-            else:
-                st.warning(
-                    "Non sono riuscito a geolocalizzare il CAP. Uso Siena centro come fallback."
-                )
+    selected_recipe = get_recipe_by_title(current_recipes, selected_recipe_title)
+    selected_ingredients = []
 
+    if selected_recipe:
+        selected_ingredients.extend(selected_recipe.get("ingredients", []))
+
+    if use_current_shopping:
+        shopping_counter_for_map = aggregate_ingredients(
+            favorite_recipes + meal_plan_recipes,
+            st.session_state.extra_shopping_items,
+        )
+        selected_ingredients.extend(list(shopping_counter_for_map.keys()))
+
+    if manual_ingredient.strip():
+        selected_ingredients.append(manual_ingredient.strip())
+
+    selected_ingredients = sorted(set([item for item in selected_ingredients if str(item).strip()]))
+
+    location_centers = {
+        "Siena centro": (43.3188, 11.3308),
+        "Stazione / PortaSiena": (43.3311, 11.3223),
+        "San Miniato": (43.3405, 11.3502),
+        "Massetana Romana": (43.3068, 11.3108),
+    }
+
+    user_lat, user_lon = location_centers["Siena centro"]
+    location_label = "Siena centro"
+
+    if not use_demo_location:
+        geocoded_location = geocode_postcode(cap, country="Italia")
+
+        if geocoded_location:
+            user_lat = geocoded_location["lat"]
+            user_lon = geocoded_location["lon"]
+            location_label = geocoded_location["display_name"]
         else:
-            location_choice = st.selectbox(
-                "Zona demo",
-                [
-                    "Siena centro",
-                    "Stazione / PortaSiena",
-                    "San Miniato",
-                    "Massetana Romana",
-                ],
-            )
-
-            user_lat, user_lon = location_centers.get(location_choice, (43.3188, 11.3308))
-            location_label = location_choice
-
-        radius_km = st.select_slider(
-            "Raggio ricerca negozi",
-            options=[2, 5, 10, 20, 30],
-            value=30,
-            format_func=lambda value: f"{value} km",
+            st.warning("CAP non geolocalizzato. Uso Siena centro come fallback.")
+    else:
+        location_choice = st.selectbox(
+            "Zona demo",
+            list(location_centers.keys()),
+            key="skai_demo_area",
         )
-
-        st.caption(
-            "La geolocalizzazione del CAP usa Nominatim/OpenStreetMap con cache giornaliera. "
-            "Per ora i punti vendita restano quelli demo caricati in data/stores.json."
-        )
+        user_lat, user_lon = location_centers.get(location_choice, location_centers["Siena centro"])
+        location_label = location_choice
 
     try:
         discovered_stores_raw = fetch_osm_supermarkets(user_lat, user_lon, radius_km)
     except Exception as error:
         discovered_stores_raw = []
         st.warning(
-            "Ricerca automatica supermercati non disponibile in questo momento. "
-            f"Uso i punti vendita web come fallback. Dettaglio: {error}"
+            "OpenStreetMap non disponibile ora. Uso i negozi locali come fallback. "
+            f"Dettaglio: {error}"
         )
 
     discovered_stores = enrich_discovered_stores(
@@ -2902,7 +2900,7 @@ elif st.session_state.page == "SKAI Radar":
         radius_km,
     )
 
-    if "use_web_parsers" in locals() and use_web_parsers:
+    if use_web_parsers:
         parser_chains = chains_with_parser_enabled(nearby_stores, offer_sources_data)
         parser_results, web_offers = fetch_multi_chain_offers_v1(
             parser_chains,
@@ -2914,10 +2912,7 @@ elif st.session_state.page == "SKAI Radar":
         parser_results = []
         web_offers = []
 
-    structured_offers = limit_web_offers(
-        dedupe_offers(web_offers),
-        max_web_offers if "max_web_offers" in locals() else 50,
-    )
+    structured_offers = limit_web_offers(dedupe_offers(web_offers), max_web_offers)
 
     offer_engine = build_offer_engine_state(
         structured_offers,
@@ -2931,380 +2926,178 @@ elif st.session_state.page == "SKAI Radar":
     matched_offers = offer_engine["matched_offers"]
     offers_to_show = offer_engine["offers_to_show"]
     nearby_chains = offer_engine["nearby_chains"]
-    offer_chains = offer_engine["manual_offer_chains"]
+    web_count = len([offer for offer in structured_offers if offer_origin_group(offer) == "web"])
 
     st.write("")
-    st.markdown("### Supermercati trovati nel raggio")
+    k1, k2, k3, k4, k5 = st.columns(5)
 
-    s1, s2, s3, s4 = st.columns(4)
+    with k1:
+        st.metric("Negozi", len(nearby_stores))
 
-    with s1:
-        st.metric("Punti vendita", len(nearby_stores))
+    with k2:
+        st.metric("Catene", len(nearby_chains))
 
-    with s2:
-        st.metric("Fonte negozi", stores_source_label)
+    with k3:
+        st.metric("Offerte web", web_count)
 
-    with s3:
-        chains_count = len(set(store.get("chain_normalized", store.get("chain", "")) for store in nearby_stores))
-        st.metric("Catene", chains_count)
-
-    with s4:
-        st.metric("Raggio", f"{radius_km} km")
-
-    source_rows = offer_sources_for_stores(nearby_stores, offer_sources_data)
-
-    if source_rows:
-        with st.expander("Fonti offerte per le catene trovate", expanded=False):
-            st.dataframe(pd.DataFrame(source_rows), use_container_width=True, hide_index=True)
-
-    with st.expander("Fonti web predisposte", expanded=False):
-        st.write(
-            "Controllo sperimentale: l'app prova a raggiungere le fonti ufficiali delle catene trovate. "
-            "Per ora mostra lo stato e alcuni testi/prezzi leggibili, senza usarli ancora come offerte strutturate. Alcuni siti sono dinamici o richiedono negozio preferito, quindi serviranno parser dedicati."
-        )
-
-        web_source_rows = web_sources_for_nearby_chains(nearby_stores, offer_sources_data)
-
-        if web_source_rows:
-            st.dataframe(pd.DataFrame(web_source_rows), use_container_width=True, hide_index=True)
-        else:
-            st.info("Nessuna catena con fonte web configurata nel raggio selezionato.")
-
-    if nearby_chains:
-        st.caption("Catene trovate nel raggio: " + ", ".join(nearby_chains[:12]))
-
-    if offer_chains:
-        st.caption("Catene presenti nelle offerte caricate: " + ", ".join(offer_chains[:12]))
-
-    if offers_data and not offers_nearby:
-        st.warning(
-            "Le offerte sono caricate, ma non corrispondono ai negozi trovati nel raggio. "
-            "Mostro comunque tutte le offerte web sotto come fallback."
-        )
-
-    st.markdown("### Stato Offer Engine")
-
-    summary = offer_engine_summary_cards(offer_engine, nearby_stores)
-
-    e1, e2, e3, e4 = st.columns(4)
-
-    with e1:
-        st.metric("Negozi nel raggio", summary["stores"])
-
-    with e2:
-        st.metric("Catene trovate", summary["nearby_chains"])
-
-    with e3:
-        st.metric("Offerte web", summary["manual_offers"])
-
-    with e4:
-        st.metric("Offerte visibili", summary["visible_offers"])
-
-    st.info(offer_engine_explanation(offer_engine))
-
-    if offer_engine["missing_chain_rows"]:
-        with st.expander("Perché alcune catene non hanno ancora offerte automatiche", expanded=False):
-            st.dataframe(
-                pd.DataFrame(offer_engine["missing_chain_rows"]),
-                use_container_width=True,
-                hide_index=True,
-            )
-
-    if nearby_chains:
-        st.caption("Catene trovate nel raggio: " + ", ".join(nearby_chains[:12]))
-
-    if offer_chains:
-        st.caption("Catene presenti nelle offerte web: " + ", ".join(offer_chains[:12]))
-
-    if "parser_results" in locals() and parser_results:
-        with st.expander("Stato parser web per le catene nel raggio", expanded=False):
-            parser_rows = []
-            for result in parser_results:
-                extracted = len(result.get("offers", []))
-                parser_rows.append(
-                    {
-                        "catena": result.get("chain", ""),
-                        "stato": "ok" if extracted > 0 else "nessuna offerta strutturata",
-                        "offerte_estratte": extracted,
-                        "messaggio": result.get("message", ""),
-                    }
-                )
-            st.dataframe(pd.DataFrame(parser_rows), use_container_width=True, hide_index=True)
-
-    manual_count, web_count, total_count = offer_source_counts(structured_offers)
-
-    st.write("")
-    st.markdown("### Offerte attive")
-
-    o1, o2, o3, o4 = st.columns(4)
-
-    with o1:
-        st.metric("Web", web_count if "web_count" in locals() else len(structured_offers))
-
-    with o2:
-        st.metric("Web", web_count if "web_count" in locals() else 0)
-
-    with o3:
-        st.metric("Nel raggio", len(offers_nearby))
-
-    with o4:
+    with k4:
         st.metric("Visibili", len(offers_to_show))
 
-    if not offers_data:
-        st.warning(
-            "Non sto leggendo offerte strutturate. Apri Admin offerte e clicca Ricarica offerte web; "
-            "se resta vuoto, controlla che il foglio pubblicato abbia intestazioni e righe compilate."
-        )
+    with k5:
+        st.metric("Raggio", f"{radius_km} km")
 
-    map_col, info_col = st.columns([1.4, 1])
+    with st.container(border=True):
+        map_col, side_col = st.columns([1.55, 0.95])
 
-    with map_col:
-        st.markdown("### Mappa punti vendita")
+        with map_col:
+            st.markdown("### Mappa radar")
+            if MAP_AVAILABLE:
+                stores_map = create_stores_map(
+                    nearby_stores,
+                    offers_to_show if offers_to_show else offers_nearby,
+                    center_lat=user_lat,
+                    center_lon=user_lon,
+                )
+                st_folium(stores_map, width=820, height=500)
+            else:
+                st.warning(f"Mappa non disponibile: {MAP_ERROR}")
 
-        if MAP_AVAILABLE:
-            stores_map = create_stores_map(
-                nearby_stores,
-                offers_to_show if "offers_to_show" in locals() and offers_to_show else offers_nearby,
-                center_lat=user_lat,
-                center_lon=user_lon,
-            )
-            st_folium(stores_map, width=760, height=520)
-        else:
-            st.warning(f"Mappa non disponibile: {MAP_ERROR}")
+        with side_col:
+            st.markdown("### Negozi vicini")
+            st.caption(f"{location_label} · {stores_source_label}")
 
-    with info_col:
-        st.markdown("### Negozi più vicini")
-
-        nearest_rows = []
-
-        for store in nearby_stores:
-            distance = store.get(
-                "distance_km",
-                round(
-                    haversine_km(
-                        user_lat,
-                        user_lon,
-                        store.get("lat", user_lat),
-                        store.get("lon", user_lon),
+            nearest_rows = []
+            for store in nearby_stores:
+                distance = store.get(
+                    "distance_km",
+                    round(
+                        haversine_km(
+                            user_lat,
+                            user_lon,
+                            store.get("lat", user_lat),
+                            store.get("lon", user_lon),
+                        ),
+                        1,
                     ),
-                    1,
-                ),
-            )
-            nearest_rows.append((distance, store))
+                )
+                nearest_rows.append((distance, store))
 
-        nearest_rows.sort(key=lambda item: item[0])
+            nearest_rows.sort(key=lambda item: item[0])
 
-        st.caption(f"Punti vendita nel raggio: {len(nearest_rows)}")
-
-        for distance, store in nearest_rows[:6]:
-            with st.container(border=True):
-                st.markdown(f"**{store.get('name', '')}**")
-                st.caption(f"{store.get('type', '')} · {store.get('area', '')}")
-                st.write(store.get("address", ""))
-                st.write(f"Distanza indicativa: {distance:.1f} km")
+            for distance, store in nearest_rows[:5]:
+                with st.container(border=True):
+                    st.markdown(f"**{store.get('name', '')}**")
+                    st.caption(f"{store.get('type', '')} · {distance:.1f} km")
+                    if store.get("address", ""):
+                        st.write(store.get("address", ""))
 
     st.write("")
-    st.markdown("### Offerte visibili")
+    with st.container(border=True):
+        st.markdown("### Stato parser")
+        p1, p2, p3 = st.columns(3)
+
+        ok_parsers = len([item for item in parser_results if len(item.get("offers", [])) > 0])
+        checked_parsers = len(parser_results)
+
+        with p1:
+            st.metric("Parser controllati", checked_parsers)
+
+        with p2:
+            st.metric("Parser con offerte", ok_parsers)
+
+        with p3:
+            st.metric("Catene nel raggio", len(nearby_chains))
+
+        if parser_results:
+            with st.expander("Dettaglio parser per catena", expanded=False):
+                parser_rows = []
+                for result in parser_results:
+                    extracted = len(result.get("offers", []))
+                    parser_rows.append(
+                        {
+                            "catena": result.get("chain", ""),
+                            "stato": "ok" if extracted > 0 else "nessuna offerta strutturata",
+                            "offerte": extracted,
+                            "messaggio": result.get("message", ""),
+                        }
+                    )
+                st.dataframe(pd.DataFrame(parser_rows), use_container_width=True, hide_index=True)
+
+        if nearby_chains:
+            st.caption("Catene trovate: " + ", ".join(nearby_chains[:18]))
+
+    st.write("")
+    st.markdown("### Offerte web")
 
     if selected_ingredients:
-        st.caption(
-            "Ingredienti considerati: "
-            + ", ".join(selected_ingredients)
-            
-        )
-        offers_to_show = matched_offers
-    else:
-        st.caption(
-            "Nessuna ricetta/ingrediente selezionato: mostro le offerte nel raggio. "
-            "web-only"
-        )
-        offers_to_show = offers_nearby
-
-    if not offers_to_show and offers_nearby:
-        st.warning(
-            "Nessuna offerta collegata agli ingredienti selezionati. "
-            "Mostro comunque tutte le offerte nel raggio."
-        )
-        offers_to_show = offers_nearby
+        st.caption("Target: " + ", ".join(selected_ingredients[:12]))
 
     if not offers_to_show:
         st.warning(
-            "Nessuna offerta web visibile. Prova ad ampliare il raggio o controlla lo stato parser."
+            "Nessuna offerta web strutturata disponibile per questo raggio. "
+            "Prova ad ampliare il raggio oppure controlla il dettaglio parser."
         )
     else:
-        rows = offer_rows(offers_to_show, stores_by_id, user_lat=user_lat, user_lon=user_lon)
-        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        offer_cards = offers_to_show[:12]
+        card_cols = st.columns(3)
 
-        with st.expander("Vedi tutte le offerte caricate dal parser web", expanded=False):
-            all_rows = offer_rows(offers_data, stores_by_id, user_lat=user_lat, user_lon=user_lon)
-            st.dataframe(pd.DataFrame(all_rows), use_container_width=True, hide_index=True)
+        for index, offer in enumerate(offer_cards):
+            with card_cols[index % 3]:
+                with st.container(border=True):
+                    chain = offer.get("chain", offer.get("chain_inferred", ""))
+                    price = offer.get("price", "")
+                    product = clean_display_product_name(offer.get("product_name", ""))
+                    ingredient = offer.get("ingredient", "")
 
-    st.write("")
-    st.markdown("### Negozio migliore per la tua spesa")
+                    st.caption(chain or "Web")
+                    st.markdown(f"#### {price} €")
+                    st.write(product)
+                    if ingredient:
+                        st.caption(f"Match: {ingredient}")
 
-    recommendations = best_store_recommendations(
-        offers_to_show if "offers_to_show" in locals() and offers_to_show else offers_nearby,
-        stores_by_id,
-        selected_ingredients,
-        user_lat,
-        user_lon,
-    )
-
-    if not selected_ingredients:
-        st.info("Seleziona una ricetta, usa la lista spesa o cerca un ingrediente per calcolare il negozio migliore.")
-    elif not recommendations:
-        st.warning("Non ci sono abbastanza offerte demo per calcolare un negozio consigliato.")
-    else:
-        best_store = recommendations[0]
-        store = best_store["store"]
-
-        with st.container(border=True):
-            st.markdown(f"### 🏆 {store.get('name', '')}")
-            st.write(
-                f"Copre **{best_store['covered']} ingredienti** della tua lista "
-                f"con offerte demo disponibili."
-            )
-            st.write(f"Zona: **{store.get('area', '')}**")
-            st.write(f"Distanza indicativa: **{best_store['distance']} km**")
-            st.write(
-                f"Totale prezzi demo considerati: **{best_store['total_price']} €** "
-                f"su {best_store['priced_items']} prodotti."
-            )
-            st.caption(
-                "Il totale è indicativo: le unità sono miste (kg, pezzo, confezione). "
-                "Serve per confrontare la convenienza demo, non come scontrino reale."
-            )
-
-        st.markdown("#### Alternative")
-
-        for item in recommendations[1:4]:
-            store = item["store"]
-            with st.container(border=True):
-                st.write(
-                    f"**{store.get('name', '')}** — copre {item['covered']} ingredienti, "
-                    f"distanza {item['distance']} km, totale demo {item['total_price']} €."
-                )
-                st.caption("Ingredienti coperti: " + ", ".join(item["ingredients"]))
+        with st.expander("Tabella tecnica offerte web", expanded=False):
+            rows = offer_rows(offers_to_show, stores_by_id, user_lat=user_lat, user_lon=user_lon)
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
     st.write("")
-    st.markdown("### Ricette convenienti con le offerte attive")
+    st.markdown("### Ricette convenienti")
 
     deal_recipes = best_deal_recipes(
         current_recipes,
-        offers_to_show if "offers_to_show" in locals() and offers_to_show else offers_nearby,
+        offers_to_show if offers_to_show else offers_nearby,
         stores_by_id,
-        limit=5,
+        limit=6,
     )
 
     if not deal_recipes:
-        st.info(
-            "Non ci sono ancora abbastanza offerte collegate agli ingredienti delle ricette. "
-            "Aggiungi offerte nel parser web per vedere suggerimenti migliori."
-        )
+        st.info("Appena i parser trovano offerte compatibili, SKAI mostrerà qui le ricette più convenienti.")
     else:
-        for item in deal_recipes:
+        recipe_cols = st.columns(2)
+
+        for index, item in enumerate(deal_recipes):
             recipe = item["recipe"]
-            stores_names = [
-                stores_by_id.get(store_id, {}).get("name", store_id)
-                for store_id in item["store_ids"]
-            ]
 
-            with st.container(border=True):
-                st.markdown(f"#### {recipe.get('title', 'Ricetta')}")
-                st.write(recipe.get("description", ""))
-                st.write(
-                    f"Ingredienti coperti da offerte: **{item['coverage']} su {item['total_ingredients']}**"
-                )
-                st.write(
-                    "Ingredienti in offerta: "
-                    + ", ".join(item["covered_ingredients"])
-                )
-                st.write(
-                    f"Totale prezzi demo considerati: **{item['total_demo_price']} €** "
-                    f"su {item['priced_items']} prodotti."
-                )
-                if stores_names:
-                    st.caption("Punti vendita coinvolti: " + " · ".join(stores_names[:4]))
+            with recipe_cols[index % 2]:
+                with st.container(border=True):
+                    st.markdown(f"#### {recipe.get('title', 'Ricetta')}")
+                    st.write(recipe.get("description", ""))
+                    st.caption(
+                        f"Ingredienti coperti: {item['coverage']} / {item['total_ingredients']} · "
+                        f"Prezzi considerati: {item['priced_items']}"
+                    )
 
-                if st.button(
-                    "Salva questa ricetta",
-                    key=f"deal_recipe_save_{recipe['id']}",
-                ):
-                    save_favorite(recipe["id"])
+                    if item["covered_ingredients"]:
+                        st.write("Offerte su: " + ", ".join(item["covered_ingredients"][:6]))
 
+                    if st.button("Salva", key=f"deal_recipe_save_{recipe['id']}"):
+                        save_favorite(recipe["id"])
 
-    with st.expander("Admin offerte", expanded=False):
-        st.markdown("### Fonte offerte automatica")
-        st.write("parser web pubblicato come web:")
-        st.code(REMOTE_OFFERS_web_URL)
-        st.caption("Cache aggiornamento: circa ogni 30 minuti. Se le offerte non compaiono, premi il bottone qui sotto.")
-
-        if st.button("Ricarica offerte web"):
-            st.cache_data.clear()
-            st.success("Cache svuotata. Rileggo subito le offerte dal parser web.")
-            st.rerun()
-
-        st.markdown("### Come aggiornare le offerte")
-        st.write(
-            "1. Apri il parser web **SKiscettAI offerte**.\n"
-            "2. Inserisci le offerte dalla riga 2 in poi.\n"
-            "3. Non cambiare i nomi delle colonne nella prima riga.\n"
-            "4. Usa `store_id` identici a quelli presenti in `data/stores.json`.\n"
-            "5. Attendi qualche minuto o clicca **Ricarica offerte web**."
-        )
-
-        st.download_button(
-            "Scarica offerte attualmente caricate",
-            data=offers_to_csv_text(offers_data),
-            file_name="offers_attuali_skiscettai.csv",
-            mime="text/csv",
-        )
-
-        issues = validate_offers(offers_data, stores_by_id)
-
-        q1, q2, q3 = st.columns(3)
-
-        with q1:
-            st.metric("Offerte caricate", len(offers_data))
-
-        with q2:
-            st.metric("Punti vendita", len(stores_data))
-
-        with q3:
-            st.metric("Problemi trovati", len(issues))
-
-        if not issues:
-            st.success("Formato offerte OK.")
+    with st.expander("Fonti web e prossimi parser", expanded=False):
+        source_rows = offer_sources_for_stores(nearby_stores, offer_sources_data)
+        if source_rows:
+            st.dataframe(pd.DataFrame(source_rows), use_container_width=True, hide_index=True)
         else:
-            st.warning("Sono stati trovati problemi da correggere nel parser web.")
-            st.dataframe(pd.DataFrame(issues), use_container_width=True, hide_index=True)
-
-        st.markdown("### Store ID disponibili")
-
-        stores_table = []
-
-        for store in stores_data:
-            stores_table.append(
-                {
-                    "store_id": store.get("id", ""),
-                    "nome": store.get("name", ""),
-                    "catena": store.get("chain", ""),
-                    "tipo": store.get("type", ""),
-                    "zona": store.get("area", ""),
-                    "indirizzo": store.get("address", ""),
-                }
-            )
-
-        if stores_table:
-            st.dataframe(pd.DataFrame(stores_table), use_container_width=True, hide_index=True)
-
-
-    st.write("")
-    st.markdown("### Come evolverà questa funzione")
-    st.write(
-        "Ora usiamo parser web aggiornabile. Il prossimo step sarà collegare volantini reali "
-        "e fonti ufficiali o scraping controllato dove consentito."
-    )
+            st.info("Nessuna fonte mappata per le catene nel raggio.")
 
 
 

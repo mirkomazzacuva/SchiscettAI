@@ -1,28 +1,20 @@
 # SKiscettAI · SKAI
 
-**SKiscettAI** è una web app Streamlit per creare SKiscette intelligenti, pianificare la settimana e collegare ricette, lista spesa, supermercati nel raggio e offerte web.
+**SKiscettAI** è una web app Streamlit per creare SKiscette intelligenti e usare **SKAI Radar**: una dashboard che collega CAP, supermercati nel raggio, offerte web e ricette convenienti.
 
-Acronimo: **SKAI**.
+## Release attuale
 
-## Funzioni principali
+**SKAI Ultimate v4**
 
-- Generazione SKiscette da ingredienti e obiettivi
-- Catalogo ricette
-- Preferiti
-- Lista spesa
-- Meal plan
-- SKAI Radar con CAP e raggio
-- Mappa supermercati tramite OpenStreetMap/Overpass
-- Multi-chain Web Parser sperimentale
-- UI premium neon/glass
+- UI futuristica compatta
+- Sidebar leggibile
+- SKAI Radar mappa-first
+- Offerte web in card
+- Parser web multi-catena sperimentale
+- Nessun flusso manuale/CSV nella UI principale
+- Ricette, lista spesa, meal plan e preferiti
 
-## Modalità offerte
-
-La UI principale è in modalità **web-only**.
-
-Le offerte manuali/CSV non sono più parte del flusso utente principale. I parser web sono sperimentali, non bloccanti e sempre protetti da fallback.
-
-## Avvio locale
+## Avvio
 
 ```bash
 pip install -r requirements.txt
@@ -33,11 +25,9 @@ streamlit run app.py
 
 ```text
 app.py
-requirements.txt
-README.md
 styles/custom.css
-docs/roadmap.md
+data/offer_sources.json
 data/recipes.json
 data/stores.json
-data/offer_sources.json
+docs/roadmap.md
 ```
