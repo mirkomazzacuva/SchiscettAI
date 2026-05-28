@@ -912,3 +912,120 @@ div[role="radiogroup"] label {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* =========================================================
+   SKAI v10 — lean copilot UX
+   ========================================================= */
+
+.skai-solution-header {
+    margin: 0.35rem 0 0.75rem 0;
+}
+
+.skai-solution-header span {
+    display: block;
+    color: var(--mint);
+    font-size: 0.78rem;
+    font-weight: 1000;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 0.28rem;
+}
+
+.skai-solution-header h1 {
+    margin: 0 !important;
+    font-size: clamp(2rem, 4vw, 3.15rem) !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.07em !important;
+}
+
+.skai-solution-header p {
+    margin-top: 0.65rem !important;
+    color: rgba(255,255,255,0.78) !important;
+    font-weight: 800;
+    max-width: 880px;
+}
+
+.skai-topbar {
+    padding: 0.72rem 0.9rem !important;
+    margin-bottom: 0.55rem !important;
+    border-radius: 20px !important;
+}
+
+.skai-topbar strong {
+    font-size: 1.45rem !important;
+}
+
+.skai-topbar p {
+    font-size: 0.92rem !important;
+}
+
+/* More compact cards for the first viewport */
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stForm"] {
+    border-radius: 20px !important;
+}
+
+.block-container {
+    max-width: 1160px !important;
+    padding-top: 0.65rem !important;
+}
+
+/* Mission selector as compact choice chips */
+div[role="radiogroup"] label {
+    min-height: 2.75rem !important;
+    padding: 0.48rem 0.72rem !important;
+    font-size: 0.92rem !important;
+}
+
+/* Selectbox/dropdown hard contrast fix */
+[data-baseweb="select"],
+[data-baseweb="select"] > div,
+[data-baseweb="select"] div,
+[data-testid="stSelectbox"] *,
+[data-testid="stMultiSelect"] * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-baseweb="select"] input {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div,
+[data-baseweb="menu"],
+[data-baseweb="menu"] *,
+[role="listbox"],
+[role="listbox"] *,
+[role="option"],
+[role="option"] * {
+    background: #0b1022 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[role="option"]:hover,
+[data-baseweb="menu"] li:hover {
+    background: linear-gradient(90deg, rgba(40,248,255,0.24), rgba(255,79,216,0.18)) !important;
+}
+
+/* Keep text inputs readable */
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea {
+    background: rgba(255,255,255,0.96) !important;
+    color: #101225 !important;
+    -webkit-text-fill-color: #101225 !important;
+}
+
+[data-testid="stTextInput"] input::placeholder,
+[data-testid="stTextArea"] textarea::placeholder {
+    color: rgba(16,18,37,0.52) !important;
+    -webkit-text-fill-color: rgba(16,18,37,0.52) !important;
+}
+
+iframe {
+    min-height: 455px !important;
+}
+
