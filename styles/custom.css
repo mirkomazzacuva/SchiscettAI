@@ -1,297 +1,236 @@
 /* =========================================================
-   SchiscettAI UX Release
-   Inspired by modern food/deals apps: warm hero, pill filters,
-   soft cards, strong CTA, clean shopping-map experience.
-   Palette: avorio / greige / salvia / cacao
+   SKiscettAI / SKAI — Supercool UI
+   Neon grocery intelligence × premium food app × glassmorphism
    ========================================================= */
 
 :root {
-    --cream: #FFF8EE;
-    --cream-2: #F8F1E7;
-    --paper: rgba(255, 253, 248, 0.88);
-    --greige: #D8D0C4;
-    --greige-2: #BFB4A5;
-    --sage: #8FA99A;
-    --sage-dark: #587B66;
-    --sage-soft: rgba(143, 169, 154, 0.18);
-    --cacao: #332C25;
-    --cacao-2: #5C5248;
-    --terracotta: #B97957;
-    --gold: #D6A85E;
-    --success: #6F8C7A;
-    --shadow: rgba(51, 44, 37, 0.11);
-    --shadow-strong: rgba(51, 44, 37, 0.18);
+    --bg-0: #070711;
+    --bg-1: #101225;
+    --bg-2: #17172f;
+    --panel: rgba(255, 255, 255, 0.085);
+    --panel-strong: rgba(255, 255, 255, 0.14);
+    --text: #f7f7ff;
+    --muted: rgba(247, 247, 255, 0.66);
+    --cyan: #27f5ff;
+    --mint: #58ffb4;
+    --pink: #ff4fd8;
+    --orange: #ffb86b;
+    --purple: #8a5cff;
+    --lime: #d8ff4f;
+    --shadow-dark: rgba(0, 0, 0, 0.48);
 }
 
-/* App background */
 .stApp {
     background:
-        radial-gradient(circle at top left, rgba(143, 169, 154, 0.35), transparent 28%),
-        radial-gradient(circle at top right, rgba(214, 168, 94, 0.18), transparent 30%),
-        radial-gradient(circle at 20% 80%, rgba(185, 121, 87, 0.10), transparent 26%),
-        linear-gradient(135deg, var(--cream) 0%, var(--cream-2) 48%, #EEE4D7 100%);
-    color: var(--cacao);
+        radial-gradient(circle at 12% 10%, rgba(255, 79, 216, 0.28), transparent 24%),
+        radial-gradient(circle at 85% 14%, rgba(39, 245, 255, 0.25), transparent 28%),
+        radial-gradient(circle at 45% 90%, rgba(88, 255, 180, 0.17), transparent 30%),
+        linear-gradient(135deg, var(--bg-0) 0%, var(--bg-1) 45%, #12081f 100%);
+    color: var(--text);
 }
 
-/* Hide default chrome */
-#MainMenu, footer, header {
-    visibility: hidden;
-}
+#MainMenu, footer, header { visibility: hidden; }
 
-/* Layout */
 .block-container {
-    max-width: 1220px;
-    padding-top: 2.1rem;
+    max-width: 1280px;
+    padding-top: 2rem;
     padding-bottom: 5rem;
 }
 
-/* Main title behaves like a food-app hero */
 h1 {
-    color: var(--cacao) !important;
-    font-size: clamp(2.6rem, 5vw, 4.8rem) !important;
-    line-height: 0.96 !important;
-    letter-spacing: -0.06em !important;
-    font-weight: 900 !important;
-    margin-bottom: 0.35rem !important;
+    font-size: clamp(3rem, 7vw, 6.5rem) !important;
+    line-height: 0.86 !important;
+    letter-spacing: -0.085em !important;
+    font-weight: 950 !important;
+    color: transparent !important;
+    background: linear-gradient(90deg, #fff 0%, var(--cyan) 25%, var(--mint) 48%, var(--pink) 72%, #fff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 42px rgba(39, 245, 255, 0.22);
+    margin-bottom: 0.6rem !important;
 }
 
 h2 {
-    color: var(--cacao) !important;
-    font-size: clamp(1.7rem, 3vw, 2.45rem) !important;
-    letter-spacing: -0.035em !important;
-    font-weight: 850 !important;
+    font-size: clamp(1.85rem, 3.2vw, 3rem) !important;
+    color: var(--text) !important;
+    letter-spacing: -0.055em !important;
+    font-weight: 900 !important;
 }
 
 h3 {
-    color: var(--cacao) !important;
-    letter-spacing: -0.02em !important;
-    font-weight: 800 !important;
+    color: var(--text) !important;
+    letter-spacing: -0.03em !important;
+    font-weight: 850 !important;
 }
 
-p, li, label, span {
-    color: var(--cacao-2);
+p, li, label, span, div { color: var(--text); }
+
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stCaptionContainer"] {
+    color: var(--muted) !important;
 }
 
-/* Sidebar / navigation drawer */
 [data-testid="stSidebar"] {
-    background:
-        linear-gradient(180deg, rgba(255, 253, 248, 0.94), rgba(248, 241, 231, 0.90));
-    border-right: 1px solid rgba(143, 169, 154, 0.24);
-    box-shadow: 12px 0 38px rgba(51, 44, 37, 0.08);
+    background: linear-gradient(180deg, rgba(10, 11, 27, 0.92), rgba(20, 9, 33, 0.90));
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 20px 0 80px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(22px);
 }
 
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p {
-    color: var(--cacao-2);
-}
+[data-testid="stSidebar"] * { color: var(--text) !important; }
 
 [role="radiogroup"] label {
-    background: rgba(255, 248, 238, 0.58);
-    border: 1px solid rgba(143, 169, 154, 0.12);
-    border-radius: 20px;
-    padding: 0.55rem 0.70rem;
-    margin-bottom: 0.42rem;
-    transition: all 0.18s ease;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 999px;
+    padding: 0.62rem 0.82rem;
+    margin-bottom: 0.45rem;
+    transition: 0.18s ease;
 }
 
 [role="radiogroup"] label:hover {
-    background: rgba(143, 169, 154, 0.20);
-    transform: translateX(2px);
+    background: linear-gradient(90deg, rgba(39, 245, 255, 0.22), rgba(255, 79, 216, 0.18));
+    border-color: rgba(39, 245, 255, 0.42);
+    transform: translateX(4px);
 }
 
-/* Buttons */
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stForm"] {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.115), rgba(255, 255, 255, 0.045));
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 34px;
+    box-shadow: 0 24px 80px var(--shadow-dark), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(24px);
+    overflow: hidden;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"]:hover {
+    border-color: rgba(39, 245, 255, 0.32);
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.54), 0 0 48px rgba(39, 245, 255, 0.09);
+    transform: translateY(-2px);
+    transition: all 0.18s ease;
+}
+
 .stButton > button,
 [data-testid="stFormSubmitButton"] button,
 .stDownloadButton > button {
-    background: linear-gradient(135deg, var(--sage-dark), var(--sage));
-    color: #FFFDF8 !important;
     border: 0 !important;
     border-radius: 999px !important;
-    padding: 0.74rem 1.30rem !important;
-    font-weight: 850 !important;
-    letter-spacing: -0.01em;
-    box-shadow: 0 14px 28px rgba(88, 123, 102, 0.26);
-    transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+    color: #050510 !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.015em;
+    padding: 0.78rem 1.35rem !important;
+    background: linear-gradient(90deg, var(--cyan), var(--mint) 48%, var(--lime));
+    box-shadow: 0 0 26px rgba(39, 245, 255, 0.30), 0 18px 42px rgba(0, 0, 0, 0.36);
+    transition: transform 0.16s ease, filter 0.16s ease, box-shadow 0.16s ease;
 }
 
 .stButton > button:hover,
 [data-testid="stFormSubmitButton"] button:hover,
 .stDownloadButton > button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 18px 36px rgba(88, 123, 102, 0.34);
-    filter: saturate(1.05);
-    color: #FFFDF8 !important;
+    transform: translateY(-3px) scale(1.01);
+    filter: saturate(1.25);
+    box-shadow: 0 0 34px rgba(88, 255, 180, 0.44), 0 24px 54px rgba(0, 0, 0, 0.45);
+    color: #050510 !important;
 }
 
-.stButton > button:active,
-[data-testid="stFormSubmitButton"] button:active,
-.stDownloadButton > button:active {
-    transform: translateY(0);
-}
-
-/* Primary card look for bordered containers */
-[data-testid="stVerticalBlockBorderWrapper"] {
-    background:
-        linear-gradient(180deg, rgba(255, 253, 248, 0.92), rgba(255, 248, 238, 0.82));
-    border: 1px solid rgba(143, 169, 154, 0.28);
-    border-radius: 32px;
-    box-shadow: 0 18px 46px var(--shadow);
-    padding: 0.65rem;
-    overflow: hidden;
-}
-
-[data-testid="stVerticalBlockBorderWrapper"]:hover {
-    box-shadow: 0 24px 58px var(--shadow-strong);
-    transform: translateY(-1px);
-    transition: all 0.18s ease-in-out;
-}
-
-/* Forms */
-[data-testid="stForm"] {
-    background:
-        linear-gradient(180deg, rgba(255, 253, 248, 0.90), rgba(248, 241, 231, 0.82));
-    border: 1px solid rgba(143, 169, 154, 0.28);
-    border-radius: 34px;
-    padding: 1.35rem;
-    box-shadow: 0 18px 48px var(--shadow);
-}
-
-/* Inputs/selects */
-input,
-textarea {
-    background-color: rgba(255, 253, 248, 0.96) !important;
-    border: 1px solid rgba(143, 169, 154, 0.34) !important;
-    color: var(--cacao) !important;
+input, textarea {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: var(--text) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
     border-radius: 18px !important;
 }
 
-input:focus,
-textarea:focus {
-    border-color: var(--sage-dark) !important;
-    box-shadow: 0 0 0 4px rgba(143, 169, 154, 0.16) !important;
+input:focus, textarea:focus {
+    border-color: var(--cyan) !important;
+    box-shadow: 0 0 0 4px rgba(39, 245, 255, 0.16) !important;
 }
 
 [data-baseweb="select"] > div {
-    background-color: rgba(255, 253, 248, 0.96);
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+    color: var(--text) !important;
     border-radius: 18px !important;
-    border-color: rgba(143, 169, 154, 0.34) !important;
-}
-
-/* Radio, checkbox, sliders as pills */
-[data-testid="stCheckbox"] label,
-[data-testid="stRadio"] label {
-    border-radius: 18px;
-}
-
-[data-testid="stCheckbox"] label {
-    background: rgba(255, 253, 248, 0.60);
-    padding: 0.45rem 0.65rem;
 }
 
 [data-testid="stSlider"] {
-    background: rgba(255, 253, 248, 0.48);
-    padding: 0.85rem 1rem;
-    border-radius: 24px;
-    border: 1px solid rgba(143, 169, 154, 0.16);
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.9rem 1rem;
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* Metrics = food/deal badges */
 [data-testid="stMetric"] {
-    background:
-        linear-gradient(180deg, rgba(255, 253, 248, 0.86), rgba(248, 241, 231, 0.70));
-    border: 1px solid rgba(143, 169, 154, 0.24);
-    border-radius: 26px;
-    padding: 1rem 1.05rem;
-    box-shadow: 0 12px 28px rgba(51, 44, 37, 0.07);
+    background: linear-gradient(145deg, rgba(39, 245, 255, 0.14), rgba(255, 79, 216, 0.10));
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 28px;
+    padding: 1.05rem;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 [data-testid="stMetricLabel"] {
-    color: var(--greige-2) !important;
-    font-weight: 850 !important;
-}
-
-[data-testid="stMetricValue"] {
-    color: var(--cacao) !important;
+    color: var(--muted) !important;
     font-weight: 900 !important;
 }
 
-/* Alerts */
-[data-testid="stAlert"] {
-    border-radius: 24px;
-    border: 1px solid rgba(143, 169, 154, 0.24);
-    box-shadow: 0 10px 28px rgba(51, 44, 37, 0.055);
+[data-testid="stMetricValue"] {
+    color: var(--text) !important;
+    font-weight: 950 !important;
+    letter-spacing: -0.04em;
 }
 
-/* Expanders: admin/details stay hidden and polished */
+[data-testid="stAlert"] {
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.075);
+    backdrop-filter: blur(18px);
+}
+
 .streamlit-expanderHeader {
-    background: rgba(255, 253, 248, 0.74);
+    background: linear-gradient(90deg, rgba(39, 245, 255, 0.16), rgba(255, 79, 216, 0.10));
     border-radius: 20px;
-    color: var(--cacao) !important;
+    color: var(--text) !important;
+    font-weight: 900;
+}
+
+[data-testid="stDataFrame"] {
+    border-radius: 26px;
+    overflow: hidden;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.36);
+}
+
+iframe {
+    border-radius: 30px !important;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.44), 0 0 44px rgba(39, 245, 255, 0.10);
+}
+
+a {
+    color: var(--cyan) !important;
     font-weight: 850;
 }
 
-/* Dataframes */
-[data-testid="stDataFrame"] {
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 12px 34px rgba(51, 44, 37, 0.08);
-}
-
-/* Code blocks for Google Sheet URL */
 code {
-    border-radius: 12px !important;
-    color: var(--sage-dark) !important;
+    border-radius: 14px !important;
+    color: var(--mint) !important;
+    background: rgba(0, 0, 0, 0.30) !important;
 }
 
-/* Captions */
-[data-testid="stCaptionContainer"] {
-    color: #766B5E !important;
-}
-
-/* Links */
-a {
-    color: var(--sage-dark) !important;
-    font-weight: 800;
-}
-
-/* Folium iframe/container */
-iframe {
-    border-radius: 28px !important;
-    box-shadow: 0 18px 46px rgba(51, 44, 37, 0.10);
-}
-
-/* Dividers */
 hr {
     border: none;
-    border-top: 1px solid rgba(143, 169, 154, 0.28);
-    margin: 1.75rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    margin: 1.8rem 0;
 }
 
-/* Tables and lists */
-ul, ol {
-    padding-left: 1.2rem;
-}
-
-li {
-    margin-bottom: 0.35rem;
-}
-
-/* Make dataframe and app more mobile-friendly */
 @media screen and (max-width: 768px) {
     .block-container {
         padding-left: 1rem;
         padding-right: 1rem;
-        padding-top: 1.4rem;
+        padding-top: 1.35rem;
     }
 
-    h1 {
-        font-size: 2.55rem !important;
-    }
-
-    [data-testid="stMetric"] {
-        padding: 0.75rem;
-    }
+    h1 { font-size: 2.8rem !important; }
 
     [data-testid="stVerticalBlockBorderWrapper"] {
-        border-radius: 24px;
+        border-radius: 26px;
     }
 }
