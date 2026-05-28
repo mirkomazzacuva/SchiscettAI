@@ -1,0 +1,35 @@
+name: SKAI Beta Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  beta-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install QA dependencies
+        run: |
+          python -m pip install -r qa/requirements-qa.txt
+          python -m playwright install chromium
+
+      - name: Run beta test against live app
+        run: |
+          python qa/beta_test_skai.py --url https://skiscettai.streamlit.app/
+
+      - name: Upload beta report
+        uses: actions/upload-artifact@v4
+        with:
+          name: skai-beta-report
+          path: |
+            qa/reports
+            qa/screenshots
