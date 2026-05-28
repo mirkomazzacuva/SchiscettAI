@@ -1,16 +1,15 @@
-# SKiscettAI · SKAI Lean Copilot v10
+# SKiscettAI · SKAI One Screen Copilot v11
 
 Release basata sul beta report automatico.
 
 ## Cosa cambia
 
-- app più leggera e meno macchinosa
-- missione, zona e input nello stesso blocco
-- mappa molto più in alto
-- header compatto
-- dropdown/selectbox hard-fix contro bianco-su-bianco
-- controllo tecnico nascosto
-- offerte come bonus, non come blocco
+- SKAI Radar ancora più compatto
+- missione, CAP, raggio e input nello stesso blocco
+- mappa subito dopo il primo blocco
+- opzioni avanzate nascoste
+- dropdown/selectbox hard-fix
+- QA tester v4 con navigazione via query param
 
 ## Avvio
 
