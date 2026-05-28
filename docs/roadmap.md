@@ -1,8 +1,14 @@
-# SchiscettAI Roadmap
+# SKiscettAI Roadmap
+
+## Nome progetto
+
+Il progetto si chiama **SKiscettAI**.
+
+Acronimo: **SKAI**.
 
 ## Stato attuale
 
-SchiscettAI collega ricette, lista spesa, punti vendita nel raggio e offerte.
+SKiscettAI è una web app Streamlit per creare SKiscette, pianificare la settimana e collegare ricette, lista spesa, supermercati nel raggio e offerte web.
 
 Funzioni attive:
 
@@ -12,41 +18,47 @@ Funzioni attive:
 - lista spesa
 - meal plan
 - cluster visuali
-- Spesa smart con CAP e raggio
+- SKAI Radar con CAP e raggio
 - ricerca punti vendita tramite OpenStreetMap/Overpass
 - mappa interattiva
-- offerte manuali/CSV come fonte strutturata
-- Offer Engine v1
-- Multi-chain Offer Parser v1.1 sperimentale
+- Multi-chain Web Parser sperimentale
+- modalità web-only nel flusso principale
 
-## Multi-chain Offer Parser v1.1
+## SKAI Web-only Parser v2
 
-Il parser è applicato alle catene trovate nel raggio scelto dall'utente.
+Le offerte manuali/CSV sono rimosse dal flusso principale.
 
-Miglioramenti v1.1:
+Il motore ora:
 
-- filtro fonte: tutte / solo manuali / solo web
-- deduplica manuale-web
-- limite massimo offerte web
-- colonna origine nella tabella offerte
-- nomi prodotto più puliti
-- stato parser più leggibile
-- fallback manuale sempre attivo
-- ranking ricette basato sulle offerte visibili
+- cerca le catene nel raggio scelto dall'utente
+- attiva i parser web per le catene trovate
+- non blocca l'app se una fonte non risponde
+- mostra lo stato parser per ogni catena
+- usa solo offerte web nella UI principale
 
-## Prossimi step
+## Prossimi 20 step
 
-1. Migliorare parser dedicato PENNY.
-2. Aggiungere parser dedicato Coop o Conad.
-3. Migliorare estrazione nome prodotto / validità.
-4. Aggiungere controllo offerte scadute.
-5. Rafforzare deduplica prodotto/prezzo.
-6. Calcolare convenienza su lista spesa completa.
-7. Migliorare ranking negozio consigliato.
-8. Aggiungere impostazioni utente per preferenze catene.
-9. Aggiornare README con limiti e fonti.
-10. Preparare rilascio demo stabile.
+1. Migliorare parser PENNY.
+2. Migliorare parser Carrefour.
+3. Collegare parser Coop.
+4. Collegare parser Conad.
+5. Collegare parser Lidl.
+6. Collegare parser Eurospin.
+7. Collegare parser PAM se tecnicamente fattibile.
+8. Migliorare estrazione prodotto/prezzo.
+9. Estrarre validità offerta.
+10. Rimuovere duplicati cross-catena.
+11. Calcolare convenienza lista spesa completa.
+12. Migliorare ranking negozio consigliato.
+13. Aggiungere preferenze catene utente.
+14. Aggiungere warning offerte non verificate.
+15. Salvare cache offerte web.
+16. Aggiungere filtro categoria.
+17. Aggiungere ordinamento prezzo/distanza/copertura.
+18. Migliorare UX mobile.
+19. Aggiornare README.
+20. Preparare demo pubblica stabile.
 
 ## Regola tecnica
 
-Ogni parser deve essere isolato, non bloccante e sempre accompagnato da fallback manuale.
+Ogni parser deve essere isolato, non bloccante e con fallback. Nessun errore di parser deve rompere la UI principale.
