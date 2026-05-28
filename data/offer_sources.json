@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://www.penny.it/offerte",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   },
   {
     "chain": "Coop",
@@ -23,10 +23,10 @@
       "unicoop firenze",
       "unicoop tirreno"
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   },
   {
     "chain": "Conad",
@@ -37,10 +37,10 @@
       "margherita conad",
       "sapori e dintorni conad"
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://volantini.conad.it/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   },
   {
     "chain": "PAM",
@@ -51,10 +51,10 @@
       "panorama",
       "supermercati pam"
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://www.pampanorama.it/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   },
   {
     "chain": "Lidl",
@@ -62,10 +62,10 @@
       "lidl",
       "lidl italia"
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://www.lidl.it/c/offerte/c10026788",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   },
   {
     "chain": "Eurospin",
@@ -73,20 +73,20 @@
       "eurospin",
       "eurospin italia"
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://www.eurospin.it/volantino/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   },
   {
     "chain": "Esselunga",
     "aliases": [
       "esselunga"
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   },
   {
     "chain": "Carrefour",
@@ -95,10 +95,10 @@
       "carrefour express",
       "carrefour market"
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://www.carrefour.it/promozioni/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   },
   {
     "chain": "MD",
@@ -107,9 +107,9 @@
       "md discount",
       "md supermercati"
     ],
-    "mode": "skai_copilot_v9",
+    "mode": "skai_lean_copilot_v10",
     "url": "https://www.mdspa.it/volantino/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Copilot v9: UX intent-first, dropdown contrast fix, parser con quality gate."
+    "notes": "Fonte collegata a SKAI Lean Copilot v10: UX più compatta, mappa alta, dropdown fix, quality gate offerte."
   }
 ]
