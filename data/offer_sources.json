@@ -6,24 +6,27 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://www.penny.it/offerte",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   },
   {
     "chain": "Coop",
     "aliases": [
+      "centro siena coop",
+      "centro*siena",
       "coop",
       "coop.fi",
+      "coopfi",
       "unicoop",
       "unicoop firenze",
-      "centro*siena"
+      "unicoop tirreno"
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   },
   {
     "chain": "Conad",
@@ -31,77 +34,82 @@
       "conad",
       "conad city",
       "conad superstore",
+      "margherita conad",
       "sapori e dintorni conad"
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://volantini.conad.it/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   },
   {
     "chain": "PAM",
     "aliases": [
       "pam",
-      "pam panorama",
       "pam local",
-      "panorama"
+      "pam panorama",
+      "panorama",
+      "supermercati pam"
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://www.pampanorama.it/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   },
   {
     "chain": "Lidl",
     "aliases": [
-      "lidl"
+      "lidl",
+      "lidl italia"
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://www.lidl.it/c/offerte/c10026788",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   },
   {
     "chain": "Eurospin",
     "aliases": [
-      "eurospin"
+      "eurospin",
+      "eurospin italia"
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://www.eurospin.it/volantino/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   },
   {
     "chain": "Esselunga",
     "aliases": [
       "esselunga"
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   },
   {
     "chain": "Carrefour",
     "aliases": [
       "carrefour",
-      "carrefour market",
-      "carrefour express"
+      "carrefour express",
+      "carrefour market"
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://www.carrefour.it/promozioni/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   },
   {
     "chain": "MD",
     "aliases": [
       "md",
-      "md discount"
+      "md discount",
+      "md supermercati"
     ],
-    "mode": "skai_black_label_v5",
+    "mode": "skai_copilot_v7",
     "url": "https://www.mdspa.it/volantino/",
     "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI Black Label v5: parser web non bloccante, radar score, deal feed e map-first UX."
+    "notes": "Fonte collegata a SKAI Copilot v7: flusso intent-first, parser web con quality gate, raw parser nascosto."
   }
 ]
