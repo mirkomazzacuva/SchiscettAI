@@ -1,21 +1,18 @@
 # SKiscettAI Roadmap
 
-## Release: SKAI Lean Copilot v10
+## Release: SKAI One Screen Copilot v11
 
-Correzione UX basata su beta report e screenshot reali.
-
-Miglioramenti:
-- default su SKAI Radar
-- flusso più compatto
-- missione + zona + input in un blocco unico
-- mappa subito dopo
-- header globale più piccolo
-- dropdown hard-fix
-- report QA v3 più robusto
+Correzioni:
+- report QA precedente non navigava pagine: risolto con `?qa_page=`
+- SKAI Radar compattato
+- mappa più alta
+- primo blocco meno pesante
+- opzioni tecniche nascoste
+- dropdown fix mantenuto
 
 Prossimi step:
-1. rilanciare beta test
-2. verificare apertura pagine con QA v3
+1. rilanciare beta test v4
+2. verificare screenshot di tutte le pagine
 3. parser Carrefour dedicato
 4. parser Coop/Conad
-5. piano spesa ottimizzato per negozio
+5. piano spesa per negozio
