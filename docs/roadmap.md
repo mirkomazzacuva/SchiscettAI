@@ -1,23 +1,21 @@
 # SKiscettAI Roadmap
 
-## Release: SKAI Copilot v9
+## Release: SKAI Lean Copilot v10
 
-Correzioni basate sul beta report automatico e sui problemi UX osservati:
+Correzione UX basata su beta report e screenshot reali.
 
-- app pubblica verificata dal report
-- vecchio tester non cliccava la sidebar: script QA aggiornato
-- dropdown/selectbox con contrasto corretto
-- topbar più compatta
-- apertura diretta sulla missione SKAI Radar
-- riduzione dei passaggi visibili
-- offerte come supporto, non come blocco
+Miglioramenti:
+- default su SKAI Radar
+- flusso più compatto
+- missione + zona + input in un blocco unico
+- mappa subito dopo
+- header globale più piccolo
+- dropdown hard-fix
+- report QA v3 più robusto
 
-## Prossimi step
-
-1. Ripetere beta test con tester v2.
-2. Verificare screenshot SKAI Radar.
-3. Parser dedicato Carrefour.
-4. Parser dedicato Coop.
-5. Parser dedicato Conad.
-6. Migliorare card offerte con nome prodotto reale.
-7. Piano spesa settimanale ottimizzato per negozio.
+Prossimi step:
+1. rilanciare beta test
+2. verificare apertura pagine con QA v3
+3. parser Carrefour dedicato
+4. parser Coop/Conad
+5. piano spesa ottimizzato per negozio
