@@ -413,3 +413,235 @@ hr {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* SKAI v6 offer card and parser quality */
+.skai-offer-card {
+    min-height: 230px;
+    padding: 1rem;
+    border-radius: 24px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)),
+        radial-gradient(circle at 20% 0%, rgba(40,248,255,0.18), transparent 34%);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 20px 58px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
+    backdrop-filter: blur(20px);
+    margin-bottom: 0.85rem;
+}
+
+.skai-offer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.7rem;
+}
+
+.skai-offer-top span {
+    font-size: 0.74rem;
+    line-height: 1;
+    padding: 0.38rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.86);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 900;
+}
+
+.skai-offer-price {
+    font-size: 2.25rem;
+    line-height: 1;
+    letter-spacing: -0.055em;
+    font-weight: 1000;
+    color: #ffffff;
+    text-shadow: 0 0 22px rgba(40,248,255,0.20);
+    margin-bottom: 0.7rem;
+}
+
+.skai-offer-product {
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.3;
+    font-weight: 850;
+    min-height: 4.0rem;
+}
+
+.skai-offer-match {
+    margin-top: 0.85rem;
+    color: rgba(93,255,191,0.92);
+    font-weight: 850;
+    font-size: 0.86rem;
+}
+
+.skai-deal-banner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr);
+    gap: 1rem;
+    align-items: center;
+    margin: 0.8rem 0 1rem 0;
+    padding: 1rem;
+    border-radius: 26px;
+    background:
+        linear-gradient(90deg, rgba(40,248,255,0.18), rgba(255,79,216,0.13)),
+        rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 20px 58px rgba(0,0,0,0.30);
+}
+
+.skai-deal-banner span {
+    display: block;
+    color: rgba(93,255,191,0.92);
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 0.10em;
+    font-size: 0.78rem;
+}
+
+.skai-deal-banner strong {
+    display: block;
+    margin-top: 0.35rem;
+    color: #ffffff !important;
+    font-size: 1.25rem;
+    letter-spacing: -0.025em;
+}
+
+.skai-deal-banner p {
+    margin: 0 !important;
+    color: rgba(255,255,255,0.86) !important;
+    font-weight: 800;
+}
+
+.skai-section-label {
+    margin: 1rem 0 0.55rem 0;
+}
+
+.skai-section-label span {
+    display: block;
+    color: var(--mint);
+    font-size: 0.78rem;
+    font-weight: 1000;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.skai-section-label h2 {
+    margin: 0 !important;
+}
+
+.skai-section-label p {
+    margin-top: 0.35rem !important;
+    color: var(--text-soft) !important;
+}
+
+
+
+/* =========================================================
+   SKAI Copilot v7 — intent first, less dashboard fatigue
+   ========================================================= */
+
+.skai-action-plan {
+    margin-top: 0.85rem;
+    padding: 0.95rem 1rem;
+    border-radius: 22px;
+    background:
+        linear-gradient(90deg, rgba(93,255,191,0.14), rgba(40,248,255,0.12)),
+        rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.16);
+}
+
+.skai-action-plan strong {
+    display: block;
+    font-size: 1rem;
+    color: #ffffff !important;
+    margin-bottom: 0.25rem;
+}
+
+.skai-action-plan span {
+    color: rgba(255,255,255,0.78);
+    font-weight: 800;
+}
+
+div[role="radiogroup"] {
+    gap: 0.65rem;
+}
+
+div[role="radiogroup"] label {
+    min-height: 3.1rem;
+    justify-content: center;
+    text-align: center;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.055)) !important;
+    border: 1px solid rgba(255,255,255,0.18) !important;
+}
+
+[data-testid="stToggle"] label,
+[data-testid="stCheckbox"] label {
+    font-size: 0.95rem !important;
+}
+
+.skai-offer-card {
+    min-height: 235px;
+    padding: 1rem;
+    border-radius: 24px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)),
+        radial-gradient(circle at 20% 0%, rgba(40,248,255,0.18), transparent 34%);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 20px 58px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
+    backdrop-filter: blur(20px);
+    margin-bottom: 0.85rem;
+}
+
+.skai-offer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.7rem;
+}
+
+.skai-offer-top span {
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.38rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.86);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 900;
+}
+
+.skai-offer-price {
+    font-size: 2.25rem;
+    line-height: 1;
+    letter-spacing: -0.055em;
+    font-weight: 1000;
+    color: #ffffff;
+    text-shadow: 0 0 22px rgba(40,248,255,0.20);
+    margin-bottom: 0.7rem;
+}
+
+.skai-offer-product {
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.3;
+    font-weight: 850;
+    min-height: 4.0rem;
+}
+
+.skai-offer-match {
+    margin-top: 0.85rem;
+    color: rgba(93,255,191,0.92);
+    font-weight: 850;
+    font-size: 0.86rem;
+}
+
+[data-testid="stTextArea"] textarea {
+    min-height: 95px !important;
+}
+
