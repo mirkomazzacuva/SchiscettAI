@@ -1126,6 +1126,48 @@ def fetch_chain_offers_v1(chain, url):
 
 
 
+
+# =========================================================
+# SKAI v16 Compatibility Layer
+# =========================================================
+
+def parser_url_for_chain(chain, offer_sources):
+    """Return the configured offer URL for a supermarket chain."""
+    chain_norm = normalize_for_match(chain)
+
+    for source in offer_sources or []:
+        source_chain = source.get("chain", "")
+        aliases = source.get("aliases", [])
+        candidates = [source_chain] + aliases
+
+        for candidate in candidates:
+            if normalize_for_match(candidate) == chain_norm:
+                return source.get("url", "")
+
+    return ""
+
+
+def chains_with_parser_enabled(nearby_stores, offer_sources):
+    chains = sorted(
+        set(
+            infer_store_chain_v2(store, offer_sources)
+            for store in nearby_stores
+            if infer_store_chain_v2(store, offer_sources)
+            and infer_store_chain_v2(store, offer_sources) != "Altro"
+        )
+    )
+
+    priority = ["Coop", "Conad", "PAM", "PENNY", "Lidl", "Eurospin", "Carrefour", "MD", "Esselunga"]
+
+    chains = sorted(
+        chains,
+        key=lambda chain: priority.index(chain) if chain in priority else 99,
+    )
+
+    return [chain for chain in chains if parser_url_for_chain(chain, offer_sources)]
+
+
+
 def fetch_multi_chain_offers_v1(chains, offer_sources, max_chains=5):
     results = []
     web_offers = []
