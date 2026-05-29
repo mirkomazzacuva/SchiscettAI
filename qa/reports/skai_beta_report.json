@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:8501",
-  "generated_at": "2026-05-29T10:46:01.368986+00:00",
+  "generated_at": "2026-05-29T11:26:24.455292+00:00",
   "checks": [
     {
       "name": "default_opens_home",

@@ -1,17 +1,16 @@
 # SKAI Roadmap
 
-## v26 Multi-Source Offer Engine
+## v27 Deep Browser Offer Audit
 
-Implementato:
-- fallback multi-fonte per catena
-- official first, aggregator fallback
-- product+price+chain final gate
-- audit non bloccante per tutte le fonti
-- QA corretto sui bottoni
+Stato:
+- app stabile
+- v26 multi-source attivo
+- PENNY, Carrefour, Eurospin hanno almeno una fonte testuale utile
+- Coop/Conad/PAM e altre catene richiedono rendering/API discovery
 
 Prossimo salto:
-1. parser dedicato per formato immagine/PDF volantino
-2. OCR controllato solo per volantini non testuali
-3. prezzo al kg/litro
-4. validità offerta
+1. leggere `skai_deep_offer_audit.json`
+2. estrarre API/JSON reali per catena
+3. implementare parser v28 per le fonti scoperte
+4. aggiungere prezzo al kg/litro
 5. matching offerte con lista spesa per negozio

@@ -1,0 +1,126 @@
+# SKAI Deep Offer Audit
+
+- ✅ PENNY · static=15 · rendered=15 · best=https://www.penny.it/offerte
+  - static_pairs=15 rendered_pairs=15 api_urls=24 · https://www.penny.it/offerte
+    - 31.05.2026 · 2.39€
+    - 31.05.2026 · 0.34€
+    - 03.06.2026 · 5.99€
+    - api? https://api.eu1.exponea.com/js/exponea.min.js
+    - api? https://api.eu1.exponea.com/webxp/projects/ef0a2a98-2641-11ee-92bf-aa84e0cfbb04/bundle
+    - api? https://api.eu1.exponea.com/webxp/script/ef0a2a98-2641-11ee-92bf-aa84e0cfbb04/new/modifications.min.js?http-referer=https%3A%2F%2Fwww.penny.it%2Fofferte&timeout=4000ms
+  - static_pairs=0 rendered_pairs=0 api_urls=40 · https://www.promoqui.it/volantino/penny-market
+    - api? https://apiv3.promoqui.it/graphql
+    - api? https://apiv3.promoqui.it/graphql/appauth
+    - api? https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1055-b7cad860c0d0db85.js
+  - static_pairs=0 rendered_pairs=0 api_urls=1 · https://zonavolantini.com/penny
+    - api? https://challenges.cloudflare.com/turnstile/v0/g/8fc8ed1d8752/api.js?onload=NoWu9&render=explicit
+- ⚠️ Coop · static=0 · rendered=0 · best=
+  - static_pairs=0 rendered_pairs=0 api_urls=7 · https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci
+    - api? https://cpl.iubenda.com/big_data/consent?apikey=XyLWRsFWsMWUOHaZX46GaIiNHurH4wur
+    - api? https://www.coopfirenze.it/.checkJwtToken.json?t=1780054090010
+    - api? https://www.coopfirenze.it/.puntovendita.json
+  - static_pairs=0 rendered_pairs=0 api_urls=5 · https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini
+    - api? https://www.coopfirenze.it/.checkJwtToken.json?t=1780054097476
+    - api? https://www.coopfirenze.it/content/dam/unicoop/offerte/Family.png/jcr:content/renditions/cq5dam.web.1280.1280.jpeg
+    - api? https://www.coopfirenze.it/content/dam/unicoop/offerte/couple.png/jcr:content/renditions/cq5dam.web.1280.1280.jpeg
+  - static_pairs=0 rendered_pairs=0 api_urls=40 · https://www.volantinofacile.it/coop/volantino-coop/firenze
+    - api? https://data.volantinofacile.it/pages/images/028/501/280/medium/page1.jpg?1775214225
+    - api? https://data.volantinofacile.it/pages/images/028/537/887/medium/page1.jpg?1775747845
+    - api? https://data.volantinofacile.it/pages/images/028/550/056/medium/page1.jpg?1776202654
+- ⚠️ Conad · static=0 · rendered=0 · best=
+  - static_pairs=0 rendered_pairs=0 api_urls=7 · https://www.doveconviene.it/volantino/conad-superstore
+    - api? https://api-viewer-zmags.shopfully.cloud/publication/it_it_845643
+    - api? https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780054112437&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=0&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fconad-superstore&c8=Volantino%20e%20Offerte%20Conad%20Superstore%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=
+    - api? https://sb.scorecardresearch.com/cs/32351022/beacon.js
+  - static_pairs=0 rendered_pairs=0 api_urls=40 · https://www.volantinofacile.it/conad-superstore/volantino-conad-superstore
+    - api? https://data.volantinofacile.it/pages/images/028/493/710/medium/page1.jpg?1774869238
+    - api? https://data.volantinofacile.it/pages/images/028/502/874/medium/page1.jpg?1775215311
+    - api? https://data.volantinofacile.it/pages/images/028/593/073/medium/page1.jpg?1777014805
+  - static_pairs=0 rendered_pairs=0 api_urls=10 · https://www.conad.it/app-internal/home_leaflets
+    - api? https://a1.adform.net/Serving/TrackPoint/?pm=1566399&ADFPageName=CONAD_ROS&ADFdivider=%7C&ord=250602774761&ADFtpmode=2&loc=https%3A%2F%2Fwww.conad.it%2Fricerca-negozi&CPref=https%3A%2F%2Fwww.conad.it%2Fapp-internal%2Fhome_leaflets&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24
+    - api? https://a1.adform.net/serving/container/?pm=1566399&lid=46108449&ctype=0&media=0&PageName=CONAD_ROS&rnd=1212237140&cpref=https%3a%2f%2fwww.conad.it%2fapp-internal%2fhome_leaflets&loc=https%3a%2f%2fwww.conad.it%2fricerca-negozi
+    - api? https://acsbapp.com/apps/app/dist/js/locale/it-app.json
+- ⚠️ PAM · static=0 · rendered=0 · best=
+  - static_pairs=0 rendered_pairs=0 api_urls=7 · https://www.doveconviene.it/volantino/panorama
+    - api? https://api-viewer-zmags.shopfully.cloud/publication/it_it_842001
+    - api? https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780054134324&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fpanorama&c8=Volantino%20e%20Offerte%20Panorama%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=
+    - api? https://sb.scorecardresearch.com/cs/32351022/beacon.js
+  - static_pairs=0 rendered_pairs=0 api_urls=40 · https://www.volantinofacile.it/pam/volantino-pam
+    - api? https://data.volantinofacile.it/pages/images/028/501/280/medium/page1.jpg?1775214225
+    - api? https://data.volantinofacile.it/pages/images/028/537/887/medium/page1.jpg?1775747845
+    - api? https://data.volantinofacile.it/pages/images/028/650/816/medium/page1.jpg?1778142532
+  - static_pairs=0 rendered_pairs=0 api_urls=9 · https://www.pampanorama.it/
+    - api? https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/it_IT/appleid.auth.js
+    - api? https://coeus.ppapi.it/api/v2_2/geo/ip
+    - api? https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=article
+- ✅ Carrefour · static=6 · rendered=15 · best=https://www.promoqui.it/volantino/carrefour
+  - static_pairs=0 rendered_pairs=0 api_urls=40 · https://www.carrefour.it/promozioni/
+    - api? https://cdn.vivocha.com/a/carrefour/w/i3/8.4.0-gaia-outcome.26/api/v3/public/campaigns/69aa8ba4c528f50006205b66/18/1772784255089/it/4b79fbb89fc5e246/fcc9e1918236ce63
+    - api? https://cdn.vivocha.com/a/carrefour/w/i3/8.4.0-gaia-outcome.26/api/v3/public/campaigns/69aa8ba4c528f50006205b66/18/1774533701867/it/4b79fbb89fc5e246/628b0db78fdbce2c
+    - api? https://challenges.cloudflare.com/turnstile/v0/api.js
+  - static_pairs=6 rendered_pairs=15 api_urls=40 · https://www.promoqui.it/volantino/carrefour
+    - CARREFOUR IPER - Grandi Marche Scade Mercoledi Offerte in evidenza · 2.99€
+    - Soft - Tovagliolo · 0.99€
+    - 40% Biraghi - Gran Ricotta · 3.59€
+    - api? https://apiv3.promoqui.it/graphql
+    - api? https://apiv3.promoqui.it/graphql/appauth
+    - api? https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1055-b7cad860c0d0db85.js
+  - static_pairs=0 rendered_pairs=0 api_urls=4 · https://www.doveconviene.it/volantino/carrefour
+    - api? https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780054175889&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fcarrefour&c8=OOPS!%20Ci%20dispiace%2C%20questa%20pagina%20non%20esiste!&c9=
+    - api? https://sb.scorecardresearch.com/cs/32351022/beacon.js
+    - api? https://sb.scorecardresearch.com/internal-cs/default/beacon.js
+- ⚠️ Lidl · static=0 · rendered=0 · best=
+  - static_pairs=0 rendered_pairs=0 api_urls=8 · https://www.lidl.it/c/offerte/c10026788
+    - api? https://www.lidl.it/c/offerte/c10026788
+    - api? https://www.lidl.it/q/search-input/search-input.971f2a7db2624eca1e5c3e4f745e5bf2f55e792d.js
+    - api? https://www.lidl.it/q/search-input/search-input.f66dec408f76db6ebdcc5a4f24d48121fa4ef4df.min.css
+  - static_pairs=0 rendered_pairs=0 api_urls=7 · https://www.doveconviene.it/volantino/lidl
+    - api? https://api-viewer-zmags.shopfully.cloud/publication/it_it_846952
+    - api? https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780054189484&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Flidl&c8=Volantino%20Lidl%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=
+    - api? https://sb.scorecardresearch.com/cs/32351022/beacon.js
+  - static_pairs=0 rendered_pairs=0 api_urls=40 · https://www.promoqui.it/volantino/lidl
+    - api? https://apiv3.promoqui.it/graphql
+    - api? https://apiv3.promoqui.it/graphql/appauth
+    - api? https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1055-b7cad860c0d0db85.js
+- ✅ Eurospin · static=3 · rendered=12 · best=https://www.promoqui.it/volantino/eurospin
+  - static_pairs=0 rendered_pairs=0 api_urls=24 · https://www.eurospin.it/volantino/
+    - api? https://api.refiner.io/js-client/v1/d16a6d40-da25-11ef-bff4-c96453adb0ba/ping
+    - api? https://cpl.iubenda.com/big_data/consent?apikey=GgFiWGzuEteZBU0ghVCrn4s1gsBOktCi
+    - api? https://d.adroll.com/cm/b/out?af0=48fa564b&adroll_fpc=2d890879af7c0538b10b55d7415eb194-1780054216730&pv=12544379412.129042&arrfrr=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&advertisable=MBEQXSTAN5DJTKLMV6KAEV
+  - static_pairs=0 rendered_pairs=0 api_urls=7 · https://www.doveconviene.it/volantino/eurospin
+    - api? https://api-viewer-zmags.shopfully.cloud/publication/it_it_840074
+    - api? https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780054219051&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Feurospin&c8=Volantino%20Eurospin%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=
+    - api? https://sb.scorecardresearch.com/cs/32351022/beacon.js
+  - static_pairs=3 rendered_pairs=12 api_urls=40 · https://www.promoqui.it/volantino/eurospin
+    - I GRANDI DEL RISPARMIO Scade Domenica Offerte in evidenza · 0.85€
+    - 22% Olive Nere Denocciolate · 3.79€
+    - Dolciando - Crema Spalmabile · 2.29€
+    - api? https://apiv3.promoqui.it/graphql
+    - api? https://apiv3.promoqui.it/graphql/appauth
+    - api? https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1055-b7cad860c0d0db85.js
+- ⚠️ Esselunga · static=0 · rendered=0 · best=
+  - static_pairs=0 rendered_pairs=0 api_urls=3 · https://www.esselunga.it/it-it/negozi/volantino.html
+    - api? https://www.esselunga.it/it-it/negozi/volantino.html
+    - api? https://www.esselunga.it/media/icons/search.svg
+    - api? https://www.esselunga.it/services/istituzionale35/check-login?url=https:%2F%2Fwww.esselunga.it%2Fit-it%2Fnegozi%2Fvolantino.html
+  - static_pairs=0 rendered_pairs=0 api_urls=7 · https://www.doveconviene.it/volantino/esselunga
+    - api? https://api-viewer-zmags.shopfully.cloud/publication/it_it_846913
+    - api? https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780054240258&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fesselunga&c8=Volantino%20Esselunga%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=
+    - api? https://sb.scorecardresearch.com/cs/32351022/beacon.js
+  - static_pairs=0 rendered_pairs=0 api_urls=40 · https://www.promoqui.it/volantino/esselunga
+    - api? https://apiv3.promoqui.it/graphql
+    - api? https://apiv3.promoqui.it/graphql/appauth
+    - api? https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1055-b7cad860c0d0db85.js
+- ⚠️ MD · static=0 · rendered=0 · best=
+  - static_pairs=0 rendered_pairs=0 api_urls=12 · https://www.mdspa.it/volantino/
+    - api? https://cpl.iubenda.com/big_data/consent?apikey=0O7dxd4cGwaFxtyjHqi0ixMiDedzQklS
+    - api? https://px.ads.linkedin.com/attribution_trigger?pid=5005905&time=1780054260334&url=https%3A%2F%2Fwww.mdspa.it%2Fvolantino%2F
+    - api? https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=5005905&time=1780054260334&li_adsId=cd1bd78d-ad5b-4c73-ad43-9d8bcef30011&url=https%3A%2F%2Fwww.mdspa.it%2Fvolantino%2F
+  - static_pairs=0 rendered_pairs=0 api_urls=7 · https://www.doveconviene.it/volantino/md
+    - api? https://api-viewer-zmags.shopfully.cloud/publication/it_it_837822
+    - api? https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780054262710&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fmd&c8=Volantino%20MD%20Discount%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=
+    - api? https://sb.scorecardresearch.com/cs/32351022/beacon.js
+  - static_pairs=0 rendered_pairs=0 api_urls=5 · https://www.promoqui.it/volantino/md
+    - api? https://assets1.promoqui.it/scripts/locales_fe1.js?cache=1749458969
+    - api? https://assets1.promoqui.it/scripts/vendors_fe1.js?cache=1749458969
+    - api? https://www.promoqui.it/cdn-cgi/rum?

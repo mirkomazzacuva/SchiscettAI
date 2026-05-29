@@ -1,16 +1,16 @@
-# SKiscettAI · SKAI Kitchen OS v26
+# SKiscettAI · SKAI Kitchen OS v27
 
-## v26 Multi-Source Offer Engine
+## v27 Deep Browser Offer Audit
 
-Questa release prova finalmente a recuperare offerte anche dalle altre catene, non solo PENNY/Carrefour:
+v26 ha sbloccato PENNY, Carrefour ed Eurospin via fonti testuali/fallback.
 
-- official source first
-- fallback su cataloghi/volantini pubblici quando la fonte ufficiale non espone prodotto+prezzo
-- parser multi-source per prodotto + prezzo + catena
-- niente card con solo prezzo
-- pannello catene con fonti provate
-- live offer audit aggiornato sulle fonti fallback
-- QA corretto v25 mantenuto
+v27 mantiene l'app v26 e aggiunge un audit profondo non bloccante che usa anche browser rendering per scoprire:
+- offerte visibili solo dopo JavaScript
+- testo renderizzato non presente nell'HTML statico
+- possibili URL API / JSON / GraphQL
+- coppie prodotto+prezzo candidate per Coop, Conad, PAM, Lidl, Esselunga, MD
+
+Il deploy resta bloccato solo dai test UI e bottoni; il deep audit produce report da leggere per costruire i parser v28.
 
 ## Avvio
 
