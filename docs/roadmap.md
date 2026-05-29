@@ -1,16 +1,17 @@
 # SKAI Roadmap
 
-## v25 Corrected Button QA
+## v26 Multi-Source Offer Engine
 
-Correzioni:
-- eliminato falso positivo sui bottoni sidebar fuori viewport
-- navigazione sidebar già testata separatamente
-- smoke test concentrato sui bottoni realmente interattivi del contenuto
-- live offer audit ancora separato e non bloccante
+Implementato:
+- fallback multi-fonte per catena
+- official first, aggregator fallback
+- product+price+chain final gate
+- audit non bloccante per tutte le fonti
+- QA corretto sui bottoni
 
 Prossimo salto:
-1. parser PENNY integrato più forte nell'app
-2. sorgenti alternative per Coop/Conad/PAM
+1. parser dedicato per formato immagine/PDF volantino
+2. OCR controllato solo per volantini non testuali
 3. prezzo al kg/litro
 4. validità offerta
 5. matching offerte con lista spesa per negozio

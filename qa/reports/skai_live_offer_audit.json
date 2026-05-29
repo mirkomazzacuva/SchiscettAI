@@ -1,78 +1,261 @@
 {
-  "generated_at": "2026-05-29T10:36:18.745599+00:00",
-  "note": "Non-blocking audit: segnala quali fonti sembrano esporre prodotto+prezzo leggibili.",
-  "sources": [
+  "generated_at": "2026-05-29T10:47:22.395770+00:00",
+  "note": "Non-blocking audit: controlla official+fallback. Rough pairs significa testo che somiglia a prodotto+prezzo.",
+  "chains": [
     {
       "chain": "PENNY",
-      "url": "https://www.penny.it/offerte",
-      "ok": true,
-      "status": 200,
-      "rough_pairs": 20,
-      "error": ""
+      "best_pairs": 20,
+      "best_url": "https://www.penny.it/offerte",
+      "sources": [
+        {
+          "chain": "PENNY",
+          "url": "https://www.penny.it/offerte",
+          "ok": true,
+          "status": 200,
+          "rough_pairs": 20,
+          "error": ""
+        },
+        {
+          "chain": "PENNY",
+          "url": "https://www.promoqui.it/volantino/penny-market",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "PENNY",
+          "url": "https://zonavolantini.com/penny",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        }
+      ]
     },
     {
       "chain": "Coop",
-      "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
-      "ok": false,
-      "status": 200,
-      "rough_pairs": 0,
-      "error": ""
+      "best_pairs": 0,
+      "best_url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci",
+      "sources": [
+        {
+          "chain": "Coop",
+          "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "Coop",
+          "url": "https://www.volantinofacile.it/coop/volantino-coop/firenze",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        }
+      ]
     },
     {
       "chain": "Conad",
-      "url": "https://www.conad.it/app-internal/home_leaflets",
-      "ok": false,
-      "status": 200,
-      "rough_pairs": 0,
-      "error": ""
+      "best_pairs": 0,
+      "best_url": "https://www.doveconviene.it/volantino/conad-superstore",
+      "sources": [
+        {
+          "chain": "Conad",
+          "url": "https://www.doveconviene.it/volantino/conad-superstore",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "Conad",
+          "url": "https://www.volantinofacile.it/conad-superstore/volantino-conad-superstore",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        }
+      ]
     },
     {
       "chain": "PAM",
-      "url": "https://www.pampanorama.it/",
-      "ok": false,
-      "status": 200,
-      "rough_pairs": 0,
-      "error": ""
-    },
-    {
-      "chain": "Lidl",
-      "url": "https://www.lidl.it/c/offerte/c10026788",
-      "ok": false,
-      "status": null,
-      "rough_pairs": 0,
-      "error": "HTTP Error 404: Not Found"
-    },
-    {
-      "chain": "Eurospin",
-      "url": "https://www.eurospin.it/volantino/",
-      "ok": false,
-      "status": 200,
-      "rough_pairs": 0,
-      "error": ""
-    },
-    {
-      "chain": "Esselunga",
-      "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-      "ok": false,
-      "status": null,
-      "rough_pairs": 0,
-      "error": "HTTP Error 404: Not Found"
+      "best_pairs": 0,
+      "best_url": "https://www.doveconviene.it/volantino/panorama",
+      "sources": [
+        {
+          "chain": "PAM",
+          "url": "https://www.doveconviene.it/volantino/panorama",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "PAM",
+          "url": "https://www.volantinofacile.it/pam/volantino-pam",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        }
+      ]
     },
     {
       "chain": "Carrefour",
-      "url": "https://www.carrefour.it/promozioni/",
-      "ok": false,
-      "status": 200,
-      "rough_pairs": 0,
-      "error": ""
+      "best_pairs": 6,
+      "best_url": "https://www.promoqui.it/volantino/carrefour",
+      "sources": [
+        {
+          "chain": "Carrefour",
+          "url": "https://www.carrefour.it/promozioni/",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "Carrefour",
+          "url": "https://www.promoqui.it/volantino/carrefour",
+          "ok": true,
+          "status": 200,
+          "rough_pairs": 6,
+          "error": ""
+        },
+        {
+          "chain": "Carrefour",
+          "url": "https://www.doveconviene.it/volantino/carrefour",
+          "ok": false,
+          "status": null,
+          "rough_pairs": 0,
+          "error": "HTTP Error 404: Not Found"
+        }
+      ]
+    },
+    {
+      "chain": "Lidl",
+      "best_pairs": 0,
+      "best_url": "https://www.lidl.it/c/offerte/c10026788",
+      "sources": [
+        {
+          "chain": "Lidl",
+          "url": "https://www.lidl.it/c/offerte/c10026788",
+          "ok": false,
+          "status": null,
+          "rough_pairs": 0,
+          "error": "HTTP Error 404: Not Found"
+        },
+        {
+          "chain": "Lidl",
+          "url": "https://www.doveconviene.it/volantino/lidl",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "Lidl",
+          "url": "https://www.promoqui.it/volantino/lidl",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "chain": "Eurospin",
+      "best_pairs": 3,
+      "best_url": "https://www.promoqui.it/volantino/eurospin",
+      "sources": [
+        {
+          "chain": "Eurospin",
+          "url": "https://www.eurospin.it/volantino/",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "Eurospin",
+          "url": "https://www.doveconviene.it/volantino/eurospin",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "Eurospin",
+          "url": "https://www.promoqui.it/volantino/eurospin",
+          "ok": true,
+          "status": 200,
+          "rough_pairs": 3,
+          "error": ""
+        }
+      ]
+    },
+    {
+      "chain": "Esselunga",
+      "best_pairs": 0,
+      "best_url": "https://www.esselunga.it/it-it/negozi/volantino.html",
+      "sources": [
+        {
+          "chain": "Esselunga",
+          "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
+          "ok": false,
+          "status": null,
+          "rough_pairs": 0,
+          "error": "HTTP Error 404: Not Found"
+        },
+        {
+          "chain": "Esselunga",
+          "url": "https://www.doveconviene.it/volantino/esselunga",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "Esselunga",
+          "url": "https://www.promoqui.it/volantino/esselunga",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        }
+      ]
     },
     {
       "chain": "MD",
-      "url": "https://www.mdspa.it/volantino/",
-      "ok": false,
-      "status": 200,
-      "rough_pairs": 0,
-      "error": ""
+      "best_pairs": 0,
+      "best_url": "https://www.mdspa.it/volantino/",
+      "sources": [
+        {
+          "chain": "MD",
+          "url": "https://www.mdspa.it/volantino/",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "MD",
+          "url": "https://www.doveconviene.it/volantino/md",
+          "ok": false,
+          "status": 200,
+          "rough_pairs": 0,
+          "error": ""
+        },
+        {
+          "chain": "MD",
+          "url": "https://www.promoqui.it/volantino/md",
+          "ok": false,
+          "status": null,
+          "rough_pairs": 0,
+          "error": "HTTP Error 404: Not Found"
+        }
+      ]
     }
   ]
 }

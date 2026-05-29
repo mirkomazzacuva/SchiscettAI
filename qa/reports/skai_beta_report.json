@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:8501",
-  "generated_at": "2026-05-29T10:35:06.592494+00:00",
+  "generated_at": "2026-05-29T10:46:01.368986+00:00",
   "checks": [
     {
       "name": "default_opens_home",
@@ -33,7 +33,7 @@
       "name": "sidebar_one_click_lista",
       "page": "Lista spesa",
       "passed": true,
-      "text_length": 1067
+      "text_length": 1689
     },
     {
       "name": "sidebar_one_click_meal",
@@ -82,7 +82,7 @@
       "name": "open_ricette",
       "page": "Ricette",
       "passed": true,
-      "text_length": 6068,
+      "text_length": 7656,
       "literal_html_ok": true
     },
     {

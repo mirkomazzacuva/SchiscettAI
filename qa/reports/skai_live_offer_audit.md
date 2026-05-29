@@ -1,11 +1,35 @@
 # SKAI Live Offer Audit
 
-- ✅ PENNY · rough_pairs=20 · status=200 · 
-- ⚠️ Coop · rough_pairs=0 · status=200 · 
-- ⚠️ Conad · rough_pairs=0 · status=200 · 
-- ⚠️ PAM · rough_pairs=0 · status=200 · 
-- ⚠️ Lidl · rough_pairs=0 · status=None · HTTP Error 404: Not Found
-- ⚠️ Eurospin · rough_pairs=0 · status=200 · 
-- ⚠️ Esselunga · rough_pairs=0 · status=None · HTTP Error 404: Not Found
-- ⚠️ Carrefour · rough_pairs=0 · status=200 · 
-- ⚠️ MD · rough_pairs=0 · status=200 · 
+- ✅ PENNY · best_pairs=20 · https://www.penny.it/offerte
+  - 20 pairs · status=200 · https://www.penny.it/offerte · 
+  - 0 pairs · status=200 · https://www.promoqui.it/volantino/penny-market · 
+  - 0 pairs · status=200 · https://zonavolantini.com/penny · 
+- ⚠️ Coop · best_pairs=0 · https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci
+  - 0 pairs · status=200 · https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci · 
+  - 0 pairs · status=200 · https://www.volantinofacile.it/coop/volantino-coop/firenze · 
+- ⚠️ Conad · best_pairs=0 · https://www.doveconviene.it/volantino/conad-superstore
+  - 0 pairs · status=200 · https://www.doveconviene.it/volantino/conad-superstore · 
+  - 0 pairs · status=200 · https://www.volantinofacile.it/conad-superstore/volantino-conad-superstore · 
+- ⚠️ PAM · best_pairs=0 · https://www.doveconviene.it/volantino/panorama
+  - 0 pairs · status=200 · https://www.doveconviene.it/volantino/panorama · 
+  - 0 pairs · status=200 · https://www.volantinofacile.it/pam/volantino-pam · 
+- ✅ Carrefour · best_pairs=6 · https://www.promoqui.it/volantino/carrefour
+  - 0 pairs · status=200 · https://www.carrefour.it/promozioni/ · 
+  - 6 pairs · status=200 · https://www.promoqui.it/volantino/carrefour · 
+  - 0 pairs · status=None · https://www.doveconviene.it/volantino/carrefour · HTTP Error 404: Not Found
+- ⚠️ Lidl · best_pairs=0 · https://www.lidl.it/c/offerte/c10026788
+  - 0 pairs · status=None · https://www.lidl.it/c/offerte/c10026788 · HTTP Error 404: Not Found
+  - 0 pairs · status=200 · https://www.doveconviene.it/volantino/lidl · 
+  - 0 pairs · status=200 · https://www.promoqui.it/volantino/lidl · 
+- ✅ Eurospin · best_pairs=3 · https://www.promoqui.it/volantino/eurospin
+  - 0 pairs · status=200 · https://www.eurospin.it/volantino/ · 
+  - 0 pairs · status=200 · https://www.doveconviene.it/volantino/eurospin · 
+  - 3 pairs · status=200 · https://www.promoqui.it/volantino/eurospin · 
+- ⚠️ Esselunga · best_pairs=0 · https://www.esselunga.it/it-it/negozi/volantino.html
+  - 0 pairs · status=None · https://www.esselunga.it/it-it/negozi/volantino.html · HTTP Error 404: Not Found
+  - 0 pairs · status=200 · https://www.doveconviene.it/volantino/esselunga · 
+  - 0 pairs · status=200 · https://www.promoqui.it/volantino/esselunga · 
+- ⚠️ MD · best_pairs=0 · https://www.mdspa.it/volantino/
+  - 0 pairs · status=200 · https://www.mdspa.it/volantino/ · 
+  - 0 pairs · status=200 · https://www.doveconviene.it/volantino/md · 
+  - 0 pairs · status=None · https://www.promoqui.it/volantino/md · HTTP Error 404: Not Found

@@ -1,15 +1,16 @@
-# SKiscettAI · SKAI Kitchen OS v25
+# SKiscettAI · SKAI Kitchen OS v26
 
-## v25 Corrected Button QA
+## v26 Multi-Source Offer Engine
 
-Questa release mantiene l'app v24 ma corregge il beta test:
+Questa release prova finalmente a recuperare offerte anche dalle altre catene, non solo PENNY/Carrefour:
 
-- sidebar testata separatamente con one-click navigation
-- bottoni della sidebar esclusi dal generic button smoke test
-- generic button smoke test applicato ai bottoni del contenuto principale
-- report QA sempre generato
-- live offer audit non bloccante
-- UI più chiara e Product Identity Gate mantenuti
+- official source first
+- fallback su cataloghi/volantini pubblici quando la fonte ufficiale non espone prodotto+prezzo
+- parser multi-source per prodotto + prezzo + catena
+- niente card con solo prezzo
+- pannello catene con fonti provate
+- live offer audit aggiornato sulle fonti fallback
+- QA corretto v25 mantenuto
 
 ## Avvio
 

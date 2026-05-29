@@ -1045,128 +1045,301 @@ def skai_v16_parse_chain_offers(chain, url, raw):
     return [item for item in candidates if skai_v16_product_score(item.get("product", "")) >= 2]
 
 
-@st.cache_data(ttl=3600)
-def fetch_chain_offers_v1(chain, url):
-    """Dedicated dispatcher v16.
-    Keeps old function name so the rest of the app does not need to change.
-    """
-    if not chain or not url:
-        return {"chain": chain, "ok": False, "message": "Parser non configurato.", "offers": []}
 
-    try:
-        response = requests.get(
-            url,
-            headers=skai_v16_headers(),
-            timeout=18,
-            allow_redirects=True,
-        )
+# =========================================================
+# SKAI v26 Multi-Source Offer Engine
+# =========================================================
 
-        if response.status_code != 200:
-            return {
-                "chain": chain,
-                "ok": False,
-                "message": f"{chain}: fonte non leggibile ora, HTTP {response.status_code}.",
-                "offers": [],
-            }
+CHAIN_FALLBACK_URLS_V26 = {
+    "PENNY": [
+        "https://www.penny.it/offerte",
+        "https://www.promoqui.it/volantino/penny-market",
+        "https://zonavolantini.com/penny",
+    ],
+    "Coop": [
+        "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci",
+        "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
+        "https://www.volantinofacile.it/coop/volantino-coop/firenze",
+    ],
+    "Conad": [
+        "https://www.doveconviene.it/volantino/conad-superstore",
+        "https://www.volantinofacile.it/conad-superstore/volantino-conad-superstore",
+        "https://www.conad.it/app-internal/home_leaflets",
+    ],
+    "PAM": [
+        "https://www.doveconviene.it/volantino/panorama",
+        "https://www.volantinofacile.it/pam/volantino-pam",
+        "https://www.pampanorama.it/punti-vendita/",
+    ],
+    "Carrefour": [
+        "https://www.carrefour.it/promozioni/",
+        "https://www.promoqui.it/volantino/carrefour",
+        "https://www.doveconviene.it/volantino/carrefour",
+    ],
+    "Lidl": [
+        "https://www.lidl.it/c/offerte/c10026788",
+        "https://www.doveconviene.it/volantino/lidl",
+        "https://www.promoqui.it/volantino/lidl",
+    ],
+    "Eurospin": [
+        "https://www.eurospin.it/volantino/",
+        "https://www.doveconviene.it/volantino/eurospin",
+        "https://www.promoqui.it/volantino/eurospin",
+    ],
+    "Esselunga": [
+        "https://www.esselunga.it/it-it/negozi/volantino.html",
+        "https://www.doveconviene.it/volantino/esselunga",
+        "https://www.promoqui.it/volantino/esselunga",
+    ],
+    "MD": [
+        "https://www.mdspa.it/volantino/",
+        "https://www.doveconviene.it/volantino/md",
+        "https://www.promoqui.it/volantino/md",
+    ],
+}
 
-        raw = response.text or ""
-        snippets = skai_v20_parse_chain_offers(chain, url, raw)
-        offers = []
-        chain_slug = normalize_for_match(chain).replace(" ", "_")
 
-        for index, item in enumerate(snippets, start=1):
-            product_name = skai_clean_product_title(item.get("product", "")) if "skai_clean_product_title" in globals() else cleanup_product_candidate(item.get("product", ""))
-            ingredient = infer_ingredient_from_product_text(product_name)
-            if skai_v16_product_score(product_name) < 2:
+def skai_v26_source_urls(chain, primary_url=""):
+    urls = []
+    if primary_url:
+        urls.append(primary_url)
+    urls.extend(CHAIN_FALLBACK_URLS_V26.get(chain, []))
+
+    deduped = []
+    seen = set()
+    for url in urls:
+        key = str(url).rstrip("/")
+        if key and key not in seen:
+            seen.add(key)
+            deduped.append(str(url))
+    return deduped
+
+
+def skai_v26_source_name(url):
+    low = str(url).lower()
+    if "penny.it" in low or "coopfirenze" in low or "conad.it" in low or "pampanorama" in low or "carrefour.it" in low or "lidl.it" in low or "eurospin.it" in low or "esselunga.it" in low or "mdspa.it" in low:
+        return "official"
+    if "doveconviene" in low:
+        return "doveconviene"
+    if "promoqui" in low:
+        return "promoqui"
+    if "volantinofacile" in low:
+        return "volantinofacile"
+    if "zonavolantini" in low:
+        return "zonavolantini"
+    return "web"
+
+
+def skai_v26_clean_catalog_product(raw_name, chain=""):
+    text_value = html.unescape(str(raw_name or ""))
+    text_value = re.sub(r"<[^>]+>", " ", text_value)
+    text_value = re.sub(r"https?://\S+", " ", text_value)
+    text_value = re.sub(r"\b(?:volantino|offerte|catalogo|supermercati|negozi|orari|scade|sfoglia|anteprima)\b", " ", text_value, flags=re.I)
+    text_value = re.sub(r"\b(?:dal|al|fino al)\s+\d{1,2}[./]\d{1,2}(?:[./]\d{2,4})?", " ", text_value, flags=re.I)
+    text_value = re.sub(r"\b\d{1,2}[./]\d{1,2}(?:[./]\d{2,4})?\b", " ", text_value)
+    text_value = re.sub(r"\d{1,3}[,.]\d{2}\s*€", " ", text_value)
+    text_value = re.sub(r"[-−]\s*\d{1,2}\s*%", " ", text_value)
+    if chain:
+        text_value = re.sub(re.escape(chain), " ", text_value, flags=re.I)
+    text_value = re.sub(r"\s+", " ", text_value).strip(" -–—|•·:,;")
+    text_value = skai_clean_product_title(text_value) if "skai_clean_product_title" in globals() else cleanup_product_candidate(text_value)
+
+    # If a catalog page leaves a long breadcrumb, take the most product-like tail.
+    tokens = text_value.split()
+    if len(tokens) > 10:
+        for size in [8, 7, 6, 5, 4]:
+            candidate = " ".join(tokens[-size:])
+            if "skai_v16_product_score" in globals() and skai_v16_product_score(candidate) >= 2:
+                text_value = candidate
+                break
+
+    return text_value[:92].strip()
+
+
+def skai_v26_catalog_candidates(raw, chain, url):
+    text_body = re.sub(r"<script.*?</script>", " ", raw, flags=re.I | re.S)
+    text_body = re.sub(r"<style.*?</style>", " ", text_body, flags=re.I | re.S)
+    text_body = re.sub(r"<[^>]+>", " ", text_body)
+    text_body = html.unescape(text_body)
+    text_body = re.sub(r"\s+", " ", text_body).strip()
+
+    candidates = []
+    seen = set()
+
+    # Generic catalog wording: product text near euro price.
+    patterns = [
+        re.compile(r"(?P<name>[A-Za-zÀ-ÿ0-9][^€]{10,135}?)\s+(?P<price>\d{1,3}[,.]\d{2})\s*€", flags=re.I),
+        re.compile(r"(?P<price>\d{1,3}[,.]\d{2})\s*€\s+(?P<name>[A-Za-zÀ-ÿ0-9][^€]{10,120}?)\s+(?:Scade|Dal|Al|Offerta|Volantino|Catalogo|$)", flags=re.I),
+        re.compile(r"(?P<name>[A-Za-zÀ-ÿ0-9][^€]{8,115}?)\s+(?:Prezzo|Promo|Offerta)\s+(?P<price>\d{1,3}[,.]\d{2})", flags=re.I),
+    ]
+
+    for pattern in patterns:
+        for match in pattern.finditer(text_body):
+            price = skai_v16_extract_price(match.group("price")) if "skai_v16_extract_price" in globals() else price_to_float(match.group("price"))
+            name = skai_v26_clean_catalog_product(match.group("name"), chain=chain)
+            if not name or price is None:
                 continue
 
-            offers.append(
+            if "skai_v16_product_score" in globals() and skai_v16_product_score(name) < 2:
+                continue
+
+            # Reject obvious catalog/meta strings.
+            low = normalize_text(name)
+            if any(bad in low for bad in ["negozi nelle vicinanze", "tutti i negozi", "volantino e offerte", "catalogo e prezzi", "privacy", "cookie"]):
+                continue
+
+            key = (normalize_text(name), round(float(price), 2), chain)
+            if key in seen:
+                continue
+
+            seen.add(key)
+            candidates.append(
                 {
-                    "id": f"{chain_slug}_v16_{index:03d}",
-                    "store_id": f"{chain_slug}_web",
-                    "chain": chain,
-                    "ingredient": ingredient,
-                    "product_name": product_name,
-                    "price": item["price"],
-                    "unit": "web",
-                    "old_price": "",
-                    "valid_from": "",
-                    "valid_until": "",
-                    "source": item.get("source_url", url),
-                    "category": "offerte web verificate",
-                    "notes": f"Parser dedicato {chain} v20 · {item.get('parser', 'smart')}. Da verificare sul sito ufficiale.",
-                    "origin": f"web_{chain_slug}",
-                    "parser": item.get("parser", "v16"),
+                    "product": name,
+                    "snippet": name,
+                    "price": round(float(price), 2),
+                    "parser": f"multi-source-{skai_v26_source_name(url)}",
+                    "source_url": url,
                 }
             )
+            if len(candidates) >= 30:
+                return candidates
 
-        if offers:
-            return {
+    return candidates
+
+
+def skai_v26_parse_any_source(chain, url, raw):
+    items = []
+    try:
+        items.extend(skai_v20_parse_chain_offers(chain, url, raw))
+    except Exception:
+        pass
+    try:
+        items.extend(skai_v26_catalog_candidates(raw, chain, url))
+    except Exception:
+        pass
+
+    result = []
+    seen = set()
+    for item in items:
+        product = skai_v26_clean_catalog_product(item.get("product", ""), chain=chain)
+        price = item.get("price")
+        if not product or price is None:
+            continue
+        if "skai_v16_product_score" in globals() and skai_v16_product_score(product) < 2:
+            continue
+        key = (normalize_text(product), round(float(price), 2), chain)
+        if key in seen:
+            continue
+        seen.add(key)
+        fixed = dict(item)
+        fixed["product"] = product
+        fixed["price"] = round(float(price), 2)
+        fixed["source_url"] = item.get("source_url", url)
+        result.append(fixed)
+    return result
+
+
+
+@st.cache_data(ttl=3600)
+def fetch_chain_offers_v1(chain, url):
+    """Multi-source dispatcher v26.
+    It tries official pages first and then flyer/catalog aggregators.
+    Only product+price+chain offers pass the final gate.
+    """
+    if not chain:
+        return {"chain": chain, "ok": False, "message": "Parser non configurato.", "offers": []}
+
+    source_urls = skai_v26_source_urls(chain, url)
+    if not source_urls:
+        return {"chain": chain, "ok": False, "message": f"{chain}: nessuna fonte configurata.", "offers": []}
+
+    all_snippets = []
+    attempts = []
+    errors = []
+
+    for source_url in source_urls[:4]:
+        try:
+            response = requests.get(
+                source_url,
+                headers=skai_v16_headers(),
+                timeout=18,
+                allow_redirects=True,
+            )
+            attempts.append(f"{skai_v26_source_name(source_url)}:{response.status_code}")
+
+            if response.status_code != 200:
+                continue
+
+            raw = response.text or ""
+            snippets = skai_v26_parse_any_source(chain, source_url, raw)
+            all_snippets.extend(snippets)
+
+            # Stop early if we already have enough clean offers for this chain.
+            if len(all_snippets) >= 18:
+                break
+
+        except Exception as error:
+            errors.append(f"{skai_v26_source_name(source_url)}:{str(error)[:80]}")
+
+    offers = []
+    seen = set()
+    chain_slug = normalize_for_match(chain).replace(" ", "_")
+
+    for item in all_snippets:
+        product_name = skai_v26_clean_catalog_product(item.get("product", ""), chain=chain)
+        ingredient = infer_ingredient_from_product_text(product_name)
+        price = item.get("price")
+
+        if not product_name or price is None:
+            continue
+
+        if skai_v16_product_score(product_name) < 2:
+            continue
+
+        key = (normalize_text(product_name), round(float(price), 2), chain)
+        if key in seen:
+            continue
+
+        seen.add(key)
+        offers.append(
+            {
+                "id": f"{chain_slug}_v26_{len(offers) + 1:03d}",
+                "store_id": f"{chain_slug}_web",
                 "chain": chain,
-                "ok": True,
-                "message": f"{chain}: {len(offers)} offerte verificate prodotto+prezzo.",
-                "offers": offers,
+                "ingredient": ingredient,
+                "product_name": product_name,
+                "price": round(float(price), 2),
+                "unit": "web",
+                "old_price": "",
+                "valid_from": "",
+                "valid_until": "",
+                "source": item.get("source_url", url),
+                "category": "offerte web verificate",
+                "notes": f"Multi-source {chain} v26 · {item.get('parser', 'smart')}. Verifica sempre sul sito/volantino ufficiale.",
+                "origin": f"web_{chain_slug}",
+                "parser": item.get("parser", "v26"),
             }
+        )
 
+        if len(offers) >= 20:
+            break
+
+    if offers:
         return {
             "chain": chain,
             "ok": True,
-            "message": f"{chain}: fonte letta, ma nessun prodotto+prezzo abbastanza leggibile.",
-            "offers": [],
+            "message": f"{chain}: {len(offers)} offerte verificate da {len(source_urls[:4])} fonti ({', '.join(attempts)}).",
+            "offers": offers,
         }
 
-    except Exception as error:
-        return {
-            "chain": chain,
-            "ok": False,
-            "message": f"{chain}: parser dedicato non disponibile ora ({error}).",
-            "offers": [],
-        }
-
-
-
-
-
-# =========================================================
-# SKAI v16 Compatibility Layer
-# =========================================================
-
-def parser_url_for_chain(chain, offer_sources):
-    """Return the configured offer URL for a supermarket chain."""
-    chain_norm = normalize_for_match(chain)
-
-    for source in offer_sources or []:
-        source_chain = source.get("chain", "")
-        aliases = source.get("aliases", [])
-        candidates = [source_chain] + aliases
-
-        for candidate in candidates:
-            if normalize_for_match(candidate) == chain_norm:
-                return source.get("url", "")
-
-    return ""
-
-
-def chains_with_parser_enabled(nearby_stores, offer_sources):
-    chains = sorted(
-        set(
-            infer_store_chain_v2(store, offer_sources)
-            for store in nearby_stores
-            if infer_store_chain_v2(store, offer_sources)
-            and infer_store_chain_v2(store, offer_sources) != "Altro"
-        )
-    )
-
-    priority = ["Coop", "Conad", "PAM", "PENNY", "Lidl", "Eurospin", "Carrefour", "MD", "Esselunga"]
-
-    chains = sorted(
-        chains,
-        key=lambda chain: priority.index(chain) if chain in priority else 99,
-    )
-
-    return [chain for chain in chains if parser_url_for_chain(chain, offer_sources)]
-
-
+    detail = ", ".join(attempts + errors) if (attempts or errors) else "nessuna risposta utile"
+    return {
+        "chain": chain,
+        "ok": True,
+        "message": f"{chain}: fonti controllate ma nessun prodotto+prezzo affidabile ({detail}).",
+        "offers": [],
+    }
 
 def fetch_multi_chain_offers_v1(chains, offer_sources, max_chains=5):
     results = []
