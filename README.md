@@ -1,16 +1,19 @@
-# SKiscettAI · SKAI Kitchen OS v27
+# SKiscettAI · SKAI Kitchen OS v28
 
-## v27 Deep Browser Offer Audit
+## v28 Visual Flyer Fallback
 
-v26 ha sbloccato PENNY, Carrefour ed Eurospin via fonti testuali/fallback.
+Dai report v27:
+- PENNY: prodotto+prezzo testuale
+- Carrefour: prodotto+prezzo testuale via fallback
+- Eurospin: prodotto+prezzo testuale via fallback
+- Coop/Conad/PAM/Lidl/Esselunga/MD: spesso offerte in immagini/API viewer
 
-v27 mantiene l'app v26 e aggiunge un audit profondo non bloccante che usa anche browser rendering per scoprire:
-- offerte visibili solo dopo JavaScript
-- testo renderizzato non presente nell'HTML statico
-- possibili URL API / JSON / GraphQL
-- coppie prodotto+prezzo candidate per Coop, Conad, PAM, Lidl, Esselunga, MD
-
-Il deploy resta bloccato solo dai test UI e bottoni; il deep audit produce report da leggere per costruire i parser v28.
+v28 aggiunge una soluzione utile subito:
+- card testuali quando prodotto+prezzo sono affidabili
+- volantini visuali per le catene dove il testo non è estraibile
+- l'utente vede comunque prodotto, prezzo e supermercato nella pagina volantino
+- niente card inventate o con solo prezzo
+- deep audit mantenuto per costruire parser futuri
 
 ## Avvio
 

@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.penny.it/offerte",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "PENNY"
   },
   {
@@ -25,10 +25,10 @@
       "unicoop firenze",
       "unicoop tirreno"
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "Coop"
   },
   {
@@ -41,10 +41,10 @@
       "sapori e dintorni",
       "sapori e dintorni conad"
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.doveconviene.it/volantino/conad-superstore",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "Conad"
   },
   {
@@ -56,10 +56,10 @@
       "panorama",
       "supermercati pam"
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.doveconviene.it/volantino/panorama",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "PAM"
   },
   {
@@ -68,10 +68,10 @@
       "lidl",
       "lidl italia"
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.lidl.it/c/offerte/c10026788",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "Lidl"
   },
   {
@@ -80,10 +80,10 @@
       "eurospin",
       "eurospin italia"
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.eurospin.it/volantino/",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "Eurospin"
   },
   {
@@ -91,10 +91,10 @@
     "aliases": [
       "esselunga"
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "Esselunga"
   },
   {
@@ -105,10 +105,10 @@
       "carrefour market",
       "iper carrefour"
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.carrefour.it/promozioni/",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "Carrefour"
   },
   {
@@ -118,10 +118,10 @@
       "md discount",
       "md supermercati"
     ],
-    "mode": "skai_kitchen_os_v27",
+    "mode": "skai_kitchen_os_v28",
     "url": "https://www.mdspa.it/volantino/",
-    "status": "multi_source_offer_engine_v27_deep_audit",
-    "notes": "Multi-source v27: app engine v26 + deep browser offer audit to discover rendered text/API sources.",
+    "status": "visual_flyer_fallback_v28",
+    "notes": "v28: text offer cards where possible + visual flyer fallback for chains with image-only flyers.",
     "parser_profile": "MD"
   }
 ]

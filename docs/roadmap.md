@@ -1,16 +1,15 @@
 # SKAI Roadmap
 
-## v27 Deep Browser Offer Audit
+## v28 Visual Flyer Fallback
 
-Stato:
-- app stabile
-- v26 multi-source attivo
-- PENNY, Carrefour, Eurospin hanno almeno una fonte testuale utile
-- Coop/Conad/PAM e altre catene richiedono rendering/API discovery
+Implementato:
+- visual flyer fallback per Conad, PAM, Lidl, Eurospin, Esselunga, MD
+- fallback statico per Coop
+- link fonti per PENNY/Carrefour
+- conserva Product Identity Gate
 
 Prossimo salto:
-1. leggere `skai_deep_offer_audit.json`
-2. estrarre API/JSON reali per catena
-3. implementare parser v28 per le fonti scoperte
-4. aggiungere prezzo al kg/litro
-5. matching offerte con lista spesa per negozio
+1. OCR controllato sulle immagini volantino
+2. parser ShopFully publication_pages
+3. estrazione prezzo al kg/litro
+4. matching offerte con lista spesa per negozio

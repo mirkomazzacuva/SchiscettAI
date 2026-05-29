@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:8501",
-  "generated_at": "2026-05-29T11:26:24.455292+00:00",
+  "generated_at": "2026-05-29T11:38:18.677876+00:00",
   "checks": [
     {
       "name": "default_opens_home",
@@ -21,7 +21,7 @@
       "name": "sidebar_one_click_radar",
       "page": "SKAI Radar",
       "passed": true,
-      "text_length": 2654
+      "text_length": 2964
     },
     {
       "name": "sidebar_one_click_ricette",
@@ -45,7 +45,7 @@
       "name": "sidebar_one_click_preferiti",
       "page": "Preferiti",
       "passed": true,
-      "text_length": 1689
+      "text_length": 1690
     },
     {
       "name": "open_home",
@@ -65,7 +65,7 @@
       "name": "open_radar",
       "page": "SKAI Radar",
       "passed": true,
-      "text_length": 2627,
+      "text_length": 2937,
       "literal_html_ok": true
     },
     {

@@ -3575,6 +3575,86 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
 load_css("styles/custom.css")
 st.markdown("""<style>
 /* =========================================================
+   SKAI v28 — Visual flyer fallback
+   ========================================================= */
+
+.skai-v28-visual-panel {
+    margin: 0.85rem 0;
+    padding: 1rem;
+    border-radius: 26px;
+    border: 1px solid rgba(157,255,122,0.24);
+    background:
+        linear-gradient(145deg, rgba(157,255,122,0.14), rgba(49,247,255,0.075)),
+        rgba(255,255,255,0.055);
+    box-shadow: 0 20px 68px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+.skai-v28-visual-panel span {
+    color: #9dff7a;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 1000;
+}
+
+.skai-v28-visual-panel strong {
+    display: block;
+    color: #ffffff !important;
+    font-size: 1.22rem;
+    margin-top: 0.18rem;
+    letter-spacing: -0.04em;
+}
+
+.skai-v28-visual-panel p {
+    color: rgba(255,255,255,0.78) !important;
+    margin: 0.25rem 0 0 0 !important;
+    font-weight: 760;
+}
+
+.skai-v28-link-card {
+    min-height: 225px;
+    padding: 1rem;
+    border-radius: 22px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055));
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 18px 52px rgba(0,0,0,0.24);
+}
+
+.skai-v28-link-card span {
+    display: block;
+    color: #31f7ff;
+    font-size: 0.72rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    font-weight: 1000;
+}
+
+.skai-v28-link-card strong {
+    display: block;
+    color: #fff !important;
+    font-size: 1.25rem;
+    margin-top: 0.25rem;
+}
+
+.skai-v28-link-card p {
+    color: rgba(255,255,255,0.75) !important;
+    font-weight: 760;
+}
+
+.skai-v28-link-card a {
+    display: inline-flex;
+    margin-top: 0.55rem;
+    padding: 0.55rem 0.75rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #31f7ff, #9dff7a);
+    color: #05060b !important;
+    font-weight: 1000;
+    text-decoration: none !important;
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
    SKAI v23 — Brighter premium UI + button QA layer
    ========================================================= */
 
@@ -5451,6 +5531,150 @@ def render_skai_v20_chain_coverage(nearby_stores, offer_sources, offers_to_show,
 
     st.markdown(html_block, unsafe_allow_html=True)
 
+
+# =========================================================
+# SKAI v28 Visual Flyer Fallback
+# =========================================================
+
+SHOPFULLY_PUBLICATION_IDS_V28 = {
+    "Conad": "845643",
+    "PAM": "842001",
+    "Lidl": "846952",
+    "Eurospin": "840074",
+    "Esselunga": "846913",
+    "MD": "837822",
+}
+
+STATIC_VISUAL_FLYERS_V28 = {
+    "Coop": [
+        {
+            "url": "https://data.volantinofacile.it/pages/images/028/501/280/medium/page1.jpg?1775214225",
+            "source": "VolantinoFacile",
+        },
+        {
+            "url": "https://data.volantinofacile.it/pages/images/028/537/887/medium/page1.jpg?1775747845",
+            "source": "VolantinoFacile",
+        },
+        {
+            "url": "https://data.volantinofacile.it/pages/images/028/550/056/medium/page1.jpg?1776202654",
+            "source": "VolantinoFacile",
+        },
+    ],
+    "Carrefour": [
+        {
+            "url": "https://www.promoqui.it/volantino/carrefour",
+            "source": "PromoQui",
+            "is_link": True,
+        }
+    ],
+    "PENNY": [
+        {
+            "url": "https://www.penny.it/offerte",
+            "source": "PENNY ufficiale",
+            "is_link": True,
+        }
+    ],
+}
+
+
+def skai_v28_visual_flyer_sources(chain, max_pages=3):
+    chain = str(chain or "")
+    sources = []
+
+    publication_id = SHOPFULLY_PUBLICATION_IDS_V28.get(chain)
+    if publication_id:
+        for page_number in range(1, max_pages + 1):
+            sources.append(
+                {
+                    "url": f"https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/{publication_id}/{page_number}?format=webp",
+                    "source": "ShopFully/DoveConviene",
+                    "page": page_number,
+                    "is_link": False,
+                }
+            )
+
+    sources.extend(STATIC_VISUAL_FLYERS_V28.get(chain, []))
+    return sources[:max_pages]
+
+
+def skai_v28_chains_with_text_offers(offers):
+    return {
+        str(offer.get("chain", "") or "").strip()
+        for offer in offers or []
+        if offer.get("product_name") and offer.get("price") not in [None, ""]
+    }
+
+
+def skai_v28_visual_chains_for_radius(nearby_stores, offer_sources, offers_to_show):
+    nearby = skai_v20_nearby_chain_names(nearby_stores, offer_sources)
+    with_text = skai_v28_chains_with_text_offers(offers_to_show)
+    result = []
+
+    for chain in nearby:
+        visual_sources = skai_v28_visual_flyer_sources(chain)
+        if not visual_sources:
+            continue
+        result.append(
+            {
+                "chain": chain,
+                "has_text_offers": chain in with_text,
+                "sources": visual_sources,
+            }
+        )
+
+    return result
+
+
+def render_skai_v28_visual_flyers(nearby_stores, offer_sources, offers_to_show):
+    visual_chains = skai_v28_visual_chains_for_radius(nearby_stores, offer_sources, offers_to_show)
+
+    if not visual_chains:
+        return
+
+    st.markdown(
+        """
+        <div class="skai-v28-visual-panel">
+            <span>volantini visuali</span>
+            <strong>Offerte leggibili anche quando il sito non espone testo strutturato</strong>
+            <p>Per alcune catene il prodotto+prezzo è dentro immagini/volantini. SKAI mostra la pagina del volantino invece di inventare card testuali non affidabili.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    with st.expander("Apri volantini visuali delle catene nel raggio", expanded=False):
+        for group in visual_chains:
+            chain = group["chain"]
+            label = "ha anche card testuali" if group["has_text_offers"] else "solo visuale affidabile ora"
+            st.markdown(f"#### {chain} · {label}")
+
+            cols = st.columns(3)
+            for index, source in enumerate(group["sources"]):
+                with cols[index % 3]:
+                    url = source["url"]
+                    page = source.get("page", index + 1)
+                    source_name = source.get("source", "web")
+
+                    if source.get("is_link"):
+                        st.markdown(
+                            f"""
+                            <div class="skai-v28-link-card">
+                                <span>{html.escape(chain)}</span>
+                                <strong>{html.escape(source_name)}</strong>
+                                <p>Apri il volantino/offerte direttamente dalla fonte.</p>
+                                <a href="{html.escape(url)}" target="_blank">Apri fonte</a>
+                            </div>
+                            """,
+                            unsafe_allow_html=True,
+                        )
+                    else:
+                        st.image(
+                            url,
+                            caption=f"{chain} · pagina {page} · {source_name}",
+                            use_container_width=True,
+                        )
+
+
 if st.session_state.page == "Home":
     planned_count = len(get_meal_plan_recipes(all_recipes))
     favorite_count = len(st.session_state.favorites)
@@ -6092,6 +6316,7 @@ elif st.session_state.page == "SKAI Radar":
         st.metric("Prezzi nascosti", len(raw_web_offers))
 
     render_skai_v20_chain_coverage(nearby_stores, offer_sources_data, offers_to_show, parser_results)
+    render_skai_v28_visual_flyers(nearby_stores, offer_sources_data, offers_to_show)
 
     with st.container(border=True):
         st.markdown("### Radar negozi")

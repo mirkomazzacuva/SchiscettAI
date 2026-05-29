@@ -16,7 +16,7 @@ from playwright.sync_api import sync_playwright
 PAGES = [
     ("Home", "home", ["Pranzo smart", "SKiscettAI", "Kitchen OS"]),
     ("Crea SKiscetta", "crea", ["Crea", "SKiscetta"]),
-    ("SKAI Radar", "radar", ["Radar negozi", "catene nel raggio", "Mission Control"]),
+    ("SKAI Radar", "radar", ["Radar negozi", "catene nel raggio", "Mission Control", "volantini visuali"]),
     ("Ricette", "ricette", ["Ricette", "Catalogo"]),
     ("Lista spesa", "lista", ["Lista", "spesa"]),
     ("Meal plan", "meal", ["Meal", "plan"]),
