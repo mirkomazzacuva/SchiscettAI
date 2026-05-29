@@ -1,18 +1,14 @@
-# SKiscettAI · SKAI Kitchen OS v17
+# SKiscettAI · SKAI Kitchen OS v19
 
 SKAI è un Kitchen OS per pranzo, spesa e negozi.
 
-## v17 App Store Grade
+## v19 Instant Navigation
 
-- UI più radicale e meno Streamlit
-- mission-first flow
-- mappa centrale
-- negozio consigliato
-- weekly planner
-- lista spesa intelligente
-- offerte solo con prodotto identificato
-- parser dedicati per Carrefour, Coop, Conad, PENNY, Lidl, Eurospin, Esselunga, MD e PAM
-- Product Identity Gate: niente prezzi senza prodotto
+- risolto il problema dei click doppi nella sidebar
+- navigazione laterale immediata con bottoni e rerun controllato
+- pagina attiva evidenziata
+- Home v18 premium mantenuta
+- parser dedicati e Product Identity Gate mantenuti
 - cleanup repo automatico tramite workflow
 
 ## Avvio

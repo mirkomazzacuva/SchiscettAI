@@ -3402,6 +3402,303 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
 load_css("styles/custom.css")
 st.markdown("""<style>
 /* =========================================================
+   SKAI v19 — instant sidebar navigation
+   ========================================================= */
+
+.skai-v19-nav-title {
+    margin: 0.85rem 0 0.35rem 0;
+    color: rgba(255,255,255,0.48);
+    font-size: 0.70rem;
+    font-weight: 1000;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.skai-v19-nav-active {
+    display: flex;
+    align-items: center;
+    gap: 0.48rem;
+    width: 100%;
+    padding: 0.70rem 0.78rem;
+    margin: 0.18rem 0 0.35rem 0;
+    border-radius: 18px;
+    background:
+        linear-gradient(90deg, rgba(49,247,255,0.24), rgba(157,255,122,0.17)),
+        rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.20);
+    box-shadow: 0 16px 42px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+.skai-v19-nav-active span {
+    font-size: 1rem;
+}
+
+.skai-v19-nav-active strong {
+    color: #ffffff !important;
+    font-size: 0.92rem;
+    font-weight: 1000;
+}
+
+[data-testid="stSidebar"] .stButton > button {
+    justify-content: flex-start !important;
+    min-height: 2.55rem !important;
+    padding: 0.58rem 0.72rem !important;
+    border-radius: 17px !important;
+    background: rgba(255,255,255,0.07) !important;
+    color: rgba(255,255,255,0.86) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    box-shadow: none !important;
+}
+
+[data-testid="stSidebar"] .stButton > button:hover {
+    background:
+        linear-gradient(90deg, rgba(49,247,255,0.18), rgba(255,79,216,0.12)) !important;
+    color: #ffffff !important;
+    border-color: rgba(255,255,255,0.22) !important;
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
+   SKAI v18 — Home App Store Hero
+   ========================================================= */
+
+.skai-v18-home {
+    position: relative;
+    overflow: hidden;
+    min-height: 520px;
+    border-radius: 34px;
+    padding: 1.35rem;
+    border: 1px solid rgba(255,255,255,0.16);
+    background:
+        radial-gradient(circle at 11% 10%, rgba(49,247,255,0.28), transparent 30%),
+        radial-gradient(circle at 90% 15%, rgba(255,79,216,0.24), transparent 34%),
+        radial-gradient(circle at 55% 100%, rgba(157,255,122,0.16), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+    box-shadow: 0 32px 110px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.16);
+    backdrop-filter: blur(26px);
+}
+
+.skai-v18-home::before {
+    content: "";
+    position: absolute;
+    inset: -45%;
+    background:
+        conic-gradient(from 160deg,
+        rgba(49,247,255,0.0),
+        rgba(49,247,255,0.16),
+        rgba(255,79,216,0.18),
+        rgba(157,255,122,0.13),
+        rgba(49,247,255,0.0));
+    animation: skaiSpin 18s linear infinite;
+    opacity: 0.9;
+}
+
+.skai-v18-home-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.95fr);
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.skai-v18-kicker {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.38rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.11);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: #9dff7a;
+    font-size: 0.74rem;
+    font-weight: 1000;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.skai-v18-title {
+    margin-top: 0.95rem;
+    color: #ffffff;
+    font-size: clamp(3.1rem, 7vw, 6.6rem);
+    line-height: 0.86;
+    letter-spacing: -0.095em;
+    font-weight: 1000;
+    max-width: 780px;
+    text-shadow: 0 0 45px rgba(49,247,255,0.18);
+}
+
+.skai-v18-subtitle {
+    max-width: 760px;
+    margin-top: 1rem;
+    color: rgba(255,255,255,0.78);
+    font-size: clamp(1.02rem, 1.6vw, 1.22rem);
+    line-height: 1.35;
+    font-weight: 790;
+}
+
+.skai-v18-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.05rem;
+}
+
+.skai-v18-primary,
+.skai-v18-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.65rem;
+    padding: 0.72rem 1.05rem;
+    border-radius: 999px;
+    font-weight: 1000;
+    letter-spacing: -0.02em;
+    text-decoration: none !important;
+}
+
+.skai-v18-primary {
+    color: #05060b !important;
+    background: linear-gradient(90deg, #31f7ff, #9dff7a);
+    box-shadow: 0 15px 45px rgba(49,247,255,0.26);
+}
+
+.skai-v18-secondary {
+    color: #ffffff !important;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+}
+
+.skai-v18-tiles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+.skai-v18-tile {
+    padding: 1rem;
+    min-height: 118px;
+    border-radius: 25px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.055));
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 22px 70px rgba(0,0,0,0.30);
+    backdrop-filter: blur(22px);
+}
+
+.skai-v18-tile span {
+    display: block;
+    color: #31f7ff;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    font-weight: 1000;
+}
+
+.skai-v18-tile strong {
+    display: block;
+    margin-top: 0.25rem;
+    color: #ffffff !important;
+    font-size: 1.28rem;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+}
+
+.skai-v18-tile p {
+    margin: 0.35rem 0 0 0 !important;
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 760;
+}
+
+.skai-v18-scorebar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 0.65rem;
+    margin: 0.85rem 0 1rem 0;
+}
+
+.skai-v18-score {
+    padding: 0.82rem;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 18px 58px rgba(0,0,0,0.22);
+}
+
+.skai-v18-score span {
+    color: rgba(255,255,255,0.62);
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.skai-v18-score strong {
+    display: block;
+    margin-top: 0.16rem;
+    color: #ffffff !important;
+    font-size: 1.55rem;
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.skai-v18-section-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.skai-v18-card {
+    padding: 1rem;
+    border-radius: 25px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.115), rgba(255,255,255,0.045));
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 20px 62px rgba(0,0,0,0.26);
+    min-height: 175px;
+}
+
+.skai-v18-card span {
+    display: block;
+    color: #9dff7a;
+    font-size: 0.74rem;
+    font-weight: 1000;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+}
+
+.skai-v18-card strong {
+    display: block;
+    color: #ffffff !important;
+    font-size: 1.28rem;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    margin-bottom: 0.35rem;
+}
+
+.skai-v18-card p {
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 760;
+    margin: 0 !important;
+}
+
+.skai-v18-card button {
+    margin-top: 0.65rem;
+}
+
+@media (max-width: 900px) {
+    .skai-v18-home-grid,
+    .skai-v18-scorebar,
+    .skai-v18-section-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .skai-v18-home {
+        min-height: auto;
+    }
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
    SKAI v17 — App Store Grade layer
    ========================================================= */
 
@@ -4307,6 +4604,44 @@ for day in WORK_DAYS:
         st.session_state[key] = "Nessuna ricetta"
 
 
+
+# =========================================================
+# SKAI v19 Instant Sidebar Navigation
+# =========================================================
+
+PAGE_ICONS = {
+    "Home": "🏠",
+    "Crea SKiscetta": "🥗",
+    "SKAI Radar": "⚡",
+    "Ricette": "📚",
+    "Lista spesa": "🛒",
+    "Meal plan": "📅",
+    "Preferiti": "⭐",
+}
+
+def page_slug_for_name(page_name):
+    slug_map = {
+        "Home": "home",
+        "Crea SKiscetta": "crea",
+        "SKAI Radar": "radar",
+        "Ricette": "ricette",
+        "Lista spesa": "lista",
+        "Meal plan": "meal",
+        "Preferiti": "preferiti",
+    }
+    return slug_map.get(page_name, normalize_for_match(page_name).replace(" ", "_"))
+
+
+def go_to_page_now(page_name):
+    st.session_state.page = page_name
+    st.session_state.sidebar_page_active = page_name
+    try:
+        st.query_params["qa_page"] = page_slug_for_name(page_name)
+    except Exception:
+        pass
+    st.rerun()
+
+
 all_recipes = combined_recipes()
 cluster_groups = recipes_by_cluster(all_recipes)
 
@@ -4352,17 +4687,33 @@ st.sidebar.markdown(
     unsafe_allow_html=True,
 )
 
-selected_page = st.sidebar.radio(
-    "Menu",
-    pages,
-    index=pages.index(st.session_state.page),
-)
+st.sidebar.markdown('<div class="skai-v19-nav-title">Navigation</div>', unsafe_allow_html=True)
 
-st.session_state.page = selected_page
+for page_name in pages:
+    icon = PAGE_ICONS.get(page_name, "•")
+    is_active = st.session_state.page == page_name
+
+    if is_active:
+        st.sidebar.markdown(
+            f"""
+            <div class="skai-v19-nav-active">
+                <span>{icon}</span>
+                <strong>{page_name}</strong>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    else:
+        if st.sidebar.button(
+            f"{icon} {page_name}",
+            key=f"nav_{page_slug_for_name(page_name)}",
+            use_container_width=True,
+        ):
+            go_to_page_now(page_name)
 
 st.sidebar.divider()
 st.sidebar.caption("Smart lunch planner")
-st.sidebar.caption("SKAI · web-only parser")
+st.sidebar.caption("SKAI · instant navigation")
 st.sidebar.caption("Radar offerte live")
 st.sidebar.caption(f"Ricette modulari create: {len(st.session_state.custom_recipes)}")
 
@@ -4506,133 +4857,136 @@ def render_skai_v17_no_offer_feed(raw_count):
 
 
 if st.session_state.page == "Home":
-    render_skai_section_label(
-        "Command Center",
-        "La tua cucina, in modalità autopilot.",
-        "Un unico spazio per ricette, meal prep, radar supermercati e offerte web."
-    )
-
-    stat1, stat2, stat3, stat4 = st.columns(4)
-
-    with stat1:
-        st.metric("Ricette", len(all_recipes))
-
-    with stat2:
-        st.metric("Preferiti", len(st.session_state.favorites))
-
-    with stat3:
-        planned_count = len(get_meal_plan_recipes(all_recipes))
-        st.metric("Meal plan", planned_count)
-
-    with stat4:
-        st.metric("SKiscette create", len(st.session_state.custom_recipes))
+    planned_count = len(get_meal_plan_recipes(all_recipes))
+    favorite_count = len(st.session_state.favorites)
+    custom_count = len(st.session_state.custom_recipes)
 
     st.markdown(
-        """
-        <div class="skai-black-strip">
-            <div>
-                <span class="skai-strip-number">01</span>
-                <strong>Crea</strong>
-                <p>Trasforma ingredienti casuali in una SKiscetta pronta.</p>
+        f"""
+        <section class="skai-v18-home">
+            <div class="skai-v18-home-grid">
+                <div>
+                    <div class="skai-v18-kicker">SKiscettAI · Kitchen OS</div>
+                    <div class="skai-v18-title">Pranzo smart. Spesa furba. Zero caos.</div>
+                    <div class="skai-v18-subtitle">
+                        SKAI trasforma ingredienti casuali, offerte leggibili e supermercati vicini in una decisione semplice:
+                        cosa mangiare, cosa comprare e dove andare.
+                    </div>
+                    <div class="skai-v18-actions">
+                        <span class="skai-v18-primary">Apri SKAI Copilot</span>
+                        <span class="skai-v18-secondary">Crea piano settimanale</span>
+                        <span class="skai-v18-secondary">Controlla negozi vicini</span>
+                    </div>
+                    <div class="skai-v18-scorebar">
+                        <div class="skai-v18-score"><span>Ricette</span><strong>{len(all_recipes)}</strong></div>
+                        <div class="skai-v18-score"><span>Preferiti</span><strong>{favorite_count}</strong></div>
+                        <div class="skai-v18-score"><span>Meal plan</span><strong>{planned_count}</strong></div>
+                        <div class="skai-v18-score"><span>Create</span><strong>{custom_count}</strong></div>
+                    </div>
+                </div>
+                <div class="skai-v18-tiles">
+                    <div class="skai-v18-tile">
+                        <span>01 · pantry intelligence</span>
+                        <strong>Dimmi cosa hai in frigo.</strong>
+                        <p>SKAI costruisce una SKiscetta veloce e alternative dal catalogo.</p>
+                    </div>
+                    <div class="skai-v18-tile">
+                        <span>02 · weekly autopilot</span>
+                        <strong>Organizza la settimana.</strong>
+                        <p>Ricette, lista spesa e offerte verificate quando disponibili.</p>
+                    </div>
+                    <div class="skai-v18-tile">
+                        <span>03 · trust filter</span>
+                        <strong>Niente prezzi finti.</strong>
+                        <p>Se il prodotto non è chiaro, il prezzo resta fuori dal feed principale.</p>
+                    </div>
+                </div>
             </div>
-            <div>
-                <span class="skai-strip-number">02</span>
-                <strong>Radar</strong>
-                <p>Leggi supermercati nel raggio e offerte web disponibili.</p>
-            </div>
-            <div>
-                <span class="skai-strip-number">03</span>
-                <strong>Ottimizza</strong>
-                <p>Combina tempo, costo, ricette e lista spesa.</p>
-            </div>
-        </div>
+        </section>
         """,
         unsafe_allow_html=True,
     )
 
     st.write("")
 
-    action_col1, action_col2, action_col3 = st.columns(3)
+    quick1, quick2, quick3 = st.columns(3)
 
-    with action_col1:
+    with quick1:
         with st.container(border=True):
-            st.markdown("### 🥗 Crea SKiscetta")
-            st.write("Genera una ricetta partendo da quello che hai in casa.")
-            if st.button("Avvia generatore", key="home_create_skiscetta"):
-                go_to("Crea SKiscetta")
-                st.rerun()
-
-    with action_col2:
-        with st.container(border=True):
-            st.markdown("### 🗺️ SKAI Radar")
-            st.write("Mappa, supermercati e offerte web, tutto in una vista.")
-            if st.button("Apri Radar", key="home_open_radar"):
+            st.markdown(
+                """
+                <div class="skai-v18-card">
+                    <span>Start here</span>
+                    <strong>SKAI Copilot</strong>
+                    <p>Il flusso principale: missione, zona, mappa, ricette, spesa e offerte pulite.</p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            if st.button("Apri Copilot", key="home_v18_open_copilot"):
                 go_to("SKAI Radar")
                 st.rerun()
 
-    with action_col3:
+    with quick2:
         with st.container(border=True):
-            st.markdown("### ✨ Esplora")
-            st.write("Filtra ricette, salva preferiti e prepara la settimana.")
-            if st.button("Esplora ricette", key="home_open_recipes"):
+            st.markdown(
+                """
+                <div class="skai-v18-card">
+                    <span>Meal prep</span>
+                    <strong>Piano settimanale</strong>
+                    <p>Organizza pranzi, lista ingredienti e ricette salvate in pochi click.</p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            if st.button("Apri Meal plan", key="home_v18_open_meal"):
+                go_to("Meal plan")
+                st.rerun()
+
+    with quick3:
+        with st.container(border=True):
+            st.markdown(
+                """
+                <div class="skai-v18-card">
+                    <span>Explore</span>
+                    <strong>Ricette</strong>
+                    <p>Scopri il catalogo, salva preferiti e costruisci la tua base pranzo.</p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            if st.button("Esplora ricette", key="home_v18_open_recipes"):
                 go_to("Ricette")
                 st.rerun()
 
     st.write("")
+
     render_skai_section_label(
-        "Mood Engine",
-        "Scegli il mood, SKAI trova la direzione.",
-        "Cluster ricette pensati per ufficio, palestra, low cost e meal prep."
+        "Featured flows",
+        "Tre modi per usare SKAI oggi.",
+        "Meno dashboard, più decisioni pronte."
     )
 
-    current_clusters = recipes_by_cluster(all_recipes)
-    cluster_items = list(current_clusters.items())[:6]
+    flow_cols = st.columns(3)
 
-    mood_cols = st.columns(3)
+    flows = [
+        ("ingredienti → ricetta", "Scrivi pollo, riso, zucchine. SKAI crea la SKiscetta."),
+        ("ricette → lista spesa", "Scegli i giorni, ottieni ingredienti aggregati."),
+        ("negozi → fiducia", "Mappa vicina e offerte mostrate solo se il prodotto è chiaro."),
+    ]
 
-    for index, (cluster_id, recipes_in_cluster) in enumerate(cluster_items):
-        visual = CLUSTER_VISUALS.get(
-            cluster_id,
-            {
-                "emoji": "🍱",
-                "title": cluster_id.replace("_", " ").title(),
-                "subtitle": "Ricette smart e pronte da portare.",
-            },
-        )
-
-        with mood_cols[index % 3]:
-            with st.container(border=True):
-                st.markdown(f"<div class='skai-mood-emoji'>{visual['emoji']}</div>", unsafe_allow_html=True)
-                st.markdown(f"### {visual['title']}")
-                st.write(visual["subtitle"])
-                st.caption(f"{len(recipes_in_cluster)} ricette disponibili")
-
-    st.write("")
-    render_skai_section_label(
-        "Featured",
-        "Tre idee per partire subito.",
-        "Ricette selezionate per testare velocemente il flusso SKAI."
-    )
-
-    featured = all_recipes[:3]
-    featured_cols = st.columns(3)
-
-    for index, recipe in enumerate(featured):
-        with featured_cols[index % 3]:
-            with st.container(border=True):
-                cluster_id = recipe.get("cluster", "")
-                visual = CLUSTER_VISUALS.get(cluster_id, {"emoji": "🍱"})
-                st.markdown(f"<div class='skai-mood-emoji'>{visual['emoji']}</div>", unsafe_allow_html=True)
-                st.markdown(f"### {recipe.get('title', 'Ricetta')}")
-                st.write(recipe.get("description", ""))
-                meta = recipe.get("meta", {})
-                st.caption(
-                    f"{meta.get('goal', 'smart')} · {meta.get('time', '')} · {meta.get('difficulty', '')}"
-                )
-                if st.button("Apri", key=f"featured_open_{recipe['id']}"):
-                    st.session_state.recipe_focus = recipe["id"]
-                    go_to("Ricette")
-                    st.rerun()
+    for index, (title, subtitle) in enumerate(flows):
+        with flow_cols[index]:
+            st.markdown(
+                f"""
+                <div class="skai-v18-card">
+                    <span>Flow {index + 1}</span>
+                    <strong>{title}</strong>
+                    <p>{subtitle}</p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
 
 elif st.session_state.page == "Crea SKiscetta":
     st.markdown("## Crea la tua SKiscetta")

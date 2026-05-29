@@ -1,20 +1,16 @@
 # SKAI Roadmap
 
-## v17 App Store Grade
+## v19 Instant Navigation
 
-Implementato:
-- design Kitchen OS
-- UX mission-first
-- parser dedicati best-effort
-- product identity gate
-- no fake price feed
-- negozio consigliato
-- piano settimanale e lista spesa
-- cleanup automatico via workflow
+Fix prioritario:
+- la sidebar non usa più radio state fragile
+- ogni voce laterale apre la pagina con un solo click
+- pagina attiva evidenziata
+- query param aggiornato per QA
 
 Prossimo salto:
-1. usare API ufficiali/store locator quando disponibili
-2. prezzo al kg/litro
-3. validità offerte
-4. preferenze utente persistenti
-5. suggerimento “spesa migliore della settimana”
+1. testare UX mobile
+2. affinare parser per catena
+3. prezzo al kg/litro
+4. validità offerte
+5. preferenze persistenti

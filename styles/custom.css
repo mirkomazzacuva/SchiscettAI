@@ -612,3 +612,300 @@ iframe {
         grid-template-columns: 1fr !important;
     }
 }
+
+
+/* =========================================================
+   SKAI v18 — Home App Store Hero
+   ========================================================= */
+
+.skai-v18-home {
+    position: relative;
+    overflow: hidden;
+    min-height: 520px;
+    border-radius: 34px;
+    padding: 1.35rem;
+    border: 1px solid rgba(255,255,255,0.16);
+    background:
+        radial-gradient(circle at 11% 10%, rgba(49,247,255,0.28), transparent 30%),
+        radial-gradient(circle at 90% 15%, rgba(255,79,216,0.24), transparent 34%),
+        radial-gradient(circle at 55% 100%, rgba(157,255,122,0.16), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+    box-shadow: 0 32px 110px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.16);
+    backdrop-filter: blur(26px);
+}
+
+.skai-v18-home::before {
+    content: "";
+    position: absolute;
+    inset: -45%;
+    background:
+        conic-gradient(from 160deg,
+        rgba(49,247,255,0.0),
+        rgba(49,247,255,0.16),
+        rgba(255,79,216,0.18),
+        rgba(157,255,122,0.13),
+        rgba(49,247,255,0.0));
+    animation: skaiSpin 18s linear infinite;
+    opacity: 0.9;
+}
+
+.skai-v18-home-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.95fr);
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.skai-v18-kicker {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.38rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.11);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: #9dff7a;
+    font-size: 0.74rem;
+    font-weight: 1000;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.skai-v18-title {
+    margin-top: 0.95rem;
+    color: #ffffff;
+    font-size: clamp(3.1rem, 7vw, 6.6rem);
+    line-height: 0.86;
+    letter-spacing: -0.095em;
+    font-weight: 1000;
+    max-width: 780px;
+    text-shadow: 0 0 45px rgba(49,247,255,0.18);
+}
+
+.skai-v18-subtitle {
+    max-width: 760px;
+    margin-top: 1rem;
+    color: rgba(255,255,255,0.78);
+    font-size: clamp(1.02rem, 1.6vw, 1.22rem);
+    line-height: 1.35;
+    font-weight: 790;
+}
+
+.skai-v18-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.05rem;
+}
+
+.skai-v18-primary,
+.skai-v18-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.65rem;
+    padding: 0.72rem 1.05rem;
+    border-radius: 999px;
+    font-weight: 1000;
+    letter-spacing: -0.02em;
+    text-decoration: none !important;
+}
+
+.skai-v18-primary {
+    color: #05060b !important;
+    background: linear-gradient(90deg, #31f7ff, #9dff7a);
+    box-shadow: 0 15px 45px rgba(49,247,255,0.26);
+}
+
+.skai-v18-secondary {
+    color: #ffffff !important;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+}
+
+.skai-v18-tiles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+}
+
+.skai-v18-tile {
+    padding: 1rem;
+    min-height: 118px;
+    border-radius: 25px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.14), rgba(255,255,255,0.055));
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 22px 70px rgba(0,0,0,0.30);
+    backdrop-filter: blur(22px);
+}
+
+.skai-v18-tile span {
+    display: block;
+    color: #31f7ff;
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    font-weight: 1000;
+}
+
+.skai-v18-tile strong {
+    display: block;
+    margin-top: 0.25rem;
+    color: #ffffff !important;
+    font-size: 1.28rem;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+}
+
+.skai-v18-tile p {
+    margin: 0.35rem 0 0 0 !important;
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 760;
+}
+
+.skai-v18-scorebar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 0.65rem;
+    margin: 0.85rem 0 1rem 0;
+}
+
+.skai-v18-score {
+    padding: 0.82rem;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 18px 58px rgba(0,0,0,0.22);
+}
+
+.skai-v18-score span {
+    color: rgba(255,255,255,0.62);
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.skai-v18-score strong {
+    display: block;
+    margin-top: 0.16rem;
+    color: #ffffff !important;
+    font-size: 1.55rem;
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.skai-v18-section-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.skai-v18-card {
+    padding: 1rem;
+    border-radius: 25px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.115), rgba(255,255,255,0.045));
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 20px 62px rgba(0,0,0,0.26);
+    min-height: 175px;
+}
+
+.skai-v18-card span {
+    display: block;
+    color: #9dff7a;
+    font-size: 0.74rem;
+    font-weight: 1000;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+}
+
+.skai-v18-card strong {
+    display: block;
+    color: #ffffff !important;
+    font-size: 1.28rem;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    margin-bottom: 0.35rem;
+}
+
+.skai-v18-card p {
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 760;
+    margin: 0 !important;
+}
+
+.skai-v18-card button {
+    margin-top: 0.65rem;
+}
+
+@media (max-width: 900px) {
+    .skai-v18-home-grid,
+    .skai-v18-scorebar,
+    .skai-v18-section-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .skai-v18-home {
+        min-height: auto;
+    }
+}
+
+
+/* =========================================================
+   SKAI v19 — instant sidebar navigation
+   ========================================================= */
+
+.skai-v19-nav-title {
+    margin: 0.85rem 0 0.35rem 0;
+    color: rgba(255,255,255,0.48);
+    font-size: 0.70rem;
+    font-weight: 1000;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.skai-v19-nav-active {
+    display: flex;
+    align-items: center;
+    gap: 0.48rem;
+    width: 100%;
+    padding: 0.70rem 0.78rem;
+    margin: 0.18rem 0 0.35rem 0;
+    border-radius: 18px;
+    background:
+        linear-gradient(90deg, rgba(49,247,255,0.24), rgba(157,255,122,0.17)),
+        rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.20);
+    box-shadow: 0 16px 42px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.14);
+}
+
+.skai-v19-nav-active span {
+    font-size: 1rem;
+}
+
+.skai-v19-nav-active strong {
+    color: #ffffff !important;
+    font-size: 0.92rem;
+    font-weight: 1000;
+}
+
+[data-testid="stSidebar"] .stButton > button {
+    justify-content: flex-start !important;
+    min-height: 2.55rem !important;
+    padding: 0.58rem 0.72rem !important;
+    border-radius: 17px !important;
+    background: rgba(255,255,255,0.07) !important;
+    color: rgba(255,255,255,0.86) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    box-shadow: none !important;
+}
+
+[data-testid="stSidebar"] .stButton > button:hover {
+    background:
+        linear-gradient(90deg, rgba(49,247,255,0.18), rgba(255,79,216,0.12)) !important;
+    color: #ffffff !important;
+    border-color: rgba(255,255,255,0.22) !important;
+}
