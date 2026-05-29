@@ -698,7 +698,7 @@ def extract_price_snippets_from_text(text_body):
 
 
 # =========================================================
-# SKAI v16 Dedicated Offer Parsers
+# SKAI v17 Dedicated Offer Parsers
 # =========================================================
 
 CHAIN_PARSER_PROFILES = {
@@ -3402,7 +3402,184 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
 load_css("styles/custom.css")
 st.markdown("""<style>
 /* =========================================================
-   SKAI v16 — Kitchen OS redesign
+   SKAI v17 — App Store Grade layer
+   ========================================================= */
+
+.skai-v17-brief {
+    display: grid;
+    grid-template-columns: minmax(0,1.4fr) repeat(3, minmax(120px,0.55fr));
+    gap: 0.7rem;
+    margin: 0.85rem 0;
+}
+
+.skai-v17-brief-main,
+.skai-v17-brief-stat {
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.115), rgba(255,255,255,0.045));
+    box-shadow: 0 18px 58px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.12);
+    backdrop-filter: blur(22px);
+    padding: 0.88rem;
+}
+
+.skai-v17-brief-main span {
+    color: #9dff7a;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 1000;
+}
+
+.skai-v17-brief-main strong {
+    display: block;
+    color: #fff !important;
+    font-size: 1.35rem;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    margin-top: 0.18rem;
+}
+
+.skai-v17-brief-main p {
+    margin: 0.35rem 0 0 0 !important;
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 760;
+}
+
+.skai-v17-brief-stat span {
+    color: rgba(255,255,255,0.62);
+    font-weight: 880;
+    font-size: 0.78rem;
+}
+
+.skai-v17-brief-stat strong {
+    display: block;
+    color: #fff !important;
+    margin-top: 0.22rem;
+    font-size: 1.55rem;
+    letter-spacing: -0.06em;
+}
+
+.skai-v17-tabbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0.65rem 0 0 0;
+}
+
+.skai-v17-tabbar span {
+    padding: 0.38rem 0.58rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.82);
+    font-weight: 850;
+    font-size: 0.80rem;
+}
+
+.skai-v17-store-pick {
+    margin-top: 0.7rem;
+    padding: 0.82rem;
+    border-radius: 20px;
+    background:
+        linear-gradient(135deg, rgba(157,255,122,0.13), rgba(49,247,255,0.10));
+    border: 1px solid rgba(157,255,122,0.24);
+}
+
+.skai-v17-store-pick span {
+    display: block;
+    color: #9dff7a;
+    font-size: 0.70rem;
+    font-weight: 1000;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.skai-v17-store-pick strong {
+    display: block;
+    color: #fff !important;
+    font-size: 1.05rem;
+    margin-top: 0.25rem;
+}
+
+.skai-v17-store-pick p {
+    margin: 0.28rem 0 0 0 !important;
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 760;
+    font-size: 0.86rem;
+}
+
+.skai-v17-empty {
+    padding: 1rem;
+    border-radius: 24px;
+    background:
+        linear-gradient(145deg, rgba(255,179,92,0.12), rgba(255,255,255,0.045));
+    border: 1px solid rgba(255,179,92,0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+}
+
+.skai-v17-empty strong {
+    color: #fff !important;
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.skai-v17-empty p {
+    margin: 0 !important;
+    color: rgba(255,255,255,0.73) !important;
+    font-weight: 760;
+}
+
+.skai-os-hero {
+    min-height: 280px !important;
+    border-radius: 30px !important;
+}
+
+.skai-os-title {
+    font-size: clamp(2.35rem, 5vw, 4.95rem) !important;
+}
+
+.skai-os-panel {
+    border-radius: 30px !important;
+}
+
+.skai-os-step {
+    border-radius: 20px !important;
+}
+
+.skai-os-shell {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr) !important;
+}
+
+[data-testid="stMetric"] {
+    background:
+        linear-gradient(145deg, rgba(49,247,255,0.12), rgba(255,79,216,0.08)) !important;
+    border: 1px solid rgba(255,255,255,0.16) !important;
+    border-radius: 20px !important;
+}
+
+.stButton > button {
+    background: linear-gradient(90deg, #31f7ff, #9dff7a) !important;
+    color: #05060b !important;
+    border-radius: 999px !important;
+    border: 0 !important;
+    font-weight: 1000 !important;
+}
+
+@media (max-width: 900px) {
+    .skai-v17-brief {
+        grid-template-columns: 1fr;
+    }
+
+    .skai-os-shell {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
+   SKAI v17 — Kitchen OS redesign
    ========================================================= */
 
 :root {
@@ -4209,6 +4386,125 @@ st.divider()
 
 
 
+
+# =========================================================
+# SKAI v17 App Store Grade Helpers
+# =========================================================
+
+def skai_v17_trust_level(clean_offers, raw_offers):
+    clean = len(clean_offers or [])
+    raw = len(raw_offers or [])
+
+    if clean >= 8:
+        return "alto", "feed offerte utile"
+    if clean >= 3:
+        return "medio", "alcune offerte leggibili"
+    if raw > 0:
+        return "protetto", "prezzi grezzi nascosti"
+    return "pulito", "nessun dato sporco mostrato"
+
+
+def skai_v17_best_store(nearby_stores, offers, user_lat, user_lon):
+    if not nearby_stores:
+        return None
+
+    offer_chains = Counter(normalize_text(offer.get("chain", "")) for offer in offers or [])
+    scored = []
+
+    for store in nearby_stores:
+        distance = store.get(
+            "distance_km",
+            round(
+                haversine_km(
+                    user_lat,
+                    user_lon,
+                    store.get("lat", user_lat),
+                    store.get("lon", user_lon),
+                ),
+                1,
+            ),
+        )
+        chain = infer_store_chain_v2(store, offer_sources_data) if "offer_sources_data" in globals() else store.get("chain", "")
+        score = max(0, 20 - distance) + (offer_chains.get(normalize_text(chain), 0) * 2)
+        scored.append((score, distance, store, chain))
+
+    scored.sort(key=lambda item: (-item[0], item[1]))
+    return scored[0] if scored else None
+
+
+def skai_v17_mission_copy(mission, selected_items):
+    count = len(selected_items or [])
+
+    if mission == "Creo una SKiscetta":
+        if count:
+            return "Autopilot ricetta", f"Creo una proposta usando {count} ingredienti e alternative dal catalogo."
+        return "Autopilot ricetta", "Scrivi 2-3 ingredienti: SKAI genererà una SKiscetta."
+
+    if mission == "Organizzo la spesa settimanale":
+        return "Autopilot spesa", "Costruisco piano ricette, lista ingredienti e controllo se ci sono offerte affidabili."
+
+    return "Autopilot radar", "Controllo negozi vicini e mostro solo offerte con prodotto identificato."
+
+
+def render_skai_v17_brief(mission, selected_items, nearby_stores, nearby_chains, offers_to_show, raw_web_offers):
+    title, subtitle = skai_v17_mission_copy(mission, selected_items)
+    trust, trust_label = skai_v17_trust_level(offers_to_show, raw_web_offers)
+
+    st.markdown(
+        f"""
+        <div class="skai-v17-brief">
+            <div class="skai-v17-brief-main">
+                <span>{title}</span>
+                <strong>{subtitle}</strong>
+                <p>Un obiettivo, pochi input, risultato subito.</p>
+                <div class="skai-v17-tabbar">
+                    <span>mission-first</span>
+                    <span>map-first</span>
+                    <span>verified offers</span>
+                    <span>weekly planner</span>
+                </div>
+            </div>
+            <div class="skai-v17-brief-stat"><span>Negozi</span><strong>{len(nearby_stores or [])}</strong></div>
+            <div class="skai-v17-brief-stat"><span>Catene</span><strong>{len(nearby_chains or [])}</strong></div>
+            <div class="skai-v17-brief-stat"><span>Trust</span><strong>{trust}</strong><span>{trust_label}</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_skai_v17_store_pick(nearby_stores, offers_to_show, user_lat, user_lon):
+    pick = skai_v17_best_store(nearby_stores, offers_to_show, user_lat, user_lon)
+
+    if not pick:
+        return
+
+    score, distance, store, chain = pick
+
+    st.markdown(
+        f"""
+        <div class="skai-v17-store-pick">
+            <span>negozio consigliato ora</span>
+            <strong>{store.get('name', 'Punto vendita')}</strong>
+            <p>{chain or store.get('type', 'supermarket')} · {distance:.1f} km · scelto combinando distanza e dati offerta leggibili.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_skai_v17_no_offer_feed(raw_count):
+    st.markdown(
+        f"""
+        <div class="skai-v17-empty">
+            <strong>Niente offerte spazzatura.</strong>
+            <p>SKAI ha nascosto {raw_count} prezzi non affidabili o senza prodotto chiaro. La lista spesa e la mappa restano utilizzabili.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 if st.session_state.page == "Home":
     render_skai_section_label(
         "Command Center",
@@ -4646,16 +4942,15 @@ elif st.session_state.page == "SKAI Radar":
         <div class="skai-os-shell">
             <section class="skai-os-hero">
                 <div class="skai-os-kicker">SKAI Kitchen OS</div>
-                <div class="skai-os-title">La pausa pranzo non si pianifica. Si orchestra.</div>
+                <div class="skai-os-title">Il tuo pranzo diventa un sistema operativo.</div>
                 <div class="skai-os-subtitle">
-                    Parti da quello che hai, da quello che vuoi comprare o dal tempo che hai. SKAI crea ricette,
-                    piano spesa, mappa negozi e mostra solo offerte con prodotto identificato.
+                    Ingredienti, ricette, lista spesa, negozi e offerte verificate in un unico flusso. Se il prodotto non è chiaro, il prezzo non appare.
                 </div>
                 <div class="skai-os-pill-row">
                     <span>🥗 Pantry → recipe</span>
                     <span>🛒 Weekly plan</span>
                     <span>🗺️ Store radar</span>
-                    <span>🧹 no fake prices</span>
+                    <span>🛡️ verified prices</span><span>✨ App Store grade</span>
                 </div>
             </section>
             <aside class="skai-os-panel">
@@ -4832,6 +5127,8 @@ elif st.session_state.page == "SKAI Radar":
     nearby_chains = offer_engine["nearby_chains"]
 
     st.write("")
+    render_skai_v17_brief(mission, selected_ingredients, nearby_stores, nearby_chains, offers_to_show, raw_web_offers)
+
     c1, c2, c3, c4 = st.columns(4)
     with c1:
         st.metric("Negozi", len(nearby_stores))
@@ -4861,6 +5158,7 @@ elif st.session_state.page == "SKAI Radar":
         with store_col:
             st.caption(location_label)
             render_skai_store_cards(nearby_stores, user_lat, user_lon)
+            render_skai_v17_store_pick(nearby_stores, offers_to_show, user_lat, user_lon)
 
     st.write("")
 
@@ -4939,6 +5237,7 @@ elif st.session_state.page == "SKAI Radar":
                 with card_cols[index % 3]:
                     render_skai_offer_card(offer, index)
         else:
+            render_skai_v17_no_offer_feed(len(raw_web_offers))
             render_skai_no_clean_offers(len(raw_web_offers))
 
     if mission != "Controllo negozi e offerte" and raw_web_offers and not offers_to_show:

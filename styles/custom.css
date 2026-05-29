@@ -435,3 +435,180 @@ iframe {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* =========================================================
+   SKAI v17 — App Store Grade layer
+   ========================================================= */
+
+.skai-v17-brief {
+    display: grid;
+    grid-template-columns: minmax(0,1.4fr) repeat(3, minmax(120px,0.55fr));
+    gap: 0.7rem;
+    margin: 0.85rem 0;
+}
+
+.skai-v17-brief-main,
+.skai-v17-brief-stat {
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.115), rgba(255,255,255,0.045));
+    box-shadow: 0 18px 58px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.12);
+    backdrop-filter: blur(22px);
+    padding: 0.88rem;
+}
+
+.skai-v17-brief-main span {
+    color: #9dff7a;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 1000;
+}
+
+.skai-v17-brief-main strong {
+    display: block;
+    color: #fff !important;
+    font-size: 1.35rem;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    margin-top: 0.18rem;
+}
+
+.skai-v17-brief-main p {
+    margin: 0.35rem 0 0 0 !important;
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 760;
+}
+
+.skai-v17-brief-stat span {
+    color: rgba(255,255,255,0.62);
+    font-weight: 880;
+    font-size: 0.78rem;
+}
+
+.skai-v17-brief-stat strong {
+    display: block;
+    color: #fff !important;
+    margin-top: 0.22rem;
+    font-size: 1.55rem;
+    letter-spacing: -0.06em;
+}
+
+.skai-v17-tabbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0.65rem 0 0 0;
+}
+
+.skai-v17-tabbar span {
+    padding: 0.38rem 0.58rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.82);
+    font-weight: 850;
+    font-size: 0.80rem;
+}
+
+.skai-v17-store-pick {
+    margin-top: 0.7rem;
+    padding: 0.82rem;
+    border-radius: 20px;
+    background:
+        linear-gradient(135deg, rgba(157,255,122,0.13), rgba(49,247,255,0.10));
+    border: 1px solid rgba(157,255,122,0.24);
+}
+
+.skai-v17-store-pick span {
+    display: block;
+    color: #9dff7a;
+    font-size: 0.70rem;
+    font-weight: 1000;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.skai-v17-store-pick strong {
+    display: block;
+    color: #fff !important;
+    font-size: 1.05rem;
+    margin-top: 0.25rem;
+}
+
+.skai-v17-store-pick p {
+    margin: 0.28rem 0 0 0 !important;
+    color: rgba(255,255,255,0.72) !important;
+    font-weight: 760;
+    font-size: 0.86rem;
+}
+
+.skai-v17-empty {
+    padding: 1rem;
+    border-radius: 24px;
+    background:
+        linear-gradient(145deg, rgba(255,179,92,0.12), rgba(255,255,255,0.045));
+    border: 1px solid rgba(255,179,92,0.25);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+}
+
+.skai-v17-empty strong {
+    color: #fff !important;
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.skai-v17-empty p {
+    margin: 0 !important;
+    color: rgba(255,255,255,0.73) !important;
+    font-weight: 760;
+}
+
+.skai-os-hero {
+    min-height: 280px !important;
+    border-radius: 30px !important;
+}
+
+.skai-os-title {
+    font-size: clamp(2.35rem, 5vw, 4.95rem) !important;
+}
+
+.skai-os-panel {
+    border-radius: 30px !important;
+}
+
+.skai-os-step {
+    border-radius: 20px !important;
+}
+
+.skai-os-shell {
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr) !important;
+}
+
+[data-testid="stMetric"] {
+    background:
+        linear-gradient(145deg, rgba(49,247,255,0.12), rgba(255,79,216,0.08)) !important;
+    border: 1px solid rgba(255,255,255,0.16) !important;
+    border-radius: 20px !important;
+}
+
+.stButton > button {
+    background: linear-gradient(90deg, #31f7ff, #9dff7a) !important;
+    color: #05060b !important;
+    border-radius: 999px !important;
+    border: 0 !important;
+    font-weight: 1000 !important;
+}
+
+@media (max-width: 900px) {
+    .skai-v17-brief {
+        grid-template-columns: 1fr;
+    }
+
+    .skai-os-shell {
+        grid-template-columns: 1fr !important;
+    }
+}
