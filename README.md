@@ -1,19 +1,34 @@
-# SKiscettAI · SKAI One Screen Copilot v11
+# SKiscettAI · SKAI Ultra Complete v13
 
-Release basata sul beta report automatico.
+SKiscettAI è una web app Streamlit per risolvere tre problemi concreti:
 
-## Cosa cambia
+1. **Ho ingredienti in casa** → genera una SKiscetta.
+2. **Piano spesa settimanale** → crea un piano ricette + lista.
+3. **Offerte vicino a me** → mostra mappa, negozi e offerte web pulite.
 
-- SKAI Radar ancora più compatto
-- missione, CAP, raggio e input nello stesso blocco
-- mappa subito dopo il primo blocco
-- opzioni avanzate nascoste
-- dropdown/selectbox hard-fix
-- QA tester v4 con navigazione via query param
+## Cosa include v13
 
-## Avvio
+- SKAI Copilot come schermata principale
+- Missione, ingredienti, CAP e raggio in un blocco compatto
+- Mappa immediatamente sotto il primo blocco
+- Opzioni avanzate nascoste
+- Dropdown/selectbox leggibili
+- Parser web con quality gate
+- QA automatico via Playwright
+- Workflow GitHub Actions opzionale
+- Tema Streamlit dark coerente
+
+## Avvio locale
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
+```
+
+## Test QA opzionale
+
+```bash
+python -m pip install -r qa/requirements-qa.txt
+python -m playwright install chromium
+python qa/beta_test_skai.py --url http://localhost:8501
 ```

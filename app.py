@@ -2737,6 +2737,27 @@ pages = [
     "Preferiti",
 ]
 
+PAGE_SLUGS = {
+    "home": "Home",
+    "crea": "Crea SKiscetta",
+    "radar": "SKAI Radar",
+    "ricette": "Ricette",
+    "lista": "Lista spesa",
+    "meal": "Meal plan",
+    "preferiti": "Preferiti",
+}
+
+try:
+    qa_page = st.query_params.get("qa_page", None)
+except Exception:
+    qa_page = None
+
+if isinstance(qa_page, list):
+    qa_page = qa_page[0] if qa_page else None
+
+if qa_page in PAGE_SLUGS:
+    st.session_state.page = PAGE_SLUGS[qa_page]
+
 st.sidebar.markdown(
     """
     <div class="skai-sidebar-brand">
@@ -3216,86 +3237,55 @@ elif st.session_state.page == "SKAI Radar":
 
     st.markdown(
         """
-        <div class="skai-solution-header">
+        <div class="skai-copilot-hero-v12">
             <span>SKAI Copilot</span>
-            <h1>Che problema vuoi risolvere?</h1>
-            <p>Scegli una missione. SKAI ti mostra solo i campi utili e porta subito a ricetta, spesa o offerte vicino a te.</p>
+            <h1>Cosa vuoi risolvere?</h1>
+            <p>Scegli una missione. SKAI usa CAP, ricette e offerte senza farti compilare una dashboard.</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
     with st.container(border=True):
-        st.markdown("### Missione")
-        intent = st.radio(
-            "Scegli cosa vuoi ottenere",
-            [
-                "Ho ingredienti in casa",
-                "Piano spesa settimanale",
-                "Offerte vicino a me",
-            ],
-            horizontal=True,
-            label_visibility="collapsed",
-            key="skai_intent",
-        )
+        left_col, right_col = st.columns([1.35, 0.9])
 
-        m1, m2, m3 = st.columns([1.1, 1.45, 0.95])
-
-        with m1:
-            st.markdown("#### Zona")
-            cap = st.text_input(
-                "CAP",
-                value="53100",
-                placeholder="53100",
-                key="skai_cap",
-            )
-            radius_km = st.select_slider(
-                "Raggio",
-                options=[2, 5, 10, 20, 30],
-                value=10,
-                format_func=lambda value: f"{value} km",
-                key="skai_radius",
+        with left_col:
+            st.markdown("### Missione")
+            intent = st.radio(
+                "Missione",
+                [
+                    "Ho ingredienti in casa",
+                    "Piano spesa settimanale",
+                    "Offerte vicino a me",
+                ],
+                index=0,
+                horizontal=True,
+                label_visibility="collapsed",
+                key="skai_intent",
             )
 
-        selected_ingredients = []
-        home_ingredients = ""
-        goal = "Svuota frigo"
-        max_time = "20 minuti"
-        weekly_days = 5
-        weekly_focus = "Bilanciata"
-        extra_weekly_items = ""
+            selected_ingredients = []
+            home_ingredients = ""
+            extra_weekly_items = ""
+            radar_target = ""
 
-        with m2:
             if intent == "Ho ingredienti in casa":
-                st.markdown("#### Ingredienti")
-                home_ingredients = st.text_area(
+                home_ingredients = st.text_input(
                     "Scrivi cosa hai",
-                    placeholder="pollo, riso, zucchine, yogurt...",
-                    height=94,
+                    placeholder="pollo, riso, zucchine...",
                     key="skai_home_ingredients",
-                    label_visibility="collapsed",
                 )
-
                 selected_ingredients = [
                     item.strip()
                     for item in re.split(r"[,;\n]", home_ingredients)
                     if item.strip()
                 ]
-
             elif intent == "Piano spesa settimanale":
-                st.markdown("#### Settimana")
-                weekly_days = st.radio(
-                    "Giorni",
-                    [3, 4, 5],
-                    horizontal=True,
-                    key="skai_weekly_days",
-                )
                 extra_weekly_items = st.text_input(
-                    "Ingredienti da usare",
-                    placeholder="tonno, farro, verdure...",
+                    "Ingredienti o preferenze",
+                    placeholder="tonno, verdure, low cost...",
                     key="skai_weekly_extra",
                 )
-
                 selected_ingredients = [
                     item.strip()
                     for item in re.split(r"[,;\n]", extra_weekly_items)
@@ -3308,14 +3298,11 @@ elif st.session_state.page == "SKAI Radar":
                         st.session_state.extra_shopping_items,
                     )
                     selected_ingredients.extend(list(shopping_counter.keys()))
-
             else:
-                st.markdown("#### Cerca")
                 radar_target = st.text_input(
-                    "Prodotto o ingrediente",
-                    placeholder="pollo, pasta, caffè, yogurt...",
+                    "Cerca prodotto o ingrediente",
+                    placeholder="pasta, caffè, yogurt, pollo...",
                     key="skai_radar_target",
-                    label_visibility="collapsed",
                 )
                 selected_ingredients = [
                     item.strip()
@@ -3323,45 +3310,57 @@ elif st.session_state.page == "SKAI Radar":
                     if item.strip()
                 ]
 
-        with m3:
-            st.markdown("#### Preferenze")
-            if intent == "Ho ingredienti in casa":
-                goal = st.radio(
-                    "Obiettivo",
-                    ["Svuota frigo", "Proteica", "Light", "Economica"],
-                    horizontal=False,
+        with right_col:
+            st.markdown("### Zona")
+            cap = st.text_input(
+                "CAP",
+                value="53100",
+                placeholder="53100",
+                key="skai_cap",
+            )
+            radius_km = st.select_slider(
+                "Raggio",
+                options=[2, 5, 10, 20, 30],
+                value=5,
+                format_func=lambda value: f"{value} km",
+                key="skai_radius",
+            )
+
+        with st.expander("Preferenze avanzate", expanded=False):
+            pref1, pref2, pref3 = st.columns(3)
+
+            with pref1:
+                goal = st.selectbox(
+                    "Obiettivo ricetta",
+                    ["Svuota frigo", "Proteica", "Light", "Economica", "Vegetariana", "Veloce", "Gourmet", "Meal prep"],
                     key="skai_home_goal",
                 )
-                max_time = st.radio(
-                    "Tempo",
-                    ["10 minuti", "20 minuti", "30 minuti"],
-                    horizontal=False,
+
+            with pref2:
+                max_time = st.selectbox(
+                    "Tempo massimo",
+                    ["10 minuti", "20 minuti", "30 minuti", "45 minuti"],
                     key="skai_home_time",
                 )
-            elif intent == "Piano spesa settimanale":
-                weekly_focus = st.radio(
-                    "Stile",
-                    ["Bilanciata", "Low cost", "Proteica"],
-                    horizontal=False,
-                    key="skai_weekly_focus",
+
+            with pref3:
+                weekly_days = st.selectbox(
+                    "Giorni piano",
+                    [3, 4, 5],
+                    index=2,
+                    key="skai_weekly_days",
                 )
-            else:
-                st.caption("SKAI controlla supermercati e parser web.")
-                if st.button("Aggiorna radar", key="refresh_skai_radar_main"):
-                    st.cache_data.clear()
-                    st.success("Radar aggiornato.")
-                    st.rerun()
+                use_web_parsers = st.toggle(
+                    "Leggi offerte web",
+                    value=True,
+                    key="skai_web_parser_toggle",
+                )
 
-    use_web_parsers = True
+    goal = st.session_state.get("skai_home_goal", "Svuota frigo")
+    max_time = st.session_state.get("skai_home_time", "20 minuti")
+    weekly_days = st.session_state.get("skai_weekly_days", 5)
+    use_web_parsers = st.session_state.get("skai_web_parser_toggle", True)
     max_web_offers = 20
-
-    location_centers = {
-        "53100": {
-            "lat": 43.3188,
-            "lon": 11.3308,
-            "display_name": "53100 Siena, Toscana, Italia",
-        }
-    }
 
     geocoded_location = geocode_postcode(cap, country="Italia")
 
@@ -3370,13 +3369,11 @@ elif st.session_state.page == "SKAI Radar":
         user_lon = geocoded_location["lon"]
         location_label = geocoded_location["display_name"]
     else:
-        fallback = location_centers["53100"]
-        user_lat = fallback["lat"]
-        user_lon = fallback["lon"]
-        location_label = fallback["display_name"]
+        user_lat, user_lon = 43.3188, 11.3308
+        location_label = "53100 Siena, Toscana, Italia"
         st.info("CAP non riconosciuto: uso Siena come fallback per non bloccarti.")
 
-    with st.spinner("SKAI sta leggendo zona, supermercati e offerte web..."):
+    with st.spinner("SKAI prepara mappa, negozi e offerte..."):
         try:
             discovered_stores_raw = fetch_osm_supermarkets(user_lat, user_lon, radius_km)
         except Exception:
@@ -3436,30 +3433,6 @@ elif st.session_state.page == "SKAI Radar":
     best_offer = skai_best_offer(offers_to_show)
 
     st.write("")
-    k1, k2, k3, k4 = st.columns(4)
-    with k1:
-        st.metric("Score", f"{radar_score}/100")
-    with k2:
-        st.metric("Negozi", len(nearby_stores))
-    with k3:
-        st.metric("Catene", len(nearby_chains))
-    with k4:
-        st.metric("Offerte pulite", web_count)
-
-    if best_offer:
-        st.markdown(
-            f"""
-            <div class="skai-deal-banner">
-                <div>
-                    <span>Miglior segnale</span>
-                    <strong>{best_offer.get('chain', 'Web')} · {skai_format_money(best_offer.get('price', ''))}</strong>
-                </div>
-                <p>{clean_display_product_name(best_offer.get('product_name', ''))}</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
     with st.container(border=True):
         map_col, side_col = st.columns([1.55, 0.95])
 
@@ -3472,55 +3445,71 @@ elif st.session_state.page == "SKAI Radar":
                     center_lat=user_lat,
                     center_lon=user_lon,
                 )
-                st_folium(stores_map, width=820, height=455)
+                st_folium(stores_map, width=820, height=420)
             else:
                 st.warning(f"Mappa non disponibile: {MAP_ERROR}")
 
         with side_col:
-            st.markdown("### Prossima azione")
+            st.markdown("### Risultato")
             st.caption(location_label)
+
+            mini1, mini2 = st.columns(2)
+            with mini1:
+                st.metric("Negozi", len(nearby_stores))
+            with mini2:
+                st.metric("Offerte", web_count)
 
             if intent == "Ho ingredienti in casa":
                 if selected_ingredients:
-                    st.success("Ora SKAI crea una SKiscetta e controlla offerte correlate.")
+                    st.success("Ingredienti ricevuti: sotto trovi la SKiscetta.")
                 else:
-                    st.info("Scrivi 3-5 ingredienti per sbloccare la ricetta.")
+                    st.info("Scrivi ingredienti sopra per generare la SKiscetta.")
             elif intent == "Piano spesa settimanale":
-                st.success("SKAI prepara un piano usando ricette e offerte pulite.")
+                st.success("Sotto trovi il piano spesa settimanale.")
             else:
-                st.success("Guarda negozi vicini, catene controllate e offerte pulite.")
+                st.success("Sotto trovi le offerte pulite disponibili.")
 
-            st.markdown("#### Negozi vicini")
-            nearest_rows = []
-            for store in nearby_stores:
-                distance = store.get(
-                    "distance_km",
-                    round(
-                        haversine_km(
-                            user_lat,
-                            user_lon,
-                            store.get("lat", user_lat),
-                            store.get("lon", user_lon),
-                        ),
-                        1,
-                    ),
+            if best_offer:
+                st.markdown(
+                    f"""
+                    <div class="skai-mini-deal">
+                        <span>Miglior segnale</span>
+                        <strong>{best_offer.get('chain', 'Web')} · {skai_format_money(best_offer.get('price', ''))}</strong>
+                        <p>{clean_display_product_name(best_offer.get('product_name', ''))}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
                 )
-                nearest_rows.append((distance, store))
 
-            nearest_rows.sort(key=lambda item: item[0])
+            with st.expander("Negozi vicini", expanded=False):
+                nearest_rows = []
+                for store in nearby_stores:
+                    distance = store.get(
+                        "distance_km",
+                        round(
+                            haversine_km(
+                                user_lat,
+                                user_lon,
+                                store.get("lat", user_lat),
+                                store.get("lon", user_lon),
+                            ),
+                            1,
+                        ),
+                    )
+                    nearest_rows.append((distance, store))
 
-            for distance, store in nearest_rows[:4]:
-                with st.container(border=True):
-                    st.markdown(f"**{store.get('name', '')}**")
-                    st.caption(f"{store.get('type', '')} · {distance:.1f} km")
+                nearest_rows.sort(key=lambda item: item[0])
+
+                for distance, store in nearest_rows[:6]:
+                    st.write(f"**{store.get('name', '')}** · {distance:.1f} km")
 
     st.write("")
 
     if intent == "Ho ingredienti in casa":
         render_skai_section_label(
-            "Ricetta",
-            "Da ingredienti casuali a SKiscetta pronta.",
-            "Scrivi quello che hai: SKAI costruisce una proposta e alternative dal catalogo."
+            "SKiscetta",
+            "Pranzo generato da quello che hai.",
+            "Scrivi ingredienti sopra: SKAI costruisce una proposta veloce."
         )
 
         if selected_ingredients:
@@ -3548,7 +3537,6 @@ elif st.session_state.page == "SKAI Radar":
                         save_favorite(modular_recipe["id"])
 
             if suggestions:
-                st.markdown("### Alternative")
                 cols = st.columns(3)
                 for index, recipe in enumerate(suggestions):
                     with cols[index % 3]:
@@ -3559,13 +3547,13 @@ elif st.session_state.page == "SKAI Radar":
                             if st.button("Salva", key=f"copilot_save_{recipe['id']}"):
                                 save_favorite(recipe["id"])
         else:
-            st.info("Scrivi gli ingredienti sopra: SKAI genererà la SKiscetta qui.")
+            st.info("Esempio: pollo, riso, zucchine.")
 
     elif intent == "Piano spesa settimanale":
         render_skai_section_label(
             "Piano spesa",
-            "La settimana costruita sulle ricette.",
-            "Le offerte web migliorano il piano quando sono disponibili, ma non bloccano la pianificazione."
+            "Settimana pronta in pochi click.",
+            "Le offerte migliorano il piano quando sono disponibili."
         )
 
         plan = skai_week_plan_from_recipes(
@@ -3604,14 +3592,14 @@ elif st.session_state.page == "SKAI Radar":
     else:
         render_skai_section_label(
             "Offerte",
-            "Solo dati abbastanza puliti da leggere.",
-            "I dati grezzi restano nel pannello tecnico, così l’utente non deve interpretarli."
+            "Solo prodotti leggibili.",
+            "Il feed mostra solo offerte con prezzo e prodotto puliti."
         )
 
         if not offers_to_show:
             st.warning(
                 "Nessuna offerta abbastanza pulita da mostrare. "
-                "Il radar resta utile per mappa e negozi; i parser dedicati miglioreranno il feed."
+                "La mappa resta utile; i parser dedicati miglioreranno il feed."
             )
         else:
             card_cols = st.columns(3)
