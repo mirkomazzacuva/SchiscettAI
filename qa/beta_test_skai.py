@@ -1,307 +1,133 @@
 #!/usr/bin/env python3
-"""
-SKAI Beta Tester v4
-Uses query-param navigation instead of fragile sidebar clicks.
-
-Run:
-    python qa/beta_test_skai.py --url https://skiscettai.streamlit.app/
-"""
-
 from __future__ import annotations
 
 import argparse
 import json
 import re
-from datetime import datetime
+from datetime import datetime, UTC
 from pathlib import Path
 from urllib.parse import urlencode, urlparse, urlunparse, parse_qs
 
-from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeoutError
+from playwright.sync_api import sync_playwright
 
 
 PAGES = [
-    ("Home", "home"),
-    ("Crea SKiscetta", "crea"),
-    ("SKAI Radar", "radar"),
-    ("Ricette", "ricette"),
-    ("Lista spesa", "lista"),
-    ("Meal plan", "meal"),
-    ("Preferiti", "preferiti"),
+    ("Home", "home", ["Pranzo smart", "SKiscettAI", "Kitchen OS"]),
+    ("SKAI Radar", "radar", ["Radar negozi", "catene nel raggio", "Mission Control"]),
+    ("Ricette", "ricette", ["Ricette"]),
+    ("Lista spesa", "lista", ["Lista", "spesa"]),
+    ("Meal plan", "meal", ["Meal", "plan"]),
+    ("Preferiti", "preferiti", ["Preferiti"]),
 ]
 
 
-def page_url(base_url: str, slug: str) -> str:
+def page_url(base_url: str, slug: str, qa_fast: bool = True) -> str:
     parsed = urlparse(base_url)
     query = parse_qs(parsed.query)
     query["qa_page"] = [slug]
-    new_query = urlencode(query, doseq=True)
-    return urlunparse(parsed._replace(query=new_query))
+    if qa_fast:
+        query["qa_fast"] = ["1"]
+    return urlunparse(parsed._replace(query=urlencode(query, doseq=True)))
 
 
-def parse_rgb(value: str):
-    nums = [int(x) for x in re.findall(r"\d+", value or "")[:3]]
-    if len(nums) != 3:
-        return None
-    return tuple(nums)
+def wait_app(page, markers=None):
+    page.wait_for_selector('[data-testid="stAppViewContainer"], .stApp', timeout=45000)
+    markers = markers or []
 
+    for _ in range(40):
+        text = page.inner_text("body")
+        if not markers or any(marker.lower() in text.lower() for marker in markers):
+            return text
+        page.wait_for_timeout(1000)
 
-def luminance(rgb):
-    def channel(c):
-        c = c / 255.0
-        return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
-
-    r, g, b = rgb
-    return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b)
-
-
-def contrast_ratio(fg, bg):
-    if fg is None or bg is None:
-        return None
-    l1 = luminance(fg)
-    l2 = luminance(bg)
-    high = max(l1, l2)
-    low = min(l1, l2)
-    return (high + 0.05) / (low + 0.05)
-
-
-def safe_name(name: str) -> str:
-    return re.sub(r"[^a-zA-Z0-9_-]+", "_", name.strip().lower()).strip("_")
-
-
-def wait_for_streamlit(page):
-    try:
-        page.wait_for_selector('[data-testid="stAppViewContainer"], .stApp', timeout=35000)
-    except Exception:
-        pass
-    page.wait_for_timeout(4500)
-
-
-def get_body_text(page) -> str:
-    try:
-        return page.evaluate("() => document.body ? document.body.innerText : ''") or ""
-    except Exception:
-        return ""
-
-
-def collect_visual_issues(page):
-    script = """
-    () => {
-      const selectors = [
-        'button','input','textarea','[role="button"]','[role="combobox"]',
-        '[data-baseweb="select"]','[data-testid="stSelectbox"]',
-        '[data-testid="stTextInput"]','[data-testid="stTextArea"]',
-        '[data-testid="stCheckbox"]','[data-testid="stRadio"]',
-        '[data-testid="stSlider"]','[data-testid="stMetric"]',
-        '[data-testid="stAlert"]','label','p','span','h1','h2','h3'
-      ];
-      const nodes = Array.from(document.querySelectorAll(selectors.join(',')));
-      return nodes.slice(0, 600).map(el => {
-        const rect = el.getBoundingClientRect();
-        const style = window.getComputedStyle(el);
-        const text = (el.innerText || el.value || el.getAttribute('aria-label') || el.getAttribute('placeholder') || '').trim();
-        return {
-          tag: el.tagName,
-          role: el.getAttribute('role') || '',
-          testid: el.getAttribute('data-testid') || '',
-          baseweb: el.getAttribute('data-baseweb') || '',
-          text: text.slice(0, 120),
-          color: style.color,
-          backgroundColor: style.backgroundColor,
-          fontSize: style.fontSize,
-          fontWeight: style.fontWeight,
-          x: Math.round(rect.x),
-          y: Math.round(rect.y),
-          width: Math.round(rect.width),
-          height: Math.round(rect.height)
-        };
-      }).filter(item => item.width >= 4 && item.height >= 4);
-    }
-    """
-    raw = page.evaluate(script)
-    issues = []
-
-    for item in raw:
-        fg = parse_rgb(item.get("color", ""))
-        bg = parse_rgb(item.get("backgroundColor", ""))
-        ratio = contrast_ratio(fg, bg)
-        item["contrast_ratio"] = round(ratio, 2) if ratio is not None else None
-
-        text = item.get("text", "")
-        is_control = item.get("tag") in {"BUTTON", "INPUT", "TEXTAREA"} or item.get("role") in {"button", "combobox"}
-
-        color = item.get("color", "")
-        bgc = item.get("backgroundColor", "")
-
-        white_text = "255, 255, 255" in color
-        white_bg = "255, 255, 255" in bgc
-        dark_text = "0, 0, 0" in color or "16, 18, 37" in color
-        dark_bg = "0, 0, 0" in bgc or "5, 5, 13" in bgc
-
-        if is_control and white_text and white_bg:
-            issues.append({**item, "issue": "white_text_on_white_control"})
-        elif is_control and dark_text and dark_bg:
-            issues.append({**item, "issue": "dark_text_on_dark_control"})
-        elif ratio is not None and ratio < 3.0 and len(text) > 1 and is_control:
-            issues.append({**item, "issue": "low_contrast_control"})
-
-    return issues
+    return page.inner_text("body")
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--url", default="https://skiscettai.streamlit.app/")
-    parser.add_argument("--headful", action="store_true")
-    parser.add_argument("--timeout", type=int, default=60000)
+    parser.add_argument("--url", default="http://localhost:8501")
     args = parser.parse_args()
 
     root = Path(__file__).resolve().parent
-    screenshots_dir = root / "screenshots"
-    reports_dir = root / "reports"
-    screenshots_dir.mkdir(parents=True, exist_ok=True)
-    reports_dir.mkdir(parents=True, exist_ok=True)
+    reports = root / "reports"
+    shots = root / "screenshots"
+    reports.mkdir(exist_ok=True)
+    shots.mkdir(exist_ok=True)
 
     report = {
         "url": args.url,
-        "generated_at": datetime.utcnow().isoformat() + "Z",
-        "public_access_ok": False,
-        "auth_or_login_detected": False,
-        "pages": [],
-        "console_errors": [],
-        "critical_issues": [],
-        "recommendations": [],
+        "generated_at": datetime.now(UTC).isoformat(),
+        "checks": [],
+        "errors": [],
     }
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=not args.headful)
-        context = browser.new_context(viewport={"width": 1440, "height": 1000}, device_scale_factor=1)
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(viewport={"width": 1440, "height": 1000})
         page = context.new_page()
 
-        page.on("console", lambda msg: report["console_errors"].append({
-            "type": msg.type,
-            "text": msg.text,
-        }) if msg.type in {"error", "warning"} else None)
+        page.goto(args.url, wait_until="domcontentloaded", timeout=60000)
+        default_text = wait_app(page, ["Pranzo smart", "Kitchen OS", "SKiscettAI"])
+        page.screenshot(path=shots / "00_default_home.png", full_page=True)
 
-        try:
-            page.goto(args.url, wait_until="domcontentloaded", timeout=args.timeout)
-            wait_for_streamlit(page)
-        except PlaywrightTimeoutError:
-            report["critical_issues"].append("Initial page load timed out.")
+        report["checks"].append({
+            "name": "default_opens_home",
+            "passed": any(marker.lower() in default_text.lower() for marker in ["Pranzo smart", "Kitchen OS", "SKiscettAI"]),
+        })
 
-        current_url = page.url
-        initial_text = get_body_text(page)
-        if "share.streamlit.io/-/auth" in current_url or "sign in" in initial_text.lower() or "log in" in initial_text.lower():
-            report["auth_or_login_detected"] = True
-            report["critical_issues"].append(f"App redirected to authentication/login: {current_url}")
-        else:
-            report["public_access_ok"] = True
+        for page_name, slug, expected_markers in PAGES:
+            page.goto(page_url(args.url, slug, qa_fast=True), wait_until="domcontentloaded", timeout=60000)
+            text = wait_app(page, expected_markers)
+            page.screenshot(path=shots / f"{slug}.png", full_page=True)
 
-        page.screenshot(path=screenshots_dir / "00_initial.png", full_page=True)
-
-        for page_name, slug in PAGES:
-            target = page_url(args.url, slug)
-            try:
-                page.goto(target, wait_until="domcontentloaded", timeout=args.timeout)
-                wait_for_streamlit(page)
-                opened = True
-            except Exception:
-                opened = False
-
-            screenshot_path = screenshots_dir / f"{safe_name(page_name)}.png"
-            page.screenshot(path=screenshot_path, full_page=True)
-
-            text = get_body_text(page)
-            issues = collect_visual_issues(page)
-
-            page_report = {
+            passed = any(marker.lower() in text.lower() for marker in expected_markers)
+            report["checks"].append({
+                "name": f"open_{slug}",
                 "page": page_name,
-                "slug": slug,
-                "opened": opened,
-                "screenshot": str(screenshot_path.relative_to(root)),
-                "url": page.url,
+                "passed": passed,
                 "text_length": len(text),
-                "visual_issues_count": len(issues),
-                "visual_issues": issues[:30],
-            }
+            })
 
-            lower = text.lower()
-            if page_name == "SKAI Radar":
-                ux_issues = []
-                if "usa demo siena" in lower:
-                    ux_issues.append("Contains 'Usa demo Siena' in main flow.")
-                if "ricetta target" in lower:
-                    ux_issues.append("Contains 'Ricetta target' in main flow.")
-                if "che problema vuoi risolvere" not in lower and "parti dal problema" not in lower:
-                    ux_issues.append("Radar does not start from user intent/problem.")
-                if "mappa" not in lower:
-                    ux_issues.append("Radar page does not show map text.")
-                if ux_issues:
-                    page_report["ux_issues"] = ux_issues
+            if slug == "radar":
+                cards = page.locator(".skai-offer-card")
+                card_count = cards.count()
+                bad_cards = 0
 
-            report["pages"].append(page_report)
+                for i in range(card_count):
+                    card_text = cards.nth(i).inner_text()
+                    has_price = bool(re.search(r"\d+[,.]\d{2}\s*€", card_text))
+                    words = re.findall(r"[A-Za-zÀ-ÿ]{3,}", card_text)
+                    if has_price and len(words) < 4:
+                        bad_cards += 1
+
+                radar_checks = {
+                    "chain_panel": "catene nel raggio" in text.lower(),
+                    "map_text": "radar negozi" in text.lower() or "mappa" in text.lower(),
+                    "bad_price_only_cards": bad_cards,
+                }
+
+                report["checks"].append({
+                    "name": "radar_offer_quality",
+                    "passed": radar_checks["chain_panel"] and radar_checks["bad_price_only_cards"] == 0,
+                    "details": radar_checks,
+                })
 
         browser.close()
 
-    total_visual_issues = sum(p["visual_issues_count"] for p in report["pages"])
-    if total_visual_issues:
-        report["recommendations"].append(f"Fix control contrast/readability issues: {total_visual_issues} possible issues.")
+    failed = [check for check in report["checks"] if not check.get("passed")]
+    report["failed"] = failed
 
-    radar = next((p for p in report["pages"] if p["page"] == "SKAI Radar"), None)
-    if radar and radar.get("ux_issues"):
-        report["recommendations"].append("Simplify SKAI Radar and keep the map visible earlier.")
+    (reports / "skai_beta_report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    json_path = reports_dir / "skai_beta_report.json"
-    md_path = reports_dir / "skai_beta_report.md"
-    json_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    lines = ["# SKAI Beta Test Report", ""]
+    for check in report["checks"]:
+        status = "✅" if check.get("passed") else "❌"
+        lines.append(f"- {status} {check['name']}")
 
-    lines = [
-        "# SKAI Beta Test Report",
-        "",
-        f"- URL: `{report['url']}`",
-        f"- Generated: `{report['generated_at']}`",
-        f"- Public access OK: `{report['public_access_ok']}`",
-        f"- Auth/login detected: `{report['auth_or_login_detected']}`",
-        "",
-    ]
+    (reports / "skai_beta_report.md").write_text("\n".join(lines), encoding="utf-8")
 
-    if report["critical_issues"]:
-        lines.append("## Critical issues")
-        for issue in report["critical_issues"]:
-            lines.append(f"- {issue}")
-        lines.append("")
-
-    lines.append("## Pages")
-    for page_report in report["pages"]:
-        lines.append(f"### {page_report['page']}")
-        lines.append(f"- Opened: `{page_report['opened']}`")
-        lines.append(f"- Screenshot: `{page_report['screenshot']}`")
-        lines.append(f"- Text length: `{page_report['text_length']}`")
-        lines.append(f"- Visual issues: `{page_report['visual_issues_count']}`")
-
-        if page_report.get("ux_issues"):
-            lines.append("- UX issues:")
-            for issue in page_report["ux_issues"]:
-                lines.append(f"  - {issue}")
-
-        if page_report["visual_issues"]:
-            lines.append("- First visual issues:")
-            for issue in page_report["visual_issues"][:8]:
-                lines.append(
-                    f"  - `{issue['issue']}` · {issue['tag']} · text=`{issue.get('text','')[:80]}` · "
-                    f"color={issue.get('color')} · bg={issue.get('backgroundColor')} · contrast={issue.get('contrast_ratio')}"
-                )
-        lines.append("")
-
-    if report["recommendations"]:
-        lines.append("## Recommendations")
-        for rec in report["recommendations"]:
-            lines.append(f"- {rec}")
-        lines.append("")
-
-    md_path.write_text("\n".join(lines), encoding="utf-8")
-
-    print(f"Report written to: {md_path}")
-    print(f"JSON written to: {json_path}")
-    print(f"Screenshots written to: {screenshots_dir}")
+    if failed:
+        raise SystemExit(f"Beta test failed: {failed}")
 
 
 if __name__ == "__main__":

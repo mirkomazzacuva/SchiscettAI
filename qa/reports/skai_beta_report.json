@@ -1,0 +1,57 @@
+{
+  "url": "http://localhost:8501",
+  "generated_at": "2026-05-29T09:42:03.175701+00:00",
+  "checks": [
+    {
+      "name": "default_opens_home",
+      "passed": true
+    },
+    {
+      "name": "open_home",
+      "page": "Home",
+      "passed": true,
+      "text_length": 1689
+    },
+    {
+      "name": "open_radar",
+      "page": "SKAI Radar",
+      "passed": true,
+      "text_length": 3189
+    },
+    {
+      "name": "radar_offer_quality",
+      "passed": true,
+      "details": {
+        "chain_panel": true,
+        "map_text": true,
+        "bad_price_only_cards": 0
+      }
+    },
+    {
+      "name": "open_ricette",
+      "page": "Ricette",
+      "passed": true,
+      "text_length": 7578
+    },
+    {
+      "name": "open_lista",
+      "page": "Lista spesa",
+      "passed": true,
+      "text_length": 635
+    },
+    {
+      "name": "open_meal",
+      "page": "Meal plan",
+      "passed": true,
+      "text_length": 733
+    },
+    {
+      "name": "open_preferiti",
+      "page": "Preferiti",
+      "passed": true,
+      "text_length": 442
+    }
+  ],
+  "errors": [],
+  "failed": []
+}

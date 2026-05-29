@@ -1,15 +1,15 @@
-# SKiscettAI · SKAI Kitchen OS v19
+# SKiscettAI · SKAI Kitchen OS v21
 
 SKAI è un Kitchen OS per pranzo, spesa e negozi.
 
-## v19 Instant Navigation
+## v21 Beta Test Fix
 
-- risolto il problema dei click doppi nella sidebar
-- navigazione laterale immediata con bottoni e rerun controllato
-- pagina attiva evidenziata
-- Home v18 premium mantenuta
-- parser dedicati e Product Identity Gate mantenuti
-- cleanup repo automatico tramite workflow
+- apertura iniziale su Home
+- QA fast mode per test automatici stabili
+- beta test non dipendono da scraping live o Overpass
+- pannello catene sempre visibile in Radar
+- offerte mostrate solo con prodotto + prezzo + supermercato
+- niente card con solo prezzo
 
 ## Avvio
 

@@ -1070,7 +1070,7 @@ def fetch_chain_offers_v1(chain, url):
             }
 
         raw = response.text or ""
-        snippets = skai_v16_parse_chain_offers(chain, url, raw)
+        snippets = skai_v20_parse_chain_offers(chain, url, raw)
         offers = []
         chain_slug = normalize_for_match(chain).replace(" ", "_")
 
@@ -1094,7 +1094,7 @@ def fetch_chain_offers_v1(chain, url):
                     "valid_until": "",
                     "source": item.get("source_url", url),
                     "category": "offerte web verificate",
-                    "notes": f"Parser dedicato {chain} v16 · {item.get('parser', 'smart')}. Da verificare sul sito ufficiale.",
+                    "notes": f"Parser dedicato {chain} v20 · {item.get('parser', 'smart')}. Da verificare sul sito ufficiale.",
                     "origin": f"web_{chain_slug}",
                     "parser": item.get("parser", "v16"),
                 }
@@ -1104,7 +1104,7 @@ def fetch_chain_offers_v1(chain, url):
             return {
                 "chain": chain,
                 "ok": True,
-                "message": f"{chain}: {len(offers)} offerte con prodotto identificato.",
+                "message": f"{chain}: {len(offers)} offerte verificate prodotto+prezzo.",
                 "offers": offers,
             }
 
@@ -3402,6 +3402,95 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
 load_css("styles/custom.css")
 st.markdown("""<style>
 /* =========================================================
+   SKAI v20 — Offer Intelligence + QA
+   ========================================================= */
+
+.skai-v20-chain-panel {
+    margin: 0.8rem 0;
+    padding: 1rem;
+    border-radius: 26px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.115), rgba(255,255,255,0.045));
+    box-shadow: 0 22px 70px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.skai-v20-chain-panel > div:first-child span {
+    color: #9dff7a;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 1000;
+}
+
+.skai-v20-chain-panel > div:first-child strong {
+    display: block;
+    color: #ffffff !important;
+    font-size: 1.22rem;
+    margin-top: 0.18rem;
+    letter-spacing: -0.04em;
+}
+
+.skai-v20-chain-panel > div:first-child p {
+    color: rgba(255,255,255,0.72) !important;
+    margin: 0.25rem 0 0 0 !important;
+    font-weight: 760;
+}
+
+.skai-v20-chain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 0.58rem;
+    margin-top: 0.75rem;
+}
+
+.skai-v20-chain-chip {
+    padding: 0.72rem;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.075);
+    border: 1px solid rgba(255,255,255,0.13);
+}
+
+.skai-v20-chain-chip span {
+    display: block;
+    color: #31f7ff;
+    font-size: 0.74rem;
+    font-weight: 1000;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.skai-v20-chain-chip strong {
+    display: block;
+    color: #fff !important;
+    font-size: 1.65rem;
+    line-height: 1;
+    margin-top: 0.20rem;
+}
+
+.skai-v20-chain-chip p {
+    color: rgba(255,255,255,0.78) !important;
+    margin: 0.22rem 0 0 0 !important;
+    font-weight: 820;
+    font-size: 0.82rem;
+}
+
+.skai-v20-chain-chip small {
+    display: block;
+    margin-top: 0.25rem;
+    color: rgba(255,255,255,0.52);
+    font-size: 0.70rem;
+    line-height: 1.2;
+}
+
+@media (max-width: 900px) {
+    .skai-v20-chain-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
    SKAI v19 — instant sidebar navigation
    ========================================================= */
 
@@ -4593,7 +4682,7 @@ if "generated_recipe_ids" not in st.session_state:
     st.session_state.generated_recipe_ids = []
 
 if "page" not in st.session_state:
-    st.session_state.page = "SKAI Radar"
+    st.session_state.page = "Home"
 
 if "extra_shopping_items" not in st.session_state:
     st.session_state.extra_shopping_items = []
@@ -4675,6 +4764,11 @@ if isinstance(qa_page, list):
 
 if qa_page in PAGE_SLUGS:
     st.session_state.page = PAGE_SLUGS[qa_page]
+
+try:
+    skai_qa_fast = str(st.query_params.get("qa_fast", "")).lower() in ["1", "true", "yes"]
+except Exception:
+    skai_qa_fast = False
 
 st.sidebar.markdown(
     """
@@ -4854,6 +4948,210 @@ def render_skai_v17_no_offer_feed(raw_count):
         """,
         unsafe_allow_html=True,
     )
+
+
+
+# =========================================================
+# SKAI v21 Offer Intelligence + Beta-Test Helpers
+# =========================================================
+
+def skai_v20_clean_offer_product(value):
+    text_value = html.unescape(str(value or ""))
+    text_value = re.sub(r"<[^>]+>", " ", text_value)
+    text_value = re.sub(r"\bOFFERTE\b", " ", text_value, flags=re.I)
+    text_value = re.sub(r"\bQUANTIT[ÀA]\s+LIMITATA\b", " ", text_value, flags=re.I)
+    text_value = re.sub(r"\bSenza\s+\w+Card\b", " ", text_value, flags=re.I)
+    text_value = re.sub(r"\bCon\s+\w+Card\b", " ", text_value, flags=re.I)
+    text_value = re.sub(r"[-−]?\s*\d{1,2}\s*%", " ", text_value)
+    text_value = re.sub(r"\bda\s+\w+\s+\d{1,2}[./]\d{1,2}[./]\d{2,4}.*", " ", text_value, flags=re.I)
+    text_value = re.sub(r"\b\d{1,3}[,.]\d{2}\s*€", " ", text_value)
+    text_value = re.sub(r"\s+", " ", text_value).strip(" -–—|•·:,;")
+    text_value = skai_clean_product_title(text_value) if "skai_clean_product_title" in globals() else cleanup_product_candidate(text_value)
+    return text_value[:96].strip()
+
+
+def skai_v20_plain_text_candidates(raw, chain, url):
+    """Extract product+price pairs from pages whose rendered/plain text contains flyer offers.
+    This is especially useful for PENNY-like pages where the crawler-visible text is:
+    Product · brand weight date validity price old-price unit-price.
+    """
+    text_body = re.sub(r"<script.*?</script>", " ", raw, flags=re.I | re.S)
+    text_body = re.sub(r"<style.*?</style>", " ", text_body, flags=re.I | re.S)
+    text_body = re.sub(r"<[^>]+>", " ", text_body)
+    text_body = html.unescape(text_body)
+    text_body = re.sub(r"\s+", " ", text_body).strip()
+
+    candidates = []
+    seen = set()
+
+    # Pattern for flyers with validity dates.
+    patterns = [
+        re.compile(
+            r"(?P<name>.{8,170}?)\s+da\s+\w+\s+\d{1,2}[./]\d{1,2}[./]\d{2,4}\s+a\s+\w+\s+\d{1,2}[./]\d{1,2}[./]\d{2,4}\s+(?P<price>\d{1,3}[,.]\d{2})\s*€",
+            flags=re.I,
+        ),
+        re.compile(
+            r"(?P<name>.{8,150}?)\s+(?:Senza\s+\w+Card|Con\s+\w+Card)\s+(?P<price>\d{1,3}[,.]\d{2})\s*€",
+            flags=re.I,
+        ),
+        re.compile(
+            r"(?P<name>[A-ZÀ-Ýa-zà-ÿ0-9][^€]{8,145}?)\s+(?P<price>\d{1,3}[,.]\d{2})\s*€(?:\s+\d{1,3}[,.]\d{2}\s*€)?",
+            flags=re.I,
+        ),
+    ]
+
+    for pattern in patterns:
+        for match in pattern.finditer(text_body):
+            raw_name = match.group("name")
+            price = skai_v16_extract_price(match.group("price")) if "skai_v16_extract_price" in globals() else price_to_float(match.group("price"))
+            name = skai_v20_clean_offer_product(raw_name)
+
+            # Avoid giant chunks by taking the most product-like ending.
+            if len(name.split()) > 12:
+                tokens = name.split()
+                for size in [8, 7, 6, 5]:
+                    short = " ".join(tokens[-size:])
+                    if skai_v16_product_score(short) >= 2:
+                        name = short
+                        break
+
+            if not name or price is None:
+                continue
+
+            if "skai_v16_candidate_is_clean" in globals():
+                profile = CHAIN_PARSER_PROFILES.get(chain, {})
+                if not skai_v16_candidate_is_clean(name, chain, profile):
+                    continue
+            elif is_bad_offer_text(name):
+                continue
+
+            key = (normalize_text(name), round(float(price), 2), chain)
+            if key in seen:
+                continue
+
+            seen.add(key)
+            candidates.append(
+                {
+                    "product": name,
+                    "snippet": name,
+                    "price": round(float(price), 2),
+                    "parser": "plain-text-flyer",
+                    "source_url": url,
+                }
+            )
+
+            if len(candidates) >= 50:
+                return candidates
+
+    return candidates
+
+
+def skai_v20_parse_chain_offers(chain, url, raw):
+    base = skai_v16_parse_chain_offers(chain, url, raw) if "skai_v16_parse_chain_offers" in globals() else []
+    plain = skai_v20_plain_text_candidates(raw, chain, url)
+
+    candidates = []
+    seen = set()
+
+    for item in list(base) + list(plain):
+        product = skai_v20_clean_offer_product(item.get("product", ""))
+        price = item.get("price")
+        if not product or price is None:
+            continue
+
+        if "skai_v16_product_score" in globals() and skai_v16_product_score(product) < 2:
+            continue
+
+        key = (normalize_text(product), round(float(price), 2), chain)
+        if key in seen:
+            continue
+
+        seen.add(key)
+        new_item = dict(item)
+        new_item["product"] = product
+        new_item["price"] = round(float(price), 2)
+        candidates.append(new_item)
+
+    return candidates
+
+
+def skai_v20_nearby_chain_names(nearby_stores, offer_sources):
+    found = []
+
+    for store in nearby_stores or []:
+        chain = infer_store_chain_v2(store, offer_sources)
+        if chain and chain != "Altro" and chain not in found:
+            found.append(chain)
+
+    priority = ["Coop", "Conad", "PAM", "PENNY", "Lidl", "Eurospin", "Carrefour", "MD", "Esselunga"]
+
+    return sorted(
+        found,
+        key=lambda chain: priority.index(chain) if chain in priority else 99,
+    )
+
+
+def skai_v20_offer_counts_by_chain(offers):
+    counts = Counter()
+
+    for offer in offers or []:
+        chain = offer.get("chain", "Web") or "Web"
+        counts[chain] += 1
+
+    return counts
+
+
+def render_skai_v20_chain_coverage(nearby_stores, offer_sources, offers_to_show, parser_results):
+    nearby_chains = skai_v20_nearby_chain_names(nearby_stores, offer_sources)
+    counts = skai_v20_offer_counts_by_chain(offers_to_show)
+    parser_map = {result.get("chain", ""): result for result in parser_results or []}
+
+    rows = []
+
+    if nearby_chains:
+        for chain in nearby_chains:
+            clean_count = counts.get(chain, 0)
+            parser_message = parser_map.get(chain, {}).get("message", "Fonte non controllata in questa sessione.")
+            status = "offerte verificate" if clean_count else "controllato · nessun prodotto verificato"
+
+            rows.append(
+                f"""
+                <div class="skai-v20-chain-chip">
+                    <span>{chain}</span>
+                    <strong>{clean_count}</strong>
+                    <p>{status}</p>
+                    <small>{parser_message}</small>
+                </div>
+                """
+            )
+    else:
+        rows.append(
+            """
+            <div class="skai-v20-chain-chip">
+                <span>raggio selezionato</span>
+                <strong>0</strong>
+                <p>nessuna insegna riconosciuta</p>
+                <small>La mappa resta attiva; aumenta il raggio o cambia CAP.</small>
+            </div>
+            """
+        )
+
+    st.markdown(
+        f"""
+        <div class="skai-v20-chain-panel">
+            <div>
+                <span>catene nel raggio selezionato</span>
+                <strong>{len(nearby_chains)} insegne controllate</strong>
+                <p>La mappa mostra tutti i supermercati trovati. Le card offerta appaiono solo se prodotto, prezzo e catena sono leggibili.</p>
+            </div>
+            <div class="skai-v20-chain-grid">
+                {''.join(rows)}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
 
 
 if st.session_state.page == "Home":
@@ -5410,7 +5708,7 @@ elif st.session_state.page == "SKAI Radar":
             max_web_offers = st.select_slider("Max offerte pulite", options=[6, 12, 20, 30], value=12, key="skai_v15_max_offers")
 
     selected_ingredients = pantry_items if mission == "Creo una SKiscetta" else search_items
-    use_web_parsers = st.session_state.get("skai_v15_web", True)
+    use_web_parsers = False if skai_qa_fast else st.session_state.get("skai_v15_web", True)
     max_web_offers = st.session_state.get("skai_v15_max_offers", 12)
 
     geocoded_location = geocode_postcode(cap, country="Italia")
@@ -5425,11 +5723,14 @@ elif st.session_state.page == "SKAI Radar":
         st.info("CAP non riconosciuto: uso Siena come fallback per non bloccarti.")
 
     with st.spinner("SKAI sta preparando ricette, mappa e dati puliti..."):
-        try:
-            discovered_stores_raw = fetch_osm_supermarkets(user_lat, user_lon, radius_km)
-        except Exception:
+        if skai_qa_fast:
             discovered_stores_raw = []
-            st.info("Mappa live non disponibile: uso i punti vendita locali come fallback.")
+        else:
+            try:
+                discovered_stores_raw = fetch_osm_supermarkets(user_lat, user_lon, radius_km)
+            except Exception:
+                discovered_stores_raw = []
+                st.info("Mappa live non disponibile: uso i punti vendita locali come fallback.")
 
         discovered_stores = enrich_discovered_stores(
             discovered_stores_raw,
@@ -5492,6 +5793,8 @@ elif st.session_state.page == "SKAI Radar":
         st.metric("Offerte pulite", len(offers_to_show))
     with c4:
         st.metric("Prezzi nascosti", len(raw_web_offers))
+
+    render_skai_v20_chain_coverage(nearby_stores, offer_sources_data, offers_to_show, parser_results)
 
     with st.container(border=True):
         st.markdown("### Radar negozi")

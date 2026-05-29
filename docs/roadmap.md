@@ -1,16 +1,15 @@
 # SKAI Roadmap
 
-## v19 Instant Navigation
+## v21 Beta Test Fix
 
-Fix prioritario:
-- la sidebar non usa più radio state fragile
-- ogni voce laterale apre la pagina con un solo click
-- pagina attiva evidenziata
-- query param aggiornato per QA
+Correzioni:
+- workflow beta test robusto
+- qa_fast per evitare timeout da web scraping durante i test
+- catene nel raggio sempre visibili
+- default Home confermato
 
 Prossimo salto:
-1. testare UX mobile
-2. affinare parser per catena
-3. prezzo al kg/litro
-4. validità offerte
-5. preferenze persistenti
+1. parser API/store locator per singola catena
+2. prezzo al kg/litro
+3. validità offerta
+4. matching offerte con lista spesa per negozio

@@ -909,3 +909,92 @@ iframe {
     color: #ffffff !important;
     border-color: rgba(255,255,255,0.22) !important;
 }
+
+
+/* =========================================================
+   SKAI v20 — Offer Intelligence + QA
+   ========================================================= */
+
+.skai-v20-chain-panel {
+    margin: 0.8rem 0;
+    padding: 1rem;
+    border-radius: 26px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.115), rgba(255,255,255,0.045));
+    box-shadow: 0 22px 70px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+.skai-v20-chain-panel > div:first-child span {
+    color: #9dff7a;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 1000;
+}
+
+.skai-v20-chain-panel > div:first-child strong {
+    display: block;
+    color: #ffffff !important;
+    font-size: 1.22rem;
+    margin-top: 0.18rem;
+    letter-spacing: -0.04em;
+}
+
+.skai-v20-chain-panel > div:first-child p {
+    color: rgba(255,255,255,0.72) !important;
+    margin: 0.25rem 0 0 0 !important;
+    font-weight: 760;
+}
+
+.skai-v20-chain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 0.58rem;
+    margin-top: 0.75rem;
+}
+
+.skai-v20-chain-chip {
+    padding: 0.72rem;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.075);
+    border: 1px solid rgba(255,255,255,0.13);
+}
+
+.skai-v20-chain-chip span {
+    display: block;
+    color: #31f7ff;
+    font-size: 0.74rem;
+    font-weight: 1000;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.skai-v20-chain-chip strong {
+    display: block;
+    color: #fff !important;
+    font-size: 1.65rem;
+    line-height: 1;
+    margin-top: 0.20rem;
+}
+
+.skai-v20-chain-chip p {
+    color: rgba(255,255,255,0.78) !important;
+    margin: 0.22rem 0 0 0 !important;
+    font-weight: 820;
+    font-size: 0.82rem;
+}
+
+.skai-v20-chain-chip small {
+    display: block;
+    margin-top: 0.25rem;
+    color: rgba(255,255,255,0.52);
+    font-size: 0.70rem;
+    line-height: 1.2;
+}
+
+@media (max-width: 900px) {
+    .skai-v20-chain-grid {
+        grid-template-columns: 1fr;
+    }
+}
