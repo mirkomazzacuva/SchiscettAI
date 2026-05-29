@@ -1029,3 +1029,279 @@ iframe {
     min-height: 455px !important;
 }
 
+
+
+/* =========================================================
+   SKAI v11 — one-screen copilot
+   ========================================================= */
+
+.skai-solution-header-v11 {
+    margin: 0.15rem 0 0.55rem 0 !important;
+}
+
+.skai-solution-header-v11 h1 {
+    font-size: clamp(1.9rem, 3.4vw, 2.85rem) !important;
+    line-height: 0.98 !important;
+    margin: 0 !important;
+}
+
+.skai-solution-header-v11 p {
+    margin-top: 0.45rem !important;
+    font-size: 0.96rem !important;
+}
+
+.skai-topbar {
+    padding: 0.55rem 0.8rem !important;
+    margin-bottom: 0.45rem !important;
+    border-radius: 18px !important;
+}
+
+.skai-topbar strong {
+    font-size: 1.28rem !important;
+}
+
+.skai-topbar p {
+    font-size: 0.86rem !important;
+}
+
+.block-container {
+    max-width: 1140px !important;
+    padding-top: 0.48rem !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stForm"] {
+    border-radius: 18px !important;
+}
+
+.element-container {
+    margin-bottom: 0.25rem !important;
+}
+
+/* first mission block is compact */
+div[role="radiogroup"] label {
+    min-height: 2.35rem !important;
+    padding: 0.42rem 0.62rem !important;
+    font-size: 0.88rem !important;
+}
+
+[data-testid="stTextArea"] textarea {
+    min-height: 78px !important;
+}
+
+/* Dropdown/selectbox hard contrast */
+[data-baseweb="select"],
+[data-baseweb="select"] > div,
+[data-baseweb="select"] div,
+[data-testid="stSelectbox"] *,
+[data-testid="stMultiSelect"] * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-baseweb="select"] input {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div,
+[data-baseweb="menu"],
+[data-baseweb="menu"] *,
+[role="listbox"],
+[role="listbox"] *,
+[role="option"],
+[role="option"] * {
+    background: #0b1022 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[role="option"]:hover,
+[data-baseweb="menu"] li:hover {
+    background: linear-gradient(90deg, rgba(40,248,255,0.24), rgba(255,79,216,0.18)) !important;
+}
+
+/* Keep actual typing fields readable */
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea {
+    background: rgba(255,255,255,0.96) !important;
+    color: #101225 !important;
+    -webkit-text-fill-color: #101225 !important;
+}
+
+[data-testid="stTextInput"] input::placeholder,
+[data-testid="stTextArea"] textarea::placeholder {
+    color: rgba(16,18,37,0.54) !important;
+    -webkit-text-fill-color: rgba(16,18,37,0.54) !important;
+}
+
+iframe {
+    min-height: 430px !important;
+}
+
+.stButton > button {
+    min-height: 2.35rem !important;
+    padding: 0.62rem 1rem !important;
+}
+
+/* Reduce sidebar heaviness */
+[data-testid="stSidebar"] {
+    width: 210px !important;
+    min-width: 210px !important;
+}
+
+.skai-sidebar-main {
+    font-size: 2.5rem !important;
+}
+
+.skai-sidebar-icon {
+    font-size: 1.7rem !important;
+}
+
+.skai-sidebar-sub {
+    font-size: 0.66rem !important;
+}
+
+
+
+/* =========================================================
+   SKAI v12 — map in first viewport
+   ========================================================= */
+
+.skai-copilot-hero-v12 {
+    margin: 0.1rem 0 0.45rem 0;
+}
+
+.skai-copilot-hero-v12 span {
+    display: block;
+    color: var(--mint);
+    font-size: 0.72rem;
+    font-weight: 1000;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.18rem;
+}
+
+.skai-copilot-hero-v12 h1 {
+    margin: 0 !important;
+    font-size: clamp(1.7rem, 3vw, 2.45rem) !important;
+    line-height: 1 !important;
+    letter-spacing: -0.06em !important;
+}
+
+.skai-copilot-hero-v12 p {
+    margin: 0.35rem 0 0 0 !important;
+    font-size: 0.9rem !important;
+    color: rgba(255,255,255,0.76) !important;
+    font-weight: 780;
+}
+
+.skai-topbar {
+    padding: 0.45rem 0.72rem !important;
+    margin-bottom: 0.38rem !important;
+    border-radius: 16px !important;
+}
+
+.skai-topbar strong {
+    font-size: 1.15rem !important;
+}
+
+.skai-topbar p {
+    font-size: 0.8rem !important;
+}
+
+.block-container {
+    max-width: 1120px !important;
+    padding-top: 0.38rem !important;
+}
+
+.element-container {
+    margin-bottom: 0.18rem !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stForm"] {
+    border-radius: 16px !important;
+}
+
+div[role="radiogroup"] label {
+    min-height: 2.15rem !important;
+    padding: 0.36rem 0.55rem !important;
+    font-size: 0.84rem !important;
+}
+
+/* More compact metrics inside result side panel */
+[data-testid="stMetric"] {
+    padding: 0.68rem !important;
+    border-radius: 16px !important;
+}
+
+[data-testid="stMetricValue"] {
+    font-size: 1.55rem !important;
+}
+
+iframe {
+    min-height: 420px !important;
+}
+
+.skai-mini-deal {
+    margin-top: 0.65rem;
+    padding: 0.75rem;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.075);
+    border: 1px solid rgba(255,255,255,0.14);
+}
+
+.skai-mini-deal span {
+    display: block;
+    color: var(--mint);
+    text-transform: uppercase;
+    font-weight: 1000;
+    letter-spacing: 0.10em;
+    font-size: 0.68rem;
+}
+
+.skai-mini-deal strong {
+    display: block;
+    color: #fff !important;
+    margin-top: 0.2rem;
+    font-size: 1rem;
+}
+
+.skai-mini-deal p {
+    margin: 0.25rem 0 0 0 !important;
+    color: rgba(255,255,255,0.76) !important;
+    font-size: 0.82rem;
+}
+
+/* Select/dropdown remains readable */
+[data-baseweb="select"],
+[data-baseweb="select"] > div,
+[data-baseweb="select"] div,
+[data-testid="stSelectbox"] *,
+[data-testid="stMultiSelect"] * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div,
+[data-baseweb="menu"],
+[data-baseweb="menu"] *,
+[role="listbox"],
+[role="listbox"] *,
+[role="option"],
+[role="option"] * {
+    background: #0b1022 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea {
+    background: rgba(255,255,255,0.96) !important;
+    color: #101225 !important;
+    -webkit-text-fill-color: #101225 !important;
+}
+
