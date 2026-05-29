@@ -4952,7 +4952,7 @@ def render_skai_v17_no_offer_feed(raw_count):
 
 
 # =========================================================
-# SKAI v21 Offer Intelligence + Beta-Test Helpers
+# SKAI v22 Offer Intelligence + Beta-Test Helpers
 # =========================================================
 
 def skai_v20_clean_offer_product(value):
@@ -5106,7 +5106,7 @@ def render_skai_v20_chain_coverage(nearby_stores, offer_sources, offers_to_show,
     counts = skai_v20_offer_counts_by_chain(offers_to_show)
     parser_map = {result.get("chain", ""): result for result in parser_results or []}
 
-    rows = []
+    chips = []
 
     if nearby_chains:
         for chain in nearby_chains:
@@ -5114,45 +5114,38 @@ def render_skai_v20_chain_coverage(nearby_stores, offer_sources, offers_to_show,
             parser_message = parser_map.get(chain, {}).get("message", "Fonte non controllata in questa sessione.")
             status = "offerte verificate" if clean_count else "controllato · nessun prodotto verificato"
 
-            rows.append(
-                f"""
-                <div class="skai-v20-chain-chip">
-                    <span>{chain}</span>
-                    <strong>{clean_count}</strong>
-                    <p>{status}</p>
-                    <small>{parser_message}</small>
-                </div>
-                """
+            chips.append(
+                '<div class="skai-v20-chain-chip">'
+                f'<span>{html.escape(str(chain))}</span>'
+                f'<strong>{clean_count}</strong>'
+                f'<p>{html.escape(status)}</p>'
+                f'<small>{html.escape(str(parser_message))}</small>'
+                '</div>'
             )
     else:
-        rows.append(
-            """
-            <div class="skai-v20-chain-chip">
-                <span>raggio selezionato</span>
-                <strong>0</strong>
-                <p>nessuna insegna riconosciuta</p>
-                <small>La mappa resta attiva; aumenta il raggio o cambia CAP.</small>
-            </div>
-            """
+        chips.append(
+            '<div class="skai-v20-chain-chip">'
+            '<span>raggio selezionato</span>'
+            '<strong>0</strong>'
+            '<p>nessuna insegna riconosciuta</p>'
+            '<small>La mappa resta attiva; aumenta il raggio o cambia CAP.</small>'
+            '</div>'
         )
 
-    st.markdown(
-        f"""
-        <div class="skai-v20-chain-panel">
-            <div>
-                <span>catene nel raggio selezionato</span>
-                <strong>{len(nearby_chains)} insegne controllate</strong>
-                <p>La mappa mostra tutti i supermercati trovati. Le card offerta appaiono solo se prodotto, prezzo e catena sono leggibili.</p>
-            </div>
-            <div class="skai-v20-chain-grid">
-                {''.join(rows)}
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    html_block = (
+        '<div class="skai-v20-chain-panel">'
+        '<div>'
+        '<span>catene nel raggio selezionato</span>'
+        f'<strong>{len(nearby_chains)} insegne controllate</strong>'
+        '<p>La mappa mostra tutti i supermercati trovati. Le card offerta appaiono solo se prodotto, prezzo e catena sono leggibili.</p>'
+        '</div>'
+        '<div class="skai-v20-chain-grid">'
+        + ''.join(chips) +
+        '</div>'
+        '</div>'
     )
 
-
+    st.markdown(html_block, unsafe_allow_html=True)
 
 if st.session_state.page == "Home":
     planned_count = len(get_meal_plan_recipes(all_recipes))

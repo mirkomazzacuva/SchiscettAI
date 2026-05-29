@@ -104,11 +104,12 @@ def main():
                     "chain_panel": "catene nel raggio" in text.lower(),
                     "map_text": "radar negozi" in text.lower() or "mappa" in text.lower(),
                     "bad_price_only_cards": bad_cards,
+                    "literal_html_visible": "<div class=" in text.lower() or "</div>" in text.lower(),
                 }
 
                 report["checks"].append({
                     "name": "radar_offer_quality",
-                    "passed": radar_checks["chain_panel"] and radar_checks["bad_price_only_cards"] == 0,
+                    "passed": radar_checks["chain_panel"] and radar_checks["bad_price_only_cards"] == 0 and not radar_checks["literal_html_visible"],
                     "details": radar_checks,
                 })
 

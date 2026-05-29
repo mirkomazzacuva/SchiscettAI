@@ -1,15 +1,12 @@
-# SKiscettAI · SKAI Kitchen OS v21
+# SKiscettAI · SKAI Kitchen OS v22
 
-SKAI è un Kitchen OS per pranzo, spesa e negozi.
+## v22 HTML Rendering Fix
 
-## v21 Beta Test Fix
-
-- apertura iniziale su Home
-- QA fast mode per test automatici stabili
-- beta test non dipendono da scraping live o Overpass
-- pannello catene sempre visibile in Radar
-- offerte mostrate solo con prodotto + prezzo + supermercato
-- niente card con solo prezzo
+Correzione mirata:
+- il pannello “catene nel raggio selezionato” non mostra più HTML grezzo
+- le card catena vengono renderizzate come componenti visivi
+- beta test aggiornato per intercettare HTML visibile
+- default Home, sidebar instant navigation, Product Identity Gate e Offer Intelligence mantenuti
 
 ## Avvio
 

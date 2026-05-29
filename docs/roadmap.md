@@ -1,12 +1,11 @@
 # SKAI Roadmap
 
-## v21 Beta Test Fix
+## v22 HTML Rendering Fix
 
-Correzioni:
-- workflow beta test robusto
-- qa_fast per evitare timeout da web scraping durante i test
-- catene nel raggio sempre visibili
-- default Home confermato
+Fix:
+- renderer HTML del pannello catene senza indentazione markdown
+- escape dei testi dinamici
+- QA guard contro tag HTML visibili
 
 Prossimo salto:
 1. parser API/store locator per singola catena
