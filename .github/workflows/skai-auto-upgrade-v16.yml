@@ -1,4 +1,4 @@
-name: SKAI Auto Upgrade v16
+name: SKAI Auto Upgrade v16 Fix
 
 on:
   workflow_dispatch:
@@ -17,6 +17,7 @@ jobs:
       - name: Decode SKAI v16 package
         shell: bash
         run: |
+          set -euo pipefail
           cat > /tmp/skai_v16_package.b64 <<'B64'
 UEsDBBQAAAAAANYDvVwAAAAAAAAAAAAAAAAHAAAAc3R5bGVzL1BLAwQUAAAAAADWA71cAAAAAAAA
 AAAAAAAABQAAAGRhdGEvUEsDBBQAAAAAANYDvVwAAAAAAAAAAAAAAAAFAAAAZG9jcy9QSwMEFAAA
@@ -788,14 +789,15 @@ B64
           mkdir -p /tmp/skai_v16_package
           unzip -o /tmp/skai_v16_package.zip -d /tmp/skai_v16_package
 
-      - name: Apply SKAI v16 files and cleanup obsolete files
+      - name: Apply SKAI v16 files without touching workflow files
         shell: bash
         run: |
           set -euo pipefail
 
-          # Apply optimized files.
           cp -f /tmp/skai_v16_package/app.py app.py
-          mkdir -p styles data docs qa .github/workflows .streamlit
+
+          mkdir -p styles data docs qa .streamlit
+
           cp -f /tmp/skai_v16_package/styles/custom.css styles/custom.css
           cp -f /tmp/skai_v16_package/data/offer_sources.json data/offer_sources.json
           cp -f /tmp/skai_v16_package/README.md README.md
@@ -803,28 +805,55 @@ B64
           cp -f /tmp/skai_v16_package/.streamlit/config.toml .streamlit/config.toml
           cp -f /tmp/skai_v16_package/qa/beta_test_skai.py qa/beta_test_skai.py
           cp -f /tmp/skai_v16_package/qa/requirements-qa.txt qa/requirements-qa.txt
-          cp -f /tmp/skai_v16_package/.github/workflows/skai-beta-test.yml .github/workflows/skai-beta-test.yml
 
-          # Cleanup obsolete generated/demo/backups without touching core data.
+          # Cleanup obsolete generated/demo/backups without touching workflow files.
           rm -rf backup
           rm -rf qa/reports qa/screenshots
-          find . -maxdepth 1 -type f \( -name 'app_*.py' -o -name '*_old.py' -o -name '*_backup.py' -o -name '*_test.py' -o -name 'custom_*.css' -o -name 'cleanup_*.md' -o -name 'offers_*.csv' -o -name 'offers_*.json' \) -delete
-          find data -maxdepth 1 -type f \( -name 'offers*.json' -o -name 'offers*.csv' -o -name 'offer_sources_*v*.json' -o -name 'offer_sources_web_preview_fix.json' -o -name 'offer_sources_no_live_preview.json' \) ! -name 'offer_sources.json' -delete || true
-          find styles -maxdepth 1 -type f \( -name 'custom_old.css' -o -name 'custom_backup.css' -o -name 'custom_*.css' \) ! -name 'custom.css' -delete || true
 
-          # Keep repository clean.
+          find . -maxdepth 1 -type f \( \
+            -name 'app_*.py' -o \
+            -name '*_old.py' -o \
+            -name '*_backup.py' -o \
+            -name '*_test.py' -o \
+            -name 'custom_*.css' -o \
+            -name 'cleanup_*.md' -o \
+            -name 'offers_*.csv' -o \
+            -name 'offers_*.json' \
+          \) -delete
+
+          find data -maxdepth 1 -type f \( \
+            -name 'offers*.json' -o \
+            -name 'offers*.csv' -o \
+            -name 'offer_sources_*v*.json' -o \
+            -name 'offer_sources_web_preview_fix.json' -o \
+            -name 'offer_sources_no_live_preview.json' \
+          \) ! -name 'offer_sources.json' -delete || true
+
+          find styles -maxdepth 1 -type f \( \
+            -name 'custom_old.css' -o \
+            -name 'custom_backup.css' -o \
+            -name 'custom_*.css' \
+          \) ! -name 'custom.css' -delete || true
+
           find . -type d -name '__pycache__' -prune -exec rm -rf {} +
+
+          echo "Changed files:"
+          git status --short
 
       - name: Commit and push
         shell: bash
         run: |
           set -euo pipefail
+
           git config user.name "SKAI Auto Upgrade"
           git config user.email "actions@github.com"
+
           git add -A
+
           if git diff --cached --quiet; then
             echo "No changes to commit."
-          else
-            git commit -m "Ship SKAI Kitchen OS v16"
-            git push
+            exit 0
           fi
+
+          git commit -m "Ship SKAI Kitchen OS v16"
+          git push
