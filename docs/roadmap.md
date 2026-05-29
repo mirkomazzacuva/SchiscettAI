@@ -1,15 +1,14 @@
 # SKAI Roadmap
 
-## v28 Visual Flyer Fallback
+## v30 Radar Hotfix
 
-Implementato:
-- visual flyer fallback per Conad, PAM, Lidl, Eurospin, Esselunga, MD
-- fallback statico per Coop
-- link fonti per PENNY/Carrefour
-- conserva Product Identity Gate
+Fix:
+- hotfix definitivo per `parser_url_for_chain`
+- test `radar_boot_parser_selection` non dipende da siti esterni
+- test UI/bottoni invariati
 
 Prossimo salto:
 1. OCR controllato sulle immagini volantino
 2. parser ShopFully publication_pages
-3. estrazione prezzo al kg/litro
-4. matching offerte con lista spesa per negozio
+3. prezzo al kg/litro
+4. matching offerte con lista spesa

@@ -1,19 +1,14 @@
-# SKiscettAI · SKAI Kitchen OS v28
+# SKiscettAI · SKAI Kitchen OS v30
 
-## v28 Visual Flyer Fallback
+## v30 Radar Hotfix definitivo
 
-Dai report v27:
-- PENNY: prodotto+prezzo testuale
-- Carrefour: prodotto+prezzo testuale via fallback
-- Eurospin: prodotto+prezzo testuale via fallback
-- Coop/Conad/PAM/Lidl/Esselunga/MD: spesso offerte in immagini/API viewer
-
-v28 aggiunge una soluzione utile subito:
-- card testuali quando prodotto+prezzo sono affidabili
-- volantini visuali per le catene dove il testo non è estraibile
-- l'utente vede comunque prodotto, prezzo e supermercato nella pagina volantino
-- niente card inventate o con solo prezzo
-- deep audit mantenuto per costruire parser futuri
+Correzione urgente:
+- `parser_url_for_chain` presente
+- `chains_with_parser_enabled` presente
+- SKAI Radar non crasha più in modalità normale
+- QA `qa_boot=1`: esegue la selezione parser ma salta fetch esterne lente
+- il workflow controlla anche via grep che la funzione esista
+- v28 visual flyers e v26 multi-source offers mantenuti
 
 ## Avvio
 

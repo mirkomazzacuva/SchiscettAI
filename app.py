@@ -1474,6 +1474,48 @@ def source_filter_label():
 
 
 
+
+# =========================================================
+# SKAI v30 Parser Compatibility Hotfix
+# =========================================================
+
+def parser_url_for_chain(chain, offer_sources):
+    """Return the configured parser URL for a supermarket chain.
+
+    This function is intentionally defined near the parser selection code because
+    SKAI Radar uses it before web parsing starts. It must exist even when QA fast
+    mode disables scraping.
+    """
+    chain_norm = normalize_for_match(chain)
+
+    for source in offer_sources or []:
+        source_chain = source.get("chain", "")
+        aliases = source.get("aliases", [])
+        candidates = [source_chain] + aliases
+
+        for candidate in candidates:
+            if normalize_for_match(candidate) == chain_norm:
+                return source.get("url", "")
+
+    return ""
+
+
+def chains_with_parser_enabled(nearby_stores, offer_sources):
+    chains = []
+
+    for store in nearby_stores or []:
+        chain = infer_store_chain_v2(store, offer_sources)
+        if chain and chain != "Altro" and chain not in chains and parser_url_for_chain(chain, offer_sources):
+            chains.append(chain)
+
+    priority = ["Coop", "Conad", "PAM", "PENNY", "Lidl", "Eurospin", "Carrefour", "MD", "Esselunga"]
+
+    return sorted(
+        chains,
+        key=lambda chain: priority.index(chain) if chain in priority else 99,
+    )
+
+
 def skai_parser_chain_candidates(nearby_stores, offer_sources, minimum=5):
     """Return parser chains to check.
     First use chains actually found nearby, then top configured sources so the app
@@ -5154,6 +5196,11 @@ try:
 except Exception:
     skai_qa_fast = False
 
+try:
+    skai_qa_boot = str(st.query_params.get("qa_boot", "")).lower() in ["1", "true", "yes"]
+except Exception:
+    skai_qa_boot = False
+
 st.sidebar.markdown(
     """
     <div class="skai-sidebar-brand">
@@ -6244,7 +6291,7 @@ elif st.session_state.page == "SKAI Radar":
         st.info("CAP non riconosciuto: uso Siena come fallback per non bloccarti.")
 
     with st.spinner("SKAI sta preparando ricette, mappa e dati puliti..."):
-        if skai_qa_fast:
+        if skai_qa_fast or skai_qa_boot:
             discovered_stores_raw = []
         else:
             try:
@@ -6268,17 +6315,30 @@ elif st.session_state.page == "SKAI Radar":
             radius_km,
         )
 
-        if use_web_parsers:
+        if use_web_parsers or skai_qa_boot:
             parser_chains = skai_parser_chain_candidates(
                 nearby_stores,
                 offer_sources_data,
                 minimum=6,
             )
-            parser_results, web_offers = fetch_multi_chain_offers_v1(
-                parser_chains,
-                offer_sources_data,
-                max_chains=6,
-            )
+
+            if skai_qa_boot:
+                parser_results = [
+                    {
+                        "chain": chain,
+                        "ok": True,
+                        "message": "QA boot: parser selection OK, external fetch skipped.",
+                        "offers": [],
+                    }
+                    for chain in parser_chains
+                ]
+                web_offers = []
+            else:
+                parser_results, web_offers = fetch_multi_chain_offers_v1(
+                    parser_chains,
+                    offer_sources_data,
+                    max_chains=6,
+                )
         else:
             parser_chains = []
             parser_results = []

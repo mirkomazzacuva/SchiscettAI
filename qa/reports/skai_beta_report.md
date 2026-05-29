@@ -2,6 +2,7 @@
 
 ## Page checks
 - ✅ default_opens_home
+- ✅ radar_boot_parser_selection
 - ✅ sidebar_one_click_home
 - ✅ sidebar_one_click_crea
 - ✅ sidebar_one_click_radar

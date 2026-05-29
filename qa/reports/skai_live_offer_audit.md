@@ -2,7 +2,7 @@
 
 - ✅ PENNY · best_pairs=20 · https://www.penny.it/offerte
   - 20 pairs · status=200 · https://www.penny.it/offerte · 
-  - 0 pairs · status=200 · https://www.promoqui.it/volantino/penny-market · 
+  - 0 pairs · status=None · https://www.promoqui.it/volantino/penny-market · The read operation timed out
   - 0 pairs · status=200 · https://zonavolantini.com/penny · 
 - ⚠️ Coop · best_pairs=0 · https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci
   - 0 pairs · status=200 · https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci · 

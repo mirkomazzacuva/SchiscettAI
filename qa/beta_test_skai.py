@@ -199,6 +199,28 @@ def main():
                 "passed": any(marker.lower() in default_text.lower() for marker in ["Pranzo smart", "Kitchen OS", "SKiscettAI"]) and not has_error(default_text),
             })
 
+            # Radar parser-selection smoke test: qa_boot runs parser selection but skips slow external fetch.
+            # This catches missing symbols such as parser_url_for_chain before deployment.
+            try:
+                page.goto(page_url(args.url, "radar", qa_fast=False, extra={"qa_boot": "1"}), wait_until="domcontentloaded", timeout=60000)
+                radar_live_text = wait_app(page, ["Radar negozi", "catene nel raggio", "Mission Control"], timeout_loops=35)
+                page.screenshot(path=shots / "radar_boot_parser_selection.png", full_page=True)
+                report["checks"].append({
+                    "name": "radar_boot_parser_selection",
+                    "passed": ("radar negozi" in radar_live_text.lower() or "catene nel raggio" in radar_live_text.lower()) and not has_error(radar_live_text),
+                    "text_length": len(radar_live_text),
+                })
+            except Exception as error:
+                report["checks"].append({
+                    "name": "radar_boot_parser_selection",
+                    "passed": False,
+                    "error": str(error),
+                })
+                try:
+                    page.screenshot(path=shots / "radar_boot_parser_selection_fail.png", full_page=True)
+                except Exception:
+                    pass
+
             # Sidebar one-click navigation is the dedicated navigation test.
             for page_name, slug, expected_markers in PAGES:
                 try:
