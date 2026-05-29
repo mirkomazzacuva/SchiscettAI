@@ -3402,6 +3402,137 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
 load_css("styles/custom.css")
 st.markdown("""<style>
 /* =========================================================
+   SKAI v23 — Brighter premium UI + button QA layer
+   ========================================================= */
+
+:root {
+    --skai-v23-bg: #09131f;
+    --skai-v23-panel: rgba(255,255,255,0.125);
+    --skai-v23-panel-soft: rgba(255,255,255,0.085);
+    --skai-v23-border: rgba(255,255,255,0.18);
+    --skai-v23-text: #ffffff;
+    --skai-v23-muted: rgba(255,255,255,0.76);
+}
+
+.stApp {
+    background:
+        radial-gradient(circle at 8% 8%, rgba(49,247,255,0.26), transparent 28%),
+        radial-gradient(circle at 86% 12%, rgba(255,79,216,0.22), transparent 34%),
+        radial-gradient(circle at 46% 92%, rgba(157,255,122,0.18), transparent 36%),
+        linear-gradient(135deg, #08111d 0%, #102235 46%, #1b0f2e 100%) !important;
+}
+
+.block-container {
+    max-width: 1200px !important;
+}
+
+.skai-os-hero,
+.skai-os-panel,
+.skai-os-result-card,
+.skai-os-store-card,
+.skai-os-shopping-card,
+.skai-v18-home,
+.skai-v18-card,
+.skai-v20-chain-panel,
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.145), rgba(255,255,255,0.065)) !important;
+    border-color: rgba(255,255,255,0.19) !important;
+    box-shadow: 0 22px 74px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.16) !important;
+}
+
+.skai-v18-home {
+    min-height: 475px !important;
+}
+
+.skai-v18-title,
+.skai-os-title {
+    text-shadow: 0 0 42px rgba(49,247,255,0.22), 0 8px 30px rgba(0,0,0,0.28) !important;
+}
+
+.skai-v18-subtitle,
+.skai-os-subtitle,
+.skai-v18-card p,
+.skai-v20-chain-panel p,
+.skai-os-recipe-desc,
+.skai-os-step span {
+    color: rgba(255,255,255,0.80) !important;
+}
+
+.skai-v20-chain-chip,
+.skai-v18-score,
+.skai-v18-tile,
+.skai-os-step,
+.skai-os-mission-card {
+    background: rgba(255,255,255,0.10) !important;
+    border-color: rgba(255,255,255,0.17) !important;
+}
+
+[data-testid="stSidebar"] {
+    background:
+        radial-gradient(circle at 0% 0%, rgba(49,247,255,0.18), transparent 35%),
+        linear-gradient(180deg, rgba(12,18,34,0.98), rgba(18,12,32,0.98)) !important;
+}
+
+[data-testid="stSidebar"] .stButton > button {
+    background: rgba(255,255,255,0.09) !important;
+    border-color: rgba(255,255,255,0.16) !important;
+}
+
+.skai-v19-nav-active {
+    background:
+        linear-gradient(90deg, rgba(49,247,255,0.30), rgba(157,255,122,0.21)),
+        rgba(255,255,255,0.11) !important;
+}
+
+.stButton > button {
+    box-shadow: 0 12px 36px rgba(49,247,255,0.20) !important;
+}
+
+[data-testid="stMetric"] {
+    background:
+        linear-gradient(145deg, rgba(49,247,255,0.16), rgba(255,79,216,0.10)) !important;
+}
+
+/* Make Radar less tall before useful content */
+.skai-os-shell {
+    margin-top: 0.05rem !important;
+    margin-bottom: 0.55rem !important;
+}
+
+.skai-os-hero {
+    min-height: 235px !important;
+    padding: 0.95rem !important;
+}
+
+.skai-os-title {
+    font-size: clamp(2rem, 4.1vw, 4.1rem) !important;
+}
+
+.skai-os-panel {
+    padding: 0.82rem !important;
+}
+
+.skai-os-step {
+    padding: 0.62rem !important;
+    margin-bottom: 0.42rem !important;
+}
+
+.skai-os-step-number {
+    min-width: 1.72rem !important;
+    height: 1.72rem !important;
+}
+
+.skai-os-step span {
+    font-size: 0.82rem !important;
+}
+
+.skai-v23-qa-safe {
+    display: none;
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
    SKAI v20 — Offer Intelligence + QA
    ========================================================= */
 
@@ -4952,7 +5083,7 @@ def render_skai_v17_no_offer_feed(raw_count):
 
 
 # =========================================================
-# SKAI v22 Offer Intelligence + Beta-Test Helpers
+# SKAI v23 Offer Intelligence + Beta-Test Helpers
 # =========================================================
 
 def skai_v20_clean_offer_product(value):

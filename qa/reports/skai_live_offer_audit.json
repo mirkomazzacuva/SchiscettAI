@@ -1,0 +1,78 @@
+{
+  "generated_at": "2026-05-29T10:36:18.745599+00:00",
+  "note": "Non-blocking audit: segnala quali fonti sembrano esporre prodotto+prezzo leggibili.",
+  "sources": [
+    {
+      "chain": "PENNY",
+      "url": "https://www.penny.it/offerte",
+      "ok": true,
+      "status": 200,
+      "rough_pairs": 20,
+      "error": ""
+    },
+    {
+      "chain": "Coop",
+      "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
+      "ok": false,
+      "status": 200,
+      "rough_pairs": 0,
+      "error": ""
+    },
+    {
+      "chain": "Conad",
+      "url": "https://www.conad.it/app-internal/home_leaflets",
+      "ok": false,
+      "status": 200,
+      "rough_pairs": 0,
+      "error": ""
+    },
+    {
+      "chain": "PAM",
+      "url": "https://www.pampanorama.it/",
+      "ok": false,
+      "status": 200,
+      "rough_pairs": 0,
+      "error": ""
+    },
+    {
+      "chain": "Lidl",
+      "url": "https://www.lidl.it/c/offerte/c10026788",
+      "ok": false,
+      "status": null,
+      "rough_pairs": 0,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "chain": "Eurospin",
+      "url": "https://www.eurospin.it/volantino/",
+      "ok": false,
+      "status": 200,
+      "rough_pairs": 0,
+      "error": ""
+    },
+    {
+      "chain": "Esselunga",
+      "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
+      "ok": false,
+      "status": null,
+      "rough_pairs": 0,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "chain": "Carrefour",
+      "url": "https://www.carrefour.it/promozioni/",
+      "ok": false,
+      "status": 200,
+      "rough_pairs": 0,
+      "error": ""
+    },
+    {
+      "chain": "MD",
+      "url": "https://www.mdspa.it/volantino/",
+      "ok": false,
+      "status": 200,
+      "rough_pairs": 0,
+      "error": ""
+    }
+  ]
+}

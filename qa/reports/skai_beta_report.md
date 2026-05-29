@@ -1,10 +1,84 @@
 # SKAI Beta Test Report
 
+## Page checks
 - ✅ default_opens_home
+- ✅ sidebar_one_click_home
+- ✅ sidebar_one_click_crea
+- ✅ sidebar_one_click_radar
+- ✅ sidebar_one_click_ricette
+- ✅ sidebar_one_click_lista
+- ✅ sidebar_one_click_meal
+- ✅ sidebar_one_click_preferiti
 - ✅ open_home
+- ✅ open_crea
 - ✅ open_radar
 - ✅ radar_offer_quality
 - ✅ open_ricette
 - ✅ open_lista
 - ✅ open_meal
 - ✅ open_preferiti
+
+## Button smoke tests
+- ✅ Home · Apri Copilot
+- ✅ Home · Apri Meal plan
+- ✅ Home · Esplora ricette
+- ✅ Crea SKiscetta · Genera la mia SKiscetta
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Ricette · Salva
+- ✅ Lista spesa · Aggiungi extra
+- ✅ Preferiti · Vai al catalogo
+
+## Skipped buttons
+- ⏭️ Home · keyboard_double_arrow_left · sidebar/navigation tested separately
+- ⏭️ Home · 🥗 Crea SKiscetta · sidebar/navigation tested separately
+- ⏭️ Home · ⚡ SKAI Radar · sidebar/navigation tested separately
+- ⏭️ Home · 📚 Ricette · sidebar/navigation tested separately
+- ⏭️ Home · 🛒 Lista spesa · sidebar/navigation tested separately
+- ⏭️ Home · 📅 Meal plan · sidebar/navigation tested separately
+- ⏭️ Home · ⭐ Preferiti · sidebar/navigation tested separately
+- ⏭️ Crea SKiscetta · 🏠 Home · sidebar/navigation tested separately
+- ⏭️ Crea SKiscetta · ⚡ SKAI Radar · sidebar/navigation tested separately
+- ⏭️ Crea SKiscetta · 📚 Ricette · sidebar/navigation tested separately
+- ⏭️ Crea SKiscetta · 🛒 Lista spesa · sidebar/navigation tested separately
+- ⏭️ Crea SKiscetta · 📅 Meal plan · sidebar/navigation tested separately
+- ⏭️ Crea SKiscetta · ⭐ Preferiti · sidebar/navigation tested separately
+- ⏭️ SKAI Radar · 🏠 Home · sidebar/navigation tested separately
+- ⏭️ SKAI Radar · 🥗 Crea SKiscetta · sidebar/navigation tested separately
+- ⏭️ SKAI Radar · 📚 Ricette · sidebar/navigation tested separately
+- ⏭️ SKAI Radar · 🛒 Lista spesa · sidebar/navigation tested separately
+- ⏭️ SKAI Radar · 📅 Meal plan · sidebar/navigation tested separately
+- ⏭️ SKAI Radar · ⭐ Preferiti · sidebar/navigation tested separately
+- ⏭️ Ricette · 🏠 Home · sidebar/navigation tested separately
+- ⏭️ Ricette · 🥗 Crea SKiscetta · sidebar/navigation tested separately
+- ⏭️ Ricette · ⚡ SKAI Radar · sidebar/navigation tested separately
+- ⏭️ Ricette · 🛒 Lista spesa · sidebar/navigation tested separately
+- ⏭️ Ricette · 📅 Meal plan · sidebar/navigation tested separately
+- ⏭️ Ricette · ⭐ Preferiti · sidebar/navigation tested separately
+- ⏭️ Lista spesa · 🏠 Home · sidebar/navigation tested separately
+- ⏭️ Lista spesa · 🥗 Crea SKiscetta · sidebar/navigation tested separately
+- ⏭️ Lista spesa · ⚡ SKAI Radar · sidebar/navigation tested separately
+- ⏭️ Lista spesa · 📚 Ricette · sidebar/navigation tested separately
+- ⏭️ Lista spesa · 📅 Meal plan · sidebar/navigation tested separately
+- ⏭️ Lista spesa · ⭐ Preferiti · sidebar/navigation tested separately
+- ⏭️ Meal plan · 🏠 Home · sidebar/navigation tested separately
+- ⏭️ Meal plan · 🥗 Crea SKiscetta · sidebar/navigation tested separately
+- ⏭️ Meal plan · ⚡ SKAI Radar · sidebar/navigation tested separately
+- ⏭️ Meal plan · 📚 Ricette · sidebar/navigation tested separately
+- ⏭️ Meal plan · 🛒 Lista spesa · sidebar/navigation tested separately
+- ⏭️ Meal plan · ⭐ Preferiti · sidebar/navigation tested separately
+- ⏭️ Preferiti · 🏠 Home · sidebar/navigation tested separately
+- ⏭️ Preferiti · 🥗 Crea SKiscetta · sidebar/navigation tested separately
+- ⏭️ Preferiti · ⚡ SKAI Radar · sidebar/navigation tested separately
+- ⏭️ Preferiti · 📚 Ricette · sidebar/navigation tested separately
+- ⏭️ Preferiti · 🛒 Lista spesa · sidebar/navigation tested separately
+- ⏭️ Preferiti · 📅 Meal plan · sidebar/navigation tested separately

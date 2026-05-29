@@ -1,12 +1,15 @@
-# SKiscettAI · SKAI Kitchen OS v22
+# SKiscettAI · SKAI Kitchen OS v25
 
-## v22 HTML Rendering Fix
+## v25 Corrected Button QA
 
-Correzione mirata:
-- il pannello “catene nel raggio selezionato” non mostra più HTML grezzo
-- le card catena vengono renderizzate come componenti visivi
-- beta test aggiornato per intercettare HTML visibile
-- default Home, sidebar instant navigation, Product Identity Gate e Offer Intelligence mantenuti
+Questa release mantiene l'app v24 ma corregge il beta test:
+
+- sidebar testata separatamente con one-click navigation
+- bottoni della sidebar esclusi dal generic button smoke test
+- generic button smoke test applicato ai bottoni del contenuto principale
+- report QA sempre generato
+- live offer audit non bloccante
+- UI più chiara e Product Identity Gate mantenuti
 
 ## Avvio
 

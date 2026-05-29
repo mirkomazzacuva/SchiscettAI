@@ -1,22 +1,72 @@
 {
   "url": "http://localhost:8501",
-  "generated_at": "2026-05-29T09:56:31.854037+00:00",
+  "generated_at": "2026-05-29T10:35:06.592494+00:00",
   "checks": [
     {
       "name": "default_opens_home",
       "passed": true
     },
     {
+      "name": "sidebar_one_click_home",
+      "page": "Home",
+      "passed": true
+    },
+    {
+      "name": "sidebar_one_click_crea",
+      "page": "Crea SKiscetta",
+      "passed": true,
+      "text_length": 1689
+    },
+    {
+      "name": "sidebar_one_click_radar",
+      "page": "SKAI Radar",
+      "passed": true,
+      "text_length": 2654
+    },
+    {
+      "name": "sidebar_one_click_ricette",
+      "page": "Ricette",
+      "passed": true,
+      "text_length": 1689
+    },
+    {
+      "name": "sidebar_one_click_lista",
+      "page": "Lista spesa",
+      "passed": true,
+      "text_length": 1067
+    },
+    {
+      "name": "sidebar_one_click_meal",
+      "page": "Meal plan",
+      "passed": true,
+      "text_length": 1689
+    },
+    {
+      "name": "sidebar_one_click_preferiti",
+      "page": "Preferiti",
+      "passed": true,
+      "text_length": 1689
+    },
+    {
       "name": "open_home",
       "page": "Home",
       "passed": true,
-      "text_length": 1689
+      "text_length": 1689,
+      "literal_html_ok": true
+    },
+    {
+      "name": "open_crea",
+      "page": "Crea SKiscetta",
+      "passed": true,
+      "text_length": 693,
+      "literal_html_ok": true
     },
     {
       "name": "open_radar",
       "page": "SKAI Radar",
       "passed": true,
-      "text_length": 2654
+      "text_length": 2627,
+      "literal_html_ok": true
     },
     {
       "name": "radar_offer_quality",
@@ -32,27 +82,518 @@
       "name": "open_ricette",
       "page": "Ricette",
       "passed": true,
-      "text_length": 7683
+      "text_length": 6068,
+      "literal_html_ok": true
     },
     {
       "name": "open_lista",
       "page": "Lista spesa",
       "passed": true,
-      "text_length": 635
+      "text_length": 608,
+      "literal_html_ok": true
     },
     {
       "name": "open_meal",
       "page": "Meal plan",
       "passed": true,
-      "text_length": 733
+      "text_length": 706,
+      "literal_html_ok": true
     },
     {
       "name": "open_preferiti",
       "page": "Preferiti",
       "passed": true,
-      "text_length": 442
+      "text_length": 415,
+      "literal_html_ok": true
+    }
+  ],
+  "button_checks": [
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 7,
+      "label": "Apri Copilot",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 1662
+    },
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 8,
+      "label": "Apri Meal plan",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 1662
+    },
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 9,
+      "label": "Esplora ricette",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 1662
+    },
+    {
+      "page": "Crea SKiscetta",
+      "slug": "crea",
+      "button_index": 7,
+      "label": "Genera la mia SKiscetta",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 727
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 7,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 8,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 9,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 10,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 11,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 12,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 13,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 14,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 15,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 16,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 17,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 18,
+      "label": "Salva",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 7688
+    },
+    {
+      "page": "Lista spesa",
+      "slug": "lista",
+      "button_index": 7,
+      "label": "Aggiungi extra",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 608
+    },
+    {
+      "page": "Preferiti",
+      "slug": "preferiti",
+      "button_index": 7,
+      "label": "Vai al catalogo",
+      "clicked": true,
+      "passed": true,
+      "error": "",
+      "after_text_length": 415
+    }
+  ],
+  "skipped_buttons": [
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 0,
+      "label": "keyboard_double_arrow_left",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 1,
+      "label": "🥗 Crea SKiscetta",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 2,
+      "label": "⚡ SKAI Radar",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 3,
+      "label": "📚 Ricette",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 4,
+      "label": "🛒 Lista spesa",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 5,
+      "label": "📅 Meal plan",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Home",
+      "slug": "home",
+      "button_index": 6,
+      "label": "⭐ Preferiti",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Crea SKiscetta",
+      "slug": "crea",
+      "button_index": 1,
+      "label": "🏠 Home",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Crea SKiscetta",
+      "slug": "crea",
+      "button_index": 2,
+      "label": "⚡ SKAI Radar",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Crea SKiscetta",
+      "slug": "crea",
+      "button_index": 3,
+      "label": "📚 Ricette",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Crea SKiscetta",
+      "slug": "crea",
+      "button_index": 4,
+      "label": "🛒 Lista spesa",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Crea SKiscetta",
+      "slug": "crea",
+      "button_index": 5,
+      "label": "📅 Meal plan",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Crea SKiscetta",
+      "slug": "crea",
+      "button_index": 6,
+      "label": "⭐ Preferiti",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "SKAI Radar",
+      "slug": "radar",
+      "button_index": 1,
+      "label": "🏠 Home",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "SKAI Radar",
+      "slug": "radar",
+      "button_index": 2,
+      "label": "🥗 Crea SKiscetta",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "SKAI Radar",
+      "slug": "radar",
+      "button_index": 3,
+      "label": "📚 Ricette",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "SKAI Radar",
+      "slug": "radar",
+      "button_index": 4,
+      "label": "🛒 Lista spesa",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "SKAI Radar",
+      "slug": "radar",
+      "button_index": 5,
+      "label": "📅 Meal plan",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "SKAI Radar",
+      "slug": "radar",
+      "button_index": 6,
+      "label": "⭐ Preferiti",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 1,
+      "label": "🏠 Home",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 2,
+      "label": "🥗 Crea SKiscetta",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 3,
+      "label": "⚡ SKAI Radar",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 4,
+      "label": "🛒 Lista spesa",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 5,
+      "label": "📅 Meal plan",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Ricette",
+      "slug": "ricette",
+      "button_index": 6,
+      "label": "⭐ Preferiti",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Lista spesa",
+      "slug": "lista",
+      "button_index": 1,
+      "label": "🏠 Home",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Lista spesa",
+      "slug": "lista",
+      "button_index": 2,
+      "label": "🥗 Crea SKiscetta",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Lista spesa",
+      "slug": "lista",
+      "button_index": 3,
+      "label": "⚡ SKAI Radar",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Lista spesa",
+      "slug": "lista",
+      "button_index": 4,
+      "label": "📚 Ricette",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Lista spesa",
+      "slug": "lista",
+      "button_index": 5,
+      "label": "📅 Meal plan",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Lista spesa",
+      "slug": "lista",
+      "button_index": 6,
+      "label": "⭐ Preferiti",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Meal plan",
+      "slug": "meal",
+      "button_index": 1,
+      "label": "🏠 Home",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Meal plan",
+      "slug": "meal",
+      "button_index": 2,
+      "label": "🥗 Crea SKiscetta",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Meal plan",
+      "slug": "meal",
+      "button_index": 3,
+      "label": "⚡ SKAI Radar",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Meal plan",
+      "slug": "meal",
+      "button_index": 4,
+      "label": "📚 Ricette",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Meal plan",
+      "slug": "meal",
+      "button_index": 5,
+      "label": "🛒 Lista spesa",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Meal plan",
+      "slug": "meal",
+      "button_index": 6,
+      "label": "⭐ Preferiti",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Preferiti",
+      "slug": "preferiti",
+      "button_index": 1,
+      "label": "🏠 Home",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Preferiti",
+      "slug": "preferiti",
+      "button_index": 2,
+      "label": "🥗 Crea SKiscetta",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Preferiti",
+      "slug": "preferiti",
+      "button_index": 3,
+      "label": "⚡ SKAI Radar",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Preferiti",
+      "slug": "preferiti",
+      "button_index": 4,
+      "label": "📚 Ricette",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Preferiti",
+      "slug": "preferiti",
+      "button_index": 5,
+      "label": "🛒 Lista spesa",
+      "reason": "sidebar/navigation tested separately"
+    },
+    {
+      "page": "Preferiti",
+      "slug": "preferiti",
+      "button_index": 6,
+      "label": "📅 Meal plan",
+      "reason": "sidebar/navigation tested separately"
     }
   ],
   "errors": [],
-  "failed": []
+  "fatal_error": "",
+  "failed": [],
+  "failed_buttons": []
 }

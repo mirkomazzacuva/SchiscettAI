@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.penny.it/offerte",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "PENNY"
   },
   {
@@ -25,10 +25,10 @@
       "unicoop firenze",
       "unicoop tirreno"
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "Coop"
   },
   {
@@ -41,10 +41,10 @@
       "sapori e dintorni",
       "sapori e dintorni conad"
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.conad.it/app-internal/home_leaflets",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "Conad"
   },
   {
@@ -56,10 +56,10 @@
       "panorama",
       "supermercati pam"
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.pampanorama.it/",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "PAM"
   },
   {
@@ -68,10 +68,10 @@
       "lidl",
       "lidl italia"
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.lidl.it/c/offerte/c10026788",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "Lidl"
   },
   {
@@ -80,10 +80,10 @@
       "eurospin",
       "eurospin italia"
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.eurospin.it/volantino/",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "Eurospin"
   },
   {
@@ -91,10 +91,10 @@
     "aliases": [
       "esselunga"
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "Esselunga"
   },
   {
@@ -105,10 +105,10 @@
       "carrefour market",
       "iper carrefour"
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.carrefour.it/promozioni/",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "Carrefour"
   },
   {
@@ -118,10 +118,10 @@
       "md discount",
       "md supermercati"
     ],
-    "mode": "skai_kitchen_os_v22",
+    "mode": "skai_kitchen_os_v25",
     "url": "https://www.mdspa.it/volantino/",
-    "status": "offer_intelligence_v22",
-    "notes": "Offer Intelligence v22: HTML rendering fix for chain coverage panel + QA literal-HTML guard.",
+    "status": "offer_intelligence_v25",
+    "notes": "Offer Intelligence v25: corrected button QA; sidebar tested separately, main buttons smoke-tested.",
     "parser_profile": "MD"
   }
 ]
