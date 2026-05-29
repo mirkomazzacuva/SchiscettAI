@@ -1081,6 +1081,133 @@ def split_offer_quality(offers):
 
 
 
+
+# =========================================================
+# SKAI v14 Product Identity Gate
+# =========================================================
+
+PRODUCT_WORDS = [
+    "pollo", "tacchino", "manzo", "bresaola", "prosciutto", "tonno", "salmone", "merluzzo",
+    "uova", "latte", "yogurt", "formaggio", "mozzarella", "ricotta", "feta", "parmigiano",
+    "pasta", "spaghetti", "penne", "fusilli", "riso", "basmati", "farro", "orzo", "couscous",
+    "pane", "piadina", "wrap", "cracker", "cereali", "avena",
+    "zucchine", "carote", "pomodori", "pomodoro", "insalata", "melanzane", "peperoni",
+    "patate", "cipolle", "spinaci", "broccoli", "funghi", "legumi", "ceci", "fagioli",
+    "lenticchie", "piselli", "olio", "passata", "pesto", "sugo", "caffè", "acqua",
+    "banana", "mele", "arance", "limoni", "fragole", "frutta",
+]
+
+BAD_PRODUCT_HINTS = [
+    "prezzo", "peso", "confezione", "codice", "promozionale", "volantino",
+    "fino al", "scopri", "carrello", "newsletter", "privacy", "cookie",
+    "registrati", "login", "punti vendita", "servizio clienti", "termini",
+    "condizioni", "javascript", "facebook", "instagram", "whatsapp",
+    "totale", "iva", "euro", "eur", "kg", "litro",
+]
+
+
+def skai_clean_product_title(value):
+    text = html.unescape(str(value or ""))
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"https?://\\S+", " ", text)
+    text = re.sub(r"\\b\\d{1,2}/\\d{1,2}/\\d{2,4}\\b", " ", text)
+    text = re.sub(r"\\b\\d{1,3}[,.]\\d{2}\\s*€?\\b", " ", text)
+    text = re.sub(r"\\s+", " ", text).strip(" -–—|•·:,;")
+
+    # Cut common web fragments.
+    for sep in [" Aggiungi", " Scopri", " Fino al", " Prezzo", " Peso", " Codice"]:
+        if sep in text:
+            text = text.split(sep)[0].strip()
+
+    return text[:88].strip()
+
+
+def skai_product_identity_score(value):
+    product = skai_clean_product_title(value)
+    low = normalize_text(product)
+
+    if not product:
+        return 0
+
+    if any(hint in low for hint in BAD_PRODUCT_HINTS):
+        return 0
+
+    words = re.findall(r"[a-zA-ZàèéìòùÀÈÉÌÒÙ]{3,}", product)
+
+    if len(words) < 2:
+        return 0
+
+    score = 1
+
+    if any(word in low for word in PRODUCT_WORDS):
+        score += 2
+
+    if len(words) >= 3:
+        score += 1
+
+    # Brand + product pattern, common in grocery cards.
+    if any(word[:1].isupper() for word in words):
+        score += 1
+
+    return score
+
+
+def skai_offer_has_product_identity(offer):
+    product = offer.get("product_name", "")
+    return skai_product_identity_score(product) >= 2
+
+
+def skai_offer_quality_reason(offer):
+    product = skai_clean_product_title(offer.get("product_name", ""))
+    price = parse_price(offer.get("price", None))
+
+    if price is None:
+        return "prezzo non valido"
+
+    if not product:
+        return "prodotto assente"
+
+    if skai_product_identity_score(product) < 2:
+        return "prodotto non abbastanza leggibile"
+
+    return "ok"
+
+
+def split_offer_quality_v14(offers):
+    clean = []
+    raw = []
+
+    for offer in offers:
+        if is_offer_displayable(offer) and skai_offer_has_product_identity(offer):
+            item = dict(offer)
+            item["product_name"] = skai_clean_product_title(item.get("product_name", ""))
+            clean.append(item)
+        else:
+            item = dict(offer)
+            item["quality_reason"] = skai_offer_quality_reason(item)
+            raw.append(item)
+
+    return clean, raw
+
+
+def render_skai_quality_notice(raw_count, clean_count):
+    if clean_count > 0:
+        return
+
+    if raw_count <= 0:
+        st.info("Nessuna offerta web pulita trovata ora. Puoi comunque usare mappa, ricette e piano spesa.")
+        return
+
+    st.markdown(
+        f"""
+        <div class="skai-v14-quality-card">
+            <strong>Ho nascosto {raw_count} prezzi non leggibili.</strong>
+            <p>I parser hanno trovato prezzi, ma non un nome prodotto affidabile. Meglio non mostrarti numeri senza sapere cosa stai comprando.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
 def skai_chain_summary(offers):
     summary = {}
 
@@ -1142,12 +1269,13 @@ def skai_format_money(value):
 def render_skai_offer_card(offer, index):
     chain = offer.get("chain", offer.get("chain_inferred", "Web")) or "Web"
     price = skai_format_money(offer.get("price", ""))
-    product = clean_display_product_name(offer.get("product_name", ""))
+    product = skai_clean_product_title(offer.get("product_name", ""))
     ingredient = offer.get("ingredient", "")
     origin = format_offer_origin(offer.get("origin", "web")) if "format_offer_origin" in globals() else "web"
 
-    if not product or is_bad_offer_text(product):
-        product = f"Offerta {chain} da verificare sul volantino"
+    if skai_product_identity_score(product) < 2:
+        # Never show a price card without a credible product identity.
+        return
 
     st.markdown(
         f"""
@@ -2687,6 +2815,260 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
 
 load_css("styles/custom.css")
 
+st.markdown("""
+<style>
+
+/* =========================================================
+   SKAI v14 — app-only premium overrides
+   ========================================================= */
+
+.skai-v14-hero {
+    margin: 0.05rem 0 0.55rem 0;
+    padding: 0.75rem 0.95rem;
+    border-radius: 18px;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035)),
+        radial-gradient(circle at 14% 0%, rgba(40,248,255,0.18), transparent 34%);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+    backdrop-filter: blur(22px);
+}
+
+.skai-v14-hero span {
+    display: block;
+    color: #5dffbf;
+    font-size: 0.72rem;
+    font-weight: 1000;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.15rem;
+}
+
+.skai-v14-hero h1 {
+    margin: 0 !important;
+    font-size: clamp(1.7rem, 3vw, 2.55rem) !important;
+    line-height: 1 !important;
+    letter-spacing: -0.065em !important;
+}
+
+.skai-v14-hero p {
+    margin: 0.35rem 0 0 0 !important;
+    color: rgba(255,255,255,0.78) !important;
+    font-weight: 800;
+    font-size: 0.92rem;
+}
+
+.skai-v14-mission {
+    padding: 0.75rem;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.13);
+}
+
+.skai-v14-result-pill {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    padding: 0.35rem 0.58rem;
+    border-radius: 999px;
+    margin: 0.18rem 0.18rem 0.18rem 0;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.88);
+    font-weight: 850;
+    font-size: 0.82rem;
+}
+
+.skai-v14-quality-card {
+    padding: 0.85rem;
+    border-radius: 18px;
+    background:
+        linear-gradient(135deg, rgba(255,184,107,0.14), rgba(255,255,255,0.055));
+    border: 1px solid rgba(255,184,107,0.25);
+    margin: 0.65rem 0;
+}
+
+.skai-v14-quality-card strong {
+    color: #ffffff !important;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.skai-v14-quality-card p {
+    margin: 0 !important;
+    color: rgba(255,255,255,0.78) !important;
+    font-weight: 760;
+}
+
+.skai-offer-card {
+    min-height: 232px;
+    padding: 1rem;
+    border-radius: 22px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)),
+        radial-gradient(circle at 20% 0%, rgba(40,248,255,0.18), transparent 34%);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 20px 58px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
+    backdrop-filter: blur(20px);
+    margin-bottom: 0.85rem;
+}
+
+.skai-offer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.7rem;
+}
+
+.skai-offer-top span {
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.38rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.86);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 900;
+}
+
+.skai-offer-price {
+    font-size: 2.15rem;
+    line-height: 1;
+    letter-spacing: -0.055em;
+    font-weight: 1000;
+    color: #ffffff;
+    text-shadow: 0 0 22px rgba(40,248,255,0.20);
+    margin-bottom: 0.7rem;
+}
+
+.skai-offer-product {
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.3;
+    font-weight: 850;
+    min-height: 3.6rem;
+}
+
+.skai-offer-match {
+    margin-top: 0.85rem;
+    color: rgba(93,255,191,0.92);
+    font-weight: 850;
+    font-size: 0.86rem;
+}
+
+.skai-mini-deal {
+    margin-top: 0.65rem;
+    padding: 0.75rem;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.075);
+    border: 1px solid rgba(255,255,255,0.14);
+}
+
+.skai-mini-deal span {
+    display: block;
+    color: #5dffbf;
+    text-transform: uppercase;
+    font-weight: 1000;
+    letter-spacing: 0.10em;
+    font-size: 0.68rem;
+}
+
+.skai-mini-deal strong {
+    display: block;
+    color: #fff !important;
+    margin-top: 0.2rem;
+    font-size: 1rem;
+}
+
+.skai-mini-deal p {
+    margin: 0.25rem 0 0 0 !important;
+    color: rgba(255,255,255,0.76) !important;
+    font-size: 0.82rem;
+}
+
+/* Dropdown/selectbox hard fix */
+[data-baseweb="select"],
+[data-baseweb="select"] > div,
+[data-baseweb="select"] div,
+[data-testid="stSelectbox"] *,
+[data-testid="stMultiSelect"] * {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-baseweb="select"] input {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div,
+[data-baseweb="menu"],
+[data-baseweb="menu"] *,
+[role="listbox"],
+[role="listbox"] *,
+[role="option"],
+[role="option"] * {
+    background: #0b1022 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+[role="option"]:hover,
+[data-baseweb="menu"] li:hover {
+    background: linear-gradient(90deg, rgba(40,248,255,0.24), rgba(255,79,216,0.18)) !important;
+}
+
+/* Keep text inputs readable */
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea {
+    background: rgba(255,255,255,0.96) !important;
+    color: #101225 !important;
+    -webkit-text-fill-color: #101225 !important;
+}
+
+[data-testid="stTextInput"] input::placeholder,
+[data-testid="stTextArea"] textarea::placeholder {
+    color: rgba(16,18,37,0.54) !important;
+    -webkit-text-fill-color: rgba(16,18,37,0.54) !important;
+}
+
+.block-container {
+    max-width: 1120px !important;
+    padding-top: 0.42rem !important;
+}
+
+.element-container {
+    margin-bottom: 0.20rem !important;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stForm"] {
+    border-radius: 18px !important;
+}
+
+div[role="radiogroup"] label {
+    min-height: 2.18rem !important;
+    padding: 0.36rem 0.58rem !important;
+    font-size: 0.84rem !important;
+}
+
+iframe {
+    min-height: 420px !important;
+}
+
+.stButton > button {
+    min-height: 2.35rem !important;
+    padding: 0.62rem 1rem !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+
 recipes = load_json("data/recipes.json")
 categories = load_json("data/categories.json")
 tags = load_json("data/tags.json")
@@ -3239,8 +3621,8 @@ elif st.session_state.page == "SKAI Radar":
         """
         <div class="skai-copilot-hero-v12">
             <span>SKAI Copilot</span>
-            <h1>Cosa vuoi risolvere?</h1>
-            <p>Scegli una missione. SKAI usa CAP, ricette e offerte senza farti compilare una dashboard.</p>
+            <h1>Cosa vuoi preparare oggi?</h1>
+            <p>Scegli una missione: SKAI ti porta a ricetta, spesa o offerte senza farti interpretare dati grezzi.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -3411,7 +3793,7 @@ elif st.session_state.page == "SKAI Radar":
             parser_results = []
             web_offers = []
 
-        clean_web_offers, raw_web_offers = split_offer_quality(web_offers)
+        clean_web_offers, raw_web_offers = split_offer_quality_v14(web_offers)
         structured_offers = limit_web_offers(
             dedupe_offers(clean_web_offers),
             max_web_offers,
@@ -3461,13 +3843,13 @@ elif st.session_state.page == "SKAI Radar":
 
             if intent == "Ho ingredienti in casa":
                 if selected_ingredients:
-                    st.success("Ingredienti ricevuti: sotto trovi la SKiscetta.")
+                    st.success("Ingredienti ricevuti: preparo la SKiscetta.")
                 else:
                     st.info("Scrivi ingredienti sopra per generare la SKiscetta.")
             elif intent == "Piano spesa settimanale":
-                st.success("Sotto trovi il piano spesa settimanale.")
+                st.success("Piano spesa pronto sotto.")
             else:
-                st.success("Sotto trovi le offerte pulite disponibili.")
+                st.success("Offerte pulite sotto, se identificabili.")
 
             if best_offer:
                 st.markdown(
@@ -3504,6 +3886,8 @@ elif st.session_state.page == "SKAI Radar":
                     st.write(f"**{store.get('name', '')}** · {distance:.1f} km")
 
     st.write("")
+    if not offers_to_show and raw_web_offers:
+        render_skai_quality_notice(len(raw_web_offers), len(offers_to_show))
 
     if intent == "Ho ingredienti in casa":
         render_skai_section_label(
@@ -3592,13 +3976,14 @@ elif st.session_state.page == "SKAI Radar":
     else:
         render_skai_section_label(
             "Offerte",
-            "Solo prodotti leggibili.",
-            "Il feed mostra solo offerte con prezzo e prodotto puliti."
+            "Solo prodotti identificati.",
+            "Il feed mostra solo offerte con prezzo e nome prodotto chiaro. I prezzi senza prodotto vengono nascosti."
         )
 
         if not offers_to_show:
+            render_skai_quality_notice(len(raw_web_offers), len(offers_to_show))
             st.warning(
-                "Nessuna offerta abbastanza pulita da mostrare. "
+                "Nessuna offerta con prodotto identificato da mostrare. "
                 "La mappa resta utile; i parser dedicati miglioreranno il feed."
             )
         else:
