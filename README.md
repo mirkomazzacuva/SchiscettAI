@@ -1,34 +1,26 @@
-# SKiscettAI · SKAI Ultra Complete v13
+# SKiscettAI · SKAI Kitchen OS v16
 
-SKiscettAI è una web app Streamlit per risolvere tre problemi concreti:
+SKAI è un Kitchen OS per pranzo, spesa e negozi.
 
-1. **Ho ingredienti in casa** → genera una SKiscetta.
-2. **Piano spesa settimanale** → crea un piano ricette + lista.
-3. **Offerte vicino a me** → mostra mappa, negozi e offerte web pulite.
+## Missioni
 
-## Cosa include v13
+1. **Creo una SKiscetta**: parti dagli ingredienti in casa.
+2. **Organizzo la spesa settimanale**: piano ricette + lista spesa.
+3. **Controllo negozi e offerte**: mappa e offerte solo se il prodotto è identificato.
 
-- SKAI Copilot come schermata principale
-- Missione, ingredienti, CAP e raggio in un blocco compatto
-- Mappa immediatamente sotto il primo blocco
-- Opzioni avanzate nascoste
-- Dropdown/selectbox leggibili
-- Parser web con quality gate
-- QA automatico via Playwright
-- Workflow GitHub Actions opzionale
-- Tema Streamlit dark coerente
+## Novità v16
 
-## Avvio locale
+- parser dedicati per Carrefour, Coop, Conad, PENNY, Lidl, Eurospin, Esselunga, MD e PAM
+- extraction da JSON-LD, Next/Nuxt data e card HTML
+- Product Identity Gate: niente prezzi senza nome prodotto
+- feed offerte più onesto e più utile
+- UX Kitchen OS ridisegnata
+- mappa centrale
+- pannello tecnico nascosto
+
+## Avvio
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
-```
-
-## Test QA opzionale
-
-```bash
-python -m pip install -r qa/requirements-qa.txt
-python -m playwright install chromium
-python qa/beta_test_skai.py --url http://localhost:8501
 ```

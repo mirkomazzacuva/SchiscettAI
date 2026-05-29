@@ -1,24 +1,20 @@
 # SKAI Roadmap
 
-## Stato v13
+## v16 Kitchen OS + Dedicated Parsers
 
-La priorità è l'usabilità:
+Ora SKAI privilegia utilità e fiducia:
 
-- l'app parte dal problema dell'utente
-- la mappa arriva subito
-- le offerte sono un supporto, non un blocco
-- la UI è compatta e leggibile
-- i controlli tecnici sono nascosti
+- crea ricette da ingredienti
+- pianifica la spesa settimanale
+- mostra negozi vicini
+- mostra offerte solo quando prodotto e prezzo sono leggibili
+- nasconde prezzi grezzi non affidabili
 
-## Prossimo salto reale
+## Prossimo salto
 
-Il prossimo salto non è altro CSS: sono parser dedicati di qualità.
-
-1. Parser Carrefour dedicato.
-2. Parser Coop dedicato.
-3. Parser Conad dedicato.
-4. Parser PENNY dedicato.
-5. Parser Lidl / Eurospin.
-6. Normalizzazione prezzo al kg/litro.
-7. Piano spesa ottimizzato per negozio.
-8. Lista spesa con suggerimento supermercato migliore.
+1. Parser API/store-locator per catena.
+2. Matching offerte → lista spesa per negozio.
+3. Prezzo al kg/litro.
+4. Validità promozione.
+5. Preferenze utente persistenti.
+6. Suggerimento “negozio migliore per questa settimana”.

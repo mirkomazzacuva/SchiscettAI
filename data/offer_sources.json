@@ -6,10 +6,11 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://www.penny.it/offerte",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "PENNY"
   },
   {
     "chain": "Coop",
@@ -17,16 +18,18 @@
       "centro siena coop",
       "centro*siena",
       "coop",
+      "coop firenze",
       "coop.fi",
       "coopfi",
       "unicoop",
       "unicoop firenze",
       "unicoop tirreno"
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "Coop"
   },
   {
     "chain": "Conad",
@@ -35,12 +38,14 @@
       "conad city",
       "conad superstore",
       "margherita conad",
+      "sapori e dintorni",
       "sapori e dintorni conad"
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://volantini.conad.it/",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "Conad"
   },
   {
     "chain": "PAM",
@@ -51,10 +56,11 @@
       "panorama",
       "supermercati pam"
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://www.pampanorama.it/",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "PAM"
   },
   {
     "chain": "Lidl",
@@ -62,10 +68,11 @@
       "lidl",
       "lidl italia"
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://www.lidl.it/c/offerte/c10026788",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "Lidl"
   },
   {
     "chain": "Eurospin",
@@ -73,32 +80,36 @@
       "eurospin",
       "eurospin italia"
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://www.eurospin.it/volantino/",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "Eurospin"
   },
   {
     "chain": "Esselunga",
     "aliases": [
       "esselunga"
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "Esselunga"
   },
   {
     "chain": "Carrefour",
     "aliases": [
       "carrefour",
       "carrefour express",
-      "carrefour market"
+      "carrefour market",
+      "iper carrefour"
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://www.carrefour.it/promozioni/",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "Carrefour"
   },
   {
     "chain": "MD",
@@ -107,9 +118,10 @@
       "md discount",
       "md supermercati"
     ],
-    "mode": "skai_first_view_v12",
+    "mode": "skai_kitchen_os_v16",
     "url": "https://www.mdspa.it/volantino/",
-    "status": "web_parser_experimental",
-    "notes": "Fonte collegata a SKAI First View v12: mappa nel primo viewport, preferenze nascoste, flusso ultra-compatto."
+    "status": "dedicated_parser_v16",
+    "notes": "Parser dedicato v16: JSON-LD/Next-data/card extraction + Product Identity Gate. Non mostra prezzi senza prodotto.",
+    "parser_profile": "MD"
   }
 ]

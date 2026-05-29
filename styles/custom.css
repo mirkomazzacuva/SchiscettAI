@@ -1,984 +1,368 @@
+
 /* =========================================================
-   SKiscettAI / SKAI — Ultimate UI v4
-   Futuristic, compact, readable, app-like
+   SKAI v16 — Kitchen OS redesign
    ========================================================= */
 
 :root {
-    --bg-0: #05050d;
-    --bg-1: #0b1022;
-    --bg-2: #151b38;
-    --glass: rgba(255, 255, 255, 0.105);
-    --glass-2: rgba(255, 255, 255, 0.16);
-    --line: rgba(255, 255, 255, 0.18);
-    --text: #ffffff;
-    --text-soft: rgba(255, 255, 255, 0.80);
-    --text-dim: rgba(255, 255, 255, 0.60);
-    --black: #05050d;
-    --cyan: #28f8ff;
-    --mint: #5dffbf;
-    --pink: #ff4fd8;
-    --violet: #8b5cff;
-    --yellow: #eaff6b;
-    --orange: #ffb86b;
-    --danger: #ff4f7b;
-    --shadow: rgba(0, 0, 0, 0.48);
+    --skai-bg: #05060b;
+    --skai-ink: #ffffff;
+    --skai-muted: rgba(255,255,255,0.70);
+    --skai-soft: rgba(255,255,255,0.10);
+    --skai-line: rgba(255,255,255,0.15);
+    --skai-cyan: #31f7ff;
+    --skai-lime: #9dff7a;
+    --skai-pink: #ff4fd8;
+    --skai-orange: #ffb35c;
+    --skai-blue: #6d7dff;
 }
 
 .stApp {
     background:
-        radial-gradient(circle at 8% 8%, rgba(255, 79, 216, 0.30), transparent 26%),
-        radial-gradient(circle at 90% 4%, rgba(40, 248, 255, 0.28), transparent 28%),
-        radial-gradient(circle at 45% 92%, rgba(93, 255, 191, 0.16), transparent 34%),
-        linear-gradient(135deg, var(--bg-0) 0%, var(--bg-1) 48%, #160720 100%);
-    color: var(--text);
+        radial-gradient(circle at 7% 7%, rgba(49,247,255,0.22), transparent 24%),
+        radial-gradient(circle at 88% 12%, rgba(255,79,216,0.20), transparent 28%),
+        radial-gradient(circle at 44% 92%, rgba(157,255,122,0.12), transparent 34%),
+        linear-gradient(135deg, #05060b 0%, #0a1020 48%, #16071f 100%) !important;
+}
+
+.block-container {
+    max-width: 1180px !important;
+    padding-top: 0.45rem !important;
+    padding-bottom: 4rem !important;
 }
 
 #MainMenu, footer, header { visibility: hidden; }
 
-.block-container {
-    max-width: 1180px;
-    padding-top: 1.05rem;
-    padding-bottom: 4.5rem;
+.skai-os-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
+    gap: 1rem;
+    align-items: stretch;
+    margin: 0.2rem 0 0.75rem 0;
 }
 
-p, li, label, span, div { color: var(--text); }
-
-[data-testid="stMarkdownContainer"] p,
-[data-testid="stCaptionContainer"],
-small { color: var(--text-soft) !important; }
-
-strong { color: #ffffff !important; }
-
-/* Cinematic hero */
-.skai-hero {
-    position: relative;
-    padding: 1.05rem 1.1rem 1.2rem 1.1rem;
-    margin-bottom: 0.8rem;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 30px;
+.skai-os-hero,
+.skai-os-panel,
+.skai-os-result-card,
+.skai-os-store-card,
+.skai-os-shopping-card,
+.skai-os-warning-card {
+    border-radius: 26px;
+    border: 1px solid var(--skai-line);
     background:
-        linear-gradient(135deg, rgba(255,255,255,0.105), rgba(255,255,255,0.035)),
-        radial-gradient(circle at 12% 0%, rgba(40,248,255,0.18), transparent 28%),
-        radial-gradient(circle at 88% 10%, rgba(255,79,216,0.16), transparent 28%);
-    box-shadow: 0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
+        linear-gradient(145deg, rgba(255,255,255,0.118), rgba(255,255,255,0.045));
+    box-shadow: 0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.13);
     backdrop-filter: blur(24px);
 }
 
-.skai-hero-kicker {
-    font-size: 0.78rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--mint);
-    font-weight: 900;
-    margin-bottom: 0.25rem;
+.skai-os-hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 310px;
+    padding: 1.1rem;
 }
 
-.skai-hero-title {
-    font-size: clamp(2.6rem, 5vw, 4.9rem);
-    line-height: 0.88;
-    letter-spacing: -0.08em;
+.skai-os-hero:before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background:
+        conic-gradient(from 180deg, rgba(49,247,255,0.0), rgba(49,247,255,0.18), rgba(255,79,216,0.18), rgba(157,255,122,0.14), rgba(49,247,255,0.0));
+    animation: skaiSpin 14s linear infinite;
+    opacity: 0.75;
+}
+
+.skai-os-hero > * {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes skaiSpin {
+    to { transform: rotate(360deg); }
+}
+
+.skai-os-kicker {
+    display: inline-flex;
+    padding: 0.36rem 0.58rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: var(--skai-lime);
+    font-size: 0.72rem;
     font-weight: 1000;
-    color: transparent;
-    background: linear-gradient(90deg, #fff 0%, var(--cyan) 25%, var(--mint) 52%, var(--pink) 80%, #fff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    text-shadow: 0 0 36px rgba(40, 248, 255, 0.20);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }
 
-.skai-hero-subtitle {
-    color: var(--text-soft);
-    font-size: 1rem;
-    margin-top: 0.55rem;
+.skai-os-title {
+    color: #fff;
+    font-size: clamp(2.2rem, 5vw, 4.6rem);
+    line-height: 0.90;
+    letter-spacing: -0.085em;
+    font-weight: 1000;
+    max-width: 780px;
+    margin-top: 0.75rem;
+    text-shadow: 0 0 38px rgba(49,247,255,0.18);
+}
+
+.skai-os-subtitle {
+    color: rgba(255,255,255,0.78);
     max-width: 760px;
+    font-size: 1.02rem;
+    font-weight: 780;
+    margin-top: 0.8rem;
 }
 
-.skai-hero-pills {
+.skai-os-pill-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.9rem;
+    gap: 0.45rem;
+    margin-top: 1rem;
 }
 
-.skai-hero-pills span {
+.skai-os-pill-row span,
+.skai-os-mini-pill {
     display: inline-flex;
     align-items: center;
-    padding: 0.42rem 0.68rem;
+    gap: 0.25rem;
+    padding: 0.38rem 0.62rem;
     border-radius: 999px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.10);
     border: 1px solid rgba(255,255,255,0.15);
-    color: #fff;
-    font-weight: 850;
+    color: rgba(255,255,255,0.90);
+    font-weight: 880;
     font-size: 0.82rem;
 }
 
-/* Normal headings */
-h1 {
-    color: transparent !important;
-    background: linear-gradient(90deg, #fff 0%, var(--cyan) 25%, var(--mint) 48%, var(--pink) 75%, #fff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    font-size: clamp(2.5rem, 5vw, 4.4rem) !important;
-    line-height: 0.92 !important;
-    letter-spacing: -0.075em !important;
-    font-weight: 950 !important;
-    margin-bottom: 0.5rem !important;
+.skai-os-panel {
+    padding: 1rem;
 }
 
-h2 {
-    color: var(--text) !important;
-    font-size: clamp(1.6rem, 2.5vw, 2.25rem) !important;
-    letter-spacing: -0.055em !important;
-    font-weight: 950 !important;
+.skai-os-panel h3,
+.skai-os-result-card h3,
+.skai-os-shopping-card h3 {
+    margin: 0 0 0.45rem 0 !important;
+    color: #fff !important;
+    letter-spacing: -0.04em !important;
 }
 
-h3, h4 {
-    color: var(--text) !important;
-    letter-spacing: -0.035em !important;
-    font-weight: 900 !important;
-}
-
-/* Sidebar */
-[data-testid="stSidebar"] {
-    width: 224px !important;
-    min-width: 224px !important;
-    background:
-        radial-gradient(circle at 40% 0%, rgba(255, 79, 216, 0.24), transparent 34%),
-        linear-gradient(180deg, rgba(8, 7, 21, 0.98), rgba(14, 7, 24, 0.96));
-    border-right: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 24px 0 80px rgba(0, 0, 0, 0.42);
-    backdrop-filter: blur(22px);
-}
-
-[data-testid="stSidebar"] * { color: var(--text) !important; }
-
-.skai-sidebar-brand {
-    margin: 0.6rem 0 1rem 0;
-    padding: 0.35rem 0.2rem 0.75rem 0.2rem;
-}
-
-.skai-sidebar-icon {
-    font-size: 1.9rem;
-    line-height: 1;
-    filter: drop-shadow(0 0 16px rgba(40, 248, 255, 0.35));
-}
-
-.skai-sidebar-main {
-    font-size: 3rem;
-    line-height: 0.82;
-    font-weight: 1000;
-    letter-spacing: -0.09em;
-    color: #ffffff;
-    text-shadow: 0 0 22px rgba(40, 248, 255, 0.28), 0 0 6px rgba(255, 255, 255, 0.26);
-}
-
-.skai-sidebar-sub {
-    margin-top: 0.55rem;
-    font-size: 0.72rem;
-    color: var(--text-soft);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-}
-
-/* Sidebar nav */
-[role="radiogroup"] label {
-    background: rgba(255, 255, 255, 0.075);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 999px;
-    padding: 0.58rem 0.72rem;
-    margin-bottom: 0.42rem;
-    transition: all 0.18s ease;
-    color: var(--text) !important;
-    font-weight: 850 !important;
-}
-
-[role="radiogroup"] label:hover {
-    background: linear-gradient(90deg, rgba(40, 248, 255, 0.25), rgba(255, 79, 216, 0.18));
-    border-color: rgba(40, 248, 255, 0.52);
-    transform: translateX(4px);
-}
-
-/* Cards */
-[data-testid="stVerticalBlockBorderWrapper"],
-[data-testid="stForm"] {
-    background: linear-gradient(145deg, rgba(255,255,255,0.118), rgba(255,255,255,0.045));
-    border: 1px solid var(--line);
-    border-radius: 24px;
-    box-shadow: 0 22px 70px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.18);
-    backdrop-filter: blur(24px);
-    overflow: hidden;
-}
-
-[data-testid="stVerticalBlockBorderWrapper"]:hover {
-    border-color: rgba(40, 248, 255, 0.34);
-    box-shadow: 0 28px 90px rgba(0,0,0,0.54), 0 0 42px rgba(40,248,255,0.08);
-    transform: translateY(-1px);
-    transition: all 0.18s ease;
-}
-
-/* Custom command strip */
-.skai-command-strip {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
-    margin: 1rem 0;
-}
-
-.skai-command-strip > div {
-    border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 22px;
-    padding: 0.9rem;
-    background: rgba(255,255,255,0.07);
-}
-
-.skai-command-strip strong {
-    display: block;
-    font-size: 0.82rem;
-    color: var(--mint) !important;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-}
-
-.skai-command-strip span {
-    display: block;
-    margin-top: 0.35rem;
-    color: var(--text-soft);
-    font-weight: 750;
-}
-
-.skai-mood-emoji {
-    font-size: 2.35rem;
-    filter: drop-shadow(0 0 18px rgba(40,248,255,0.22));
-}
-
-/* Buttons */
-.stButton > button,
-[data-testid="stFormSubmitButton"] button,
-.stDownloadButton > button {
-    border: 0 !important;
-    border-radius: 999px !important;
-    color: #03040a !important;
-    font-weight: 1000 !important;
-    letter-spacing: -0.02em;
-    padding: 0.74rem 1.18rem !important;
-    min-height: 2.55rem;
-    background: linear-gradient(90deg, var(--cyan), var(--mint) 50%, var(--yellow));
-    box-shadow: 0 0 26px rgba(40,248,255,0.32), 0 16px 38px rgba(0,0,0,0.36);
-    transition: transform 0.16s ease, filter 0.16s ease, box-shadow 0.16s ease;
-}
-
-.stButton > button p,
-[data-testid="stFormSubmitButton"] button p,
-.stDownloadButton > button p,
-.stButton > button div {
-    color: #03040a !important;
-    font-weight: 1000 !important;
-}
-
-.stButton > button:hover,
-[data-testid="stFormSubmitButton"] button:hover,
-.stDownloadButton > button:hover {
-    transform: translateY(-2px) scale(1.01);
-    filter: saturate(1.22);
-    box-shadow: 0 0 34px rgba(93,255,191,0.45), 0 22px 52px rgba(0,0,0,0.45);
-}
-
-/* Inputs */
-input, textarea {
-    background: rgba(255,255,255,0.94) !important;
-    color: #101225 !important;
-    border: 1px solid rgba(255,255,255,0.35) !important;
-    border-radius: 15px !important;
-    font-weight: 750 !important;
-}
-
-input::placeholder, textarea::placeholder {
-    color: rgba(16,18,37,0.52) !important;
-}
-
-input:focus, textarea:focus {
-    border-color: var(--cyan) !important;
-    box-shadow: 0 0 0 4px rgba(40,248,255,0.20) !important;
-}
-
-[data-baseweb="select"] > div {
-    background: rgba(255,255,255,0.10) !important;
-    border-color: rgba(255,255,255,0.22) !important;
-    color: var(--text) !important;
-    border-radius: 15px !important;
-}
-
-[data-testid="stCheckbox"] label,
-[data-testid="stRadio"] label {
-    color: var(--text) !important;
-    font-weight: 780 !important;
-}
-
-[data-testid="stSlider"] {
-    background: rgba(255,255,255,0.065);
-    padding: 0.82rem 1rem;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.13);
-}
-
-/* Metrics */
-[data-testid="stMetric"] {
-    background: linear-gradient(145deg, rgba(40,248,255,0.15), rgba(255,79,216,0.11));
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 20px;
-    padding: 0.86rem;
-    box-shadow: 0 16px 44px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.18);
-}
-
-[data-testid="stMetricLabel"] {
-    color: var(--text-soft) !important;
-    font-weight: 900 !important;
-}
-
-[data-testid="stMetricValue"] {
-    color: var(--text) !important;
-    font-weight: 1000 !important;
-    letter-spacing: -0.04em;
-}
-
-/* Alerts */
-[data-testid="stAlert"] {
+.skai-os-step {
+    display: flex;
+    gap: 0.72rem;
+    align-items: flex-start;
+    padding: 0.78rem;
     border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.16);
-    background: rgba(255,255,255,0.085);
-    backdrop-filter: blur(18px);
+    background: rgba(255,255,255,0.065);
+    border: 1px solid rgba(255,255,255,0.11);
+    margin-bottom: 0.55rem;
 }
 
-[data-testid="stAlert"] * { color: var(--text) !important; }
-
-/* Expanders */
-.streamlit-expanderHeader {
-    background: linear-gradient(90deg, rgba(40,248,255,0.16), rgba(255,79,216,0.10));
-    border-radius: 16px;
-    color: var(--text) !important;
-    font-weight: 900;
+.skai-os-step-number {
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    color: #05060b;
+    background: linear-gradient(90deg, var(--skai-cyan), var(--skai-lime));
+    font-weight: 1000;
 }
 
-/* Tables/maps */
-[data-testid="stDataFrame"] {
+.skai-os-step strong {
+    color: #fff !important;
+    display: block;
+    margin-bottom: 0.1rem;
+}
+
+.skai-os-step span {
+    color: rgba(255,255,255,0.72);
+    font-weight: 760;
+    font-size: 0.90rem;
+}
+
+.skai-os-mission-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 0.75rem;
+    margin: 0.35rem 0 0.95rem 0;
+}
+
+.skai-os-mission-card {
+    padding: 0.82rem;
     border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 18px 60px rgba(0,0,0,0.34);
-}
-
-iframe {
-    border-radius: 22px !important;
-    box-shadow: 0 22px 70px rgba(0,0,0,0.44), 0 0 44px rgba(40,248,255,0.10);
-}
-
-a {
-    color: var(--cyan) !important;
-    font-weight: 850;
-}
-
-code {
-    border-radius: 12px !important;
-    color: var(--mint) !important;
-    background: rgba(0,0,0,0.34) !important;
-}
-
-hr {
-    border: none;
-    border-top: 1px solid rgba(255,255,255,0.13);
-    margin: 1.4rem 0;
-}
-
-.element-container {
-    margin-bottom: 0.34rem;
-}
-
-@media screen and (max-width: 900px) {
-    .block-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        padding-top: 1.1rem;
-    }
-
-    h1 { font-size: 2.5rem !important; }
-
-    [data-testid="stSidebar"] {
-        width: 212px !important;
-        min-width: 212px !important;
-    }
-
-    .skai-sidebar-main { font-size: 2.45rem; }
-
-    [data-testid="stVerticalBlockBorderWrapper"] { border-radius: 20px; }
-
-    .skai-command-strip {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-/* SKAI v6 offer card and parser quality */
-.skai-offer-card {
-    min-height: 230px;
-    padding: 1rem;
-    border-radius: 24px;
-    background:
-        linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)),
-        radial-gradient(circle at 20% 0%, rgba(40,248,255,0.18), transparent 34%);
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 20px 58px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
-    backdrop-filter: blur(20px);
-    margin-bottom: 0.85rem;
-}
-
-.skai-offer-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.75rem;
-    align-items: center;
-    margin-bottom: 0.7rem;
-}
-
-.skai-offer-top span {
-    font-size: 0.74rem;
-    line-height: 1;
-    padding: 0.38rem 0.52rem;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.16);
-    color: rgba(255,255,255,0.86);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 900;
-}
-
-.skai-offer-price {
-    font-size: 2.25rem;
-    line-height: 1;
-    letter-spacing: -0.055em;
-    font-weight: 1000;
-    color: #ffffff;
-    text-shadow: 0 0 22px rgba(40,248,255,0.20);
-    margin-bottom: 0.7rem;
-}
-
-.skai-offer-product {
-    color: #ffffff;
-    font-size: 1rem;
-    line-height: 1.3;
-    font-weight: 850;
-    min-height: 4.0rem;
-}
-
-.skai-offer-match {
-    margin-top: 0.85rem;
-    color: rgba(93,255,191,0.92);
-    font-weight: 850;
-    font-size: 0.86rem;
-}
-
-.skai-deal-banner {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr);
-    gap: 1rem;
-    align-items: center;
-    margin: 0.8rem 0 1rem 0;
-    padding: 1rem;
-    border-radius: 26px;
-    background:
-        linear-gradient(90deg, rgba(40,248,255,0.18), rgba(255,79,216,0.13)),
-        rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.16);
-    box-shadow: 0 20px 58px rgba(0,0,0,0.30);
-}
-
-.skai-deal-banner span {
-    display: block;
-    color: rgba(93,255,191,0.92);
-    font-weight: 1000;
-    text-transform: uppercase;
-    letter-spacing: 0.10em;
-    font-size: 0.78rem;
-}
-
-.skai-deal-banner strong {
-    display: block;
-    margin-top: 0.35rem;
-    color: #ffffff !important;
-    font-size: 1.25rem;
-    letter-spacing: -0.025em;
-}
-
-.skai-deal-banner p {
-    margin: 0 !important;
-    color: rgba(255,255,255,0.86) !important;
-    font-weight: 800;
-}
-
-.skai-section-label {
-    margin: 1rem 0 0.55rem 0;
-}
-
-.skai-section-label span {
-    display: block;
-    color: var(--mint);
-    font-size: 0.78rem;
-    font-weight: 1000;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    margin-bottom: 0.25rem;
-}
-
-.skai-section-label h2 {
-    margin: 0 !important;
-}
-
-.skai-section-label p {
-    margin-top: 0.35rem !important;
-    color: var(--text-soft) !important;
-}
-
-
-
-/* =========================================================
-   SKAI Copilot v7 — intent first, less dashboard fatigue
-   ========================================================= */
-
-.skai-action-plan {
-    margin-top: 0.85rem;
-    padding: 0.95rem 1rem;
-    border-radius: 22px;
-    background:
-        linear-gradient(90deg, rgba(93,255,191,0.14), rgba(40,248,255,0.12)),
-        rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.16);
-}
-
-.skai-action-plan strong {
-    display: block;
-    font-size: 1rem;
-    color: #ffffff !important;
-    margin-bottom: 0.25rem;
-}
-
-.skai-action-plan span {
-    color: rgba(255,255,255,0.78);
-    font-weight: 800;
-}
-
-div[role="radiogroup"] {
-    gap: 0.65rem;
-}
-
-div[role="radiogroup"] label {
-    min-height: 3.1rem;
-    justify-content: center;
-    text-align: center;
-    background:
-        linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.055)) !important;
-    border: 1px solid rgba(255,255,255,0.18) !important;
-}
-
-[data-testid="stToggle"] label,
-[data-testid="stCheckbox"] label {
-    font-size: 0.95rem !important;
-}
-
-.skai-offer-card {
-    min-height: 235px;
-    padding: 1rem;
-    border-radius: 24px;
-    background:
-        linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)),
-        radial-gradient(circle at 20% 0%, rgba(40,248,255,0.18), transparent 34%);
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 20px 58px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
-    backdrop-filter: blur(20px);
-    margin-bottom: 0.85rem;
-}
-
-.skai-offer-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.75rem;
-    align-items: center;
-    margin-bottom: 0.7rem;
-}
-
-.skai-offer-top span {
-    font-size: 0.72rem;
-    line-height: 1;
-    padding: 0.38rem 0.52rem;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.16);
-    color: rgba(255,255,255,0.86);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 900;
-}
-
-.skai-offer-price {
-    font-size: 2.25rem;
-    line-height: 1;
-    letter-spacing: -0.055em;
-    font-weight: 1000;
-    color: #ffffff;
-    text-shadow: 0 0 22px rgba(40,248,255,0.20);
-    margin-bottom: 0.7rem;
-}
-
-.skai-offer-product {
-    color: #ffffff;
-    font-size: 1rem;
-    line-height: 1.3;
-    font-weight: 850;
-    min-height: 4.0rem;
-}
-
-.skai-offer-match {
-    margin-top: 0.85rem;
-    color: rgba(93,255,191,0.92);
-    font-weight: 850;
-    font-size: 0.86rem;
-}
-
-[data-testid="stTextArea"] textarea {
-    min-height: 95px !important;
-}
-
-
-
-/* =========================================================
-   SKAI God Mode v8 - hard fixes
-   ========================================================= */
-
-/* Fix Streamlit/BaseWeb dropdown white-on-white */
-[data-baseweb="popover"],
-[data-baseweb="menu"],
-[data-baseweb="select"] ul,
-[role="listbox"] {
-    background: #10172d !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(255,255,255,0.20) !important;
-    box-shadow: 0 24px 80px rgba(0,0,0,0.55) !important;
-}
-
-[data-baseweb="menu"] li,
-[role="option"],
-[data-baseweb="popover"] li,
-[data-baseweb="popover"] div {
-    color: #ffffff !important;
-    background-color: #10172d !important;
-    font-weight: 800 !important;
-}
-
-[role="option"]:hover,
-[data-baseweb="menu"] li:hover,
-[data-baseweb="popover"] li:hover {
-    background: linear-gradient(90deg, rgba(40,248,255,0.28), rgba(255,79,216,0.18)) !important;
-    color: #ffffff !important;
-}
-
-[data-baseweb="select"] span,
-[data-baseweb="select"] div,
-[data-baseweb="select"] input {
-    color: #ffffff !important;
-}
-
-/* Intent-first radio cards */
-div[role="radiogroup"] {
-    gap: 0.75rem !important;
-}
-
-div[role="radiogroup"] label {
-    min-height: 3.05rem !important;
-    justify-content: center !important;
-    text-align: center !important;
-    background: linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)) !important;
-    border: 1px solid rgba(255,255,255,0.19) !important;
-    border-radius: 999px !important;
-}
-
-/* Make checkboxes/toggles less ugly */
-[data-testid="stCheckbox"] label,
-[data-testid="stToggle"] label {
-    font-size: 0.95rem !important;
-    font-weight: 850 !important;
-}
-
-.skai-action-plan {
-    margin-top: 0.85rem;
-    padding: 0.95rem 1rem;
-    border-radius: 22px;
-    background: linear-gradient(90deg, rgba(93,255,191,0.14), rgba(40,248,255,0.12)), rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.16);
-}
-
-.skai-action-plan strong {
-    display: block;
-    font-size: 1rem;
-    color: #ffffff !important;
-    margin-bottom: 0.25rem;
-}
-
-.skai-action-plan span {
-    color: rgba(255,255,255,0.78) !important;
-    font-weight: 800;
-}
-
-/* Deal cards */
-.skai-offer-card {
-    min-height: 235px;
-    padding: 1rem;
-    border-radius: 24px;
-    background: linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)), radial-gradient(circle at 20% 0%, rgba(40,248,255,0.18), transparent 34%);
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 20px 58px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
-    backdrop-filter: blur(20px);
-    margin-bottom: 0.85rem;
-}
-
-.skai-offer-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.75rem;
-    align-items: center;
-    margin-bottom: 0.7rem;
-}
-
-.skai-offer-top span {
-    font-size: 0.72rem;
-    line-height: 1;
-    padding: 0.38rem 0.52rem;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.16);
-    color: rgba(255,255,255,0.86);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 900;
-}
-
-.skai-offer-price {
-    font-size: 2.25rem;
-    line-height: 1;
-    letter-spacing: -0.055em;
-    font-weight: 1000;
-    color: #ffffff;
-    text-shadow: 0 0 22px rgba(40,248,255,0.20);
-    margin-bottom: 0.7rem;
-}
-
-.skai-offer-product {
-    color: #ffffff;
-    font-size: 1rem;
-    line-height: 1.3;
-    font-weight: 850;
-    min-height: 4.0rem;
-}
-
-.skai-offer-match {
-    margin-top: 0.85rem;
-    color: rgba(93,255,191,0.92);
-    font-weight: 850;
-    font-size: 0.86rem;
-}
-
-[data-testid="stTextArea"] textarea {
-    min-height: 95px !important;
-}
-
-
-/* =========================================================
-   SKAI v9 — hard fix dropdown/select contrast
-   ========================================================= */
-
-/* Streamlit/BaseWeb select control */
-[data-baseweb="select"],
-[data-baseweb="select"] > div,
-[data-baseweb="select"] div {
-    color: #ffffff !important;
-}
-
-[data-baseweb="select"] input {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-[data-baseweb="select"] svg {
-    color: #ffffff !important;
-    fill: #ffffff !important;
-}
-
-/* Popover menu opened by selectbox */
-[data-baseweb="popover"],
-[data-baseweb="popover"] > div,
-[data-baseweb="popover"] ul,
-[data-baseweb="popover"] li,
-[data-baseweb="menu"],
-[role="listbox"] {
-    background: #0b1022 !important;
-    color: #ffffff !important;
-    border-color: rgba(255,255,255,0.18) !important;
-}
-
-[role="option"],
-[role="option"] *,
-[data-baseweb="menu"] li,
-[data-baseweb="menu"] li * {
-    background: #0f1730 !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-[role="option"]:hover,
-[data-baseweb="menu"] li:hover {
-    background: linear-gradient(90deg, rgba(40,248,255,0.22), rgba(255,79,216,0.16)) !important;
-    color: #ffffff !important;
-}
-
-/* Fix selected-value pills/text inside dropdowns */
-[data-testid="stSelectbox"] *,
-[data-testid="stMultiSelect"] * {
-    color: #ffffff !important;
-}
-
-/* But keep text inputs readable: white field, dark typed text */
-[data-testid="stTextInput"] input,
-[data-testid="stTextArea"] textarea {
-    color: #101225 !important;
-    -webkit-text-fill-color: #101225 !important;
-}
-
-/* Compact global topbar */
-.skai-topbar {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr);
-    gap: 1rem;
-    align-items: center;
-    padding: 0.95rem 1.05rem;
-    margin-bottom: 0.8rem;
-    border-radius: 24px;
+    background: rgba(255,255,255,0.075);
     border: 1px solid rgba(255,255,255,0.14);
-    background:
-        linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04)),
-        radial-gradient(circle at 15% 0%, rgba(40,248,255,0.18), transparent 34%);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.30);
-    backdrop-filter: blur(22px);
 }
 
-.skai-topbar-kicker {
+.skai-os-mission-card strong {
+    color: #fff !important;
     display: block;
-    color: var(--mint);
-    font-size: 0.72rem;
-    font-weight: 1000;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-size: 0.95rem;
     margin-bottom: 0.22rem;
 }
 
-.skai-topbar strong {
-    color: #ffffff !important;
-    font-size: 1.85rem;
-    line-height: 1;
-    letter-spacing: -0.06em;
+.skai-os-mission-card span {
+    color: rgba(255,255,255,0.70);
+    font-size: 0.84rem;
+    font-weight: 760;
+}
+
+.skai-os-result-grid {
+    display: grid;
+    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    gap: 0.9rem;
+    margin-top: 0.9rem;
+}
+
+.skai-os-result-card,
+.skai-os-shopping-card,
+.skai-os-warning-card {
+    padding: 1rem;
+}
+
+.skai-os-recipe-title {
+    color: #fff;
     font-weight: 1000;
-    text-shadow: 0 0 22px rgba(40,248,255,0.22);
+    font-size: 1.38rem;
+    letter-spacing: -0.05em;
+    line-height: 1.05;
+    margin-bottom: 0.35rem;
 }
 
-.skai-topbar p {
-    margin: 0 !important;
-    color: rgba(255,255,255,0.78) !important;
-    font-weight: 800;
+.skai-os-recipe-desc {
+    color: rgba(255,255,255,0.76);
+    font-weight: 760;
+    margin-bottom: 0.6rem;
 }
 
-/* Make the mission selector feel like the product's main entry point */
-div[role="radiogroup"] label {
-    min-height: 3.2rem;
-    font-size: 0.98rem !important;
+.skai-os-ingredient-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.45rem;
 }
 
-/* Less empty vertical weight */
-.block-container {
-    padding-top: 0.85rem !important;
+.skai-os-ingredient-list span {
+    padding: 0.30rem 0.48rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.11);
+    color: rgba(255,255,255,0.85);
+    font-size: 0.76rem;
+    font-weight: 820;
 }
 
-[data-testid="stVerticalBlockBorderWrapper"],
-[data-testid="stForm"] {
-    border-radius: 22px !important;
+.skai-os-map-grid {
+    display: grid;
+    grid-template-columns: minmax(0,1.5fr) minmax(300px,0.8fr);
+    gap: 0.9rem;
+    margin-top: 0.8rem;
 }
 
-@media screen and (max-width: 900px) {
-    .skai-topbar {
-        grid-template-columns: 1fr;
-    }
+.skai-os-store-card {
+    padding: 0.82rem;
+    margin-bottom: 0.55rem;
 }
 
-
-/* =========================================================
-   SKAI v10 — lean copilot UX
-   ========================================================= */
-
-.skai-solution-header {
-    margin: 0.35rem 0 0.75rem 0;
-}
-
-.skai-solution-header span {
+.skai-os-store-card strong {
+    color: #fff !important;
     display: block;
-    color: var(--mint);
-    font-size: 0.78rem;
-    font-weight: 1000;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-bottom: 0.28rem;
+    font-size: 0.92rem;
 }
 
-.skai-solution-header h1 {
+.skai-os-store-card span {
+    color: rgba(255,255,255,0.66);
+    font-weight: 760;
+    font-size: 0.82rem;
+}
+
+.skai-os-warning-card {
+    border-color: rgba(255,179,92,0.32);
+    background:
+        linear-gradient(145deg, rgba(255,179,92,0.15), rgba(255,255,255,0.05));
+}
+
+.skai-os-warning-card strong {
+    color: #fff !important;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.skai-os-warning-card p {
+    color: rgba(255,255,255,0.74) !important;
     margin: 0 !important;
-    font-size: clamp(2rem, 4vw, 3.15rem) !important;
-    line-height: 0.98 !important;
-    letter-spacing: -0.07em !important;
+    font-weight: 760;
 }
 
-.skai-solution-header p {
-    margin-top: 0.65rem !important;
-    color: rgba(255,255,255,0.78) !important;
-    font-weight: 800;
-    max-width: 880px;
+.skai-os-command {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    padding: 0.7rem 0.85rem;
+    border-radius: 16px;
+    background: rgba(0,0,0,0.32);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.86);
+    font-weight: 760;
 }
 
-.skai-topbar {
-    padding: 0.72rem 0.9rem !important;
-    margin-bottom: 0.55rem !important;
-    border-radius: 20px !important;
+.skai-offer-card {
+    min-height: 230px;
+    padding: 1rem;
+    border-radius: 22px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055)),
+        radial-gradient(circle at 20% 0%, rgba(49,247,255,0.18), transparent 34%);
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 20px 58px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
+    backdrop-filter: blur(20px);
+    margin-bottom: 0.85rem;
 }
 
-.skai-topbar strong {
-    font-size: 1.45rem !important;
+.skai-offer-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.7rem;
 }
 
-.skai-topbar p {
-    font-size: 0.92rem !important;
+.skai-offer-top span {
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.38rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.86);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 900;
 }
 
-/* More compact cards for the first viewport */
-[data-testid="stVerticalBlockBorderWrapper"],
-[data-testid="stForm"] {
-    border-radius: 20px !important;
+.skai-offer-price {
+    font-size: 2.15rem;
+    line-height: 1;
+    letter-spacing: -0.055em;
+    font-weight: 1000;
+    color: #ffffff;
+    text-shadow: 0 0 22px rgba(49,247,255,0.20);
+    margin-bottom: 0.7rem;
 }
 
-.block-container {
-    max-width: 1160px !important;
-    padding-top: 0.65rem !important;
+.skai-offer-product {
+    color: #ffffff;
+    font-size: 1rem;
+    line-height: 1.3;
+    font-weight: 850;
+    min-height: 3.6rem;
 }
 
-/* Mission selector as compact choice chips */
-div[role="radiogroup"] label {
-    min-height: 2.75rem !important;
-    padding: 0.48rem 0.72rem !important;
-    font-size: 0.92rem !important;
+.skai-offer-match {
+    margin-top: 0.85rem;
+    color: rgba(157,255,122,0.92);
+    font-weight: 850;
+    font-size: 0.86rem;
 }
 
-/* Selectbox/dropdown hard contrast fix */
+/* Dropdown/selectbox hard fix */
 [data-baseweb="select"],
 [data-baseweb="select"] > div,
 [data-baseweb="select"] div,
@@ -1006,17 +390,14 @@ div[role="radiogroup"] label {
     -webkit-text-fill-color: #ffffff !important;
 }
 
-[role="option"]:hover,
-[data-baseweb="menu"] li:hover {
-    background: linear-gradient(90deg, rgba(40,248,255,0.24), rgba(255,79,216,0.18)) !important;
-}
-
-/* Keep text inputs readable */
+/* Inputs */
 [data-testid="stTextInput"] input,
 [data-testid="stTextArea"] textarea {
     background: rgba(255,255,255,0.96) !important;
     color: #101225 !important;
     -webkit-text-fill-color: #101225 !important;
+    border-radius: 15px !important;
+    font-weight: 760 !important;
 }
 
 [data-testid="stTextInput"] input::placeholder,
@@ -1025,283 +406,32 @@ div[role="radiogroup"] label {
     -webkit-text-fill-color: rgba(16,18,37,0.52) !important;
 }
 
-iframe {
-    min-height: 455px !important;
-}
-
-
-
-/* =========================================================
-   SKAI v11 — one-screen copilot
-   ========================================================= */
-
-.skai-solution-header-v11 {
-    margin: 0.15rem 0 0.55rem 0 !important;
-}
-
-.skai-solution-header-v11 h1 {
-    font-size: clamp(1.9rem, 3.4vw, 2.85rem) !important;
-    line-height: 0.98 !important;
-    margin: 0 !important;
-}
-
-.skai-solution-header-v11 p {
-    margin-top: 0.45rem !important;
-    font-size: 0.96rem !important;
-}
-
-.skai-topbar {
-    padding: 0.55rem 0.8rem !important;
-    margin-bottom: 0.45rem !important;
-    border-radius: 18px !important;
-}
-
-.skai-topbar strong {
-    font-size: 1.28rem !important;
-}
-
-.skai-topbar p {
+div[role="radiogroup"] label {
+    min-height: 2.35rem !important;
+    padding: 0.40rem 0.62rem !important;
     font-size: 0.86rem !important;
-}
-
-.block-container {
-    max-width: 1140px !important;
-    padding-top: 0.48rem !important;
+    border-radius: 999px !important;
 }
 
 [data-testid="stVerticalBlockBorderWrapper"],
 [data-testid="stForm"] {
-    border-radius: 18px !important;
+    border-radius: 22px !important;
 }
 
 .element-container {
-    margin-bottom: 0.25rem !important;
-}
-
-/* first mission block is compact */
-div[role="radiogroup"] label {
-    min-height: 2.35rem !important;
-    padding: 0.42rem 0.62rem !important;
-    font-size: 0.88rem !important;
-}
-
-[data-testid="stTextArea"] textarea {
-    min-height: 78px !important;
-}
-
-/* Dropdown/selectbox hard contrast */
-[data-baseweb="select"],
-[data-baseweb="select"] > div,
-[data-baseweb="select"] div,
-[data-testid="stSelectbox"] *,
-[data-testid="stMultiSelect"] * {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-[data-baseweb="select"] input {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-[data-baseweb="popover"],
-[data-baseweb="popover"] > div,
-[data-baseweb="menu"],
-[data-baseweb="menu"] *,
-[role="listbox"],
-[role="listbox"] *,
-[role="option"],
-[role="option"] * {
-    background: #0b1022 !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-[role="option"]:hover,
-[data-baseweb="menu"] li:hover {
-    background: linear-gradient(90deg, rgba(40,248,255,0.24), rgba(255,79,216,0.18)) !important;
-}
-
-/* Keep actual typing fields readable */
-[data-testid="stTextInput"] input,
-[data-testid="stTextArea"] textarea {
-    background: rgba(255,255,255,0.96) !important;
-    color: #101225 !important;
-    -webkit-text-fill-color: #101225 !important;
-}
-
-[data-testid="stTextInput"] input::placeholder,
-[data-testid="stTextArea"] textarea::placeholder {
-    color: rgba(16,18,37,0.54) !important;
-    -webkit-text-fill-color: rgba(16,18,37,0.54) !important;
+    margin-bottom: 0.24rem !important;
 }
 
 iframe {
     min-height: 430px !important;
+    border-radius: 22px !important;
 }
 
-.stButton > button {
-    min-height: 2.35rem !important;
-    padding: 0.62rem 1rem !important;
+@media (max-width: 900px) {
+    .skai-os-shell,
+    .skai-os-map-grid,
+    .skai-os-result-grid,
+    .skai-os-mission-grid {
+        grid-template-columns: 1fr;
+    }
 }
-
-/* Reduce sidebar heaviness */
-[data-testid="stSidebar"] {
-    width: 210px !important;
-    min-width: 210px !important;
-}
-
-.skai-sidebar-main {
-    font-size: 2.5rem !important;
-}
-
-.skai-sidebar-icon {
-    font-size: 1.7rem !important;
-}
-
-.skai-sidebar-sub {
-    font-size: 0.66rem !important;
-}
-
-
-
-/* =========================================================
-   SKAI v12 — map in first viewport
-   ========================================================= */
-
-.skai-copilot-hero-v12 {
-    margin: 0.1rem 0 0.45rem 0;
-}
-
-.skai-copilot-hero-v12 span {
-    display: block;
-    color: var(--mint);
-    font-size: 0.72rem;
-    font-weight: 1000;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    margin-bottom: 0.18rem;
-}
-
-.skai-copilot-hero-v12 h1 {
-    margin: 0 !important;
-    font-size: clamp(1.7rem, 3vw, 2.45rem) !important;
-    line-height: 1 !important;
-    letter-spacing: -0.06em !important;
-}
-
-.skai-copilot-hero-v12 p {
-    margin: 0.35rem 0 0 0 !important;
-    font-size: 0.9rem !important;
-    color: rgba(255,255,255,0.76) !important;
-    font-weight: 780;
-}
-
-.skai-topbar {
-    padding: 0.45rem 0.72rem !important;
-    margin-bottom: 0.38rem !important;
-    border-radius: 16px !important;
-}
-
-.skai-topbar strong {
-    font-size: 1.15rem !important;
-}
-
-.skai-topbar p {
-    font-size: 0.8rem !important;
-}
-
-.block-container {
-    max-width: 1120px !important;
-    padding-top: 0.38rem !important;
-}
-
-.element-container {
-    margin-bottom: 0.18rem !important;
-}
-
-[data-testid="stVerticalBlockBorderWrapper"],
-[data-testid="stForm"] {
-    border-radius: 16px !important;
-}
-
-div[role="radiogroup"] label {
-    min-height: 2.15rem !important;
-    padding: 0.36rem 0.55rem !important;
-    font-size: 0.84rem !important;
-}
-
-/* More compact metrics inside result side panel */
-[data-testid="stMetric"] {
-    padding: 0.68rem !important;
-    border-radius: 16px !important;
-}
-
-[data-testid="stMetricValue"] {
-    font-size: 1.55rem !important;
-}
-
-iframe {
-    min-height: 420px !important;
-}
-
-.skai-mini-deal {
-    margin-top: 0.65rem;
-    padding: 0.75rem;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.075);
-    border: 1px solid rgba(255,255,255,0.14);
-}
-
-.skai-mini-deal span {
-    display: block;
-    color: var(--mint);
-    text-transform: uppercase;
-    font-weight: 1000;
-    letter-spacing: 0.10em;
-    font-size: 0.68rem;
-}
-
-.skai-mini-deal strong {
-    display: block;
-    color: #fff !important;
-    margin-top: 0.2rem;
-    font-size: 1rem;
-}
-
-.skai-mini-deal p {
-    margin: 0.25rem 0 0 0 !important;
-    color: rgba(255,255,255,0.76) !important;
-    font-size: 0.82rem;
-}
-
-/* Select/dropdown remains readable */
-[data-baseweb="select"],
-[data-baseweb="select"] > div,
-[data-baseweb="select"] div,
-[data-testid="stSelectbox"] *,
-[data-testid="stMultiSelect"] * {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-[data-baseweb="popover"],
-[data-baseweb="popover"] > div,
-[data-baseweb="menu"],
-[data-baseweb="menu"] *,
-[role="listbox"],
-[role="listbox"] *,
-[role="option"],
-[role="option"] * {
-    background: #0b1022 !important;
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-}
-
-[data-testid="stTextInput"] input,
-[data-testid="stTextArea"] textarea {
-    background: rgba(255,255,255,0.96) !important;
-    color: #101225 !important;
-    -webkit-text-fill-color: #101225 !important;
-}
-
