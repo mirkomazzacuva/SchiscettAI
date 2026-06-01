@@ -1,14 +1,15 @@
 # SKAI Roadmap
 
-## v32 QA Hotfix
+## v34 Ultra Light Clarity
 
-Correzioni:
-- beta_test_skai.py riscritto correttamente
-- py_compile su app.py e script QA
-- controllo copy anti-jargon mantenuto
+Fix:
+- visual_brightness_radar
+- visual_brightness_ricette
+- visual_brightness_lista
+- visual_brightness_preferiti
 
 Prossimo salto:
-1. OCR controllato sui volantini visuali
+1. OCR/API offerte dai volantini visuali
 2. prezzo al kg/litro
 3. matching offerte con lista spesa
 4. onboarding preferenze utente

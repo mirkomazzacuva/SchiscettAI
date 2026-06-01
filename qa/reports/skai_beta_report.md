@@ -10,19 +10,26 @@
 - ✅ sidebar_one_click_lista
 - ✅ sidebar_one_click_meal
 - ✅ sidebar_one_click_preferiti
+- ✅ visual_brightness_home
 - ✅ open_home
 - ✅ copy_jargon_check_home
+- ✅ visual_brightness_crea
 - ✅ open_crea
 - ✅ copy_jargon_check_crea
+- ✅ visual_brightness_radar
 - ✅ open_radar
 - ✅ copy_jargon_check_radar
 - ✅ radar_offer_quality
+- ✅ visual_brightness_ricette
 - ✅ open_ricette
 - ✅ copy_jargon_check_ricette
+- ✅ visual_brightness_lista
 - ✅ open_lista
 - ✅ copy_jargon_check_lista
+- ✅ visual_brightness_meal
 - ✅ open_meal
 - ✅ copy_jargon_check_meal
+- ✅ visual_brightness_preferiti
 - ✅ open_preferiti
 - ✅ copy_jargon_check_preferiti
 

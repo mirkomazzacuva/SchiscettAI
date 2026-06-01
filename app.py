@@ -3617,6 +3617,535 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
 load_css("styles/custom.css")
 st.markdown("""<style>
 /* =========================================================
+   SKAI v34 — Ultra Light Clarity Pass
+   ========================================================= */
+
+html,
+body,
+#root,
+.stApp,
+[data-testid="stApp"],
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {
+    background:
+        radial-gradient(circle at 8% 6%, rgba(34,211,238,0.32), transparent 26%),
+        radial-gradient(circle at 92% 9%, rgba(255,239,218,0.98), transparent 34%),
+        radial-gradient(circle at 50% 105%, rgba(223,252,244,0.96), transparent 42%),
+        linear-gradient(145deg, #FBFEFF 0%, #F2FCFB 42%, #FBF7FF 72%, #FFF9F0 100%) !important;
+    color: #102131 !important;
+}
+
+.block-container {
+    max-width: 1240px !important;
+    padding-top: 1rem !important;
+    padding-bottom: 3rem !important;
+    background: transparent !important;
+}
+
+[data-testid="stSidebar"] {
+    background:
+        radial-gradient(circle at 12% 0%, rgba(34,211,238,0.24), transparent 36%),
+        linear-gradient(180deg, rgba(255,255,255,0.96), rgba(242,252,251,0.92)) !important;
+    border-right: 1px solid rgba(16,33,49,0.10) !important;
+    box-shadow: 14px 0 42px rgba(31,73,88,0.07) !important;
+}
+
+[data-testid="stSidebar"] section,
+[data-testid="stSidebar"] div,
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label {
+    color: #102131 !important;
+}
+
+.skai-sidebar-brand,
+.skai-v19-nav-active,
+[data-testid="stSidebar"] .stButton > button {
+    background: rgba(255,255,255,0.86) !important;
+    border: 1px solid rgba(16,33,49,0.11) !important;
+    box-shadow: 0 12px 26px rgba(31,73,88,0.075) !important;
+}
+
+.skai-v19-nav-active {
+    background:
+        linear-gradient(90deg, rgba(20,184,166,0.18), rgba(163,230,53,0.14)),
+        rgba(255,255,255,0.96) !important;
+}
+
+.skai-v18-home,
+.skai-os-hero,
+.skai-os-panel,
+.skai-os-result-card,
+.skai-os-store-card,
+.skai-os-shopping-card,
+.skai-v18-card,
+.skai-v18-tile,
+.skai-v20-chain-panel,
+.skai-v28-visual-panel,
+.skai-v31-page-intro,
+.skai-v17-brief-main,
+.skai-v17-brief-stat,
+.skai-v17-store-pick,
+.skai-v17-empty,
+.skai-v33-soft-card,
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stMetric"] {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.98), rgba(255,255,255,0.74)) !important;
+    border: 1px solid rgba(16,33,49,0.105) !important;
+    box-shadow: 0 16px 38px rgba(31,73,88,0.08), inset 0 1px 0 rgba(255,255,255,0.96) !important;
+    color: #102131 !important;
+}
+
+.skai-v18-score,
+.skai-v20-chain-chip,
+.skai-os-step,
+.skai-os-mission-card,
+.skai-v28-link-card,
+.skai-v31-tip {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.96), rgba(249,253,255,0.76)) !important;
+    border: 1px solid rgba(16,33,49,0.10) !important;
+    box-shadow: 0 12px 28px rgba(31,73,88,0.065) !important;
+}
+
+.skai-v18-title,
+.skai-os-title,
+.skai-v31-page-intro strong,
+.skai-v18-card strong,
+.skai-v18-tile strong,
+.skai-v20-chain-panel strong,
+.skai-v20-chain-chip strong,
+.skai-v28-visual-panel strong,
+.skai-v28-link-card strong,
+.skai-os-result-title,
+.skai-os-store-title,
+.skai-sidebar-main,
+.skai-sidebar-sub,
+h1, h2, h3, h4, h5, h6,
+strong {
+    color: #102131 !important;
+    text-shadow: none !important;
+}
+
+.skai-v18-subtitle,
+.skai-os-subtitle,
+.skai-v31-page-intro p,
+.skai-v18-card p,
+.skai-v18-tile p,
+.skai-v20-chain-panel p,
+.skai-v20-chain-chip p,
+.skai-v28-visual-panel p,
+.skai-v28-link-card p,
+.skai-os-step span,
+.skai-os-recipe-desc,
+p, li, label, div, span {
+    color: #30485E !important;
+}
+
+.skai-v18-kicker,
+.skai-os-kicker,
+.skai-v31-page-intro span,
+.skai-v20-chain-panel > div:first-child span,
+.skai-v20-chain-chip span,
+.skai-v28-visual-panel span,
+.skai-v28-link-card span,
+.skai-v17-brief-main span,
+.skai-v33-soft-card span {
+    color: #04796E !important;
+}
+
+.skai-os-shell {
+    grid-template-columns: minmax(0,1.18fr) minmax(300px,0.82fr) !important;
+    gap: 0.8rem !important;
+}
+
+.skai-os-hero {
+    min-height: 205px !important;
+    padding: 1rem !important;
+}
+
+.skai-os-panel {
+    padding: 0.82rem !important;
+}
+
+.skai-os-title {
+    font-size: clamp(1.95rem, 3.8vw, 3.85rem) !important;
+}
+
+.skai-os-pill-row span,
+.skai-v17-tabbar span,
+.skai-v18-secondary {
+    background: rgba(255,255,255,0.90) !important;
+    border: 1px solid rgba(16,33,49,0.10) !important;
+    color: #102131 !important;
+}
+
+.stButton > button,
+.skai-v18-primary,
+.skai-v28-link-card a {
+    background: linear-gradient(90deg, #14B8A6, #A3E635) !important;
+    color: #07111A !important;
+    border: 0 !important;
+    box-shadow: 0 12px 28px rgba(20,184,166,0.18) !important;
+    font-weight: 1000 !important;
+}
+
+[data-testid="stMetric"] [data-testid="stMetricLabel"],
+[data-testid="stMetric"] [data-testid="stMetricValue"],
+[data-testid="stMetric"] * {
+    color: #102131 !important;
+}
+
+input,
+textarea,
+select,
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea,
+[data-baseweb="select"] *,
+[role="listbox"],
+[role="option"] {
+    background: #FFFFFF !important;
+    color: #102131 !important;
+}
+
+[data-baseweb="input"],
+[data-baseweb="textarea"],
+[data-baseweb="select"] > div {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(16,33,49,0.13) !important;
+    color: #102131 !important;
+}
+
+.stAlert {
+    background: rgba(255,255,255,0.88) !important;
+    color: #102131 !important;
+    border-color: rgba(16,33,49,0.10) !important;
+}
+
+/* Give empty/short pages enough light canvas in full-page screenshots and in the actual app */
+section.main,
+main,
+[data-testid="stMain"] {
+    min-height: 100vh !important;
+}
+
+.skai-v34-brightness-anchor {
+    height: 1px;
+    background: transparent;
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
+   SKAI v33 — Light Aurora Modern UI
+   ========================================================= */
+
+:root {
+    --skai-ink: #112131;
+    --skai-ink-soft: #30485E;
+    --skai-muted: #587083;
+    --skai-cloud: rgba(255,255,255,0.78);
+    --skai-cloud-strong: rgba(255,255,255,0.88);
+    --skai-border: rgba(20,52,72,0.14);
+    --skai-teal: #14B8A6;
+    --skai-cyan: #22D3EE;
+    --skai-lime: #A3E635;
+    --skai-mint: #DFFCF4;
+    --skai-sand: #FFF5DF;
+    --skai-lavender: #F0E9FF;
+    --skai-peach: #FFE5CF;
+}
+
+.stApp {
+    background:
+        radial-gradient(circle at 8% 4%, rgba(34,211,238,0.38), transparent 30%),
+        radial-gradient(circle at 94% 9%, rgba(255,229,207,0.80), transparent 34%),
+        radial-gradient(circle at 55% 92%, rgba(223,252,244,0.82), transparent 38%),
+        linear-gradient(135deg, #F7FCFF 0%, #EAF9F7 38%, #F6F0FF 72%, #FFF7EA 100%) !important;
+    color: var(--skai-ink) !important;
+}
+
+.block-container {
+    max-width: 1240px !important;
+    padding-top: 1.05rem !important;
+    padding-bottom: 3.5rem !important;
+}
+
+[data-testid="stHeader"] {
+    background: rgba(247,252,255,0.56) !important;
+    backdrop-filter: blur(18px) !important;
+}
+
+[data-testid="stSidebar"] {
+    background:
+        radial-gradient(circle at 12% 0%, rgba(34,211,238,0.34), transparent 33%),
+        linear-gradient(180deg, rgba(255,255,255,0.88), rgba(234,249,247,0.82)) !important;
+    border-right: 1px solid rgba(20,52,72,0.12) !important;
+    box-shadow: 16px 0 46px rgba(31,73,88,0.08) !important;
+}
+
+[data-testid="stSidebar"] * {
+    color: var(--skai-ink) !important;
+}
+
+.skai-sidebar-brand,
+.skai-v19-nav-active,
+[data-testid="stSidebar"] .stButton > button {
+    background: rgba(255,255,255,0.66) !important;
+    border: 1px solid rgba(20,52,72,0.13) !important;
+    color: var(--skai-ink) !important;
+    box-shadow: 0 14px 34px rgba(31,73,88,0.08) !important;
+}
+
+.skai-v19-nav-active {
+    background:
+        linear-gradient(90deg, rgba(20,184,166,0.18), rgba(163,230,53,0.16)),
+        rgba(255,255,255,0.82) !important;
+}
+
+[data-testid="stSidebar"] .stButton > button:hover {
+    background:
+        linear-gradient(90deg, rgba(34,211,238,0.18), rgba(163,230,53,0.13)),
+        rgba(255,255,255,0.90) !important;
+    border-color: rgba(20,184,166,0.28) !important;
+}
+
+.skai-v18-home,
+.skai-os-hero,
+.skai-os-panel,
+.skai-os-result-card,
+.skai-os-store-card,
+.skai-os-shopping-card,
+.skai-v18-card,
+.skai-v18-tile,
+.skai-v20-chain-panel,
+.skai-v28-visual-panel,
+.skai-v31-page-intro,
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stMetric"] {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.86), rgba(255,255,255,0.54)) !important;
+    border: 1px solid rgba(20,52,72,0.13) !important;
+    box-shadow: 0 18px 48px rgba(31,73,88,0.11), inset 0 1px 0 rgba(255,255,255,0.86) !important;
+    color: var(--skai-ink) !important;
+    backdrop-filter: blur(22px) !important;
+}
+
+.skai-v18-home {
+    min-height: 410px !important;
+    border-radius: 36px !important;
+    position: relative;
+}
+
+.skai-v18-home::after {
+    content: "";
+    position: absolute;
+    inset: auto 1.2rem 1.2rem auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 999px;
+    background:
+        radial-gradient(circle, rgba(20,184,166,0.22), transparent 62%);
+    pointer-events: none;
+}
+
+.skai-v18-title,
+.skai-os-title,
+.skai-v31-page-intro strong,
+.skai-v18-card strong,
+.skai-v18-tile strong,
+.skai-v20-chain-panel strong,
+.skai-v20-chain-chip strong,
+.skai-v28-visual-panel strong,
+.skai-v28-link-card strong,
+.skai-os-result-title,
+.skai-os-store-title,
+.skai-os-kicker,
+.skai-v18-kicker,
+.skai-v18-score strong,
+.skai-sidebar-main,
+.skai-sidebar-sub {
+    color: var(--skai-ink) !important;
+    text-shadow: none !important;
+}
+
+.skai-v18-title,
+.skai-os-title {
+    letter-spacing: -0.085em !important;
+}
+
+.skai-v18-subtitle,
+.skai-os-subtitle,
+.skai-v31-page-intro p,
+.skai-v18-card p,
+.skai-v18-tile p,
+.skai-v20-chain-panel p,
+.skai-v20-chain-chip p,
+.skai-v28-visual-panel p,
+.skai-v28-link-card p,
+.skai-os-step span,
+.skai-os-recipe-desc,
+.skai-v17-brief-main p,
+.skai-v17-brief-stat span,
+.skai-v17-store-pick p,
+p, li, label, div, span {
+    color: var(--skai-ink-soft) !important;
+}
+
+.skai-v18-kicker,
+.skai-os-kicker,
+.skai-v31-page-intro span,
+.skai-v20-chain-panel > div:first-child span,
+.skai-v20-chain-chip span,
+.skai-v28-visual-panel span,
+.skai-v28-link-card span,
+.skai-v17-brief-main span,
+.skai-v17-store-pick span {
+    color: #087F73 !important;
+}
+
+.skai-v18-score,
+.skai-v18-tile,
+.skai-v20-chain-chip,
+.skai-os-step,
+.skai-os-mission-card,
+.skai-v28-link-card,
+.skai-v31-tip,
+.skai-v17-brief-main,
+.skai-v17-brief-stat,
+.skai-v17-store-pick,
+.skai-v17-empty {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.82), rgba(255,255,255,0.46)) !important;
+    border: 1px solid rgba(20,52,72,0.12) !important;
+    color: var(--skai-ink) !important;
+    box-shadow: 0 14px 32px rgba(31,73,88,0.08) !important;
+}
+
+.skai-os-shell {
+    grid-template-columns: minmax(0,1.18fr) minmax(300px,0.82fr) !important;
+    gap: 0.85rem !important;
+    margin-bottom: 0.7rem !important;
+}
+
+.skai-os-hero {
+    min-height: 215px !important;
+    padding: 1rem !important;
+}
+
+.skai-os-title {
+    font-size: clamp(2rem, 4vw, 4.05rem) !important;
+}
+
+.skai-os-pill-row span,
+.skai-v17-tabbar span,
+.skai-v18-secondary {
+    background: rgba(255,255,255,0.76) !important;
+    border: 1px solid rgba(20,52,72,0.12) !important;
+    color: var(--skai-ink) !important;
+}
+
+.skai-v18-primary,
+.stButton > button,
+.skai-v28-link-card a {
+    background: linear-gradient(90deg, #14B8A6, #A3E635) !important;
+    color: #07111A !important;
+    border: 0 !important;
+    box-shadow: 0 14px 34px rgba(20,184,166,0.20) !important;
+    font-weight: 1000 !important;
+}
+
+.stButton > button:hover,
+.skai-v18-primary:hover,
+.skai-v28-link-card a:hover {
+    filter: saturate(1.08) brightness(1.02) !important;
+    transform: translateY(-1px);
+}
+
+[data-testid="stMetric"] [data-testid="stMetricLabel"],
+[data-testid="stMetric"] [data-testid="stMetricValue"] {
+    color: var(--skai-ink) !important;
+}
+
+input, textarea, select,
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea,
+[data-baseweb="select"] * {
+    color: var(--skai-ink) !important;
+}
+
+[data-baseweb="input"],
+[data-baseweb="textarea"],
+[data-baseweb="select"] > div {
+    background: rgba(255,255,255,0.78) !important;
+    border-color: rgba(20,52,72,0.15) !important;
+    color: var(--skai-ink) !important;
+}
+
+[role="listbox"],
+[role="option"] {
+    background: #FFFFFF !important;
+    color: var(--skai-ink) !important;
+}
+
+.stSlider [data-testid="stTickBar"] {
+    color: var(--skai-ink-soft) !important;
+}
+
+hr {
+    border-color: rgba(20,52,72,0.12) !important;
+}
+
+.skai-v33-soft-band {
+    margin: 0.8rem 0 1rem 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 0.65rem;
+}
+
+.skai-v33-soft-card {
+    padding: 0.85rem;
+    border-radius: 24px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.80), rgba(255,255,255,0.48));
+    border: 1px solid rgba(20,52,72,0.12);
+    box-shadow: 0 14px 36px rgba(31,73,88,0.09);
+}
+
+.skai-v33-soft-card span {
+    display: block;
+    color: #087F73 !important;
+    font-size: 0.72rem;
+    font-weight: 1000;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.skai-v33-soft-card strong {
+    display: block;
+    color: var(--skai-ink) !important;
+    margin-top: 0.24rem;
+    font-size: 1.05rem;
+    letter-spacing: -0.035em;
+}
+
+.skai-v33-soft-card p {
+    margin: 0.28rem 0 0 0 !important;
+    color: var(--skai-ink-soft) !important;
+    font-size: 0.86rem;
+    font-weight: 720;
+}
+
+@media (max-width: 900px) {
+    .skai-os-shell,
+    .skai-v33-soft-band {
+        grid-template-columns: 1fr !important;
+    }
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
    SKAI v31 — Brighter UX + clearer copy
    ========================================================= */
 
@@ -5955,6 +6484,41 @@ def skai_v31_tip(icon, title, body):
     )
 
 
+
+# =========================================================
+# SKAI v34 Modern UI Helpers
+# =========================================================
+
+def skai_v33_soft_band():
+    st.markdown(
+        """
+        <div class="skai-v33-soft-band">
+            <div class="skai-v33-soft-card">
+                <span>01</span>
+                <strong>Parti dal frigo</strong>
+                <p>Trasforma pochi ingredienti in una schiscetta sensata.</p>
+            </div>
+            <div class="skai-v33-soft-card">
+                <span>02</span>
+                <strong>Organizza la settimana</strong>
+                <p>Costruisci pranzi e lista spesa senza ricominciare ogni volta.</p>
+            </div>
+            <div class="skai-v33-soft-card">
+                <span>03</span>
+                <strong>Vedi i negozi vicini</strong>
+                <p>Usa mappa, raggio e volantini senza perdere tempo.</p>
+            </div>
+            <div class="skai-v33-soft-card">
+                <span>04</span>
+                <strong>Evita offerte sporche</strong>
+                <p>Solo card leggibili; il resto resta visuale o nascosto.</p>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 if st.session_state.page == "Home":
     planned_count = len(get_meal_plan_recipes(all_recipes))
     favorite_count = len(st.session_state.favorites)
@@ -6004,6 +6568,8 @@ if st.session_state.page == "Home":
         """,
         unsafe_allow_html=True,
     )
+
+    skai_v33_soft_band()
 
     st.write("")
 

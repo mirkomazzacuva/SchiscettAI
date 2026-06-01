@@ -7,6 +7,7 @@ import re
 import traceback
 from datetime import datetime, UTC
 from pathlib import Path
+from PIL import Image
 from urllib.parse import urlencode, urlparse, urlunparse, parse_qs
 
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
@@ -54,6 +55,28 @@ BANNED_COPY = [
     "no fake prices",
 ]
 
+
+
+def screenshot_brightness(path: Path) -> float:
+    try:
+        image = Image.open(path).convert("RGB")
+        # The app shell includes sidebar and full-page whitespace. Focus on the main content area.
+        w, h = image.size
+        left = int(w * 0.18)
+        right = w
+        top = 0
+        bottom = min(h, int(max(800, h * 0.78)))
+        image = image.crop((left, top, right, bottom))
+        image.thumbnail((420, 420))
+        pixels = list(image.getdata())
+        if not pixels:
+            return 0.0
+        total = 0.0
+        for r, g, b in pixels:
+            total += (0.2126 * r + 0.7152 * g + 0.0722 * b)
+        return total / len(pixels)
+    except Exception:
+        return 0.0
 
 def page_url(base_url: str, slug: str, qa_fast: bool = True, extra: dict | None = None) -> str:
     parsed = urlparse(base_url)
@@ -277,7 +300,15 @@ def main():
                 try:
                     page.goto(page_url(args.url, slug, qa_fast=True), wait_until="domcontentloaded", timeout=60000)
                     text = wait_app(page, expected_markers)
-                    page.screenshot(path=shots / f"{slug}.png", full_page=True)
+                    shot_path = shots / f"{slug}.png"
+                    page.screenshot(path=shot_path, full_page=True)
+                    brightness = screenshot_brightness(shot_path)
+                    report["checks"].append({
+                        "name": f"visual_brightness_{slug}",
+                        "page": page_name,
+                        "passed": brightness >= 62,
+                        "brightness": round(brightness, 2),
+                    })
 
                     markers_ok = any(marker.lower() in text.lower() for marker in expected_markers)
                     literal_ok = check_no_literal_html(text)

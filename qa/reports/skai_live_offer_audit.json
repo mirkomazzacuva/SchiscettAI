@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-06-01T10:16:34.900010+00:00",
+  "generated_at": "2026-06-01T12:57:17.814053+00:00",
   "note": "Non-blocking audit: controlla official+fallback. Rough pairs significa testo che somiglia a prodotto+prezzo.",
   "chains": [
     {
       "chain": "PENNY",
-      "best_pairs": 0,
+      "best_pairs": 24,
       "best_url": "https://www.penny.it/offerte",
       "sources": [
         {
           "chain": "PENNY",
           "url": "https://www.penny.it/offerte",
-          "ok": false,
-          "status": null,
-          "rough_pairs": 0,
-          "error": "HTTP Error 403: Forbidden"
+          "ok": true,
+          "status": 200,
+          "rough_pairs": 24,
+          "error": ""
         },
         {
           "chain": "PENNY",
@@ -104,7 +104,7 @@
     },
     {
       "chain": "Carrefour",
-      "best_pairs": 15,
+      "best_pairs": 12,
       "best_url": "https://www.promoqui.it/volantino/carrefour",
       "sources": [
         {
@@ -120,7 +120,7 @@
           "url": "https://www.promoqui.it/volantino/carrefour",
           "ok": true,
           "status": 200,
-          "rough_pairs": 15,
+          "rough_pairs": 12,
           "error": ""
         },
         {
@@ -173,9 +173,9 @@
           "chain": "Eurospin",
           "url": "https://www.eurospin.it/volantino/",
           "ok": false,
-          "status": null,
+          "status": 200,
           "rough_pairs": 0,
-          "error": "HTTP Error 500: Internal Server Error"
+          "error": ""
         },
         {
           "chain": "Eurospin",

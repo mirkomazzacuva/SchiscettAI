@@ -1,22 +1,22 @@
-# SKiscettAI · SKAI Kitchen OS v32
+# SKiscettAI · SKAI Kitchen OS v34
 
-## v32 Copy/UX Brightness + QA Hotfix
+## v34 Ultra Light Clarity
 
-v31 conteneva le modifiche giuste a copy e grafica, ma il beta test aveva un errore di indentazione nel controllo anti-jargon.
+v33 aveva la direzione giusta ma il beta test brightness ha bocciato Radar, Ricette, Lista spesa e Preferiti.
 
-v32 mantiene:
-- testi più chiari
-- UI meno scura
-- intro utili nelle pagine
-- hotfix Radar
-- volantini visuali
-- multi-source offers
-
-e corregge:
-- QA script compilato prima del run
-- controllo anti-jargon inserito correttamente
-- beta report generato di nuovo
-- workflow bloccante anche su errori sintattici nei file QA
+v34 corregge:
+- sfondo generale molto più chiaro
+- canvas app chiaro anche nelle pagine corte
+- sidebar più chiara
+- card quasi bianche
+- testi scuri coerenti
+- input/select bianchi e leggibili
+- metriche più luminose
+- Radar compatto mantenuto
+- copy/UX v32 mantenuti
+- hotfix Radar mantenuto
+- volantini visuali mantenuti
+- QA brightness mantenuto
 
 ## Avvio
 
