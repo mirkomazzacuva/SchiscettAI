@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.penny.it/offerte",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "PENNY"
   },
   {
@@ -25,10 +25,10 @@
       "unicoop firenze",
       "unicoop tirreno"
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "Coop"
   },
   {
@@ -41,10 +41,10 @@
       "sapori e dintorni",
       "sapori e dintorni conad"
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.doveconviene.it/volantino/conad-superstore",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "Conad"
   },
   {
@@ -56,10 +56,10 @@
       "panorama",
       "supermercati pam"
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.doveconviene.it/volantino/panorama",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "PAM"
   },
   {
@@ -68,10 +68,10 @@
       "lidl",
       "lidl italia"
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.lidl.it/c/offerte/c10026788",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "Lidl"
   },
   {
@@ -80,10 +80,10 @@
       "eurospin",
       "eurospin italia"
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.eurospin.it/volantino/",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "Eurospin"
   },
   {
@@ -91,10 +91,10 @@
     "aliases": [
       "esselunga"
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "Esselunga"
   },
   {
@@ -105,10 +105,10 @@
       "carrefour market",
       "iper carrefour"
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.carrefour.it/promozioni/",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "Carrefour"
   },
   {
@@ -118,10 +118,10 @@
       "md discount",
       "md supermercati"
     ],
-    "mode": "skai_kitchen_os_v34",
+    "mode": "skai_kitchen_os_v35",
     "url": "https://www.mdspa.it/volantino/",
-    "status": "ultra_light_clarity_v34",
-    "notes": "v34: fixes v33 brightness failures with ultra-light app canvas, sidebar, cards and visual QA.",
+    "status": "visual_qa_precision_refresh_v35",
+    "notes": "v35: fixes visual beta issues: sidebar contrast, above-fold clarity, empty-white pages, final CSS override ordering.",
     "parser_profile": "MD"
   }
 ]

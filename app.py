@@ -6519,7 +6519,335 @@ def skai_v33_soft_band():
     )
 
 
+st.markdown("""<style>
+/* =========================================================
+   SKAI v35 — Visual QA Precision Refresh
+   Final override loaded after every previous visual layer.
+   ========================================================= */
+
+html,
+body,
+#root,
+.stApp,
+[data-testid="stApp"],
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"],
+main,
+section.main {
+    background:
+        radial-gradient(circle at 10% 4%, rgba(36,214,200,0.26), transparent 28%),
+        radial-gradient(circle at 93% 6%, rgba(255,196,130,0.30), transparent 32%),
+        radial-gradient(circle at 52% 105%, rgba(163,230,53,0.16), transparent 42%),
+        linear-gradient(145deg, #E2F3F4 0%, #E8F4FF 36%, #EFEAFF 70%, #F4E8DA 100%) !important;
+    color: #102131 !important;
+}
+
+.block-container {
+    max-width: 1240px !important;
+    padding-top: 0.8rem !important;
+    padding-bottom: 3rem !important;
+    background: transparent !important;
+}
+
+[data-testid="stHeader"] {
+    background: rgba(226,243,244,0.66) !important;
+    backdrop-filter: blur(18px) !important;
+}
+
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] > div,
+[data-testid="stSidebar"] section {
+    background:
+        radial-gradient(circle at 20% 0%, rgba(36,214,200,0.18), transparent 34%),
+        linear-gradient(180deg, #F8FEFF 0%, #EDF8F7 56%, #E9F2FF 100%) !important;
+    border-right: 1px solid rgba(16,33,49,0.12) !important;
+    box-shadow: 16px 0 46px rgba(16,33,49,0.08) !important;
+}
+
+[data-testid="stSidebar"] *,
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] div,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] button,
+[data-testid="stSidebar"] button *,
+[data-testid="stSidebar"] [role="button"],
+[data-testid="stSidebar"] [role="button"] * {
+    color: #102131 !important;
+    text-shadow: none !important;
+}
+
+[data-testid="stSidebar"] .stButton > button,
+[data-testid="stSidebar"] button {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.96), rgba(238,248,248,0.86)) !important;
+    border: 1px solid rgba(16,33,49,0.13) !important;
+    box-shadow: 0 10px 24px rgba(16,33,49,0.08) !important;
+}
+
+.skai-v19-nav-active,
+[data-testid="stSidebar"] .skai-v19-nav-active,
+[data-testid="stSidebar"] .stButton > button[kind="primary"] {
+    background:
+        linear-gradient(90deg, rgba(20,184,166,0.22), rgba(163,230,53,0.18)),
+        rgba(255,255,255,0.98) !important;
+    border-color: rgba(20,184,166,0.28) !important;
+}
+
+.skai-sidebar-brand {
+    background: rgba(255,255,255,0.96) !important;
+    border: 1px solid rgba(16,33,49,0.13) !important;
+    box-shadow: 0 12px 28px rgba(16,33,49,0.08) !important;
+    color: #102131 !important;
+}
+
+.skai-v35-context-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.12rem 0 0.72rem 0;
+    padding: 0.7rem 0.85rem;
+    border-radius: 999px;
+    background:
+        linear-gradient(90deg, rgba(255,255,255,0.96), rgba(238,248,248,0.86));
+    border: 1px solid rgba(16,33,49,0.12);
+    box-shadow: 0 12px 30px rgba(16,33,49,0.08);
+    color: #102131 !important;
+}
+
+.skai-v35-context-bar span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.7rem;
+    padding: 0.28rem 0.58rem;
+    border-radius: 999px;
+    background: rgba(20,184,166,0.12);
+    color: #075E56 !important;
+    font-size: 0.78rem;
+    font-weight: 1000;
+    letter-spacing: 0.04em;
+}
+
+.skai-v35-context-bar strong {
+    color: #102131 !important;
+    font-weight: 1000;
+}
+
+.skai-v35-context-bar p {
+    margin: 0 !important;
+    color: #30485E !important;
+    font-weight: 760;
+}
+
+.skai-v18-home,
+.skai-os-hero,
+.skai-os-panel,
+.skai-os-result-card,
+.skai-os-store-card,
+.skai-os-shopping-card,
+.skai-v18-card,
+.skai-v18-tile,
+.skai-v20-chain-panel,
+.skai-v28-visual-panel,
+.skai-v31-page-intro,
+.skai-v17-brief-main,
+.skai-v17-brief-stat,
+.skai-v17-store-pick,
+.skai-v17-empty,
+.skai-v33-soft-card,
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stMetric"] {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.92), rgba(250,253,255,0.72)) !important;
+    border: 1px solid rgba(16,33,49,0.12) !important;
+    box-shadow: 0 16px 38px rgba(16,33,49,0.08), inset 0 1px 0 rgba(255,255,255,0.90) !important;
+    color: #102131 !important;
+    backdrop-filter: blur(18px) !important;
+}
+
+.skai-v18-home {
+    min-height: 390px !important;
+    border-radius: 34px !important;
+}
+
+.skai-v18-score,
+.skai-v20-chain-chip,
+.skai-os-step,
+.skai-os-mission-card,
+.skai-v28-link-card,
+.skai-v31-tip {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.92), rgba(238,248,248,0.74)) !important;
+    border: 1px solid rgba(16,33,49,0.11) !important;
+    box-shadow: 0 12px 28px rgba(16,33,49,0.07) !important;
+}
+
+.skai-v18-title,
+.skai-os-title,
+.skai-v31-page-intro strong,
+.skai-v18-card strong,
+.skai-v18-tile strong,
+.skai-v20-chain-panel strong,
+.skai-v20-chain-chip strong,
+.skai-v28-visual-panel strong,
+.skai-v28-link-card strong,
+.skai-os-result-title,
+.skai-os-store-title,
+.skai-sidebar-main,
+.skai-sidebar-sub,
+.skai-v33-soft-card strong,
+h1, h2, h3, h4, h5, h6,
+strong {
+    color: #102131 !important;
+    text-shadow: none !important;
+}
+
+.skai-v18-subtitle,
+.skai-os-subtitle,
+.skai-v31-page-intro p,
+.skai-v18-card p,
+.skai-v18-tile p,
+.skai-v20-chain-panel p,
+.skai-v20-chain-chip p,
+.skai-v28-visual-panel p,
+.skai-v28-link-card p,
+.skai-os-step span,
+.skai-os-recipe-desc,
+.skai-v33-soft-card p,
+p, li, label, div, span {
+    color: #2E4356 !important;
+}
+
+.skai-v18-kicker,
+.skai-os-kicker,
+.skai-v31-page-intro span,
+.skai-v20-chain-panel > div:first-child span,
+.skai-v20-chain-chip span,
+.skai-v28-visual-panel span,
+.skai-v28-link-card span,
+.skai-v17-brief-main span,
+.skai-v33-soft-card span {
+    color: #04796E !important;
+}
+
+.skai-os-shell {
+    grid-template-columns: minmax(0,1.18fr) minmax(300px,0.82fr) !important;
+    gap: 0.78rem !important;
+    margin-bottom: 0.58rem !important;
+}
+
+.skai-os-hero {
+    min-height: 198px !important;
+    padding: 0.92rem !important;
+}
+
+.skai-os-panel {
+    padding: 0.78rem !important;
+}
+
+.skai-os-title {
+    font-size: clamp(1.9rem, 3.6vw, 3.75rem) !important;
+}
+
+.skai-os-pill-row span,
+.skai-v17-tabbar span,
+.skai-v18-secondary {
+    background: rgba(255,255,255,0.86) !important;
+    border: 1px solid rgba(16,33,49,0.11) !important;
+    color: #102131 !important;
+}
+
+.stButton > button,
+.stButton > button *,
+.skai-v18-primary,
+.skai-v28-link-card a {
+    background: linear-gradient(90deg, #14B8A6, #A3E635) !important;
+    color: #07111A !important;
+    border: 0 !important;
+    box-shadow: 0 12px 26px rgba(20,184,166,0.18) !important;
+    font-weight: 1000 !important;
+}
+
+[data-testid="stMetric"] [data-testid="stMetricLabel"],
+[data-testid="stMetric"] [data-testid="stMetricValue"],
+[data-testid="stMetric"] * {
+    color: #102131 !important;
+}
+
+input,
+textarea,
+select,
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea,
+[data-baseweb="select"] *,
+[role="listbox"],
+[role="option"] {
+    background: #FFFFFF !important;
+    color: #102131 !important;
+}
+
+[data-baseweb="input"],
+[data-baseweb="textarea"],
+[data-baseweb="select"] > div {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(16,33,49,0.13) !important;
+    color: #102131 !important;
+}
+
+.stAlert {
+    background: rgba(255,255,255,0.88) !important;
+    color: #102131 !important;
+    border-color: rgba(16,33,49,0.12) !important;
+}
+
+section.main,
+main,
+[data-testid="stMain"] {
+    min-height: 100vh !important;
+}
+
+@media (max-width: 900px) {
+    [data-testid="stSidebar"] {
+        background: rgba(248,254,255,0.98) !important;
+    }
+
+    .skai-v35-context-bar {
+        border-radius: 24px;
+        align-items: flex-start;
+    }
+
+    .skai-os-shell {
+        grid-template-columns: 1fr !important;
+    }
+
+    .block-container {
+        padding-top: 0.65rem !important;
+    }
+}
+</style>""", unsafe_allow_html=True)
+
+
+# =========================================================
+# SKAI v35 Visual QA Helpers
+# =========================================================
+
+def skai_v35_context_bar(kicker, title, detail):
+    st.markdown(
+        f"""
+        <div class="skai-v35-context-bar">
+            <span>{html.escape(str(kicker))}</span>
+            <strong>{html.escape(str(title))}</strong>
+            <p>{html.escape(str(detail))}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 if st.session_state.page == "Home":
+    skai_v35_context_bar("Home", "La schiscetta giusta", "Apri Copilot, crea una schiscetta o passa a Radar.")
     planned_count = len(get_meal_plan_recipes(all_recipes))
     favorite_count = len(st.session_state.favorites)
     custom_count = len(st.session_state.custom_recipes)
@@ -6653,6 +6981,7 @@ if st.session_state.page == "Home":
             )
 
 elif st.session_state.page == "Crea SKiscetta":
+    skai_v35_context_bar("Svuota frigo", "Crea SKiscetta", "Ingredienti in casa, tempo disponibile e risultato pratico.")
     skai_v31_page_intro("Svuota-frigo", "Crea una schiscetta con quello che hai", "Inserisci pochi ingredienti e scegli il tipo di pranzo: SKAI ti propone una ricetta pratica, adatta al tempo disponibile.")
 
     if not all_recipes:
@@ -6753,6 +7082,7 @@ elif st.session_state.page == "Crea SKiscetta":
 
 
 elif st.session_state.page == "Ricette":
+    skai_v35_context_bar("Catalogo", "Ricette", "Filtra, salva e riusa le idee migliori per la pausa pranzo.")
     skai_v31_page_intro("Catalogo", "Ricette adatte alla pausa pranzo", "Filtra per ingrediente, obiettivo e tempo. Salva le ricette utili e riusale nel piano pranzi o nella lista spesa.")
 
     current_recipes = combined_recipes()
@@ -6839,6 +7169,7 @@ elif st.session_state.page == "Ricette":
 
 
 elif st.session_state.page == "Preferiti":
+    skai_v35_context_bar("Salvate", "Preferiti", "Tieni qui le ricette da riusare spesso.")
     skai_v31_page_intro("Salvate", "Ricette salvate", "Qui trovi le idee da riusare spesso. Le ricette salvate possono diventare base per lista spesa e piano settimanale.")
 
     favorite_recipes = get_favorite_recipes(combined_recipes())
@@ -6863,6 +7194,7 @@ elif st.session_state.page == "Preferiti":
 
 
 elif st.session_state.page == "Lista spesa":
+    skai_v35_context_bar("Lista", "Lista spesa", "Unisci ricette salvate, piano pranzi e ingredienti extra.")
     skai_v31_page_intro("Spesa", "Lista spesa intelligente", "Raccogli ingredienti da ricette salvate, piano pranzi e aggiunte manuali. L’obiettivo è uscire con una lista chiara.")
 
     current_recipes = combined_recipes()
@@ -6951,6 +7283,7 @@ elif st.session_state.page == "Lista spesa":
 
 
 elif st.session_state.page == "SKAI Radar":
+    skai_v35_context_bar("Radar negozi", "Catene nel raggio", "Mappa, offerte leggibili e volantini visuali nella stessa pagina.")
     current_recipes = combined_recipes()
     favorite_recipes = get_favorite_recipes(current_recipes)
     meal_plan_recipes = get_meal_plan_recipes(current_recipes)
@@ -7310,6 +7643,7 @@ elif st.session_state.page == "SKAI Radar":
 
 
 elif st.session_state.page == "Meal plan":
+    skai_v35_context_bar("Settimana", "Piano pranzi", "Scegli i pranzi lavorativi e genera la lista spesa.")
     skai_v31_page_intro("Settimana", "Piano pranzi della settimana", "Scegli una ricetta per ogni giorno lavorativo. Quando hai finito, apri la lista spesa già aggregata.")
 
     current_recipes = combined_recipes()

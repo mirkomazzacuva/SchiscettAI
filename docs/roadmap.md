@@ -1,15 +1,15 @@
 # SKAI Roadmap
 
-## v34 Ultra Light Clarity
+## v35 Visual QA Precision Refresh
 
-Fix:
-- visual_brightness_radar
-- visual_brightness_ricette
-- visual_brightness_lista
-- visual_brightness_preferiti
+Correzioni da visual beta:
+- low_contrast sidebar
+- above_fold Home/Radar/Meal
+- too_empty_or_white su pagine corte
+- CSS order conflict v31/v33/v34
 
 Prossimo salto:
-1. OCR/API offerte dai volantini visuali
-2. prezzo al kg/litro
-3. matching offerte con lista spesa
-4. onboarding preferenze utente
+1. rieseguire SKAI Visual Beta Test
+2. OCR/API offerte dai volantini visuali
+3. prezzo al kg/litro
+4. matching offerte con lista spesa

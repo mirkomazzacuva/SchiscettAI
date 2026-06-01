@@ -1,22 +1,21 @@
-# SKiscettAI · SKAI Kitchen OS v34
+# SKiscettAI · SKAI Kitchen OS v35
 
-## v34 Ultra Light Clarity
+## v35 Visual QA Precision Refresh
 
-v33 aveva la direzione giusta ma il beta test brightness ha bocciato Radar, Ricette, Lista spesa e Preferiti.
+Release basata sul report `skai-visual-beta-report`.
 
-v34 corregge:
-- sfondo generale molto più chiaro
-- canvas app chiaro anche nelle pagine corte
-- sidebar più chiara
-- card quasi bianche
-- testi scuri coerenti
-- input/select bianchi e leggibili
-- metriche più luminose
-- Radar compatto mantenuto
-- copy/UX v32 mantenuti
-- hotfix Radar mantenuto
-- volantini visuali mantenuti
-- QA brightness mantenuto
+Fix principali:
+- il CSS finale viene caricato dopo tutti i layer vecchi, quindi non viene più sovrascritto
+- sidebar realmente chiara
+- testi della sidebar scuri e leggibili
+- bottoni sidebar con contrasto corretto
+- sfondo light ma non bianco vuoto
+- pagine corte meno “vuote”
+- context bar above-fold su tutte le pagine
+- Home mostra subito “schiscetta” e “Copilot”
+- Radar mostra subito “catene nel raggio”
+- Meal plan mostra subito “Piano pranzi”
+- mantenuti hotfix Radar, copy UX, volantini visuali e multi-source offers
 
 ## Avvio
 
