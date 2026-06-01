@@ -62,7 +62,7 @@ CLUSTER_VISUALS = {
     },
     "meal_prep_box": {
         "emoji": "🍱",
-        "title": "Meal prep box",
+        "title": "Settimana box",
         "subtitle": "Organizzata, pratica e pronta per la settimana",
     },
     "insalata_proteica": {
@@ -382,9 +382,9 @@ def aggregate_ingredients(recipe_list, extra_items=None):
 
 def build_shopping_text(counter):
     if not counter:
-        return "Lista della spesa vuota."
+        return "Lista spesa intelligente vuota."
 
-    lines = ["Lista della spesa SKiscettAI", ""]
+    lines = ["Lista spesa intelligente SKiscettAI", ""]
 
     for ingredient, count in sorted(counter.items()):
         if count > 1:
@@ -3617,6 +3617,209 @@ def recipe_card(recipe, key_prefix, show_save=True, show_remove=False):
 load_css("styles/custom.css")
 st.markdown("""<style>
 /* =========================================================
+   SKAI v31 — Brighter UX + clearer copy
+   ========================================================= */
+
+:root {
+    --skai-v31-night: #10263A;
+    --skai-v31-blue: #143B55;
+    --skai-v31-teal: #24D6C8;
+    --skai-v31-lime: #B7FF6A;
+    --skai-v31-peach: #FFB36B;
+    --skai-v31-white: #FFFFFF;
+    --skai-v31-muted: rgba(255,255,255,0.82);
+    --skai-v31-panel: rgba(255,255,255,0.16);
+    --skai-v31-panel-soft: rgba(255,255,255,0.10);
+    --skai-v31-border: rgba(255,255,255,0.22);
+}
+
+.stApp {
+    background:
+        radial-gradient(circle at 8% 7%, rgba(36,214,200,0.30), transparent 31%),
+        radial-gradient(circle at 92% 10%, rgba(255,179,107,0.25), transparent 35%),
+        radial-gradient(circle at 55% 100%, rgba(183,255,106,0.18), transparent 36%),
+        linear-gradient(145deg, #10263A 0%, #173D59 45%, #2A2442 100%) !important;
+}
+
+.block-container {
+    max-width: 1220px !important;
+    padding-top: 1.35rem !important;
+}
+
+[data-testid="stHeader"] {
+    background: rgba(16,38,58,0.20) !important;
+}
+
+[data-testid="stSidebar"] {
+    background:
+        radial-gradient(circle at 20% 0%, rgba(36,214,200,0.22), transparent 36%),
+        linear-gradient(180deg, rgba(20,48,72,0.98), rgba(31,37,64,0.98)) !important;
+    border-right: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+.skai-v31-page-intro {
+    margin: 0.25rem 0 0.85rem 0;
+    padding: 1rem;
+    border-radius: 26px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.17), rgba(255,255,255,0.075));
+    border: 1px solid rgba(255,255,255,0.20);
+    box-shadow: 0 20px 62px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+.skai-v31-page-intro span {
+    color: var(--skai-v31-lime);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 1000;
+}
+
+.skai-v31-page-intro strong {
+    display: block;
+    color: #fff !important;
+    font-size: clamp(1.6rem, 3vw, 2.65rem);
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+    margin-top: 0.18rem;
+}
+
+.skai-v31-page-intro p {
+    margin: 0.45rem 0 0 0 !important;
+    color: rgba(255,255,255,0.82) !important;
+    font-weight: 760;
+    max-width: 840px;
+}
+
+.skai-v31-tip {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    padding: 0.82rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.105);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.82);
+    font-weight: 760;
+    margin: 0.45rem 0;
+}
+
+.skai-v31-tip b {
+    color: #fff;
+}
+
+.skai-v18-home,
+.skai-os-hero,
+.skai-os-panel,
+.skai-os-result-card,
+.skai-os-store-card,
+.skai-os-shopping-card,
+.skai-v18-card,
+.skai-v18-tile,
+.skai-v20-chain-panel,
+.skai-v28-visual-panel,
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.082)) !important;
+    border-color: rgba(255,255,255,0.22) !important;
+    box-shadow: 0 20px 62px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.18) !important;
+}
+
+.skai-v18-home {
+    min-height: 430px !important;
+    border-radius: 34px !important;
+}
+
+.skai-v18-title,
+.skai-os-title {
+    color: #fff !important;
+    text-shadow: 0 0 38px rgba(36,214,200,0.25), 0 12px 26px rgba(0,0,0,0.25) !important;
+}
+
+.skai-v18-subtitle,
+.skai-os-subtitle,
+.skai-v18-card p,
+.skai-v18-tile p,
+.skai-v20-chain-panel p,
+.skai-v28-visual-panel p,
+.skai-os-step span,
+.skai-os-recipe-desc {
+    color: rgba(255,255,255,0.82) !important;
+}
+
+.skai-v18-score,
+.skai-v18-tile,
+.skai-v20-chain-chip,
+.skai-os-step,
+.skai-os-mission-card,
+.skai-v28-link-card {
+    background: rgba(255,255,255,0.115) !important;
+    border-color: rgba(255,255,255,0.18) !important;
+}
+
+.skai-os-shell {
+    grid-template-columns: minmax(0,1.16fr) minmax(300px,0.84fr) !important;
+    margin-bottom: 0.55rem !important;
+}
+
+.skai-os-hero {
+    min-height: 220px !important;
+    padding: 0.95rem !important;
+}
+
+.skai-os-title {
+    font-size: clamp(2.05rem, 4vw, 4.15rem) !important;
+}
+
+.skai-os-pill-row span,
+.skai-v17-tabbar span,
+.skai-v18-secondary {
+    background: rgba(255,255,255,0.12) !important;
+    border-color: rgba(255,255,255,0.20) !important;
+    color: rgba(255,255,255,0.88) !important;
+}
+
+.stButton > button {
+    background: linear-gradient(90deg, #24D6C8, #B7FF6A) !important;
+    color: #06101B !important;
+    border: 0 !important;
+    box-shadow: 0 12px 32px rgba(36,214,200,0.22) !important;
+}
+
+[data-testid="stSidebar"] .stButton > button {
+    background: rgba(255,255,255,0.10) !important;
+    color: rgba(255,255,255,0.90) !important;
+    border: 1px solid rgba(255,255,255,0.17) !important;
+    box-shadow: none !important;
+}
+
+.skai-v19-nav-active {
+    background:
+        linear-gradient(90deg, rgba(36,214,200,0.34), rgba(183,255,106,0.23)),
+        rgba(255,255,255,0.12) !important;
+}
+
+[data-testid="stMetric"] {
+    background:
+        linear-gradient(145deg, rgba(36,214,200,0.18), rgba(255,179,107,0.12)) !important;
+    border: 1px solid rgba(255,255,255,0.19) !important;
+}
+
+input, textarea, select {
+    color: #FFFFFF !important;
+}
+
+@media (max-width: 900px) {
+    .skai-os-shell {
+        grid-template-columns: 1fr !important;
+    }
+    .skai-v18-home {
+        min-height: auto !important;
+    }
+}
+</style>""", unsafe_allow_html=True)
+st.markdown("""<style>
+/* =========================================================
    SKAI v28 — Visual flyer fallback
    ========================================================= */
 
@@ -5311,15 +5514,15 @@ def skai_v17_best_store(nearby_stores, offers, user_lat, user_lon):
 def skai_v17_mission_copy(mission, selected_items):
     count = len(selected_items or [])
 
-    if mission == "Creo una SKiscetta":
+    if mission == "Creo una schiscetta con quello che ho":
         if count:
-            return "Autopilot ricetta", f"Creo una proposta usando {count} ingredienti e alternative dal catalogo."
-        return "Autopilot ricetta", "Scrivi 2-3 ingredienti: SKAI genererà una SKiscetta."
+            return "Ricetta da frigo", f"Creo una proposta usando {count} ingredienti e alternative dal catalogo."
+        return "Ricetta da frigo", "Scrivi 2-3 ingredienti: SKAI genererà una SKiscetta."
 
-    if mission == "Organizzo la spesa settimanale":
-        return "Autopilot spesa", "Costruisco piano ricette, lista ingredienti e controllo se ci sono offerte affidabili."
+    if mission == "Preparo la spesa della settimana":
+        return "Spesa settimanale", "Costruisco piano ricette, lista ingredienti e controllo se ci sono offerte affidabili."
 
-    return "Autopilot radar", "Controllo negozi vicini e mostro solo offerte con prodotto identificato."
+    return "Radar negozi", "Controllo negozi vicini e mostro solo offerte con prodotto identificato."
 
 
 def render_skai_v17_brief(mission, selected_items, nearby_stores, nearby_chains, offers_to_show, raw_web_offers):
@@ -5332,12 +5535,12 @@ def render_skai_v17_brief(mission, selected_items, nearby_stores, nearby_chains,
             <div class="skai-v17-brief-main">
                 <span>{title}</span>
                 <strong>{subtitle}</strong>
-                <p>Un obiettivo, pochi input, risultato subito.</p>
+                <p>Una scelta chiara, pochi campi, un risultato pratico.</p>
                 <div class="skai-v17-tabbar">
-                    <span>mission-first</span>
-                    <span>map-first</span>
-                    <span>verified offers</span>
-                    <span>weekly planner</span>
+                    <span>scelta guidata</span>
+                    <span>mappa utile</span>
+                    <span>offerte leggibili</span>
+                    <span>piano pranzi</span>
                 </div>
             </div>
             <div class="skai-v17-brief-stat"><span>Negozi</span><strong>{len(nearby_stores or [])}</strong></div>
@@ -5681,18 +5884,18 @@ def render_skai_v28_visual_flyers(nearby_stores, offer_sources, offers_to_show):
     st.markdown(
         """
         <div class="skai-v28-visual-panel">
-            <span>volantini visuali</span>
-            <strong>Offerte leggibili anche quando il sito non espone testo strutturato</strong>
-            <p>Per alcune catene il prodotto+prezzo è dentro immagini/volantini. SKAI mostra la pagina del volantino invece di inventare card testuali non affidabili.</p>
+            <span>Volantini visuali</span>
+            <strong>Quando le offerte sono in immagine, ti mostro il volantino</strong>
+            <p>Alcuni supermercati pubblicano le offerte come immagini. In quei casi SKAI mostra il volantino, così puoi vedere prodotto e prezzo senza dati inventati.</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    with st.expander("Apri volantini visuali delle catene nel raggio", expanded=False):
+    with st.expander("Apri Volantini visuali delle catene nel raggio", expanded=False):
         for group in visual_chains:
             chain = group["chain"]
-            label = "ha anche card testuali" if group["has_text_offers"] else "solo visuale affidabile ora"
+            label = "offerte testuali disponibili" if group["has_text_offers"] else "volantino disponibile"
             st.markdown(f"#### {chain} · {label}")
 
             cols = st.columns(3)
@@ -5708,8 +5911,8 @@ def render_skai_v28_visual_flyers(nearby_stores, offer_sources, offers_to_show):
                             <div class="skai-v28-link-card">
                                 <span>{html.escape(chain)}</span>
                                 <strong>{html.escape(source_name)}</strong>
-                                <p>Apri il volantino/offerte direttamente dalla fonte.</p>
-                                <a href="{html.escape(url)}" target="_blank">Apri fonte</a>
+                                <p>Apri la fonte per vedere il volantino aggiornato.</p>
+                                <a href="{html.escape(url)}" target="_blank">Apri volantino</a>
                             </div>
                             """,
                             unsafe_allow_html=True,
@@ -5720,6 +5923,36 @@ def render_skai_v28_visual_flyers(nearby_stores, offer_sources, offers_to_show):
                             caption=f"{chain} · pagina {page} · {source_name}",
                             use_container_width=True,
                         )
+
+
+
+# =========================================================
+# SKAI v31 Copy Helpers
+# =========================================================
+
+def skai_v31_page_intro(kicker, title, body):
+    st.markdown(
+        f"""
+        <div class="skai-v31-page-intro">
+            <span>{html.escape(str(kicker))}</span>
+            <strong>{html.escape(str(title))}</strong>
+            <p>{html.escape(str(body))}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def skai_v31_tip(icon, title, body):
+    st.markdown(
+        f"""
+        <div class="skai-v31-tip">
+            <div>{html.escape(str(icon))}</div>
+            <div><b>{html.escape(str(title))}</b><br>{html.escape(str(body))}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 if st.session_state.page == "Home":
@@ -5733,15 +5966,14 @@ if st.session_state.page == "Home":
             <div class="skai-v18-home-grid">
                 <div>
                     <div class="skai-v18-kicker">SKiscettAI · Kitchen OS</div>
-                    <div class="skai-v18-title">Pranzo smart. Spesa furba. Zero caos.</div>
+                    <div class="skai-v18-title">La schiscetta giusta, senza pensarci troppo.</div>
                     <div class="skai-v18-subtitle">
-                        SKAI trasforma ingredienti casuali, offerte leggibili e supermercati vicini in una decisione semplice:
-                        cosa mangiare, cosa comprare e dove andare.
+                        Parti da quello che hai, dal tempo che hai o dalla spesa da fare. SKAI ti porta subito a una ricetta, una lista o un negozio vicino.
                     </div>
                     <div class="skai-v18-actions">
-                        <span class="skai-v18-primary">Apri SKAI Copilot</span>
-                        <span class="skai-v18-secondary">Crea piano settimanale</span>
-                        <span class="skai-v18-secondary">Controlla negozi vicini</span>
+                        <span class="skai-v18-primary">Inizia dal Copilot</span>
+                        <span class="skai-v18-secondary">Pianifica la settimana</span>
+                        <span class="skai-v18-secondary">Trova offerte e negozi</span>
                     </div>
                     <div class="skai-v18-scorebar">
                         <div class="skai-v18-score"><span>Ricette</span><strong>{len(all_recipes)}</strong></div>
@@ -5752,19 +5984,19 @@ if st.session_state.page == "Home":
                 </div>
                 <div class="skai-v18-tiles">
                     <div class="skai-v18-tile">
-                        <span>01 · pantry intelligence</span>
-                        <strong>Dimmi cosa hai in frigo.</strong>
-                        <p>SKAI costruisce una SKiscetta veloce e alternative dal catalogo.</p>
+                        <span>01 · ingredienti in casa</span>
+                        <strong>Usa quello che hai già.</strong>
+                        <p>Scrivi pochi ingredienti e ottieni idee pratiche, non una lista infinita.</p>
                     </div>
                     <div class="skai-v18-tile">
-                        <span>02 · weekly autopilot</span>
-                        <strong>Organizza la settimana.</strong>
-                        <p>Ricette, lista spesa e offerte verificate quando disponibili.</p>
+                        <span>02 · settimana organizzata</span>
+                        <strong>Prepara il pranzo dei giorni lavorativi.</strong>
+                        <p>Scegli le ricette e la lista spesa si compone da sola.</p>
                     </div>
                     <div class="skai-v18-tile">
-                        <span>03 · trust filter</span>
-                        <strong>Niente prezzi finti.</strong>
-                        <p>Se il prodotto non è chiaro, il prezzo resta fuori dal feed principale.</p>
+                        <span>03 · offerte senza confusione</span>
+                        <strong>Prezzi mostrati solo se sono chiari.</strong>
+                        <p>Quando il sito non espone testo affidabile, trovi il volantino visuale invece di card inutili.</p>
                     </div>
                 </div>
             </div>
@@ -5782,14 +6014,14 @@ if st.session_state.page == "Home":
             st.markdown(
                 """
                 <div class="skai-v18-card">
-                    <span>Start here</span>
-                    <strong>SKAI Copilot</strong>
-                    <p>Il flusso principale: missione, zona, mappa, ricette, spesa e offerte pulite.</p>
+                    <span>Da qui</span>
+                    <strong>Copilot SKAI</strong>
+                    <p>Il percorso più veloce: scegli cosa ti serve e SKAI ti guida.</p>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
-            if st.button("Apri Copilot", key="home_v18_open_copilot"):
+            if st.button("Apri il Copilot", key="home_v18_open_copilot"):
                 go_to("SKAI Radar")
                 st.rerun()
 
@@ -5798,9 +6030,9 @@ if st.session_state.page == "Home":
             st.markdown(
                 """
                 <div class="skai-v18-card">
-                    <span>Meal prep</span>
-                    <strong>Piano settimanale</strong>
-                    <p>Organizza pranzi, lista ingredienti e ricette salvate in pochi click.</p>
+                    <span>Settimana</span>
+                    <strong>Piano pranzi</strong>
+                    <p>Scegli i pranzi della settimana e prepara la lista in automatico.</p>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -5814,9 +6046,9 @@ if st.session_state.page == "Home":
             st.markdown(
                 """
                 <div class="skai-v18-card">
-                    <span>Explore</span>
+                    <span>Ricette</span>
                     <strong>Ricette</strong>
-                    <p>Scopri il catalogo, salva preferiti e costruisci la tua base pranzo.</p>
+                    <p>Trova idee semplici, salva le migliori e riusale quando vuoi.</p>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -5828,17 +6060,17 @@ if st.session_state.page == "Home":
     st.write("")
 
     render_skai_section_label(
-        "Featured flows",
-        "Tre modi per usare SKAI oggi.",
-        "Meno dashboard, più decisioni pronte."
+        "Cosa puoi fare subito",
+        "Scegli il punto di partenza più comodo.",
+        "L’obiettivo è arrivare in fretta a una decisione utile."
     )
 
     flow_cols = st.columns(3)
 
     flows = [
-        ("ingredienti → ricetta", "Scrivi pollo, riso, zucchine. SKAI crea la SKiscetta."),
-        ("ricette → lista spesa", "Scegli i giorni, ottieni ingredienti aggregati."),
-        ("negozi → fiducia", "Mappa vicina e offerte mostrate solo se il prodotto è chiaro."),
+        ("ingredienti → idea pranzo", "Scrivi pollo, riso, zucchine: SKAI propone una combinazione sensata."),
+        ("ricette → lista spesa", "Scegli i giorni: gli ingredienti vengono raccolti in una lista unica."),
+        ("negozi → offerte leggibili", "Vedi i supermercati nel raggio e solo le offerte abbastanza chiare."),
     ]
 
     for index, (title, subtitle) in enumerate(flows):
@@ -5855,7 +6087,7 @@ if st.session_state.page == "Home":
             )
 
 elif st.session_state.page == "Crea SKiscetta":
-    st.markdown("## Crea la tua SKiscetta")
+    skai_v31_page_intro("Svuota-frigo", "Crea una schiscetta con quello che hai", "Inserisci pochi ingredienti e scegli il tipo di pranzo: SKAI ti propone una ricetta pratica, adatta al tempo disponibile.")
 
     if not all_recipes:
         st.error(
@@ -5863,7 +6095,7 @@ elif st.session_state.page == "Crea SKiscetta":
         )
 
     with st.container(border=True):
-        st.markdown("### Generatore smart gratuito")
+        st.markdown("### Modalità svuota-frigo")
         st.write(
             "SKiscettAI ora fa due cose: cerca nel catalogo le ricette più vicine "
             "e crea anche una SKiscetta modulare originale usando base + proteina + verdura + salsa + topping."
@@ -5871,7 +6103,7 @@ elif st.session_state.page == "Crea SKiscetta":
 
     with st.form("SKiscetta_form"):
         ingredienti = st.text_input(
-            "Che ingredienti hai in casa?",
+            "Cosa hai già in frigo o in dispensa?",
             placeholder="Esempio: pollo, riso, zucchine",
         )
 
@@ -5879,7 +6111,7 @@ elif st.session_state.page == "Crea SKiscetta":
 
         with col1:
             obiettivo = st.selectbox(
-                "Qual è il tuo obiettivo?",
+                "Che tipo di pranzo vuoi?",
                 [
                     "Svuota frigo",
                     "Proteica",
@@ -5888,13 +6120,13 @@ elif st.session_state.page == "Crea SKiscetta":
                     "Vegetariana",
                     "Veloce",
                     "Gourmet",
-                    "Meal prep",
+                    "Settimana",
                 ],
             )
 
         with col2:
             tempo = st.selectbox(
-                "Quanto tempo hai?",
+                "Quanto tempo hai per prepararlo?",
                 [
                     "10 minuti",
                     "20 minuti",
@@ -5904,15 +6136,15 @@ elif st.session_state.page == "Crea SKiscetta":
             )
 
         preferenze = st.text_input(
-            "Preferenze o vincoli",
+            "Preferenze o cose da evitare",
             placeholder="Esempio: senza pesce, più proteica, da mangiare fredda",
         )
 
-        submitted = st.form_submit_button("Genera la mia SKiscetta")
+        submitted = st.form_submit_button("Crea la mia schiscetta")
 
     if submitted:
         if not ingredienti.strip():
-            st.warning("Inserisci almeno un ingrediente.")
+            st.warning("Scrivi almeno un ingrediente per iniziare.")
         else:
             modular_recipe = generate_modular_recipe(
                 modules,
@@ -5955,24 +6187,24 @@ elif st.session_state.page == "Crea SKiscetta":
 
 
 elif st.session_state.page == "Ricette":
-    st.markdown("## Catalogo ricette")
+    skai_v31_page_intro("Catalogo", "Ricette adatte alla pausa pranzo", "Filtra per ingrediente, obiettivo e tempo. Salva le ricette utili e riusale nel piano pranzi o nella lista spesa.")
 
     current_recipes = combined_recipes()
     current_clusters = recipes_by_cluster(current_recipes)
 
     with st.container(border=True):
-        st.markdown("### Filtri")
+        st.markdown("### Trova più velocemente")
         search_col, goal_col = st.columns(2)
 
         with search_col:
             text_query = st.text_input(
-                "Cerca per ingrediente, nome o parola chiave",
+                "Cerca ingredienti, piatti o esigenze",
                 placeholder="Esempio: pollo, ceci, pasta, light",
             )
 
         with goal_col:
             goal_filter = st.selectbox(
-                "Filtra per obiettivo",
+                "Obiettivo",
                 [
                     "Tutte",
                     "Proteica",
@@ -5981,7 +6213,7 @@ elif st.session_state.page == "Ricette":
                     "Vegetariana",
                     "Veloce",
                     "Gourmet",
-                    "Meal prep",
+                    "Settimana",
                     "Svuota frigo",
                 ],
             )
@@ -5990,7 +6222,7 @@ elif st.session_state.page == "Ricette":
 
         with tag_col:
             tag_values = ["Tutti"] + sorted(set(tags + ["modulare"]))
-            tag_filter = st.selectbox("Filtra per tag", tag_values)
+            tag_filter = st.selectbox("Tag", tag_values)
 
         with time_col:
             max_time_filter = st.selectbox(
@@ -6006,10 +6238,10 @@ elif st.session_state.page == "Ricette":
 
         with cluster_col:
             cluster_values = ["Tutti"] + sorted(current_clusters.keys())
-            cluster_filter = st.selectbox("Filtra per cluster", cluster_values)
+            cluster_filter = st.selectbox("Tipo di ricetta", cluster_values)
 
         max_cards = st.slider(
-            "Quante ricette mostrare",
+            "Quante ricette vuoi vedere",
             min_value=6,
             max_value=30,
             value=12,
@@ -6025,10 +6257,10 @@ elif st.session_state.page == "Ricette":
         cluster_filter,
     )
 
-    st.write(f"Ricette trovate: {len(filtered_recipes)}")
+    st.write(f"Risultati trovati: {len(filtered_recipes)}")
 
     if not filtered_recipes:
-        st.warning("Nessuna ricetta trovata con questi filtri.")
+        st.warning("Nessuna ricetta trovata: prova a togliere un filtro o usare un ingrediente più semplice.")
 
     for recipe in filtered_recipes[:max_cards]:
         recipe_card(recipe, key_prefix="catalog", show_save=True)
@@ -6041,18 +6273,18 @@ elif st.session_state.page == "Ricette":
 
 
 elif st.session_state.page == "Preferiti":
-    st.markdown("## Le tue ricette preferite")
+    skai_v31_page_intro("Salvate", "Ricette salvate", "Qui trovi le idee da riusare spesso. Le ricette salvate possono diventare base per lista spesa e piano settimanale.")
 
     favorite_recipes = get_favorite_recipes(combined_recipes())
 
     if not favorite_recipes:
-        st.info("Non hai ancora salvato ricette preferite.")
-        if st.button("Vai al catalogo"):
+        st.info("Non hai ancora ricette salvate. Quando ne trovi una utile, aggiungila qui.")
+        if st.button("Vai alle ricette"):
             go_to("Ricette")
             st.rerun()
     else:
         st.success(
-            "Le ricette preferite alimentano automaticamente anche la lista della spesa."
+            "Le ricette salvate possono alimentare automaticamente la lista della spesa."
         )
 
         for recipe in favorite_recipes:
@@ -6065,27 +6297,27 @@ elif st.session_state.page == "Preferiti":
 
 
 elif st.session_state.page == "Lista spesa":
-    st.markdown("## Lista della spesa")
+    skai_v31_page_intro("Spesa", "Lista spesa intelligente", "Raccogli ingredienti da ricette salvate, piano pranzi e aggiunte manuali. L’obiettivo è uscire con una lista chiara.")
 
     current_recipes = combined_recipes()
     favorite_recipes = get_favorite_recipes(current_recipes)
     meal_plan_recipes = get_meal_plan_recipes(current_recipes)
 
     with st.container(border=True):
-        st.markdown("### Fonti della lista")
+        st.markdown("### Da dove vuoi creare la lista")
 
-        use_favorites = st.checkbox("Usa ricette preferite", value=True)
-        use_meal_plan = st.checkbox("Usa meal plan settimanale", value=True)
+        use_favorites = st.checkbox("Includi ricette salvate", value=True)
+        use_meal_plan = st.checkbox("Includi piano pranzi", value=True)
 
         extra_item = st.text_input(
-            "Aggiungi ingrediente extra",
+            "Aggiungi qualcosa a mano",
             placeholder="Esempio: yogurt greco",
         )
 
-        if st.button("Aggiungi extra"):
+        if st.button("Aggiungi alla lista"):
             if extra_item.strip():
                 st.session_state.extra_shopping_items.append(extra_item.strip())
-                st.success("Ingrediente extra aggiunto.")
+                st.success("Aggiunto alla lista.")
                 st.rerun()
 
     selected_recipes = []
@@ -6109,17 +6341,17 @@ elif st.session_state.page == "Lista spesa":
         st.metric("Ricette preferite", len(favorite_recipes))
 
     with source_col2:
-        st.metric("Ricette meal plan", len(meal_plan_recipes))
+        st.metric("Ricette pianificate", len(meal_plan_recipes))
 
     with source_col3:
-        st.metric("Ingredienti in lista", len(shopping_counter))
+        st.metric("Ingredienti totali", len(shopping_counter))
 
     if not shopping_counter:
         st.info(
-            "La lista è vuota. Salva ricette nei preferiti o scegli ricette nel meal plan."
+            "La lista è vuota: salva qualche ricetta o compila il piano pranzi."
         )
     else:
-        st.markdown("### Ingredienti da comprare")
+        st.markdown("### Da comprare")
 
         for ingredient, count in sorted(shopping_counter.items()):
             lookup_key = normalize_text(ingredient)
@@ -6161,31 +6393,31 @@ elif st.session_state.page == "SKAI Radar":
         """
         <div class="skai-os-shell">
             <section class="skai-os-hero">
-                <div class="skai-os-kicker">SKAI Kitchen OS</div>
-                <div class="skai-os-title">Il tuo pranzo diventa un sistema operativo.</div>
+                <div class="skai-os-kicker">SKAI Radar</div>
+                <div class="skai-os-title">Spesa e pranzo, finalmente nella stessa schermata.</div>
                 <div class="skai-os-subtitle">
-                    Ingredienti, ricette, lista spesa, negozi e offerte verificate in un unico flusso. Se il prodotto non è chiaro, il prezzo non appare.
+                    Scegli se partire dagli ingredienti, dalla settimana o dai negozi vicini. SKAI organizza il resto e nasconde i prezzi non leggibili.
                 </div>
                 <div class="skai-os-pill-row">
-                    <span>🥗 Pantry → recipe</span>
-                    <span>🛒 Weekly plan</span>
-                    <span>🗺️ Store radar</span>
-                    <span>🛡️ verified prices</span><span>✨ App Store grade</span>
+                    <span>🥗 Ingredienti → ricetta</span>
+                    <span>🛒 Piano settimana</span>
+                    <span>🗺️ Negozi vicini</span>
+                    <span>🛡️ prezzi leggibili</span><span>✨ esperienza semplice</span>
                 </div>
             </section>
             <aside class="skai-os-panel">
-                <h3>Come lavora SKAI</h3>
+                <h3>Come usare questa pagina</h3>
                 <div class="skai-os-step">
                     <div class="skai-os-step-number">1</div>
-                    <div><strong>Scegli il problema</strong><span>Ingredienti in casa, spesa settimanale o offerte vicine.</span></div>
+                    <div><strong>Scegli da dove partire</strong><span>Ingredienti in frigo, piano settimana o supermercati vicini.</span></div>
                 </div>
                 <div class="skai-os-step">
                     <div class="skai-os-step-number">2</div>
-                    <div><strong>SKAI semplifica</strong><span>Mostra pochi campi e nasconde la parte tecnica.</span></div>
+                    <div><strong>SKAI ti guida</strong><span>Ti chiede solo le informazioni necessarie e riduce il rumore.</span></div>
                 </div>
                 <div class="skai-os-step">
                     <div class="skai-os-step-number">3</div>
-                    <div><strong>Risultato leggibile</strong><span>Niente prezzi senza prodotto. Meglio meno dati, ma affidabili.</span></div>
+                    <div><strong>Risultato utilizzabile</strong><span>Niente numeri senza prodotto: meglio pochi dati, ma chiari.</span></div>
                 </div>
             </aside>
         </div>
@@ -6194,13 +6426,14 @@ elif st.session_state.page == "SKAI Radar":
     )
 
     with st.container(border=True):
-        st.markdown("### Mission Control")
+        st.markdown("### Scegli cosa vuoi risolvere")
+        skai_v31_tip("👉", "Parti semplice", "Scegli un obiettivo, imposta zona e raggio: SKAI ti mostra prima ciò che è utilizzabile.")
         mission = st.radio(
-            "Cosa vuoi ottenere?",
+            "Da cosa vuoi partire?",
             [
-                "Creo una SKiscetta",
-                "Organizzo la spesa settimanale",
-                "Controllo negozi e offerte",
+                "Creo una schiscetta con quello che ho",
+                "Preparo la spesa della settimana",
+                "Controllo negozi e offerte vicine",
             ],
             horizontal=True,
             label_visibility="collapsed",
@@ -6231,7 +6464,7 @@ elif st.session_state.page == "SKAI Radar":
         search_items = []
 
         with input_col:
-            if mission == "Creo una SKiscetta":
+            if mission == "Creo una schiscetta con quello che ho":
                 pantry_text = st.text_input(
                     "Ingredienti disponibili",
                     placeholder="pollo, riso, zucchine...",
@@ -6239,7 +6472,7 @@ elif st.session_state.page == "SKAI Radar":
                 )
                 pantry_items = skai_parse_user_items(pantry_text)
 
-            elif mission == "Organizzo la spesa settimanale":
+            elif mission == "Preparo la spesa della settimana":
                 weekly_days = st.radio(
                     "Giorni",
                     [3, 4, 5],
@@ -6275,7 +6508,7 @@ elif st.session_state.page == "SKAI Radar":
             use_web_parsers = st.toggle("Leggi offerte web", value=True, key="skai_v15_web")
             max_web_offers = st.select_slider("Max offerte pulite", options=[6, 12, 20, 30], value=12, key="skai_v15_max_offers")
 
-    selected_ingredients = pantry_items if mission == "Creo una SKiscetta" else search_items
+    selected_ingredients = pantry_items if mission == "Creo una schiscetta con quello che ho" else search_items
     use_web_parsers = False if skai_qa_fast else st.session_state.get("skai_v15_web", True)
     max_web_offers = st.session_state.get("skai_v15_max_offers", 12)
 
@@ -6401,7 +6634,7 @@ elif st.session_state.page == "SKAI Radar":
 
     st.write("")
 
-    if mission == "Creo una SKiscetta":
+    if mission == "Creo una schiscetta con quello che ho":
         st.markdown("## SKiscetta generata")
 
         if pantry_items:
@@ -6443,7 +6676,7 @@ elif st.session_state.page == "SKAI Radar":
                 unsafe_allow_html=True,
             )
 
-    elif mission == "Organizzo la spesa settimanale":
+    elif mission == "Preparo la spesa della settimana":
         st.markdown("## Piano spesa settimanale")
 
         plan = skai_make_week_plan(current_recipes, offers_to_show, days=weekly_days, focus=focus)
@@ -6479,7 +6712,7 @@ elif st.session_state.page == "SKAI Radar":
             render_skai_v17_no_offer_feed(len(raw_web_offers))
             render_skai_no_clean_offers(len(raw_web_offers))
 
-    if mission != "Controllo negozi e offerte" and raw_web_offers and not offers_to_show:
+    if mission != "Controllo negozi e offerte vicine" and raw_web_offers and not offers_to_show:
         render_skai_no_clean_offers(len(raw_web_offers))
 
     with st.expander("Tecnico: parser e dati grezzi", expanded=False):
@@ -6511,12 +6744,12 @@ elif st.session_state.page == "SKAI Radar":
 
 
 elif st.session_state.page == "Meal plan":
-    st.markdown("## Meal plan settimanale")
+    skai_v31_page_intro("Settimana", "Piano pranzi della settimana", "Scegli una ricetta per ogni giorno lavorativo. Quando hai finito, apri la lista spesa già aggregata.")
 
     current_recipes = combined_recipes()
 
     with st.container(border=True):
-        st.markdown("### Organizza la tua settimana")
+        st.markdown("### Organizza i pranzi lavorativi")
         st.write(
             "Scegli una SKiscetta per ogni giorno lavorativo. "
             "Le ricette selezionate alimentano automaticamente la lista della spesa."
@@ -6530,12 +6763,12 @@ elif st.session_state.page == "Meal plan":
         st.selectbox(day, recipe_options, key=f"meal_{day}")
 
     st.write("")
-    st.markdown("### Riepilogo settimana")
+    st.markdown("### Riepilogo dei pranzi")
 
     planned_recipes = get_meal_plan_recipes(current_recipes)
 
     if not planned_recipes:
-        st.info("Non hai ancora selezionato ricette per la settimana.")
+        st.info("Non hai ancora scelto i pranzi della settimana.")
     else:
         for day in WORK_DAYS:
             title = st.session_state.get(f"meal_{day}", "Nessuna ricetta")
@@ -6551,6 +6784,6 @@ elif st.session_state.page == "Meal plan":
 
         st.write("")
 
-        if st.button("Vai alla lista della spesa"):
+        if st.button("Apri la lista spesa"):
             go_to("Lista spesa")
             st.rerun()

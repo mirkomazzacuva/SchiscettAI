@@ -1,8 +1,8 @@
 # SKAI Live Offer Audit
 
-- ✅ PENNY · best_pairs=20 · https://www.penny.it/offerte
-  - 20 pairs · status=200 · https://www.penny.it/offerte · 
-  - 0 pairs · status=None · https://www.promoqui.it/volantino/penny-market · The read operation timed out
+- ⚠️ PENNY · best_pairs=0 · https://www.penny.it/offerte
+  - 0 pairs · status=None · https://www.penny.it/offerte · HTTP Error 403: Forbidden
+  - 0 pairs · status=200 · https://www.promoqui.it/volantino/penny-market · 
   - 0 pairs · status=200 · https://zonavolantini.com/penny · 
 - ⚠️ Coop · best_pairs=0 · https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci
   - 0 pairs · status=200 · https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci · 
@@ -13,18 +13,18 @@
 - ⚠️ PAM · best_pairs=0 · https://www.doveconviene.it/volantino/panorama
   - 0 pairs · status=200 · https://www.doveconviene.it/volantino/panorama · 
   - 0 pairs · status=200 · https://www.volantinofacile.it/pam/volantino-pam · 
-- ✅ Carrefour · best_pairs=6 · https://www.promoqui.it/volantino/carrefour
+- ✅ Carrefour · best_pairs=15 · https://www.promoqui.it/volantino/carrefour
   - 0 pairs · status=200 · https://www.carrefour.it/promozioni/ · 
-  - 6 pairs · status=200 · https://www.promoqui.it/volantino/carrefour · 
+  - 15 pairs · status=200 · https://www.promoqui.it/volantino/carrefour · 
   - 0 pairs · status=None · https://www.doveconviene.it/volantino/carrefour · HTTP Error 404: Not Found
 - ⚠️ Lidl · best_pairs=0 · https://www.lidl.it/c/offerte/c10026788
   - 0 pairs · status=None · https://www.lidl.it/c/offerte/c10026788 · HTTP Error 404: Not Found
   - 0 pairs · status=200 · https://www.doveconviene.it/volantino/lidl · 
   - 0 pairs · status=200 · https://www.promoqui.it/volantino/lidl · 
-- ✅ Eurospin · best_pairs=3 · https://www.promoqui.it/volantino/eurospin
-  - 0 pairs · status=200 · https://www.eurospin.it/volantino/ · 
+- ⚠️ Eurospin · best_pairs=0 · https://www.eurospin.it/volantino/
+  - 0 pairs · status=None · https://www.eurospin.it/volantino/ · HTTP Error 500: Internal Server Error
   - 0 pairs · status=200 · https://www.doveconviene.it/volantino/eurospin · 
-  - 3 pairs · status=200 · https://www.promoqui.it/volantino/eurospin · 
+  - 0 pairs · status=200 · https://www.promoqui.it/volantino/eurospin · 
 - ⚠️ Esselunga · best_pairs=0 · https://www.esselunga.it/it-it/negozi/volantino.html
   - 0 pairs · status=None · https://www.esselunga.it/it-it/negozi/volantino.html · HTTP Error 404: Not Found
   - 0 pairs · status=200 · https://www.doveconviene.it/volantino/esselunga · 

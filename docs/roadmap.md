@@ -1,14 +1,14 @@
 # SKAI Roadmap
 
-## v30 Radar Hotfix
+## v32 QA Hotfix
 
-Fix:
-- hotfix definitivo per `parser_url_for_chain`
-- test `radar_boot_parser_selection` non dipende da siti esterni
-- test UI/bottoni invariati
+Correzioni:
+- beta_test_skai.py riscritto correttamente
+- py_compile su app.py e script QA
+- controllo copy anti-jargon mantenuto
 
 Prossimo salto:
-1. OCR controllato sulle immagini volantino
-2. parser ShopFully publication_pages
-3. prezzo al kg/litro
-4. matching offerte con lista spesa
+1. OCR controllato sui volantini visuali
+2. prezzo al kg/litro
+3. matching offerte con lista spesa
+4. onboarding preferenze utente

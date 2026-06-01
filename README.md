@@ -1,14 +1,22 @@
-# SKiscettAI · SKAI Kitchen OS v30
+# SKiscettAI · SKAI Kitchen OS v32
 
-## v30 Radar Hotfix definitivo
+## v32 Copy/UX Brightness + QA Hotfix
 
-Correzione urgente:
-- `parser_url_for_chain` presente
-- `chains_with_parser_enabled` presente
-- SKAI Radar non crasha più in modalità normale
-- QA `qa_boot=1`: esegue la selezione parser ma salta fetch esterne lente
-- il workflow controlla anche via grep che la funzione esista
-- v28 visual flyers e v26 multi-source offers mantenuti
+v31 conteneva le modifiche giuste a copy e grafica, ma il beta test aveva un errore di indentazione nel controllo anti-jargon.
+
+v32 mantiene:
+- testi più chiari
+- UI meno scura
+- intro utili nelle pagine
+- hotfix Radar
+- volantini visuali
+- multi-source offers
+
+e corregge:
+- QA script compilato prima del run
+- controllo anti-jargon inserito correttamente
+- beta report generato di nuovo
+- workflow bloccante anche su errori sintattici nei file QA
 
 ## Avvio
 

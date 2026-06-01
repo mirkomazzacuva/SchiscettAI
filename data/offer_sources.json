@@ -6,10 +6,10 @@
       "penny market",
       "penny market s.r.l."
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.penny.it/offerte",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "PENNY"
   },
   {
@@ -25,10 +25,10 @@
       "unicoop firenze",
       "unicoop tirreno"
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "Coop"
   },
   {
@@ -41,10 +41,10 @@
       "sapori e dintorni",
       "sapori e dintorni conad"
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.doveconviene.it/volantino/conad-superstore",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "Conad"
   },
   {
@@ -56,10 +56,10 @@
       "panorama",
       "supermercati pam"
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.doveconviene.it/volantino/panorama",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "PAM"
   },
   {
@@ -68,10 +68,10 @@
       "lidl",
       "lidl italia"
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.lidl.it/c/offerte/c10026788",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "Lidl"
   },
   {
@@ -80,10 +80,10 @@
       "eurospin",
       "eurospin italia"
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.eurospin.it/volantino/",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "Eurospin"
   },
   {
@@ -91,10 +91,10 @@
     "aliases": [
       "esselunga"
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.esselunga.it/it-it/negozi/volantino.html",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "Esselunga"
   },
   {
@@ -105,10 +105,10 @@
       "carrefour market",
       "iper carrefour"
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.carrefour.it/promozioni/",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "Carrefour"
   },
   {
@@ -118,10 +118,10 @@
       "md discount",
       "md supermercati"
     ],
-    "mode": "skai_kitchen_os_v30",
+    "mode": "skai_kitchen_os_v32",
     "url": "https://www.mdspa.it/volantino/",
-    "status": "radar_hotfix_v30",
-    "notes": "v30 hotfix: parser_url_for_chain restored and QA boot tests parser selection without slow external fetch.",
+    "status": "copy_ux_brightness_qa_hotfix_v32",
+    "notes": "v32: v31 copy/brightness retained; QA syntax fixed; QA scripts compiled before running.",
     "parser_profile": "MD"
   }
 ]

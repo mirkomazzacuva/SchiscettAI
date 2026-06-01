@@ -14,12 +14,12 @@ from playwright.sync_api import sync_playwright
 
 
 PAGES = [
-    ("Home", "home", ["Pranzo smart", "SKiscettAI", "Kitchen OS"]),
+    ("Home", "home", ["schiscetta giusta", "SKiscettAI", "Inizia dal Copilot"]),
     ("Crea SKiscetta", "crea", ["Crea", "SKiscetta"]),
-    ("SKAI Radar", "radar", ["Radar negozi", "catene nel raggio", "Mission Control", "volantini visuali"]),
+    ("SKAI Radar", "radar", ["Radar negozi", "catene nel raggio", "Scegli cosa vuoi risolvere", "Volantini visuali"]),
     ("Ricette", "ricette", ["Ricette", "Catalogo"]),
     ("Lista spesa", "lista", ["Lista", "spesa"]),
-    ("Meal plan", "meal", ["Meal", "plan"]),
+    ("Meal plan", "meal", ["Piano", "pranzi"]),
     ("Preferiti", "preferiti", ["Preferiti"]),
 ]
 
@@ -41,6 +41,17 @@ ERROR_MARKERS = [
     "TypeError",
     "SyntaxError",
     "This app has encountered an error",
+]
+
+BANNED_COPY = [
+    "App Store grade",
+    "pantry intelligence",
+    "weekly autopilot",
+    "trust filter",
+    "mission-first",
+    "map-first",
+    "verified offers",
+    "no fake prices",
 ]
 
 
@@ -115,6 +126,11 @@ def check_no_literal_html(text: str) -> bool:
     return not any(marker in low for marker in bad)
 
 
+def banned_copy_found(text: str) -> list[str]:
+    low = text.lower()
+    return [item for item in BANNED_COPY if item.lower() in low]
+
+
 def normalize_label(label: str) -> str:
     return re.sub(r"^[^\wÀ-ÿ]+", "", label).strip()
 
@@ -147,7 +163,6 @@ def visible_main_buttons(page, limit: int):
                 skipped.append((index, label, "sidebar/navigation tested separately"))
                 continue
 
-            # Exclude buttons visually located in the sidebar/collapse area.
             box = button.bounding_box()
             if box and box.get("x", 0) < 260:
                 skipped.append((index, label, "sidebar area"))
@@ -192,23 +207,22 @@ def main():
 
             # Default page.
             page.goto(args.url, wait_until="domcontentloaded", timeout=60000)
-            default_text = wait_app(page, ["Pranzo smart", "Kitchen OS", "SKiscettAI"])
+            default_text = wait_app(page, ["schiscetta giusta", "SKiscettAI", "Inizia dal Copilot"])
             page.screenshot(path=shots / "00_default_home.png", full_page=True)
             report["checks"].append({
                 "name": "default_opens_home",
-                "passed": any(marker.lower() in default_text.lower() for marker in ["Pranzo smart", "Kitchen OS", "SKiscettAI"]) and not has_error(default_text),
+                "passed": any(marker.lower() in default_text.lower() for marker in ["schiscetta giusta", "SKiscettAI", "Inizia dal Copilot"]) and not has_error(default_text),
             })
 
             # Radar parser-selection smoke test: qa_boot runs parser selection but skips slow external fetch.
-            # This catches missing symbols such as parser_url_for_chain before deployment.
             try:
                 page.goto(page_url(args.url, "radar", qa_fast=False, extra={"qa_boot": "1"}), wait_until="domcontentloaded", timeout=60000)
-                radar_live_text = wait_app(page, ["Radar negozi", "catene nel raggio", "Mission Control"], timeout_loops=35)
+                radar_boot_text = wait_app(page, ["Radar negozi", "catene nel raggio", "Scegli cosa vuoi risolvere"], timeout_loops=35)
                 page.screenshot(path=shots / "radar_boot_parser_selection.png", full_page=True)
                 report["checks"].append({
                     "name": "radar_boot_parser_selection",
-                    "passed": ("radar negozi" in radar_live_text.lower() or "catene nel raggio" in radar_live_text.lower()) and not has_error(radar_live_text),
-                    "text_length": len(radar_live_text),
+                    "passed": ("radar negozi" in radar_boot_text.lower() or "catene nel raggio" in radar_boot_text.lower()) and not has_error(radar_boot_text),
+                    "text_length": len(radar_boot_text),
                 })
             except Exception as error:
                 report["checks"].append({
@@ -225,7 +239,7 @@ def main():
             for page_name, slug, expected_markers in PAGES:
                 try:
                     page.goto(page_url(args.url, "home", qa_fast=True, extra={"navcheck": slug}), wait_until="domcontentloaded", timeout=60000)
-                    wait_app(page, ["Pranzo smart", "SKiscettAI"])
+                    wait_app(page, ["schiscetta giusta", "SKiscettAI"])
 
                     if page_name == "Home":
                         report["checks"].append({
@@ -275,6 +289,14 @@ def main():
                         "passed": page_ok,
                         "text_length": len(text),
                         "literal_html_ok": literal_ok,
+                    })
+
+                    found_banned = banned_copy_found(text)
+                    report["checks"].append({
+                        "name": f"copy_jargon_check_{slug}",
+                        "page": page_name,
+                        "passed": not found_banned,
+                        "found": found_banned,
                     })
 
                     if slug == "radar":

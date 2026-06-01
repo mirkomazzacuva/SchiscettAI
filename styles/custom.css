@@ -1209,3 +1209,206 @@ iframe {
     font-weight: 1000;
     text-decoration: none !important;
 }
+
+
+/* =========================================================
+   SKAI v31 — Brighter UX + clearer copy
+   ========================================================= */
+
+:root {
+    --skai-v31-night: #10263A;
+    --skai-v31-blue: #143B55;
+    --skai-v31-teal: #24D6C8;
+    --skai-v31-lime: #B7FF6A;
+    --skai-v31-peach: #FFB36B;
+    --skai-v31-white: #FFFFFF;
+    --skai-v31-muted: rgba(255,255,255,0.82);
+    --skai-v31-panel: rgba(255,255,255,0.16);
+    --skai-v31-panel-soft: rgba(255,255,255,0.10);
+    --skai-v31-border: rgba(255,255,255,0.22);
+}
+
+.stApp {
+    background:
+        radial-gradient(circle at 8% 7%, rgba(36,214,200,0.30), transparent 31%),
+        radial-gradient(circle at 92% 10%, rgba(255,179,107,0.25), transparent 35%),
+        radial-gradient(circle at 55% 100%, rgba(183,255,106,0.18), transparent 36%),
+        linear-gradient(145deg, #10263A 0%, #173D59 45%, #2A2442 100%) !important;
+}
+
+.block-container {
+    max-width: 1220px !important;
+    padding-top: 1.35rem !important;
+}
+
+[data-testid="stHeader"] {
+    background: rgba(16,38,58,0.20) !important;
+}
+
+[data-testid="stSidebar"] {
+    background:
+        radial-gradient(circle at 20% 0%, rgba(36,214,200,0.22), transparent 36%),
+        linear-gradient(180deg, rgba(20,48,72,0.98), rgba(31,37,64,0.98)) !important;
+    border-right: 1px solid rgba(255,255,255,0.14) !important;
+}
+
+.skai-v31-page-intro {
+    margin: 0.25rem 0 0.85rem 0;
+    padding: 1rem;
+    border-radius: 26px;
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.17), rgba(255,255,255,0.075));
+    border: 1px solid rgba(255,255,255,0.20);
+    box-shadow: 0 20px 62px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+.skai-v31-page-intro span {
+    color: var(--skai-v31-lime);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 1000;
+}
+
+.skai-v31-page-intro strong {
+    display: block;
+    color: #fff !important;
+    font-size: clamp(1.6rem, 3vw, 2.65rem);
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+    margin-top: 0.18rem;
+}
+
+.skai-v31-page-intro p {
+    margin: 0.45rem 0 0 0 !important;
+    color: rgba(255,255,255,0.82) !important;
+    font-weight: 760;
+    max-width: 840px;
+}
+
+.skai-v31-tip {
+    display: flex;
+    gap: 0.55rem;
+    align-items: flex-start;
+    padding: 0.82rem;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.105);
+    border: 1px solid rgba(255,255,255,0.16);
+    color: rgba(255,255,255,0.82);
+    font-weight: 760;
+    margin: 0.45rem 0;
+}
+
+.skai-v31-tip b {
+    color: #fff;
+}
+
+.skai-v18-home,
+.skai-os-hero,
+.skai-os-panel,
+.skai-os-result-card,
+.skai-os-store-card,
+.skai-os-shopping-card,
+.skai-v18-card,
+.skai-v18-tile,
+.skai-v20-chain-panel,
+.skai-v28-visual-panel,
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background:
+        linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.082)) !important;
+    border-color: rgba(255,255,255,0.22) !important;
+    box-shadow: 0 20px 62px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.18) !important;
+}
+
+.skai-v18-home {
+    min-height: 430px !important;
+    border-radius: 34px !important;
+}
+
+.skai-v18-title,
+.skai-os-title {
+    color: #fff !important;
+    text-shadow: 0 0 38px rgba(36,214,200,0.25), 0 12px 26px rgba(0,0,0,0.25) !important;
+}
+
+.skai-v18-subtitle,
+.skai-os-subtitle,
+.skai-v18-card p,
+.skai-v18-tile p,
+.skai-v20-chain-panel p,
+.skai-v28-visual-panel p,
+.skai-os-step span,
+.skai-os-recipe-desc {
+    color: rgba(255,255,255,0.82) !important;
+}
+
+.skai-v18-score,
+.skai-v18-tile,
+.skai-v20-chain-chip,
+.skai-os-step,
+.skai-os-mission-card,
+.skai-v28-link-card {
+    background: rgba(255,255,255,0.115) !important;
+    border-color: rgba(255,255,255,0.18) !important;
+}
+
+.skai-os-shell {
+    grid-template-columns: minmax(0,1.16fr) minmax(300px,0.84fr) !important;
+    margin-bottom: 0.55rem !important;
+}
+
+.skai-os-hero {
+    min-height: 220px !important;
+    padding: 0.95rem !important;
+}
+
+.skai-os-title {
+    font-size: clamp(2.05rem, 4vw, 4.15rem) !important;
+}
+
+.skai-os-pill-row span,
+.skai-v17-tabbar span,
+.skai-v18-secondary {
+    background: rgba(255,255,255,0.12) !important;
+    border-color: rgba(255,255,255,0.20) !important;
+    color: rgba(255,255,255,0.88) !important;
+}
+
+.stButton > button {
+    background: linear-gradient(90deg, #24D6C8, #B7FF6A) !important;
+    color: #06101B !important;
+    border: 0 !important;
+    box-shadow: 0 12px 32px rgba(36,214,200,0.22) !important;
+}
+
+[data-testid="stSidebar"] .stButton > button {
+    background: rgba(255,255,255,0.10) !important;
+    color: rgba(255,255,255,0.90) !important;
+    border: 1px solid rgba(255,255,255,0.17) !important;
+    box-shadow: none !important;
+}
+
+.skai-v19-nav-active {
+    background:
+        linear-gradient(90deg, rgba(36,214,200,0.34), rgba(183,255,106,0.23)),
+        rgba(255,255,255,0.12) !important;
+}
+
+[data-testid="stMetric"] {
+    background:
+        linear-gradient(145deg, rgba(36,214,200,0.18), rgba(255,179,107,0.12)) !important;
+    border: 1px solid rgba(255,255,255,0.19) !important;
+}
+
+input, textarea, select {
+    color: #FFFFFF !important;
+}
+
+@media (max-width: 900px) {
+    .skai-os-shell {
+        grid-template-columns: 1fr !important;
+    }
+    .skai-v18-home {
+        min-height: auto !important;
+    }
+}

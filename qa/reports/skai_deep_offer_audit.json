@@ -1,297 +1,37 @@
 {
-  "generated_at": "2026-05-29T15:26:51.928806+00:00",
+  "generated_at": "2026-06-01T10:16:35.023205+00:00",
   "note": "Deep browser audit: static+rendered pages, pair candidates and possible API URLs. Non-blocking.",
   "chains": [
     {
       "chain": "PENNY",
-      "best_static_pairs": 15,
-      "best_rendered_pairs": 15,
-      "best_url": "https://www.penny.it/offerte",
+      "best_static_pairs": 0,
+      "best_rendered_pairs": 0,
+      "best_url": "",
       "sources": [
         {
           "url": "https://www.penny.it/offerte",
           "static": {
-            "ok": true,
-            "status": 200,
-            "text_length": 10856,
-            "price_count": 137,
-            "pairs": [
-              {
-                "product": "31.05.2026",
-                "price": "2.39"
-              },
-              {
-                "product": "31.05.2026",
-                "price": "0.34"
-              },
-              {
-                "product": "03.06.2026",
-                "price": "5.99"
-              },
-              {
-                "product": "03.06.2026 Senza PENNYCard",
-                "price": "1.29"
-              },
-              {
-                "product": "Con PENNYCard",
-                "price": "0.99"
-              },
-              {
-                "product": "03.06.2026 Senza PENNYCard",
-                "price": "2.99"
-              },
-              {
-                "product": "Con PENNYCard",
-                "price": "2.29"
-              },
-              {
-                "product": "31.05.2026",
-                "price": "1.19"
-              },
-              {
-                "product": "31.05.2026",
-                "price": "0.64"
-              },
-              {
-                "product": "31.05.2026",
-                "price": "2.79"
-              },
-              {
-                "product": "31.05.2026",
-                "price": "2.59"
-              },
-              {
-                "product": "03.06.2026",
-                "price": "0.99"
-              },
-              {
-                "product": "31.05.2026",
-                "price": "0.96"
-              },
-              {
-                "product": "31.05.2026",
-                "price": "3.89"
-              },
-              {
-                "product": "31.05.2026",
-                "price": "1.16"
-              }
-            ],
-            "error": ""
+            "ok": false,
+            "status": null,
+            "text_length": 0,
+            "price_count": 0,
+            "pairs": [],
+            "error": "HTTP Error 403: Forbidden"
           },
           "rendered": {
             "ok": true,
-            "text_length": 8170,
-            "html_length": 758889,
-            "price_count": 137,
-            "pairs": [
-              {
-                "product": "Le gelizie 0,45 kg da gio 21.05.2026 a dom 31.05.2026",
-                "price": "2.39"
-              },
-              {
-                "product": "Pepsi 0,33 l da gio 21.05.2026 a dom 31.05.2026",
-                "price": "0.34"
-              },
-              {
-                "product": "Corona 1,98 l da gio 21.05.2026 a mer 03.06.2026",
-                "price": "5.99"
-              },
-              {
-                "product": "Fior di pasta 0,5 kg da gio 21.05.2026 a mer 03.06.2026 Senza PENNYCard",
-                "price": "1.29"
-              },
-              {
-                "product": "Con PENNYCard",
-                "price": "0.99"
-              },
-              {
-                "product": "Bonduelle 0,42 kg da gio 21.05.2026 a mer 03.06.2026 Senza PENNYCard",
-                "price": "2.99"
-              },
-              {
-                "product": "Con PENNYCard",
-                "price": "2.29"
-              },
-              {
-                "product": "Felce azzurra 0,3 l da gio 21.05.2026 a dom 31.05.2026",
-                "price": "1.19"
-              },
-              {
-                "product": "Salviettine intime -35 % Salviettine intime 20 pz da gio 21.05.2026 a dom 31.05.2026",
-                "price": "0.64"
-              },
-              {
-                "product": "0,25 kg da gio 21.05.2026 a mer 03.06.2026 Senza PENNYCard",
-                "price": "1.29"
-              },
-              {
-                "product": "Le gelizie 0,33 kg da gio 21.05.2026 a dom 31.05.2026",
-                "price": "2.79"
-              },
-              {
-                "product": "Gelizie 0,65 kg da gio 21.05.2026 a dom 31.05.2026",
-                "price": "2.59"
-              },
-              {
-                "product": "La molisana 0,5 kg da gio 21.05.2026 a mer 03.06.2026",
-                "price": "0.99"
-              },
-              {
-                "product": "Danone 0,16 kg da gio 21.05.2026 a dom 31.05.2026",
-                "price": "0.96"
-              },
-              {
-                "product": "Chanteclair 0,22 l da gio 21.05.2026 a dom 31.05.2026",
-                "price": "3.89"
-              }
-            ],
+            "text_length": 13,
+            "html_length": 175,
+            "price_count": 0,
+            "pairs": [],
             "api_urls": [
-              "https://api.eu1.exponea.com/js/exponea.min.js",
-              "https://api.eu1.exponea.com/webxp/projects/ef0a2a98-2641-11ee-92bf-aa84e0cfbb04/bundle",
-              "https://api.eu1.exponea.com/webxp/script/ef0a2a98-2641-11ee-92bf-aa84e0cfbb04/new/modifications.min.js?http-referer=https%3A%2F%2Fwww.penny.it%2Fofferte&timeout=4000ms",
-              "https://track.adform.net/Serving/TrackPoint/?CC=1&pm=556788&ADFPageName=Penny_AllSite&ADFdivider=%7C&ord=946314501324&ADFtpmode=2&itm=eyJzdjEiOiI8d3d3LnBlbm55Lml0PiJ9&loc=https%3A%2F%2Fwww.penny.it%2Fofferte&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
-              "https://track.adform.net/Serving/TrackPoint/?pm=556788&ADFPageName=Penny_AllSite&ADFdivider=%7C&ord=946314501324&ADFtpmode=2&itm=eyJzdjEiOiI8d3d3LnBlbm55Lml0PiJ9&loc=https%3A%2F%2Fwww.penny.it%2Fofferte&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
-              "https://www.penny.it/_nuxt/builds/meta/dd8d0922-43d6-48ae-a2bb-39c34941055d.json",
-              "https://www.penny.it/_nuxt/product-badge-text.-XSzPzCl.css",
-              "https://www.penny.it/_nuxt/product-badges.yqLz6WeB.css",
-              "https://www.penny.it/_nuxt/product-category-breadcrumbs.CGBZMqtA.css",
-              "https://www.penny.it/_nuxt/product-detail.D4pNvCCu.css",
-              "https://www.penny.it/_nuxt/product-grid.Br32h78T.css",
-              "https://www.penny.it/_nuxt/product-image.DfdXSJVC.css",
-              "https://www.penny.it/_nuxt/product-information.CxZR58i1.css",
-              "https://www.penny.it/_nuxt/product-price-validity.C1vpttn9.css",
-              "https://www.penny.it/_nuxt/product-price-wrapper.DWw2cQ5b.css",
-              "https://www.penny.it/_nuxt/product-price.BGzjm8Ni.css",
-              "https://www.penny.it/_nuxt/product-quick-view-wrapper.B0BJPsRs.css",
-              "https://www.penny.it/_nuxt/product-slug.CQrAnx52.css",
-              "https://www.penny.it/_nuxt/product-tile.BIAE9Dcp.css",
-              "https://www.penny.it/_nuxt/search-field.BfS9cDkF.css",
-              "https://www.penny.it/_nuxt/search-flapout.CUcyVjX_.css",
-              "https://www.penny.it/_nuxt/search-result-base.J2dEivIk.css",
-              "https://www.penny.it/api/csrf",
               "https://www.penny.it/offerte"
             ],
             "responses": [
               {
                 "url": "https://www.penny.it/offerte",
-                "status": 200,
-                "content_type": "text/html;charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/search-field.BfS9cDkF.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-image.DfdXSJVC.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-price-wrapper.DWw2cQ5b.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/search-result-base.J2dEivIk.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/api/csrf",
-                "status": 200,
-                "content_type": ""
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-grid.Br32h78T.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-tile.BIAE9Dcp.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-badge-text.-XSzPzCl.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-price.BGzjm8Ni.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-information.CxZR58i1.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-price-validity.C1vpttn9.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-badges.yqLz6WeB.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-quick-view-wrapper.B0BJPsRs.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-category-breadcrumbs.CGBZMqtA.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-detail.D4pNvCCu.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/search-flapout.CUcyVjX_.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/product-slug.CQrAnx52.css",
-                "status": 200,
-                "content_type": "text/css; charset=utf-8"
-              },
-              {
-                "url": "https://www.penny.it/_nuxt/builds/meta/dd8d0922-43d6-48ae-a2bb-39c34941055d.json",
-                "status": 200,
-                "content_type": "application/json"
-              },
-              {
-                "url": "https://api.eu1.exponea.com/webxp/script/ef0a2a98-2641-11ee-92bf-aa84e0cfbb04/new/modifications.min.js?http-referer=https%3A%2F%2Fwww.penny.it%2Fofferte&timeout=4000ms",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://api.eu1.exponea.com/js/exponea.min.js",
-                "status": 200,
-                "content_type": "application/javascript; charset=utf-8"
-              },
-              {
-                "url": "https://api.eu1.exponea.com/webxp/projects/ef0a2a98-2641-11ee-92bf-aa84e0cfbb04/bundle",
-                "status": 200,
-                "content_type": "application/json"
-              },
-              {
-                "url": "https://track.adform.net/Serving/TrackPoint/?pm=556788&ADFPageName=Penny_AllSite&ADFdivider=%7C&ord=946314501324&ADFtpmode=2&itm=eyJzdjEiOiI8d3d3LnBlbm55Lml0PiJ9&loc=https%3A%2F%2Fwww.penny.it%2Fofferte&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
-                "status": 302,
-                "content_type": ""
-              },
-              {
-                "url": "https://track.adform.net/Serving/TrackPoint/?CC=1&pm=556788&ADFPageName=Penny_AllSite&ADFdivider=%7C&ord=946314501324&ADFtpmode=2&itm=eyJzdjEiOiI8d3d3LnBlbm55Lml0PiJ9&loc=https%3A%2F%2Fwww.penny.it%2Fofferte&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
-                "status": 200,
-                "content_type": "text/javascript; charset=utf-8"
+                "status": 403,
+                "content_type": "text/html; charset=UTF-8"
               }
             ],
             "error": ""
@@ -302,15 +42,15 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 1218,
+            "text_length": 1166,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 8635,
-            "html_length": 555808,
+            "text_length": 8671,
+            "html_length": 555436,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
@@ -367,12 +107,32 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1504d5d2b4af122e.css",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/5fce666276a82cf4.css",
                 "status": 200,
                 "content_type": "text/css"
               },
               {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/skeleton_leaflet.png",
+                "status": 200,
+                "content_type": "image/png"
+              },
+              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/706a7cd2219a17e2.css",
+                "status": 200,
+                "content_type": "text/css"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_white.png",
+                "status": 200,
+                "content_type": "image/png"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_web_it.png",
+                "status": 200,
+                "content_type": "image/png"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/157e04b519e9f8bf.css",
                 "status": 200,
                 "content_type": "text/css"
               },
@@ -382,62 +142,17 @@
                 "content_type": "text/css"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/341b3ccc5b9f2ef6.css",
-                "status": 200,
-                "content_type": "text/css"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/0800f92d0bce5a80.css",
-                "status": 200,
-                "content_type": "text/css"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/5fce666276a82cf4.css",
-                "status": 200,
-                "content_type": "text/css"
-              },
-              {
-                "url": "https://data.promoqui.it/retailers/logos/000/000/126/thumb_webp/PQ.webp?1713177900",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
                 "url": "https://data.promoqui.it/retailers/logos/000/000/126/medium_webp/PQ.webp?1713177900",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/ddcbd7c5dfa21dd5.css",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/341b3ccc5b9f2ef6.css",
                 "status": 200,
                 "content_type": "text/css"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/713/989/medium_webp/page1.webp?1779455540",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/skeleton_leaflet.webp",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/669/501/medium_webp/page1.webp?1778615301",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1b3b1da82505b4d1.css",
-                "status": 200,
-                "content_type": "text/css"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/157e04b519e9f8bf.css",
-                "status": 200,
-                "content_type": "text/css"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/676/745/medium_webp/page1.webp?1778759585",
+                "url": "https://data.promoqui.it/pages/images/028/735/248/medium_webp/page1.webp?1780176253",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -447,19 +162,44 @@
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/719/511/medium_webp/page1.webp?1779801899",
+                "url": "https://data.promoqui.it/retailers/logos/000/000/126/thumb_webp/PQ.webp?1713177900",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_web_it.webp",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/0800f92d0bce5a80.css",
+                "status": 200,
+                "content_type": "text/css"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/ddcbd7c5dfa21dd5.css",
+                "status": 200,
+                "content_type": "text/css"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1b3b1da82505b4d1.css",
+                "status": 200,
+                "content_type": "text/css"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1504d5d2b4af122e.css",
+                "status": 200,
+                "content_type": "text/css"
+              },
+              {
+                "url": "https://data.promoqui.it/pages/images/028/735/185/medium_webp/page1.webp?1780176222",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_white.webp",
+                "url": "https://data.promoqui.it/pages/images/028/714/001/medium_webp/page1.webp?1779455690",
                 "status": 200,
                 "content_type": "image/webp"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/gsEZbHvmyEuo9D_Bbse6n/_ssgManifest.js",
+                "status": 200,
+                "content_type": "application/javascript"
               },
               {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/gsEZbHvmyEuo9D_Bbse6n/_buildManifest.js",
@@ -467,7 +207,12 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/gsEZbHvmyEuo9D_Bbse6n/_ssgManifest.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/9315-bd9aa5e7e90b09ee.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/19-b02007e55a859588.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
@@ -482,7 +227,17 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/webpack-809e50a57ec19ba3.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/333-d1e68d573d93e680.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/9072-3afe9742ee49c696.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/80-4e54aaca597ace88.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
@@ -492,22 +247,7 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/9315-bd9aa5e7e90b09ee.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/4755.7ff5e299e4aa9d09.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1664-262d5c2c23cedbe1.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/2363.d770f03fecda72c3.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/webpack-809e50a57ec19ba3.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
@@ -517,7 +257,7 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/8348.0dc84aea5f5428af.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/3254-ce7ec0c0fad1e26c.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
@@ -527,17 +267,22 @@
                 "content_type": "application/javascript"
               },
               {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/4755.7ff5e299e4aa9d09.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/2363.d770f03fecda72c3.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1055-b7cad860c0d0db85.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/333-d1e68d573d93e680.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/framework-49179d4fc442f1ce.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1664-262d5c2c23cedbe1.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
@@ -550,11 +295,6 @@
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/696-5ee9d1080f675a15.js",
                 "status": 200,
                 "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/pages/_app-058398057eddc2b1.js",
-                "status": 200,
-                "content_type": "application/javascript"
               }
             ],
             "error": ""
@@ -565,7 +305,7 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 17532,
+            "text_length": 17524,
             "price_count": 0,
             "pairs": [],
             "error": ""
@@ -602,23 +342,25 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 3738,
-            "price_count": 0,
+            "text_length": 3934,
+            "price_count": 2,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 2297,
-            "html_length": 145668,
-            "price_count": 0,
+            "text_length": 2493,
+            "html_length": 150182,
+            "price_count": 2,
             "pairs": [],
             "api_urls": [
               "https://cpl.iubenda.com/big_data/consent?apikey=XyLWRsFWsMWUOHaZX46GaIiNHurH4wur",
-              "https://www.coopfirenze.it/.checkJwtToken.json?t=1780068436165",
+              "https://www.coopfirenze.it/.checkJwtToken.json?t=1780309018771",
               "https://www.coopfirenze.it/.puntovendita.json",
-              "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/10---dal-16-al-31-maggio/Banner_esclusiva_soci_620x520_S11A_2026.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
-              "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/10---dal-16-al-31-maggio/Banner_esclusiva_soci_620x520_S11A_20262.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+              "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/11---dal-1-al-15-giugno/Banner_esclusiva_soci_620x520_S12A_2026.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+              "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/11---dal-1-al-15-giugno/Banner_esclusiva_soci_620x520_S12A_20262.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+              "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/11---dal-1-al-15-giugno/Banner_esclusiva_soci_620x520_S12A_20263.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+              "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/11---dal-1-al-15-giugno/Banner_esclusiva_soci_620x520_S12A_20264.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
               "https://www.coopfirenze.it/etc.clientlibs/unicoop/clientlibs/clientlib-site/resources/images/icons/icon-search.svg",
               "https://www.coopfirenze.it/negozi-e-promo/offerte-e-volantini/offerte-per-i-soci"
             ],
@@ -634,9 +376,14 @@
                 "content_type": "image/svg+xml"
               },
               {
-                "url": "https://www.coopfirenze.it/.checkJwtToken.json?t=1780068436165",
-                "status": 400,
-                "content_type": "text/html; charset=iso-8859-1"
+                "url": "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/11---dal-1-al-15-giugno/Banner_esclusiva_soci_620x520_S12A_2026.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
+                "url": "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/11---dal-1-al-15-giugno/Banner_esclusiva_soci_620x520_S12A_20262.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+                "status": 200,
+                "content_type": "image/jpeg"
               },
               {
                 "url": "https://www.coopfirenze.it/.puntovendita.json",
@@ -644,12 +391,17 @@
                 "content_type": "application/json;charset=utf-8"
               },
               {
-                "url": "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/10---dal-16-al-31-maggio/Banner_esclusiva_soci_620x520_S11A_2026.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+                "url": "https://www.coopfirenze.it/.checkJwtToken.json?t=1780309018771",
+                "status": 400,
+                "content_type": "text/html; charset=iso-8859-1"
+              },
+              {
+                "url": "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/11---dal-1-al-15-giugno/Banner_esclusiva_soci_620x520_S12A_20264.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/10---dal-16-al-31-maggio/Banner_esclusiva_soci_620x520_S11A_20262.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
+                "url": "https://www.coopfirenze.it/content/dam/unicoop/negozi-e-promo/scelti-per-i-soci/2026/11---dal-1-al-15-giugno/Banner_esclusiva_soci_620x520_S12A_20263.jpg/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
@@ -675,11 +427,11 @@
           "rendered": {
             "ok": true,
             "text_length": 1808,
-            "html_length": 145566,
+            "html_length": 145557,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://www.coopfirenze.it/.checkJwtToken.json?t=1780068443689",
+              "https://www.coopfirenze.it/.checkJwtToken.json?t=1780309026547",
               "https://www.coopfirenze.it/content/dam/unicoop/offerte/Family.png/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
               "https://www.coopfirenze.it/content/dam/unicoop/offerte/couple.png/jcr:content/renditions/cq5dam.web.1280.1280.jpeg",
               "https://www.coopfirenze.it/etc.clientlibs/unicoop/clientlibs/clientlib-site/resources/images/icons/icon-search.svg",
@@ -707,7 +459,7 @@
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://www.coopfirenze.it/.checkJwtToken.json?t=1780068443689",
+                "url": "https://www.coopfirenze.it/.checkJwtToken.json?t=1780309026547",
                 "status": 400,
                 "content_type": "text/html; charset=iso-8859-1"
               },
@@ -725,15 +477,15 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 12031,
+            "text_length": 12024,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 7987,
-            "html_length": 867171,
+            "text_length": 7998,
+            "html_length": 870630,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
@@ -742,9 +494,7 @@
               "https://data.volantinofacile.it/pages/images/028/550/056/medium/page1.jpg?1776202654",
               "https://data.volantinofacile.it/pages/images/028/644/371/medium/page1.jpg?1778074646",
               "https://data.volantinofacile.it/pages/images/028/650/816/medium/page1.jpg?1778142532",
-              "https://data.volantinofacile.it/pages/images/028/669/501/medium/page1.jpg?1778615301",
               "https://data.volantinofacile.it/pages/images/028/675/696/medium/page1.jpg?1778750515",
-              "https://data.volantinofacile.it/pages/images/028/676/745/medium/page1.jpg?1778759585",
               "https://data.volantinofacile.it/pages/images/028/676/746/medium/page1.jpg?1778759586",
               "https://data.volantinofacile.it/pages/images/028/677/784/medium/page1.jpg?1778807962",
               "https://data.volantinofacile.it/pages/images/028/677/800/medium/page1.jpg?1778807979",
@@ -758,15 +508,17 @@
               "https://data.volantinofacile.it/pages/images/028/723/583/medium/page1.jpg?1779878759",
               "https://data.volantinofacile.it/pages/images/028/724/272/medium/page1.jpg?1779879243",
               "https://data.volantinofacile.it/pages/images/028/725/506/medium/page1.jpg?1779914498",
-              "https://data.volantinofacile.it/pages/images/028/726/806/medium/page1.jpg?1779955572",
-              "https://data.volantinofacile.it/pages/images/028/726/918/medium/page1.jpg?1779955643",
+              "https://data.volantinofacile.it/pages/images/028/726/689/medium/page1.jpg?1779955489",
               "https://data.volantinofacile.it/pages/images/028/727/126/medium/page1.jpg?1779958198",
+              "https://data.volantinofacile.it/pages/images/028/731/254/medium/page1.jpg?1780036032",
+              "https://data.volantinofacile.it/pages/images/028/735/283/medium/page1.jpg?1780176270",
+              "https://data.volantinofacile.it/pages/images/028/735/561/medium/page1.jpg?1780176416",
               "https://data.volantinofacile.it/retailers/logos/000/000/012/medium/coop.jpg?1635249565",
               "https://data.volantinofacile.it/retailers/logos/000/000/012/thumb/coop.jpg?1635249565",
               "https://images.volantinofacile.it/Download_on_the_App_Store_Badge_orig.svg",
               "https://images.volantinofacile.it/ajax-loader-red.gif",
-              "https://sb.scorecardresearch.com/b2?c1=2&c2=31496953&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068450817&ns_c=UTF-8&cs_cfg=1001110&c7=https%3A%2F%2Fwww.volantinofacile.it%2Fcoop%2Fvolantino-coop%2Ffirenze&c8=Volantino%20Coop%20a%20Firenze%3A%20offerte%20e%20negozi%20%7C%20VolantinoFacile.it&c9=",
-              "https://sb.scorecardresearch.com/b?c1=2&c2=31496953&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068450817&ns_c=UTF-8&cs_cfg=1001110&c7=https%3A%2F%2Fwww.volantinofacile.it%2Fcoop%2Fvolantino-coop%2Ffirenze&c8=Volantino%20Coop%20a%20Firenze%3A%20offerte%20e%20negozi%20%7C%20VolantinoFacile.it&c9=",
+              "https://sb.scorecardresearch.com/b2?c1=2&c2=31496953&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309034120&ns_c=UTF-8&cs_cfg=1001110&c7=https%3A%2F%2Fwww.volantinofacile.it%2Fcoop%2Fvolantino-coop%2Ffirenze&c8=Volantino%20Coop%20a%20Firenze%3A%20offerte%20e%20negozi%20%7C%20VolantinoFacile.it&c9=",
+              "https://sb.scorecardresearch.com/b?c1=2&c2=31496953&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309034120&ns_c=UTF-8&cs_cfg=1001110&c7=https%3A%2F%2Fwww.volantinofacile.it%2Fcoop%2Fvolantino-coop%2Ffirenze&c8=Volantino%20Coop%20a%20Firenze%3A%20offerte%20e%20negozi%20%7C%20VolantinoFacile.it&c9=",
               "https://sb.scorecardresearch.com/cs/31496953/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
               "https://www.volantinofacile.it/ajax/subscribe",
@@ -785,17 +537,27 @@
                 "content_type": "text/html; charset=UTF-8"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/img/volantinofacile-logo-mobile.svg",
-                "status": 200,
-                "content_type": "image/svg+xml"
-              },
-              {
-                "url": "https://www.volantinofacile.it/vf/img/volantinofacile-logo-mob.svg",
-                "status": 200,
-                "content_type": "image/svg+xml"
-              },
-              {
                 "url": "https://www.volantinofacile.it/vf/img/volantinofacile-logo-90x90.svg",
+                "status": 200,
+                "content_type": "image/svg+xml"
+              },
+              {
+                "url": "https://www.volantinofacile.it/vf/img/volantinofacile-logoname.svg",
+                "status": 200,
+                "content_type": "image/svg+xml"
+              },
+              {
+                "url": "https://www.volantinofacile.it/vf/img/sezioni/target.png",
+                "status": 200,
+                "content_type": "image/png"
+              },
+              {
+                "url": "https://www.volantinofacile.it/vf/img/alert-notification.png",
+                "status": 200,
+                "content_type": "image/png"
+              },
+              {
+                "url": "https://www.volantinofacile.it/vf/img/volantinofacile-logo-mobile.svg",
                 "status": 200,
                 "content_type": "image/svg+xml"
               },
@@ -805,22 +567,17 @@
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/img/alert-notification.png",
+                "url": "https://www.volantinofacile.it/vf/img/sezioni/target-white.png",
                 "status": 200,
                 "content_type": "image/png"
               },
               {
-                "url": "https://data.volantinofacile.it/retailers/logos/000/000/012/thumb/coop.jpg?1635249565",
+                "url": "https://data.volantinofacile.it/pages/images/028/727/126/medium/page1.jpg?1779958198",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/img/avvisami-right.png",
-                "status": 200,
-                "content_type": "image/png"
-              },
-              {
-                "url": "https://www.volantinofacile.it/vf/img/sezioni/target-white.png",
+                "url": "https://www.volantinofacile.it/vf/img/mappetta-256.png",
                 "status": 200,
                 "content_type": "image/png"
               },
@@ -830,19 +587,9 @@
                 "content_type": "image/png"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/img/sezioni/target.png",
-                "status": 200,
-                "content_type": "image/png"
-              },
-              {
-                "url": "https://www.volantinofacile.it/vf/img/logo-volantinofacile-textwhite.svg",
+                "url": "https://www.volantinofacile.it/vf/img/arrow-right-white.svg",
                 "status": 200,
                 "content_type": "image/svg+xml"
-              },
-              {
-                "url": "https://www.volantinofacile.it/vf/img/menu-mobile/black/evidenza.png",
-                "status": 200,
-                "content_type": "image/png"
               },
               {
                 "url": "https://www.volantinofacile.it/vf/img/logo-esteso.png",
@@ -850,9 +597,19 @@
                 "content_type": "image/png"
               },
               {
+                "url": "https://www.volantinofacile.it/vf/img/avvisami-right.png",
+                "status": 200,
+                "content_type": "image/png"
+              },
+              {
                 "url": "https://www.volantinofacile.it/vf/img/iconalogo.png",
                 "status": 200,
                 "content_type": "image/png"
+              },
+              {
+                "url": "https://www.volantinofacile.it/vf/img/logo-volantinofacile-textwhite.svg",
+                "status": 200,
+                "content_type": "image/svg+xml"
               },
               {
                 "url": "https://www.volantinofacile.it/vf/img/location-dialog-map.png",
@@ -870,11 +627,6 @@
                 "content_type": "image/png"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/img/menu-mobile/black/confronta-prezzi.png",
-                "status": 200,
-                "content_type": "image/png"
-              },
-              {
                 "url": "https://www.volantinofacile.it/vf/img/menu-mobile/black/avvisami.png",
                 "status": 200,
                 "content_type": "image/png"
@@ -885,19 +637,19 @@
                 "content_type": "image/png"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/img/target.png",
+                "url": "https://www.volantinofacile.it/vf/img/menu-mobile/black/confronta-prezzi.png",
                 "status": 200,
                 "content_type": "image/png"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/727/126/medium/page1.jpg?1779958198",
+                "url": "https://data.volantinofacile.it/pages/images/028/501/280/medium/page1.jpg?1775214225",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/img/arrow-right-white.svg",
+                "url": "https://www.volantinofacile.it/vf/img/menu-mobile/black/evidenza.png",
                 "status": 200,
-                "content_type": "image/svg+xml"
+                "content_type": "image/png"
               },
               {
                 "url": "https://www.volantinofacile.it/vf/img/app-black.png",
@@ -905,19 +657,9 @@
                 "content_type": "image/png"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/img/volantinofacile-logoname.svg",
-                "status": 200,
-                "content_type": "image/svg+xml"
-              },
-              {
-                "url": "https://www.volantinofacile.it/vf/img/mappetta-256.png",
+                "url": "https://www.volantinofacile.it/vf/img/target.png",
                 "status": 200,
                 "content_type": "image/png"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/644/371/medium/page1.jpg?1778074646",
-                "status": 200,
-                "content_type": "image/jpeg"
               },
               {
                 "url": "https://data.volantinofacile.it/pages/images/028/537/887/medium/page1.jpg?1775747845",
@@ -930,17 +672,7 @@
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/697/971/medium/page1.jpg?1779266855",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/697/686/medium/page1.jpg?1779266665",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/725/506/medium/page1.jpg?1779914498",
+                "url": "https://data.volantinofacile.it/retailers/logos/000/000/012/thumb/coop.jpg?1635249565",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
@@ -950,32 +682,52 @@
                 "content_type": "image/jpeg"
               },
               {
+                "url": "https://data.volantinofacile.it/pages/images/028/735/283/medium/page1.jpg?1780176270",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
+                "url": "https://data.volantinofacile.it/pages/images/028/676/746/medium/page1.jpg?1778759586",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
+                "url": "https://www.volantinofacile.it/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://data.volantinofacile.it/pages/images/028/697/686/medium/page1.jpg?1779266665",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
+                "url": "https://www.volantinofacile.it/vf/fonts/open-sans-b/opensans-semibold-webfont.woff2",
+                "status": 200,
+                "content_type": "application/octet-stream"
+              },
+              {
+                "url": "https://www.volantinofacile.it/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
                 "url": "https://data.volantinofacile.it/pages/images/028/709/886/medium/page1.jpg?1779370277",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/724/272/medium/page1.jpg?1779879243",
+                "url": "https://www.volantinofacile.it/vf/fonts/fontawesome/fontawesome-webfont.woff",
                 "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/708/147/medium/page1.jpg?1779369103",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/677/784/medium/page1.jpg?1778807962",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/501/280/medium/page1.jpg?1775214225",
-                "status": 200,
-                "content_type": "image/jpeg"
+                "content_type": "application/font-woff"
               },
               {
                 "url": "https://data.volantinofacile.it/pages/images/028/675/696/medium/page1.jpg?1778750515",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
+                "url": "https://data.volantinofacile.it/pages/images/028/735/561/medium/page1.jpg?1780176416",
                 "status": 200,
                 "content_type": "image/jpeg"
               }
@@ -996,20 +748,20 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 5039,
+            "text_length": 4944,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 4580,
-            "html_length": 179478,
+            "text_length": 4485,
+            "html_length": 171287,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
               "https://api-viewer-zmags.shopfully.cloud/publication/it_it_845643",
-              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068458762&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=0&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fconad-superstore&c8=Volantino%20e%20Offerte%20Conad%20Superstore%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=",
+              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309041633&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=0&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fconad-superstore&c8=Volantino%20e%20Offerte%20Conad%20Superstore%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=",
               "https://sb.scorecardresearch.com/cs/32351022/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
               "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/845643/1?format=webp",
@@ -1043,6 +795,11 @@
                 "content_type": "text/html; charset=UTF-8"
               },
               {
+                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309041633&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=0&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fconad-superstore&c8=Volantino%20e%20Offerte%20Conad%20Superstore%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=",
+                "status": 204,
+                "content_type": ""
+              },
+              {
                 "url": "https://api-viewer-zmags.shopfully.cloud/publication/it_it_845643",
                 "status": 200,
                 "content_type": "application/json"
@@ -1051,11 +808,6 @@
                 "url": "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/845643/1?format=webp",
                 "status": 200,
                 "content_type": "application/json"
-              },
-              {
-                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068458762&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=0&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fconad-superstore&c8=Volantino%20e%20Offerte%20Conad%20Superstore%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=",
-                "status": 204,
-                "content_type": ""
               }
             ],
             "error": ""
@@ -1066,27 +818,27 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 6112,
+            "text_length": 5425,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 4452,
-            "html_length": 818213,
+            "text_length": 4490,
+            "html_length": 818423,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
               "https://data.volantinofacile.it/pages/images/028/493/710/medium/page1.jpg?1774869238",
+              "https://data.volantinofacile.it/pages/images/028/493/713/medium/page1.jpg?1774869239",
               "https://data.volantinofacile.it/pages/images/028/502/874/medium/page1.jpg?1775215311",
-              "https://data.volantinofacile.it/pages/images/028/593/073/medium/page1.jpg?1777014805",
+              "https://data.volantinofacile.it/pages/images/028/615/226/medium/page1.jpg?1777486423",
               "https://data.volantinofacile.it/pages/images/028/656/381/medium/page1.jpg?1778177690",
               "https://data.volantinofacile.it/pages/images/028/670/799/medium/page1.jpg?1778661081",
+              "https://data.volantinofacile.it/pages/images/028/673/088/medium/page1.jpg?1778688285",
               "https://data.volantinofacile.it/pages/images/028/675/430/medium/page1.jpg?1778746107",
               "https://data.volantinofacile.it/pages/images/028/675/895/medium/page1.jpg?1778750923",
-              "https://data.volantinofacile.it/pages/images/028/680/388/medium/page1.jpg?1778919190",
-              "https://data.volantinofacile.it/pages/images/028/680/506/medium/page1.jpg?1778919304",
               "https://data.volantinofacile.it/pages/images/028/680/741/medium/page1.jpg?1778933654",
               "https://data.volantinofacile.it/pages/images/028/685/688/medium/page1.jpg?1779113853",
               "https://data.volantinofacile.it/pages/images/028/695/812/medium/page1.jpg?1779203420",
@@ -1095,21 +847,21 @@
               "https://data.volantinofacile.it/pages/images/028/710/541/medium/page1.jpg?1779370750",
               "https://data.volantinofacile.it/pages/images/028/710/869/medium/page1.jpg?1779370984",
               "https://data.volantinofacile.it/pages/images/028/713/265/medium/page1.jpg?1779448308",
-              "https://data.volantinofacile.it/pages/images/028/715/540/medium/page1.jpg?1779571097",
               "https://data.volantinofacile.it/pages/images/028/720/868/medium/page1.jpg?1779877065",
               "https://data.volantinofacile.it/pages/images/028/726/319/medium/page1.jpg?1779934680",
               "https://data.volantinofacile.it/pages/images/028/728/462/medium/page1.jpg?1779967288",
               "https://data.volantinofacile.it/pages/images/028/728/479/medium/page1.jpg?1779967294",
               "https://data.volantinofacile.it/pages/images/028/732/347/medium/page1.jpg?1780042452",
+              "https://data.volantinofacile.it/pages/images/028/737/332/medium/page1.jpg?1780301358",
               "https://data.volantinofacile.it/retailers/logos/000/000/032/medium/logo-conad-superstore.jpg?1635249619",
               "https://data.volantinofacile.it/retailers/logos/000/000/032/thumb/logo-conad-superstore.jpg?1635249619",
               "https://images.volantinofacile.it/Download_on_the_App_Store_Badge_orig.svg",
               "https://images.volantinofacile.it/ajax-loader-red.gif",
-              "https://sb.scorecardresearch.com/b?c1=2&c2=31496953&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068466118&ns_c=UTF-8&cs_cfg=1001110&c7=https%3A%2F%2Fwww.volantinofacile.it%2Fconad-superstore%2Fvolantino-conad-superstore&c8=Volantino%20Conad%20Superstore%20a%20Firenze%3A%20offerte%20e%20negozi%20%7C%20VolantinoFacile.it&c9=",
+              "https://sb.scorecardresearch.com/b?c1=2&c2=31496953&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309050087&ns_c=UTF-8&cs_cfg=1001110&c7=https%3A%2F%2Fwww.volantinofacile.it%2Fconad-superstore%2Fvolantino-conad-superstore&c8=Volantino%20Conad%20Superstore%20a%20Firenze%3A%20offerte%20e%20negozi%20%7C%20VolantinoFacile.it&c9=",
               "https://sb.scorecardresearch.com/cs/31496953/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
               "https://www.volantinofacile.it/ajax/sendImpressions",
-              "https://www.volantinofacile.it/ajax/updateSettings/132595761",
+              "https://www.volantinofacile.it/ajax/updateSettings/132832381",
               "https://www.volantinofacile.it/cdn-cgi/rum?",
               "https://www.volantinofacile.it/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
               "https://www.volantinofacile.it/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js",
@@ -1246,29 +998,14 @@
                 "content_type": "image/svg+xml"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/726/319/medium/page1.jpg?1779934680",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/675/895/medium/page1.jpg?1778750923",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/713/265/medium/page1.jpg?1779448308",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
                 "url": "https://www.volantinofacile.it/vf/fonts/open-sans-b/opensans-semibold-webfont.woff2",
                 "status": 200,
                 "content_type": "application/octet-stream"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/656/381/medium/page1.jpg?1778177690",
+                "url": "https://www.volantinofacile.it/vf/fonts/fontawesome/fontawesome-webfont.woff",
                 "status": 200,
-                "content_type": "image/jpeg"
+                "content_type": "application/font-woff"
               },
               {
                 "url": "https://data.volantinofacile.it/retailers/logos/000/000/032/thumb/logo-conad-superstore.jpg?1635249619",
@@ -1276,7 +1013,7 @@
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/720/868/medium/page1.jpg?1779877065",
+                "url": "https://data.volantinofacile.it/pages/images/028/726/319/medium/page1.jpg?1779934680",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
@@ -1286,37 +1023,52 @@
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/699/233/medium/page1.jpg?1779279646",
+                "url": "https://data.volantinofacile.it/pages/images/028/728/462/medium/page1.jpg?1779967288",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/710/541/medium/page1.jpg?1779370750",
+                "url": "https://data.volantinofacile.it/pages/images/028/656/381/medium/page1.jpg?1778177690",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/699/241/medium/page1.jpg?1779279651",
+                "url": "https://data.volantinofacile.it/pages/images/028/695/812/medium/page1.jpg?1779203420",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://www.volantinofacile.it/vf/fonts/fontawesome/fontawesome-webfont.woff",
+                "url": "https://www.volantinofacile.it/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
                 "status": 200,
-                "content_type": "application/font-woff"
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://data.volantinofacile.it/pages/images/028/675/895/medium/page1.jpg?1778750923",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
+                "url": "https://www.volantinofacile.it/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://data.volantinofacile.it/pages/images/028/720/868/medium/page1.jpg?1779877065",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
+                "url": "https://data.volantinofacile.it/pages/images/028/673/088/medium/page1.jpg?1778688285",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
+                "url": "https://data.volantinofacile.it/pages/images/028/737/332/medium/page1.jpg?1780301358",
+                "status": 200,
+                "content_type": "image/jpeg"
               },
               {
                 "url": "https://data.volantinofacile.it/pages/images/028/502/874/medium/page1.jpg?1775215311",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/680/506/medium/page1.jpg?1778919304",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/710/869/medium/page1.jpg?1779370984",
                 "status": 200,
                 "content_type": "image/jpeg"
               }
@@ -1329,7 +1081,7 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 5429,
+            "text_length": 4946,
             "price_count": 0,
             "pairs": [],
             "error": ""
@@ -1337,16 +1089,17 @@
           "rendered": {
             "ok": true,
             "text_length": 2410,
-            "html_length": 529313,
+            "html_length": 521752,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://a1.adform.net/Serving/TrackPoint/?pm=1566399&ADFPageName=CONAD_ROS&ADFdivider=%7C&ord=614910285107&ADFtpmode=2&loc=https%3A%2F%2Fwww.conad.it%2Fricerca-negozi&CPref=https%3A%2F%2Fwww.conad.it%2Fapp-internal%2Fhome_leaflets&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
-              "https://a1.adform.net/serving/container/?pm=1566399&lid=46108449&ctype=0&media=0&PageName=CONAD_ROS&rnd=1002457228&cpref=https%3a%2f%2fwww.conad.it%2fapp-internal%2fhome_leaflets&loc=https%3a%2f%2fwww.conad.it%2fricerca-negozi",
+              "https://a1.adform.net/Serving/TrackPoint/?CC=1&pm=1566399&ADFPageName=CONAD_ROS&ADFdivider=%7C&ord=106998717615&ADFtpmode=2&loc=https%3A%2F%2Fwww.conad.it%2Fricerca-negozi&CPref=https%3A%2F%2Fwww.conad.it%2Fapp-internal%2Fhome_leaflets&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
+              "https://a1.adform.net/Serving/TrackPoint/?pm=1566399&ADFPageName=CONAD_ROS&ADFdivider=%7C&ord=106998717615&ADFtpmode=2&loc=https%3A%2F%2Fwww.conad.it%2Fricerca-negozi&CPref=https%3A%2F%2Fwww.conad.it%2Fapp-internal%2Fhome_leaflets&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
+              "https://a1.adform.net/serving/container/?pm=1566399&lid=46108449&ctype=0&media=0&PageName=CONAD_ROS&rnd=1611811968&cpref=https%3a%2f%2fwww.conad.it%2fapp-internal%2fhome_leaflets&loc=https%3a%2f%2fwww.conad.it%2fricerca-negozi",
               "https://acsbapp.com/apps/app/dist/js/locale/it-app.json",
               "https://cdn.acsbapp.com/config/conad.it/config.json",
-              "https://dpm.demdex.net/id?d_visid_ver=5.5.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=D3A6DFCB5937B7F90A495CEB%40AdobeOrg&d_nsid=0&ts=1780068478182",
-              "https://dpm.demdex.net/optOutStatus?d_visid_ver=5.5.0&d_rtbd=json&d_ver=2&d_orgid=D3A6DFCB5937B7F90A495CEB%40AdobeOrg&d_nsid=0&ts=1780068474305",
+              "https://dpm.demdex.net/id?d_visid_ver=5.5.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=D3A6DFCB5937B7F90A495CEB%40AdobeOrg&d_nsid=0&ts=1780309061623",
+              "https://dpm.demdex.net/optOutStatus?d_visid_ver=5.5.0&d_rtbd=json&d_ver=2&d_orgid=D3A6DFCB5937B7F90A495CEB%40AdobeOrg&d_nsid=0&ts=1780309058071",
               "https://my.conad.it/api/myconad/it-it.user.json",
               "https://www.conad.it/app-internal/home_leaflets",
               "https://www.conad.it/modals/store-locator-filters/_jcr_content/root/rl1_layout/rm253_store_locator_.jloader.mpde.json",
@@ -1357,6 +1110,26 @@
                 "url": "https://www.conad.it/app-internal/home_leaflets",
                 "status": 200,
                 "content_type": "text/html;charset=utf-8"
+              },
+              {
+                "url": "https://cdn.acsbapp.com/config/conad.it/config.json",
+                "status": 200,
+                "content_type": "application/json"
+              },
+              {
+                "url": "https://www.gstatic.com/recaptcha/api2/logo_48.png",
+                "status": 200,
+                "content_type": "image/png"
+              },
+              {
+                "url": "https://acsbapp.com/apps/app/dist/js/locale/it-app.json",
+                "status": 200,
+                "content_type": "application/json; charset=utf-8"
+              },
+              {
+                "url": "https://my.conad.it/api/myconad/it-it.user.json",
+                "status": 200,
+                "content_type": "application/json;charset=utf-8"
               },
               {
                 "url": "https://www.conad.it/modals/store-locator-filters/_jcr_content/root/rl1_layout/rm253_store_locator_.jloader.mpde.json",
@@ -1374,32 +1147,32 @@
                 "content_type": "image/png"
               },
               {
-                "url": "https://my.conad.it/api/myconad/it-it.user.json",
-                "status": 200,
-                "content_type": "application/json;charset=utf-8"
-              },
-              {
                 "url": "https://acsbapp.com/apps/app/dist/js/locale/it-app.json",
                 "status": 200,
                 "content_type": "application/json; charset=utf-8"
               },
               {
-                "url": "https://dpm.demdex.net/optOutStatus?d_visid_ver=5.5.0&d_rtbd=json&d_ver=2&d_orgid=D3A6DFCB5937B7F90A495CEB%40AdobeOrg&d_nsid=0&ts=1780068474305",
+                "url": "https://dpm.demdex.net/optOutStatus?d_visid_ver=5.5.0&d_rtbd=json&d_ver=2&d_orgid=D3A6DFCB5937B7F90A495CEB%40AdobeOrg&d_nsid=0&ts=1780309058071",
                 "status": 200,
                 "content_type": "application/json;charset=utf-8"
               },
               {
-                "url": "https://dpm.demdex.net/id?d_visid_ver=5.5.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=D3A6DFCB5937B7F90A495CEB%40AdobeOrg&d_nsid=0&ts=1780068478182",
+                "url": "https://dpm.demdex.net/id?d_visid_ver=5.5.0&d_fieldgroup=MC&d_rtbd=json&d_ver=2&d_orgid=D3A6DFCB5937B7F90A495CEB%40AdobeOrg&d_nsid=0&ts=1780309061623",
                 "status": 200,
                 "content_type": "application/json;charset=utf-8"
               },
               {
-                "url": "https://a1.adform.net/Serving/TrackPoint/?pm=1566399&ADFPageName=CONAD_ROS&ADFdivider=%7C&ord=614910285107&ADFtpmode=2&loc=https%3A%2F%2Fwww.conad.it%2Fricerca-negozi&CPref=https%3A%2F%2Fwww.conad.it%2Fapp-internal%2Fhome_leaflets&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
+                "url": "https://a1.adform.net/Serving/TrackPoint/?pm=1566399&ADFPageName=CONAD_ROS&ADFdivider=%7C&ord=106998717615&ADFtpmode=2&loc=https%3A%2F%2Fwww.conad.it%2Fricerca-negozi&CPref=https%3A%2F%2Fwww.conad.it%2Fapp-internal%2Fhome_leaflets&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
+                "status": 302,
+                "content_type": ""
+              },
+              {
+                "url": "https://a1.adform.net/Serving/TrackPoint/?CC=1&pm=1566399&ADFPageName=CONAD_ROS&ADFdivider=%7C&ord=106998717615&ADFtpmode=2&loc=https%3A%2F%2Fwww.conad.it%2Fricerca-negozi&CPref=https%3A%2F%2Fwww.conad.it%2Fapp-internal%2Fhome_leaflets&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
                 "status": 200,
                 "content_type": "text/javascript; charset=utf-8"
               },
               {
-                "url": "https://a1.adform.net/serving/container/?pm=1566399&lid=46108449&ctype=0&media=0&PageName=CONAD_ROS&rnd=1002457228&cpref=https%3a%2f%2fwww.conad.it%2fapp-internal%2fhome_leaflets&loc=https%3a%2f%2fwww.conad.it%2fricerca-negozi",
+                "url": "https://a1.adform.net/serving/container/?pm=1566399&lid=46108449&ctype=0&media=0&PageName=CONAD_ROS&rnd=1611811968&cpref=https%3a%2f%2fwww.conad.it%2fapp-internal%2fhome_leaflets&loc=https%3a%2f%2fwww.conad.it%2fricerca-negozi",
                 "status": 200,
                 "content_type": "text/html; charset=utf-8"
               }
@@ -1428,12 +1201,12 @@
           "rendered": {
             "ok": true,
             "text_length": 3738,
-            "html_length": 155970,
+            "html_length": 156040,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
               "https://api-viewer-zmags.shopfully.cloud/publication/it_it_842001",
-              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068480582&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fpanorama&c8=Volantino%20e%20Offerte%20Panorama%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=",
+              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309064578&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fpanorama&c8=Volantino%20e%20Offerte%20Panorama%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=",
               "https://sb.scorecardresearch.com/cs/32351022/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
               "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/842001/1?format=webp",
@@ -1467,7 +1240,7 @@
                 "content_type": "text/html; charset=UTF-8"
               },
               {
-                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068480582&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fpanorama&c8=Volantino%20e%20Offerte%20Panorama%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=",
+                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309064578&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fpanorama&c8=Volantino%20e%20Offerte%20Panorama%3A%20scopri%20il%20Catalogo%20e%20i%20Prezzi&c9=",
                 "status": 204,
                 "content_type": ""
               },
@@ -1490,24 +1263,22 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 3747,
+            "text_length": 3781,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 3633,
-            "html_length": 795699,
+            "text_length": 3644,
+            "html_length": 796720,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
               "https://data.volantinofacile.it/pages/images/028/501/280/medium/page1.jpg?1775214225",
               "https://data.volantinofacile.it/pages/images/028/537/887/medium/page1.jpg?1775747845",
               "https://data.volantinofacile.it/pages/images/028/650/816/medium/page1.jpg?1778142532",
-              "https://data.volantinofacile.it/pages/images/028/669/501/medium/page1.jpg?1778615301",
               "https://data.volantinofacile.it/pages/images/028/675/696/medium/page1.jpg?1778750515",
-              "https://data.volantinofacile.it/pages/images/028/676/745/medium/page1.jpg?1778759585",
               "https://data.volantinofacile.it/pages/images/028/676/746/medium/page1.jpg?1778759586",
               "https://data.volantinofacile.it/pages/images/028/677/784/medium/page1.jpg?1778807962",
               "https://data.volantinofacile.it/pages/images/028/677/800/medium/page1.jpg?1778807979",
@@ -1517,17 +1288,19 @@
               "https://data.volantinofacile.it/pages/images/028/709/934/medium/page1.jpg?1779370297",
               "https://data.volantinofacile.it/pages/images/028/723/583/medium/page1.jpg?1779878759",
               "https://data.volantinofacile.it/pages/images/028/724/272/medium/page1.jpg?1779879243",
-              "https://data.volantinofacile.it/pages/images/028/726/806/medium/page1.jpg?1779955572",
-              "https://data.volantinofacile.it/pages/images/028/726/918/medium/page1.jpg?1779955643",
+              "https://data.volantinofacile.it/pages/images/028/726/689/medium/page1.jpg?1779955489",
+              "https://data.volantinofacile.it/pages/images/028/731/254/medium/page1.jpg?1780036032",
+              "https://data.volantinofacile.it/pages/images/028/735/283/medium/page1.jpg?1780176270",
+              "https://data.volantinofacile.it/pages/images/028/735/561/medium/page1.jpg?1780176416",
               "https://data.volantinofacile.it/retailers/logos/000/000/382/medium/pam.png?1635250503",
               "https://data.volantinofacile.it/retailers/logos/000/000/382/thumb/pam.png?1635250503",
               "https://images.volantinofacile.it/Download_on_the_App_Store_Badge_orig.svg",
               "https://images.volantinofacile.it/ajax-loader-red.gif",
-              "https://sb.scorecardresearch.com/b?c1=2&c2=31496953&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068487280&ns_c=UTF-8&cs_cfg=1001110&c7=https%3A%2F%2Fwww.volantinofacile.it%2Fpam%2Fvolantino-pam&c8=Volantino%20Pam%20a%20Firenze%3A%20offerte%20e%20negozi%20%7C%20VolantinoFacile.it&c9=",
+              "https://sb.scorecardresearch.com/b?c1=2&c2=31496953&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309071343&ns_c=UTF-8&cs_cfg=1001110&c7=https%3A%2F%2Fwww.volantinofacile.it%2Fpam%2Fvolantino-pam&c8=Volantino%20Pam%20a%20Firenze%3A%20offerte%20e%20negozi%20%7C%20VolantinoFacile.it&c9=",
               "https://sb.scorecardresearch.com/cs/31496953/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
               "https://www.volantinofacile.it/ajax/sendImpressions",
-              "https://www.volantinofacile.it/ajax/updateSettings/132595761",
+              "https://www.volantinofacile.it/ajax/updateSettings/132832381",
               "https://www.volantinofacile.it/cdn-cgi/rum?",
               "https://www.volantinofacile.it/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js",
               "https://www.volantinofacile.it/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js",
@@ -1590,6 +1363,11 @@
                 "content_type": "image/png"
               },
               {
+                "url": "https://data.volantinofacile.it/pages/images/028/731/254/medium/page1.jpg?1780036032",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
                 "url": "https://data.volantinofacile.it/pages/images/028/709/886/medium/page1.jpg?1779370277",
                 "status": 200,
                 "content_type": "image/jpeg"
@@ -1605,17 +1383,12 @@
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/724/272/medium/page1.jpg?1779879243",
+                "url": "https://data.volantinofacile.it/pages/images/028/501/280/medium/page1.jpg?1775214225",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
                 "url": "https://data.volantinofacile.it/pages/images/028/677/784/medium/page1.jpg?1778807962",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/501/280/medium/page1.jpg?1775214225",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
@@ -1645,27 +1418,12 @@
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/676/745/medium/page1.jpg?1778759585",
+                "url": "https://data.volantinofacile.it/pages/images/028/735/283/medium/page1.jpg?1780176270",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
               {
-                "url": "https://data.volantinofacile.it/pages/images/028/669/501/medium/page1.jpg?1778615301",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/676/746/medium/page1.jpg?1778759586",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/726/806/medium/page1.jpg?1779955572",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://data.volantinofacile.it/pages/images/028/726/918/medium/page1.jpg?1779955643",
+                "url": "https://data.volantinofacile.it/pages/images/028/726/689/medium/page1.jpg?1779955489",
                 "status": 200,
                 "content_type": "image/jpeg"
               },
@@ -1698,6 +1456,11 @@
                 "url": "https://www.volantinofacile.it/vf/img/iconalogo.png",
                 "status": 200,
                 "content_type": "image/png"
+              },
+              {
+                "url": "https://www.volantinofacile.it/vf/img/logo-volantinofacile-textwhite.svg",
+                "status": 200,
+                "content_type": "image/svg+xml"
               },
               {
                 "url": "https://www.volantinofacile.it/vf/img/vf-logo-a.svg",
@@ -1735,6 +1498,11 @@
                 "content_type": "image/png"
               },
               {
+                "url": "https://data.volantinofacile.it/pages/images/028/724/272/medium/page1.jpg?1779879243",
+                "status": 200,
+                "content_type": "image/jpeg"
+              },
+              {
                 "url": "https://www.volantinofacile.it/vf/img/location-dialog-map.png",
                 "status": 200,
                 "content_type": "image/png"
@@ -1743,6 +1511,11 @@
                 "url": "https://www.volantinofacile.it/vf/img/arrow-right-white.svg",
                 "status": 200,
                 "content_type": "image/svg+xml"
+              },
+              {
+                "url": "https://data.volantinofacile.it/pages/images/028/735/561/medium/page1.jpg?1780176416",
+                "status": 200,
+                "content_type": "image/jpeg"
               }
             ],
             "error": ""
@@ -1760,8 +1533,8 @@
           },
           "rendered": {
             "ok": true,
-            "text_length": 363,
-            "html_length": 1482101,
+            "text_length": 494,
+            "html_length": 1503716,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
@@ -1772,7 +1545,6 @@
               "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=home_social_post",
               "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=news",
               "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=social_content",
-              "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=store",
               "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=topic",
               "https://coeus.ppapi.it/api/v2_2/post/query?noCache=1&typeUuid=recipe"
             ],
@@ -1793,12 +1565,7 @@
                 "content_type": "application/json"
               },
               {
-                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=home_social_post",
-                "status": 200,
-                "content_type": "application/json"
-              },
-              {
-                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=article",
+                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=topic",
                 "status": 200,
                 "content_type": "application/json"
               },
@@ -1808,12 +1575,7 @@
                 "content_type": "application/json"
               },
               {
-                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=social_content",
-                "status": 200,
-                "content_type": "application/json"
-              },
-              {
-                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=topic",
+                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=article",
                 "status": 200,
                 "content_type": "application/json"
               },
@@ -1823,7 +1585,12 @@
                 "content_type": "application/json"
               },
               {
-                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=store",
+                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=home_social_post",
+                "status": 200,
+                "content_type": "application/json"
+              },
+              {
+                "url": "https://coeus.ppapi.it/api/v2_2/post/query?noCache=0&typeUuid=social_content",
                 "status": 200,
                 "content_type": "application/json"
               },
@@ -1840,7 +1607,7 @@
     },
     {
       "chain": "Carrefour",
-      "best_static_pairs": 6,
+      "best_static_pairs": 12,
       "best_rendered_pairs": 15,
       "best_url": "https://www.promoqui.it/volantino/carrefour",
       "sources": [
@@ -1849,15 +1616,15 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 28785,
+            "text_length": 28722,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 6370,
-            "html_length": 1172391,
+            "text_length": 6641,
+            "html_length": 1159055,
             "price_count": 25,
             "pairs": [],
             "api_urls": [
@@ -1869,38 +1636,38 @@
               "https://cl-pbr.cxr.skeepers.io/698e2820-e88a-f844-1921-29068640a32d/stats.json",
               "https://i3.vivocha.com/a/carrefour/api/v3/public/web-campaigns",
               "https://i3.vivocha.com/a/carrefour/api/vivocha.js",
-              "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=0&ex=%7B%22services%22%3A%7B%2269aa8ba4c528f50006205b66%22%3A%7B%22media%22%3A%5B%22chat%22%5D%2C%22widgets%22%3A%5B%221772784255089%22%2C%221774533701867%22%5D%7D%7D%7D&vvcu=20260529GWCCQcsDWXYLlO9n&vvct=202605295jqYVoGA3RRFLgpo&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780068504884_510172964",
-              "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=engagement&ex=%7B%22id%22%3A%221772784255089%22%2C%22servid%22%3A%2269aa8ba4c528f50006205b66%22%2C%22lang%22%3A%22it%22%2C%22ver%22%3A18%2C%22media%22%3A%5B%22chat%22%5D%7D&vvcu=20260529GWCCQcsDWXYLlO9n&vvct=202605295jqYVoGA3RRFLgpo&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780068504942_473974887",
-              "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=engagement&ex=%7B%22id%22%3A%221774533701867%22%2C%22servid%22%3A%2269aa8ba4c528f50006205b66%22%2C%22lang%22%3A%22it%22%2C%22ver%22%3A18%2C%22media%22%3A%5B%22chat%22%5D%7D&vvcu=20260529GWCCQcsDWXYLlO9n&vvct=202605295jqYVoGA3RRFLgpo&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780068504938_1308149747",
+              "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=0&ex=%7B%22services%22%3A%7B%2269aa8ba4c528f50006205b66%22%3A%7B%22media%22%3A%5B%22chat%22%5D%2C%22widgets%22%3A%5B%221772784255089%22%2C%221774533701867%22%5D%7D%7D%7D&vvcu=20260601U0iUTHBbbSxgoG7O&vvct=20260601h8vDN6jMXOW3Aopy&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780309089618_1461842687",
+              "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=engagement&ex=%7B%22id%22%3A%221772784255089%22%2C%22servid%22%3A%2269aa8ba4c528f50006205b66%22%2C%22lang%22%3A%22it%22%2C%22ver%22%3A18%2C%22media%22%3A%5B%22chat%22%5D%7D&vvcu=20260601U0iUTHBbbSxgoG7O&vvct=20260601h8vDN6jMXOW3Aopy&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780309089674_353106129",
+              "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=engagement&ex=%7B%22id%22%3A%221774533701867%22%2C%22servid%22%3A%2269aa8ba4c528f50006205b66%22%2C%22lang%22%3A%22it%22%2C%22ver%22%3A18%2C%22media%22%3A%5B%22chat%22%5D%7D&vvcu=20260601U0iUTHBbbSxgoG7O&vvct=20260601h8vDN6jMXOW3Aopy&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780309089689_2121655601",
+              "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw0870892c/large/PROSCOTTOSOFFICETTECITTERIO-0000080551010-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw089f29d3/large/CETRIOLISF-2002323000000-1.png?sw=110&sfrm=jpg",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw0905709a/large/PASSATAPOMODOROCRF-8012666016006-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw11fbbdb6/large/PROSCIUTTOCOTTOGRANBISCOTTO-2016033000000-1.png?sw=110&sfrm=jpg",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw12045cfe/large/ICHNUSACL33X3-8006890325133-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw23388c6e/large/ACQUALAURETANANAT15X6-8004192202206-1.png?sw=110&sfrm=png",
-              "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw39bd6956/large/BIRRAICHNUSABOTT-8006890758467-1.png?sw=110&sfrm=png",
+              "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw34d30b84/large/SOTTILISSIMEPETTOPOLLOAIA-2229190000000-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw47b23305/large/PASSATACLASSICALAMOLISANA-8004690950043-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw483b00ef/large/GRANAPADANOGRATTUGIATOCRF-3560070151493-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw5567961d/large/POMODCILIEGINOGR500-8033675330037-1.png?sw=110&sfrm=jpg",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw68c4ce6d/large/LATTEACCADIUHTPSTEALT1-8002670163605-1.png?sw=110&sfrm=png",
-              "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw69fddd9f/large/BIRRAMORETTIML660-8001435500013-1.png?sw=110&sfrm=png",
-              "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw7045265c/large/PIZZAMARGHLANUMEROUNO-8015673029779-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw75801145/large/MELANZANETONDESF-2002059000000-1.png?sw=110&sfrm=jpeg",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw83593a87/large/PomodorocuoredibuesfusocatIorgineItalia-2002048000000-1.png?sw=110&sfrm=jpg",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwa09ba130/large/ACQUAVALMORANATURALE500X12-8010333001713-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwaa6f22a0/large/MAIONESECLASSTUBOCALVE-8720182138835-1.png?sw=110&sfrm=png",
+              "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwaae72f3e/large/FragoleBomboniera500g-8010250062224-1.png?sw=110&sfrm=jpg",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwb18f9746/large/ACQUAEFFNATULIVETOLT15X6-8008490000182-1.png?sw=110&sfrm=png",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwd2116f62/large/lx-CoronaExtra,BirraBottiglia33cl-75041670-1.png?sw=110&sfrm=jpg",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwdc2028f0/large/lx-ZymilAltaDigeribilitaSenzalattosioBuonoDigeribile1000ml-8002580004166-1.png?sw=110&sfrm=jpg",
               "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwf65747e3/large/lx-ZymilAltaDigeribilitaSenzalattosioMagroDigeribile1000ml-8002580004180-1.png?sw=110&sfrm=jpg",
               "https://www.carrefour.it/on/demandware.static/-/Sites-carrefour-storefront-catalog-IT/default/dw1cb2fbb7/promoIcon/product-detail-page-60/marker-concorso-pdp.svg",
-              "https://www.carrefour.it/on/demandware.static/-/Sites-carrefour-storefront-catalog-IT/default/dw64d25505/promoIcon/product-detail-page-60/marker-novita-pdp.svg",
               "https://www.carrefour.it/on/demandware.static/-/Sites-carrefour-storefront-catalog-IT/default/dwfb5f5f38/category_banner/headerCat-promozioni/promozioni-gen-24.png",
               "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/default/dw0a2b222f/images/multisearch-icon.svg",
-              "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780016708376/js/component-productSearchComponent-js.chunk.js",
-              "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780016708376/js/component-productTileComponent-js.chunk.js",
-              "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780016708376/js/component-searchBarComponent-js.chunk.js",
+              "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780275863664/js/component-productSearchComponent-js.chunk.js",
+              "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780275863664/js/component-productTileComponent-js.chunk.js",
+              "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780275863664/js/component-searchBarComponent-js.chunk.js",
               "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=bnx-promotion&slotId=Promotion_Shopline&isPromo=true&isWeb=true",
-              "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=bnx-promotion&slotId=Promotion_Spotlight&isPromo=true&isWeb=true"
+              "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=bnx-promotion&slotId=Promotion_Spotlight&isPromo=true&isWeb=true",
+              "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=bnx-search-panel&slotId=Panel_Native&maxAdsNumber=1&isWeb=true"
             ],
             "responses": [
               {
@@ -1909,12 +1676,12 @@
                 "content_type": "text/html;charset=UTF-8"
               },
               {
-                "url": "https://www.carrefour.it/on/demandware.static/-/Sites-carrefour-storefront-catalog-IT/default/dwfb5f5f38/category_banner/headerCat-promozioni/promozioni-gen-24.png",
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw483b00ef/large/GRANAPADANOGRATTUGIATOCRF-3560070151493-1.png?sw=110&sfrm=png",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw483b00ef/large/GRANAPADANOGRATTUGIATOCRF-3560070151493-1.png?sw=110&sfrm=png",
+                "url": "https://www.carrefour.it/on/demandware.static/-/Sites-carrefour-storefront-catalog-IT/default/dwfb5f5f38/category_banner/headerCat-promozioni/promozioni-gen-24.png",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -1924,19 +1691,9 @@
                 "content_type": "image/png"
               },
               {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwdc2028f0/large/lx-ZymilAltaDigeribilitaSenzalattosioBuonoDigeribile1000ml-8002580004166-1.png?sw=110&sfrm=jpg",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
                 "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw5567961d/large/POMODCILIEGINOGR500-8033675330037-1.png?sw=110&sfrm=jpg",
                 "status": 200,
                 "content_type": "image/png"
-              },
-              {
-                "url": "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/default/dw0a2b222f/images/multisearch-icon.svg",
-                "status": 200,
-                "content_type": "image/svg+xml"
               },
               {
                 "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw23388c6e/large/ACQUALAURETANANAT15X6-8004192202206-1.png?sw=110&sfrm=png",
@@ -1944,14 +1701,19 @@
                 "content_type": "image/webp"
               },
               {
-                "url": "https://www.carrefour.it/tag_path/profile/visit/js/1_0?dtm_cid=82923&dtm_cmagic=e8c201&dtm_fid=5499&dtm_promo_id=undefined&cachebuster=20260529032822708",
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwdc2028f0/large/lx-ZymilAltaDigeribilitaSenzalattosioBuonoDigeribile1000ml-8002580004166-1.png?sw=110&sfrm=jpg",
                 "status": 200,
-                "content_type": "application/javascript"
+                "content_type": "image/webp"
               },
               {
-                "url": "https://www.carrefour.it/on/demandware.static/-/Sites-carrefour-storefront-catalog-IT/default/dw64d25505/promoIcon/product-detail-page-60/marker-novita-pdp.svg",
+                "url": "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/default/dw0a2b222f/images/multisearch-icon.svg",
                 "status": 200,
                 "content_type": "image/svg+xml"
+              },
+              {
+                "url": "https://www.carrefour.it/tag_path/profile/visit/js/1_0?dtm_cid=82923&dtm_cmagic=e8c201&dtm_fid=5499&dtm_promo_id=undefined&cachebuster=20260601101807163",
+                "status": 200,
+                "content_type": "application/javascript"
               },
               {
                 "url": "https://www.carrefour.it/on/demandware.static/-/Sites-carrefour-storefront-catalog-IT/default/dw1cb2fbb7/promoIcon/product-detail-page-60/marker-concorso-pdp.svg",
@@ -1974,42 +1736,17 @@
                 "content_type": "text/plain; charset=utf-8"
               },
               {
-                "url": "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780016708376/js/component-productTileComponent-js.chunk.js",
+                "url": "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780275863664/js/component-productTileComponent-js.chunk.js",
                 "status": 200,
                 "content_type": "text/javascript"
               },
               {
-                "url": "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780016708376/js/component-productSearchComponent-js.chunk.js",
+                "url": "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780275863664/js/component-productSearchComponent-js.chunk.js",
                 "status": 200,
                 "content_type": "text/javascript"
               },
               {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw39bd6956/large/BIRRAICHNUSABOTT-8006890758467-1.png?sw=110&sfrm=png",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw47b23305/large/PASSATACLASSICALAMOLISANA-8004690950043-1.png?sw=110&sfrm=png",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw089f29d3/large/CETRIOLISF-2002323000000-1.png?sw=110&sfrm=jpg",
-                "status": 200,
-                "content_type": "image/png"
-              },
-              {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwd2116f62/large/lx-CoronaExtra,BirraBottiglia33cl-75041670-1.png?sw=110&sfrm=jpg",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw69fddd9f/large/BIRRAMORETTIML660-8001435500013-1.png?sw=110&sfrm=png",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780016708376/js/component-searchBarComponent-js.chunk.js",
+                "url": "https://www.carrefour.it/on/demandware.static/Sites-carrefour-IT-Site/-/it_IT/v1780275863664/js/component-searchBarComponent-js.chunk.js",
                 "status": 200,
                 "content_type": "text/javascript"
               },
@@ -2019,34 +1756,19 @@
                 "content_type": "application/json"
               },
               {
-                "url": "https://cl-pbr.cxr.skeepers.io/698e2820-e88a-f844-1921-29068640a32d/links.json",
-                "status": 200,
-                "content_type": "application/json"
-              },
-              {
-                "url": "https://i3.vivocha.com/a/carrefour/api/vivocha.js",
-                "status": 200,
-                "content_type": "application/javascript; charset=utf-8"
-              },
-              {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwf65747e3/large/lx-ZymilAltaDigeribilitaSenzalattosioMagroDigeribile1000ml-8002580004180-1.png?sw=110&sfrm=jpg",
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw47b23305/large/PASSATACLASSICALAMOLISANA-8004690950043-1.png?sw=110&sfrm=png",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw11fbbdb6/large/PROSCIUTTOCOTTOGRANBISCOTTO-2016033000000-1.png?sw=110&sfrm=jpg",
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw68c4ce6d/large/LATTEACCADIUHTPSTEALT1-8002670163605-1.png?sw=110&sfrm=png",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw7045265c/large/PIZZAMARGHLANUMEROUNO-8015673029779-1.png?sw=110&sfrm=png",
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw089f29d3/large/CETRIOLISF-2002323000000-1.png?sw=110&sfrm=jpg",
                 "status": 200,
                 "content_type": "image/png"
-              },
-              {
-                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw0905709a/large/PASSATAPOMODOROCRF-8012666016006-1.png?sw=110&sfrm=png",
-                "status": 200,
-                "content_type": "image/webp"
               },
               {
                 "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw75801145/large/MELANZANETONDESF-2002059000000-1.png?sw=110&sfrm=jpeg",
@@ -2054,14 +1776,14 @@
                 "content_type": "image/webp"
               },
               {
-                "url": "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=bnx-promotion&slotId=Promotion_Shopline&isPromo=true&isWeb=true",
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwd2116f62/large/lx-CoronaExtra,BirraBottiglia33cl-75041670-1.png?sw=110&sfrm=jpg",
                 "status": 200,
-                "content_type": "text/html;charset=UTF-8"
+                "content_type": "image/webp"
               },
               {
-                "url": "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=bnx-search-panel&slotId=Panel_Native&maxAdsNumber=1&isWeb=true",
+                "url": "https://cl-pbr.cxr.skeepers.io/698e2820-e88a-f844-1921-29068640a32d/links.json",
                 "status": 200,
-                "content_type": "text/html;charset=UTF-8"
+                "content_type": "application/json"
               },
               {
                 "url": "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=sp-promotion&isPromo=true&isWeb=true",
@@ -2079,12 +1801,47 @@
                 "content_type": "text/html;charset=UTF-8"
               },
               {
-                "url": "https://i3.vivocha.com/a/carrefour/api/v3/public/web-campaigns",
+                "url": "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=bnx-promotion&slotId=Promotion_Shopline&isPromo=true&isWeb=true",
                 "status": 200,
-                "content_type": "application/json; charset=utf-8"
+                "content_type": "text/html;charset=UTF-8"
               },
               {
-                "url": "https://cdn.vivocha.com/a/carrefour/w/i3/8.4.0-gaia-outcome.26/api/v3/public/campaigns/69aa8ba4c528f50006205b66/18/1774533701867/it/4b79fbb89fc5e246/628b0db78fdbce2c",
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw83593a87/large/PomodorocuoredibuesfusocatIorgineItalia-2002048000000-1.png?sw=110&sfrm=jpg",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwaae72f3e/large/FragoleBomboniera500g-8010250062224-1.png?sw=110&sfrm=jpg",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw11fbbdb6/large/PROSCIUTTOCOTTOGRANBISCOTTO-2016033000000-1.png?sw=110&sfrm=jpg",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dwf65747e3/large/lx-ZymilAltaDigeribilitaSenzalattosioMagroDigeribile1000ml-8002580004180-1.png?sw=110&sfrm=jpg",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://www.carrefour.it/dw/image/v2/BDWP_PRD/on/demandware.static/-/Sites-carrefour-master-catalog-IT/default/dw0905709a/large/PASSATAPOMODOROCRF-8012666016006-1.png?sw=110&sfrm=png",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://www.carrefour.it/on/demandware.store/Sites-carrefour-IT-Site/it_IT/Citrus-GetAds?placement=bnx-search-panel&slotId=Panel_Native&maxAdsNumber=1&isWeb=true",
+                "status": 200,
+                "content_type": "text/html;charset=UTF-8"
+              },
+              {
+                "url": "https://i3.vivocha.com/a/carrefour/api/vivocha.js",
+                "status": 200,
+                "content_type": "application/javascript; charset=utf-8"
+              },
+              {
+                "url": "https://i3.vivocha.com/a/carrefour/api/v3/public/web-campaigns",
                 "status": 200,
                 "content_type": "application/json; charset=utf-8"
               },
@@ -2094,12 +1851,22 @@
                 "content_type": "application/json; charset=utf-8"
               },
               {
-                "url": "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=0&ex=%7B%22services%22%3A%7B%2269aa8ba4c528f50006205b66%22%3A%7B%22media%22%3A%5B%22chat%22%5D%2C%22widgets%22%3A%5B%221772784255089%22%2C%221774533701867%22%5D%7D%7D%7D&vvcu=20260529GWCCQcsDWXYLlO9n&vvct=202605295jqYVoGA3RRFLgpo&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780068504884_510172964",
+                "url": "https://cdn.vivocha.com/a/carrefour/w/i3/8.4.0-gaia-outcome.26/api/v3/public/campaigns/69aa8ba4c528f50006205b66/18/1774533701867/it/4b79fbb89fc5e246/628b0db78fdbce2c",
+                "status": 200,
+                "content_type": "application/json; charset=utf-8"
+              },
+              {
+                "url": "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=0&ex=%7B%22services%22%3A%7B%2269aa8ba4c528f50006205b66%22%3A%7B%22media%22%3A%5B%22chat%22%5D%2C%22widgets%22%3A%5B%221772784255089%22%2C%221774533701867%22%5D%7D%7D%7D&vvcu=20260601U0iUTHBbbSxgoG7O&vvct=20260601h8vDN6jMXOW3Aopy&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780309089618_1461842687",
                 "status": 200,
                 "content_type": "image/gif"
               },
               {
-                "url": "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=engagement&ex=%7B%22id%22%3A%221774533701867%22%2C%22servid%22%3A%2269aa8ba4c528f50006205b66%22%2C%22lang%22%3A%22it%22%2C%22ver%22%3A18%2C%22media%22%3A%5B%22chat%22%5D%7D&vvcu=20260529GWCCQcsDWXYLlO9n&vvct=202605295jqYVoGA3RRFLgpo&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780068504938_1308149747",
+                "url": "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=engagement&ex=%7B%22id%22%3A%221772784255089%22%2C%22servid%22%3A%2269aa8ba4c528f50006205b66%22%2C%22lang%22%3A%22it%22%2C%22ver%22%3A18%2C%22media%22%3A%5B%22chat%22%5D%7D&vvcu=20260601U0iUTHBbbSxgoG7O&vvct=20260601h8vDN6jMXOW3Aopy&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780309089674_353106129",
+                "status": 200,
+                "content_type": "image/gif"
+              },
+              {
+                "url": "https://i3.vivocha.com/a/carrefour/api/vvct.gif?ev=engagement&ex=%7B%22id%22%3A%221774533701867%22%2C%22servid%22%3A%2269aa8ba4c528f50006205b66%22%2C%22lang%22%3A%22it%22%2C%22ver%22%3A18%2C%22media%22%3A%5B%22chat%22%5D%7D&vvcu=20260601U0iUTHBbbSxgoG7O&vvct=20260601h8vDN6jMXOW3Aopy&tpcs=true&lstr=true&kk=carrefour&dt=Offerte%20spesa%20online%20Carrefour%3A%20migliori%20promozioni%20online%20%7C%20Carrefour&dr=&cs=UTF-8&hn=www.carrefour.it&pn=%2Fpromozioni%2F&ul=en-US%40posix&sr=1440x1100-1440x1100&sc=24&r=https%3A%2F%2Fwww.carrefour.it%2Fpromozioni%2F&__=1780309089689_2121655601",
                 "status": 200,
                 "content_type": "image/gif"
               }
@@ -2112,101 +1879,125 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 2161,
-            "price_count": 6,
+            "text_length": 2771,
+            "price_count": 15,
             "pairs": [
               {
+                "product": "Amore - Stracciatella",
+                "price": "2.79"
+              },
+              {
+                "product": "20% Riserva - Birra Gran Rossa O Bianca O Doppio Malto",
+                "price": "5.99"
+              },
+              {
                 "product": "CARREFOUR IPER - Grandi Marche Scade Mercoledi Offerte in evidenza",
-                "price": "0.99"
+                "price": "1.99"
               },
               {
-                "product": "40% Biraghi - Gran Ricotta",
-                "price": "1.60"
+                "product": "28% Vita well - Acqua Di Cocco Vita Coco Pressata O Pura",
+                "price": "2.49"
               },
               {
-                "product": "30% Castello - Salame Ferrarese Il Natural Salumi",
-                "price": "1.19"
+                "product": "Go tan - Latte Di Cocco",
+                "price": "9.99"
+              },
+              {
+                "product": "IPER - Offerte imberdibili Fino al 31/7 Offerte in evidenza",
+                "price": "289.00"
+              },
+              {
+                "product": "alto DMVWT612C",
+                "price": "179.00"
+              },
+              {
+                "product": "28% Daya - Frigorifero Doppia Porta Dmdp204ew",
+                "price": "9.54"
+              },
+              {
+                "product": "IPER - Offerte imperdibili Fino al 31/7 Offerte in evidenza",
+                "price": "289.00"
               },
               {
                 "product": "IPER - Prezzi tech Fino al 25/6 Offerte in evidenza",
-                "price": "59.95"
+                "price": "299.00"
               },
               {
-                "product": "50% Toshiba - Microonde + Grill 80W",
-                "price": "129.00"
+                "product": "33% Hisense - Lavatrice WF90 1",
+                "price": "269.00"
               },
               {
-                "product": "Mod. 32E410T",
-                "price": "79.90"
+                "product": "18% Hisense - Tv Led 50A60",
+                "price": "99.00"
               }
             ],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 5706,
-            "html_length": 512065,
-            "price_count": 16,
+            "text_length": 6394,
+            "html_length": 532193,
+            "price_count": 25,
             "pairs": [
               {
-                "product": "Soft - Tovagliolo",
-                "price": "0.99"
+                "product": "23% D'Amore - Stracciatella",
+                "price": "2.79"
               },
               {
-                "product": "40% Biraghi - Gran Ricotta",
-                "price": "3.59"
+                "product": "20% Riserva - Birra Gran Rossa O Bianca O Doppio Malto",
+                "price": "5.99"
               },
               {
-                "product": "IPER - PREZZI TECH Fino al 25/6 OFFERTE IN EVIDENZA",
-                "price": "59.95"
+                "product": "CARREFOUR IPER - GRANDI MARCHE Scade Mercoledi OFFERTE IN EVIDENZA",
+                "price": "1.99"
               },
               {
-                "product": "50% Toshiba - Microonde + Grill 80W",
-                "price": "129.00"
-              },
-              {
-                "product": "Mod. 32E410T",
-                "price": "79.90"
-              },
-              {
-                "product": "PUNTI SPRINT PAYBACK Scade Martedi OFFERTE CARREFOUR IPER Ciotola Snack",
-                "price": "1.19"
-              },
-              {
-                "product": "Fontanafredda - Alta Langa DOCG La Cuvee",
-                "price": "13.90"
-              },
-              {
-                "product": "Rocca dei forti - Spumante Brut O Dolce",
+                "product": "28% Vita well - Acqua Di Cocco Vita Coco Pressata O Pura",
                 "price": "2.49"
               },
               {
-                "product": "Brut - Metodo Classico",
-                "price": "15.90"
+                "product": "Go tan - Latte Di Cocco",
+                "price": "9.99"
               },
               {
-                "product": "Terre d'Italia - Conegliano Valdobbiaden...",
-                "price": "8.29"
+                "product": "IPER - OFFERTE IMBERDIBILI Fino al 31/7 OFFERTE IN EVIDENZA",
+                "price": "289.00"
               },
               {
-                "product": "Travaglino - Riesling Renato DOC",
-                "price": "11.50"
+                "product": "17% Daya - Lavatrice Carica dall'alto DMVWT612C",
+                "price": "179.00"
               },
               {
-                "product": "Tovaglietta",
-                "price": "1.29"
+                "product": "28% Daya - Frigorifero Doppia Porta Dmdp204ew",
+                "price": "9.54"
               },
               {
-                "product": "Set 5 Utensili Cucina In Silicone",
-                "price": "7.90"
+                "product": "IPER - OFFERTE IMPERDIBILI Fino al 31/7 OFFERTE IN EVIDENZA",
+                "price": "289.00"
               },
               {
-                "product": "Linea - Black Point",
-                "price": "14.95"
+                "product": "IPER - PREZZI TECH Fino al 25/6 OFFERTE IN EVIDENZA",
+                "price": "299.00"
               },
               {
-                "product": "Bicchiere Barocco In Vetro",
-                "price": "1.49"
+                "product": "33% Hisense - Lavatrice WF90 1",
+                "price": "269.00"
+              },
+              {
+                "product": "18% Hisense - Tv Led 50A60",
+                "price": "99.00"
+              },
+              {
+                "product": "34% Melchioni - Mini Frigo Bar Siberia OFFERTE CARREFOUR IPER Materasso Euforia Singolo 80x190",
+                "price": "99.90"
+              },
+              {
+                "product": "Copritutto Matrimoniale Spesanca",
+                "price": "9.59"
+              },
+              {
+                "product": "Fouta/Telo Hammam",
+                "price": "2.99"
               }
             ],
             "api_urls": [
@@ -2258,12 +2049,17 @@
                 "content_type": "text/html; charset=utf-8"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1504d5d2b4af122e.css",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/skeleton_leaflet.png",
+                "status": 200,
+                "content_type": "image/png"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/5fce666276a82cf4.css",
                 "status": 200,
                 "content_type": "text/css"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1b3b1da82505b4d1.css",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/706a7cd2219a17e2.css",
                 "status": 200,
                 "content_type": "text/css"
               },
@@ -2273,7 +2069,7 @@
                 "content_type": "text/css"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/157e04b519e9f8bf.css",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1504d5d2b4af122e.css",
                 "status": 200,
                 "content_type": "text/css"
               },
@@ -2288,72 +2084,32 @@
                 "content_type": "text/css"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/706a7cd2219a17e2.css",
-                "status": 200,
-                "content_type": "text/css"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/5fce666276a82cf4.css",
-                "status": 200,
-                "content_type": "text/css"
-              },
-              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/2cce1eb9112089d1.css",
                 "status": 200,
                 "content_type": "text/css"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/713/989/medium_webp/page1.webp?1779455540",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/157e04b519e9f8bf.css",
                 "status": 200,
-                "content_type": "image/webp"
+                "content_type": "text/css"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/719/511/medium_webp/page1.webp?1779801899",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1b3b1da82505b4d1.css",
                 "status": 200,
-                "content_type": "image/webp"
+                "content_type": "text/css"
               },
               {
-                "url": "https://www.promoqui.it/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_web_it.png",
                 "status": 200,
-                "content_type": "application/javascript"
+                "content_type": "image/png"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/730/299/medium_webp/page1.webp?1779984707",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/685/384/medium_webp/page1.webp?1779113550",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/672/991/medium_webp/page1.webp?1778681643",
+                "url": "https://data.promoqui.it/pages/images/028/714/001/medium_webp/page1.webp?1779455690",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
                 "url": "https://data.promoqui.it/pages/images/028/676/986/medium_webp/page1.webp?1778778826",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/723/583/medium_webp/page1.webp?1779878759",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/709/886/medium_webp/page1.webp?1779370277",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/675/696/medium_webp/page1.webp?1778750515",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/710/541/medium_webp/page1.webp?1779370750",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -2368,47 +2124,57 @@
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/offers/images/090/359/911/medium_webp/crop_6a0442f9-9928-417a-b0a2-00d80ad301da_big_20260513112307.webp?1778689719",
+                "url": "https://data.promoqui.it/pages/images/028/730/299/medium_webp/page1.webp?1779984707",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/0ff36be9a97ec94d.css",
+                "url": "https://data.promoqui.it/pages/images/028/685/384/medium_webp/page1.webp?1779113550",
                 "status": 200,
-                "content_type": "text/css"
+                "content_type": "image/webp"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/skeleton_leaflet.png",
+                "url": "https://data.promoqui.it/pages/images/028/710/541/medium_webp/page1.webp?1779370750",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/pages/images/028/709/886/medium_webp/page1.webp?1779370277",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/pages/images/028/719/511/medium_webp/page1.webp?1779801899",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/pages/images/028/675/696/medium_webp/page1.webp?1778750515",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/pages/images/028/710/205/medium_webp/page1.webp?1779370503",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_white.png",
                 "status": 200,
                 "content_type": "image/png"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_web_it.png",
+                "url": "https://www.promoqui.it/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js",
                 "status": 200,
-                "content_type": "image/png"
+                "content_type": "application/javascript"
               },
               {
-                "url": "https://data.promoqui.it/retailers/logos/000/000/106/thumb_webp/Logo_Iper_Carrefour.webp?1674824013",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/671/689/medium_webp/page1.webp?1778663632",
+                "url": "https://data.promoqui.it/categories/flat_icons/000/014/988/medium_webp/pint_(2).webp?1635259188",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/692/809/medium_webp/page1.webp?1779131523",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/categories/flat_icons/000/015/136/medium_webp/napkin.webp?1635259296",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/offers/images/089/386/973/medium_webp/crop_69ce572e-f440-4912-979f-00810ad300f8_big_20260402134657.webp?1775867836",
+                "url": "https://data.promoqui.it/categories/flat_icons/000/014/118/medium_webp/lavatrice.webp?1652168959",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -2418,39 +2184,64 @@
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/categories/flat_icons/000/015/984/medium_webp/tv.webp?1635259741",
+                "url": "https://data.promoqui.it/categories/flat_icons/000/014/996/medium_webp/wine_(1).webp?1635259196",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/categories/flat_icons/000/014/538/medium_webp/ice-cream.webp?1635258809",
+                "url": "https://data.promoqui.it/retailers/logos/000/000/106/thumb_webp/Logo_Iper_Carrefour.webp?1674824013",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/categories/flat_icons/000/013/978/medium_webp/microwave-oven.webp?1635258359",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/0ff36be9a97ec94d.css",
+                "status": 200,
+                "content_type": "text/css"
+              },
+              {
+                "url": "https://data.promoqui.it/offers/images/089/386/821/medium_webp/crop_69ce4fa7-78b0-40bf-8c56-002c0ad302be_big_20260402131449.webp?1775867748",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/categories/flat_icons/000/015/542/medium_webp/candy.webp?1635259550",
+                "url": "https://data.promoqui.it/offers/images/089/386/848/medium_webp/crop_69ce4fa8-90d8-4abd-a420-006c0ad300aa_big_20260402131450.webp?1775867762",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/offers/images/090/359/514/medium_webp/crop_6a0442cb-d8e0-4578-80b6-42760ad30155_big_20260513112221.webp?1778689522",
+                "url": "https://data.promoqui.it/categories/flat_icons/000/014/520/medium_webp/milk-bottle.webp?1635258790",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/offers/images/089/386/984/medium_webp/crop_69ce572f-4574-4a02-a1ce-00e10ad301ea_big_20260402134657.webp?1775867841",
+                "url": "https://data.promoqui.it/offers/images/089/386/852/medium_webp/crop_69ce4fa8-9c44-48ac-a49a-00bf0ad3005f_big_20260402131450.webp?1775867765",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_white.png",
+                "url": "https://data.promoqui.it/pages/images/028/716/654/medium_webp/page1.webp?1779696072",
                 "status": 200,
-                "content_type": "image/png"
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/categories/flat_icons/000/014/710/medium_webp/olive-oil.webp?1635258962",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/offers/images/089/386/838/medium_webp/crop_69ce4fa8-0960-42c4-b7cc-00620ad3022e_big_20260402131450.webp?1775867756",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/categories/flat_icons/000/014/939/medium_webp/water_(1).webp?1635259150",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/categories/flat_icons/000/014/015/medium_webp/coffee-machine.webp?1635258401",
+                "status": 200,
+                "content_type": "image/webp"
               }
             ],
             "error": ""
@@ -2469,11 +2260,11 @@
           "rendered": {
             "ok": true,
             "text_length": 1338,
-            "html_length": 109183,
+            "html_length": 109247,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068520238&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fcarrefour&c8=OOPS!%20Ci%20dispiace%2C%20questa%20pagina%20non%20esiste!&c9=",
+              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309105184&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fcarrefour&c8=OOPS!%20Ci%20dispiace%2C%20questa%20pagina%20non%20esiste!&c9=",
               "https://sb.scorecardresearch.com/cs/32351022/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
               "https://www.doveconviene.it/volantino/carrefour"
@@ -2490,17 +2281,17 @@
                 "content_type": ""
               },
               {
-                "url": "https://www.doveconviene.it/volantino/carrefour",
-                "status": 404,
-                "content_type": "text/html; charset=UTF-8"
-              },
-              {
                 "url": "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
                 "status": 200,
                 "content_type": "text/javascript"
               },
               {
-                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068520238&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fcarrefour&c8=OOPS!%20Ci%20dispiace%2C%20questa%20pagina%20non%20esiste!&c9=",
+                "url": "https://www.doveconviene.it/volantino/carrefour",
+                "status": 404,
+                "content_type": "text/html; charset=UTF-8"
+              },
+              {
+                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309105184&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fcarrefour&c8=OOPS!%20Ci%20dispiace%2C%20questa%20pagina%20non%20esiste!&c9=",
                 "status": 204,
                 "content_type": ""
               }
@@ -2529,7 +2320,7 @@
           "rendered": {
             "ok": true,
             "text_length": 501,
-            "html_length": 335105,
+            "html_length": 337433,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
@@ -2554,14 +2345,14 @@
                 "content_type": "text/css; charset=UTF-8"
               },
               {
-                "url": "https://www.lidl.it/s/storesearch-frontend/26_10_18/base.js",
+                "url": "https://www.lidl.it/s/storesearch-frontend/26_10_18/storeselector-flyer-addon.js",
                 "status": 200,
                 "content_type": "text/javascript"
               },
               {
-                "url": "https://www.lidl.it/s/storesearch-frontend/26_10_18/storeselector-flyer-addon.js",
+                "url": "https://www.lidl.it/q/search-input/search-input.971f2a7db2624eca1e5c3e4f745e5bf2f55e792d.js",
                 "status": 200,
-                "content_type": "text/javascript"
+                "content_type": "application/javascript; charset=UTF-8"
               },
               {
                 "url": "https://www.lidl.it/s/storesearch-frontend/26_10_18/base.css",
@@ -2569,9 +2360,9 @@
                 "content_type": "text/css"
               },
               {
-                "url": "https://www.lidl.it/q/search-input/search-input.971f2a7db2624eca1e5c3e4f745e5bf2f55e792d.js",
+                "url": "https://www.lidl.it/s/storesearch-frontend/26_10_18/base.js",
                 "status": 200,
-                "content_type": "application/javascript; charset=UTF-8"
+                "content_type": "text/javascript"
               },
               {
                 "url": "https://www.lidl.it/s/storesearch-frontend/26_10_18/storeselector-translations.json",
@@ -2597,23 +2388,23 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 4073,
+            "text_length": 4113,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 3613,
-            "html_length": 148791,
+            "text_length": 3653,
+            "html_length": 152967,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://api-viewer-zmags.shopfully.cloud/publication/it_it_846952",
-              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068534030&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Flidl&c8=Volantino%20Lidl%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=",
+              "https://api-viewer-zmags.shopfully.cloud/publication/it_it_848593",
+              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309119588&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Flidl&c8=Volantino%20Lidl%3A%20scopri%20le%20Offerte%20di%20Giugno%202026&c9=",
               "https://sb.scorecardresearch.com/cs/32351022/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
-              "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/846952/1?format=webp",
+              "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/848593/1?format=webp",
               "https://www.doveconviene.it/assets/img/product/retailer_placeholder.png?v=1779974157873",
               "https://www.doveconviene.it/volantino/lidl"
             ],
@@ -2639,22 +2430,22 @@
                 "content_type": "text/javascript"
               },
               {
+                "url": "https://api-viewer-zmags.shopfully.cloud/publication/it_it_848593",
+                "status": 200,
+                "content_type": "application/json"
+              },
+              {
                 "url": "https://www.doveconviene.it/volantino/lidl",
                 "status": 200,
                 "content_type": "text/html; charset=UTF-8"
               },
               {
-                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068534030&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Flidl&c8=Volantino%20Lidl%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=",
+                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309119588&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Flidl&c8=Volantino%20Lidl%3A%20scopri%20le%20Offerte%20di%20Giugno%202026&c9=",
                 "status": 204,
                 "content_type": ""
               },
               {
-                "url": "https://api-viewer-zmags.shopfully.cloud/publication/it_it_846952",
-                "status": 200,
-                "content_type": "application/json"
-              },
-              {
-                "url": "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/846952/1?format=webp",
+                "url": "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/848593/1?format=webp",
                 "status": 200,
                 "content_type": "application/json"
               }
@@ -2667,15 +2458,15 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 998,
+            "text_length": 1234,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 21766,
-            "html_length": 1537587,
+            "text_length": 21962,
+            "html_length": 1550311,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
@@ -2782,12 +2573,7 @@
                 "content_type": "image/png"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/713/989/medium_webp/page1.webp?1779455540",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/672/991/medium_webp/page1.webp?1778681643",
+                "url": "https://data.promoqui.it/pages/images/028/714/001/medium_webp/page1.webp?1779455690",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -2822,7 +2608,7 @@
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/723/583/medium_webp/page1.webp?1779878759",
+                "url": "https://data.promoqui.it/pages/images/028/723/825/medium_webp/page1.webp?1779878956",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -2842,6 +2628,11 @@
                 "content_type": "image/webp"
               },
               {
+                "url": "https://data.promoqui.it/pages/images/028/710/205/medium_webp/page1.webp?1779370503",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_white.png",
                 "status": 200,
                 "content_type": "image/png"
@@ -2852,7 +2643,12 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/719/856/medium_webp/page1.webp?1779837121",
+                "url": "https://data.promoqui.it/retailers/logos/000/000/089/thumb_webp/pqvflg_lidl.webp?1663236961",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/pages/images/028/736/384/medium_webp/page1.webp?1780269121",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -2862,22 +2658,27 @@
                 "content_type": "text/css"
               },
               {
-                "url": "https://data.promoqui.it/retailers/logos/000/000/089/thumb_webp/pqvflg_lidl.webp?1663236961",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
                 "url": "https://data.promoqui.it/retailers/logos/000/000/089/medium_webp/pqvflg_lidl.webp?1663236961",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
-                "url": "https://data.promoqui.it/categories/flat_icons/000/015/961/medium_webp/appliances.webp?1635259727",
+                "url": "https://data.promoqui.it/pages/images/028/736/397/medium_webp/page1.webp?1780269141",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/pages/images/028/717/222/medium_webp/page1.webp?1779718323",
                 "status": 200,
                 "content_type": "image/webp"
               },
               {
                 "url": "https://data.promoqui.it/categories/flat_icons/000/015/100/medium_webp/room.webp?1635259264",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
+                "url": "https://data.promoqui.it/categories/flat_icons/000/015/961/medium_webp/appliances.webp?1635259727",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -2910,16 +2711,6 @@
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/9315-bd9aa5e7e90b09ee.js",
                 "status": 200,
                 "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/19-b02007e55a859588.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/8779-d58b0b9102923aa8.js",
-                "status": 200,
-                "content_type": "application/javascript"
               }
             ],
             "error": ""
@@ -2929,82 +2720,34 @@
     },
     {
       "chain": "Eurospin",
-      "best_static_pairs": 3,
-      "best_rendered_pairs": 12,
-      "best_url": "https://www.promoqui.it/volantino/eurospin",
+      "best_static_pairs": 0,
+      "best_rendered_pairs": 0,
+      "best_url": "",
       "sources": [
         {
           "url": "https://www.eurospin.it/volantino/",
           "static": {
-            "ok": true,
-            "status": 200,
-            "text_length": 827481,
+            "ok": false,
+            "status": null,
+            "text_length": 0,
             "price_count": 0,
             "pairs": [],
-            "error": ""
+            "error": "<urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)>"
           },
           "rendered": {
             "ok": true,
-            "text_length": 1400,
-            "html_length": 1333113,
+            "text_length": 31,
+            "html_length": 168,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://api.refiner.io/js-client/v1/d16a6d40-da25-11ef-bff4-c96453adb0ba/ping",
-              "https://cpl.iubenda.com/big_data/consent?apikey=GgFiWGzuEteZBU0ghVCrn4s1gsBOktCi",
-              "https://d.adroll.com/consent/check/MBEQXSTAN5DJTKLMV6KAEV?pv=26303039513.352837&arrfrr=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&_s=538701e62b25b465630d509e69640131&_b=2",
-              "https://maps.gstatic.com/mapfiles/api-3/images/autocomplete-icons.png",
-              "https://p1.outbrain.com/v2/p/js/158980/EUROSPIN_LPEVENT/?au=false&bust=021776750974368708&referrer=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&pRef=&dl=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&g=1&zone=all&zemApiVersion=1.0&zcptVersion=92cd83fda9d7_2026-05-25&url_referer=",
-              "https://p1.outbrain.com/v2/p/js/158980/PAGE_VIEW/?au=false&bust=07904380192024383&referrer=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&pRef=&dl=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&g=1&zone=all&zemApiVersion=1.0&zcptVersion=92cd83fda9d7_2026-05-25&url_referer=",
-              "https://track.adform.net/Serving/TrackPoint/?pm=3045679&ADFPageName=EUROSPIN_LPEVENT&ADFdivider=%7C&ord=20459520544&ADFtpmode=2&loc=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
-              "https://track.adform.net/serving/container/?pm=3045679&lid=177571577&ctype=0&media=0&PageName=EUROSPIN_LPEVENT&rnd=1664797611&cpref=&loc=https%3a%2f%2fwww.eurospin.it%2fvolantino%2f",
               "https://www.eurospin.it/volantino/"
             ],
             "responses": [
               {
                 "url": "https://www.eurospin.it/volantino/",
-                "status": 200,
-                "content_type": "text/html; charset=UTF-8"
-              },
-              {
-                "url": "https://maps.gstatic.com/mapfiles/api-3/images/autocomplete-icons.png",
-                "status": 200,
-                "content_type": "image/png"
-              },
-              {
-                "url": "https://api.refiner.io/js-client/v1/d16a6d40-da25-11ef-bff4-c96453adb0ba/ping",
-                "status": 201,
-                "content_type": "application/json"
-              },
-              {
-                "url": "https://cpl.iubenda.com/big_data/consent?apikey=GgFiWGzuEteZBU0ghVCrn4s1gsBOktCi",
-                "status": 201,
-                "content_type": "text/plain; charset=utf-8"
-              },
-              {
-                "url": "https://track.adform.net/Serving/TrackPoint/?pm=3045679&ADFPageName=EUROSPIN_LPEVENT&ADFdivider=%7C&ord=20459520544&ADFtpmode=2&loc=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&Set1=en-US%40posix%7Cen-US%40posix%7C1440x1100%7C24",
-                "status": 200,
-                "content_type": "text/javascript; charset=utf-8"
-              },
-              {
-                "url": "https://d.adroll.com/consent/check/MBEQXSTAN5DJTKLMV6KAEV?pv=26303039513.352837&arrfrr=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&_s=538701e62b25b465630d509e69640131&_b=2",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://track.adform.net/serving/container/?pm=3045679&lid=177571577&ctype=0&media=0&PageName=EUROSPIN_LPEVENT&rnd=1664797611&cpref=&loc=https%3a%2f%2fwww.eurospin.it%2fvolantino%2f",
-                "status": 200,
-                "content_type": "text/html; charset=utf-8"
-              },
-              {
-                "url": "https://p1.outbrain.com/v2/p/js/158980/EUROSPIN_LPEVENT/?au=false&bust=021776750974368708&referrer=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&pRef=&dl=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&g=1&zone=all&zemApiVersion=1.0&zcptVersion=92cd83fda9d7_2026-05-25&url_referer=",
-                "status": 200,
-                "content_type": "image/gif"
-              },
-              {
-                "url": "https://p1.outbrain.com/v2/p/js/158980/PAGE_VIEW/?au=false&bust=07904380192024383&referrer=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&pRef=&dl=https%3A%2F%2Fwww.eurospin.it%2Fvolantino%2F&g=1&zone=all&zemApiVersion=1.0&zcptVersion=92cd83fda9d7_2026-05-25&url_referer=",
-                "status": 200,
-                "content_type": "image/gif"
+                "status": 500,
+                "content_type": "text/html"
               }
             ],
             "error": ""
@@ -3015,23 +2758,23 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 4211,
+            "text_length": 4214,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 3751,
-            "html_length": 149445,
+            "text_length": 3754,
+            "html_length": 149511,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://api-viewer-zmags.shopfully.cloud/publication/it_it_840074",
-              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068558818&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Feurospin&c8=Volantino%20Eurospin%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=",
+              "https://api-viewer-zmags.shopfully.cloud/publication/it_it_850570",
+              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309140832&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Feurospin&c8=Volantino%20Eurospin%3A%20scopri%20le%20Offerte%20di%20Giugno%202026&c9=",
               "https://sb.scorecardresearch.com/cs/32351022/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
-              "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/840074/1?format=webp",
+              "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/850570/1?format=webp",
               "https://www.doveconviene.it/assets/img/product/retailer_placeholder.png?v=1779974157873",
               "https://www.doveconviene.it/volantino/eurospin"
             ],
@@ -3052,27 +2795,27 @@
                 "content_type": ""
               },
               {
-                "url": "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
-                "status": 200,
-                "content_type": "text/javascript"
-              },
-              {
                 "url": "https://www.doveconviene.it/volantino/eurospin",
                 "status": 200,
                 "content_type": "text/html; charset=UTF-8"
               },
               {
-                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068558818&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Feurospin&c8=Volantino%20Eurospin%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=",
+                "url": "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
+                "status": 200,
+                "content_type": "text/javascript"
+              },
+              {
+                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309140832&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Feurospin&c8=Volantino%20Eurospin%3A%20scopri%20le%20Offerte%20di%20Giugno%202026&c9=",
                 "status": 204,
                 "content_type": ""
               },
               {
-                "url": "https://api-viewer-zmags.shopfully.cloud/publication/it_it_840074",
+                "url": "https://api-viewer-zmags.shopfully.cloud/publication/it_it_850570",
                 "status": 200,
                 "content_type": "application/json"
               },
               {
-                "url": "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/840074/1?format=webp",
+                "url": "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/850570/1?format=webp",
                 "status": 200,
                 "content_type": "application/json"
               }
@@ -3085,79 +2828,17 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 1221,
-            "price_count": 3,
-            "pairs": [
-              {
-                "product": "I GRANDI DEL RISPARMIO Scade Domenica Offerte in evidenza",
-                "price": "0.85"
-              },
-              {
-                "product": "22% Olive Nere Denocciolate",
-                "price": "3.79"
-              },
-              {
-                "product": "Dolciando - Crema Spalmabile",
-                "price": "2.29"
-              }
-            ],
+            "text_length": 1041,
+            "price_count": 0,
+            "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 17283,
-            "html_length": 858713,
-            "price_count": 13,
-            "pairs": [
-              {
-                "product": "I GRANDI DEL RISPARMIO Scade Domenica OFFERTE IN EVIDENZA",
-                "price": "0.85"
-              },
-              {
-                "product": "22% Olive Nere Denocciolate",
-                "price": "3.79"
-              },
-              {
-                "product": "Dolciando - Crema Spalmabile",
-                "price": "2.29"
-              },
-              {
-                "product": "Spumante OFFERTE EUROSPIN Olio Extra Vergine Di Oliva Fruttato/ Fr",
-                "price": "5.19"
-              },
-              {
-                "product": "Profiterole",
-                "price": "2.99"
-              },
-              {
-                "product": "Burger Di Pesce",
-                "price": "1.69"
-              },
-              {
-                "product": "Dexal - Ammorbidente Concentrato Profuma",
-                "price": "0.79"
-              },
-              {
-                "product": "Subitofrutta - Ciliegie",
-                "price": "4.99"
-              },
-              {
-                "product": "Primia - Piatti Pronti",
-                "price": "2.19"
-              },
-              {
-                "product": "Pesche Tabacchiere A Polpa Bianca",
-                "price": "1.69"
-              },
-              {
-                "product": "Pomodoro Piccadilly",
-                "price": "2.69"
-              },
-              {
-                "product": "Pomodoro Insalataro",
-                "price": "1.69"
-              }
-            ],
+            "text_length": 16837,
+            "html_length": 820593,
+            "price_count": 0,
+            "pairs": [],
             "api_urls": [
               "https://apiv3.promoqui.it/graphql",
               "https://apiv3.promoqui.it/graphql/appauth",
@@ -3172,7 +2853,6 @@
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/2922.01d4d05773778a80.js",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/3254-ce7ec0c0fad1e26c.js",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/333-d1e68d573d93e680.js",
-              "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/4001.3b706076e0f1af0a.js",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/4755.7ff5e299e4aa9d09.js",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/6059-cae89dd63b50b1c4.js",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/6543-b697e7bc4862d7b4.js",
@@ -3194,22 +2874,18 @@
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/pages/who-8f415315ed37a67a.js",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/webpack-809e50a57ec19ba3.js",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/0800f92d0bce5a80.css",
-              "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/0ff36be9a97ec94d.css",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1504d5d2b4af122e.css",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/157e04b519e9f8bf.css",
               "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/1b3b1da82505b4d1.css",
-              "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/2cce1eb9112089d1.css"
+              "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/2cce1eb9112089d1.css",
+              "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/341b3ccc5b9f2ef6.css",
+              "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/3d952820b008a0bf.css"
             ],
             "responses": [
               {
                 "url": "https://www.promoqui.it/volantino/eurospin",
                 "status": 200,
                 "content_type": "text/html; charset=utf-8"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/skeleton_leaflet.png",
-                "status": 200,
-                "content_type": "image/png"
               },
               {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/5fce666276a82cf4.css",
@@ -3223,11 +2899,6 @@
               },
               {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/ddcbd7c5dfa21dd5.css",
-                "status": 200,
-                "content_type": "text/css"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/css/0ff36be9a97ec94d.css",
                 "status": 200,
                 "content_type": "text/css"
               },
@@ -3262,22 +2933,7 @@
                 "content_type": "text/css"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_web_it.png",
-                "status": 200,
-                "content_type": "image/png"
-              },
-              {
-                "url": "https://data.promoqui.it/retailers/logos/000/000/004/thumb_webp/pqlg_eurospin3.webp?1635249547",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/713/989/medium_webp/page1.webp?1779455540",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/672/991/medium_webp/page1.webp?1778681643",
+                "url": "https://data.promoqui.it/pages/images/028/714/001/medium_webp/page1.webp?1779455690",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -3332,9 +2988,9 @@
                 "content_type": "image/webp"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/images/logo_white.png",
+                "url": "https://data.promoqui.it/pages/images/028/710/205/medium_webp/page1.webp?1779370503",
                 "status": 200,
-                "content_type": "image/png"
+                "content_type": "image/webp"
               },
               {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/media/icomoon.5621a97b.ttf",
@@ -3362,12 +3018,12 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/9315-bd9aa5e7e90b09ee.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/80-4e54aaca597ace88.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/80-4e54aaca597ace88.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/9315-bd9aa5e7e90b09ee.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
@@ -3387,17 +3043,42 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/2856-34f01b3347b1b0c3.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/9072-3afe9742ee49c696.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
               {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/333-d1e68d573d93e680.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/2856-34f01b3347b1b0c3.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/3254-ce7ec0c0fad1e26c.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1664-262d5c2c23cedbe1.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/6543-b697e7bc4862d7b4.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/main-8024405b28ae44f5.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/696-5ee9d1080f675a15.js",
                 "status": 200,
                 "content_type": "application/javascript"
               }
@@ -3426,7 +3107,7 @@
           "rendered": {
             "ok": true,
             "text_length": 1160,
-            "html_length": 63461,
+            "html_length": 63463,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
@@ -3459,23 +3140,23 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 4627,
+            "text_length": 4609,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 4160,
-            "html_length": 157171,
+            "text_length": 4142,
+            "html_length": 156935,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://api-viewer-zmags.shopfully.cloud/publication/it_it_846913",
-              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068584949&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fesselunga&c8=Volantino%20Esselunga%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=",
+              "https://api-viewer-zmags.shopfully.cloud/publication/it_it_846911",
+              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309162749&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fesselunga&c8=Volantino%20Esselunga%3A%20scopri%20le%20Offerte%20di%20Giugno%202026&c9=",
               "https://sb.scorecardresearch.com/cs/32351022/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
-              "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/846913/1?format=webp",
+              "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/846911/1?format=webp",
               "https://www.doveconviene.it/assets/img/product/retailer_placeholder.png?v=1779974157873",
               "https://www.doveconviene.it/volantino/esselunga"
             ],
@@ -3506,17 +3187,17 @@
                 "content_type": "text/html; charset=UTF-8"
               },
               {
-                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068584949&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fesselunga&c8=Volantino%20Esselunga%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=",
+                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309162749&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fesselunga&c8=Volantino%20Esselunga%3A%20scopri%20le%20Offerte%20di%20Giugno%202026&c9=",
                 "status": 204,
                 "content_type": ""
               },
               {
-                "url": "https://api-viewer-zmags.shopfully.cloud/publication/it_it_846913",
+                "url": "https://api-viewer-zmags.shopfully.cloud/publication/it_it_846911",
                 "status": 200,
                 "content_type": "application/json"
               },
               {
-                "url": "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/846913/1?format=webp",
+                "url": "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/846911/1?format=webp",
                 "status": 200,
                 "content_type": "application/json"
               }
@@ -3529,15 +3210,15 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 1349,
+            "text_length": 1351,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 20516,
-            "html_length": 897156,
+            "text_length": 20576,
+            "html_length": 897783,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
@@ -3644,12 +3325,7 @@
                 "content_type": "image/png"
               },
               {
-                "url": "https://data.promoqui.it/pages/images/028/713/989/medium_webp/page1.webp?1779455540",
-                "status": 200,
-                "content_type": "image/webp"
-              },
-              {
-                "url": "https://data.promoqui.it/pages/images/028/672/991/medium_webp/page1.webp?1778681643",
+                "url": "https://data.promoqui.it/pages/images/028/714/001/medium_webp/page1.webp?1779455690",
                 "status": 200,
                 "content_type": "image/webp"
               },
@@ -3704,6 +3380,11 @@
                 "content_type": "image/webp"
               },
               {
+                "url": "https://data.promoqui.it/pages/images/028/710/205/medium_webp/page1.webp?1779370503",
+                "status": 200,
+                "content_type": "image/webp"
+              },
+              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/media/icomoon.5621a97b.ttf",
                 "status": 200,
                 "content_type": "font/ttf"
@@ -3729,6 +3410,11 @@
                 "content_type": "application/javascript"
               },
               {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/80-4e54aaca597ace88.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/pages/retailer/%5BretailerSlug%5D-8df968949e633b6b.js",
                 "status": 200,
                 "content_type": "application/javascript"
@@ -3744,17 +3430,12 @@
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/6059-cae89dd63b50b1c4.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/80-4e54aaca597ace88.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/8779-d58b0b9102923aa8.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/6059-cae89dd63b50b1c4.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
@@ -3764,22 +3445,22 @@
                 "content_type": "application/javascript"
               },
               {
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/6543-b697e7bc4862d7b4.js",
+                "status": 200,
+                "content_type": "application/javascript"
+              },
+              {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/9072-3afe9742ee49c696.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
               {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/3254-ce7ec0c0fad1e26c.js",
+                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/333-d1e68d573d93e680.js",
                 "status": 200,
                 "content_type": "application/javascript"
               },
               {
                 "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/1664-262d5c2c23cedbe1.js",
-                "status": 200,
-                "content_type": "application/javascript"
-              },
-              {
-                "url": "https://assets1.promoqui.it/pq-fe-site-it/_next/static/chunks/333-d1e68d573d93e680.js",
                 "status": 200,
                 "content_type": "application/javascript"
               }
@@ -3800,79 +3481,36 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 3244,
+            "text_length": 77,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 2189,
-            "html_length": 668485,
+            "text_length": 51,
+            "html_length": 11657,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://cpl.iubenda.com/big_data/consent?apikey=0O7dxd4cGwaFxtyjHqi0ixMiDedzQklS",
-              "https://px.ads.linkedin.com/attribution_trigger?pid=5005905&time=1780068605382&url=https%3A%2F%2Fwww.mdspa.it%2Fvolantino%2F",
-              "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=5005905&time=1780068605382&li_adsId=ee99b580-186b-4901-b78d-2c45dce76172&url=https%3A%2F%2Fwww.mdspa.it%2Fvolantino%2F",
-              "https://sgtmeu.mdspa.it/g/collect?v=2&tid=G-7DQBQD6WVX&gtm=45je65r2v883236441z8838420745za20gzb838420745zd838420745&_p=1780068599555&gcs=G101&gcd=13p3t3p3p5l1&npa=1&dma_cps=-&dma=0&ecid=1668801794&_eu=EAAAAGA&_fplc=0&are=1&cid=1162587640.1780068600&frm=0&ir=1&pscdl=denied&rcb=19&sr=1440x1100&uaa=x86&uab=64&uafvl=HeadlessChrome%3B131.0.6778.33%7CChromium%3B131.0.6778.33%7CNot_A%2520Brand%3B24.0.0.0&uam=&uamb=0&uap=Linux&uapv=6.17.0&uaw=0&ul=en-us%40posix&ur=US-VA&sst.rnd=1419601037.1780068600&sst.tft=1780068599555&sst.lpc=46860539&sst.navt=n&sst.ude=0&sst.sw_exp=1&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938468~119027223~119034493~119064590&dp=%2Fvolantino%2F&sid=1780068599&sct=1&seg=0&dl=https%3A%2F%2Fwww.mdspa.it%2Fvolantino%2F&dt=Volantino%20con%20le%20offerte%20in%20corso%20%E2%80%A2%20MD&_tu=DA&en=page_view&_fv=1&_nsi=1&_ss=1&gap.plf=5&ep.request_type=client&ep.gtm_referrer=&ep.gtm_container_info=GTM-WJV35QN%7C87%7C&evnid=1780069508784_17800692309933&epn.gtm_date_now=1780068599758&ep.gtm_hit_timestamp=2026-05-29T15%3A29%3A59.758%2B00%3A00&epn.pageview_action_times=0.2&ep.ga_session_consent_mode=%7C%7C%7C%7C&ep.regione=&up.user_possible_bot=normal%20user&tfd=1096&richsstsse",
               "https://www.mdspa.it/volantino/",
-              "https://www.mdspa.it/wp-content/uploads/SLIDESHOW-Promo-11-1-2.jpg",
-              "https://www.mdspa.it/wp-content/uploads/SLIDESHOW-Promo-11-2-2.jpg",
-              "https://www.mdspa.it/wp-content/uploads/SLIDESHOW-Promo-11-3-2.jpg",
-              "https://www.mdspa.it/wp-content/uploads/SLIDESHOW-Promo-11-4-2.jpg",
-              "https://www.mdspa.it/wp-content/uploads/volantino-1.svg"
+              "https://www.mdspa.it/z0f76a1d14fd21a8fb5fd0d03e0fdc3d3cedae52f?id=a6105c0a611b41b08f1209506350279e&ts=1780309176&wsidchk=9815142&pdata=https%253A%252F%252Fwww.mdspa.it%252Fvolantino%252F&failedChecks=webdriverCheck&failedChecks=userAgentCheck&failedChecks=appVersionCheck"
             ],
             "responses": [
               {
                 "url": "https://www.mdspa.it/volantino/",
                 "status": 200,
-                "content_type": "text/html; charset=utf-8"
+                "content_type": "text/html"
               },
               {
-                "url": "https://www.mdspa.it/wp-content/uploads/volantino-1.svg",
+                "url": "https://www.mdspa.it/z0f76a1d14fd21a8fb5fd0d03e0fdc3d3cedae52f?id=a6105c0a611b41b08f1209506350279e&ts=1780309176&wsidchk=9815142&pdata=https%253A%252F%252Fwww.mdspa.it%252Fvolantino%252F&failedChecks=webdriverCheck&failedChecks=userAgentCheck&failedChecks=appVersionCheck",
+                "status": 404,
+                "content_type": "text/html"
+              },
+              {
+                "url": "https://www.mdspa.it/volantino/",
                 "status": 200,
-                "content_type": "image/svg+xml"
-              },
-              {
-                "url": "https://www.mdspa.it/wp-content/uploads/SLIDESHOW-Promo-11-1-2.jpg",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://www.mdspa.it/wp-content/uploads/SLIDESHOW-Promo-11-2-2.jpg",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://www.mdspa.it/wp-content/uploads/SLIDESHOW-Promo-11-3-2.jpg",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://www.mdspa.it/wp-content/uploads/SLIDESHOW-Promo-11-4-2.jpg",
-                "status": 200,
-                "content_type": "image/jpeg"
-              },
-              {
-                "url": "https://sgtmeu.mdspa.it/g/collect?v=2&tid=G-7DQBQD6WVX&gtm=45je65r2v883236441z8838420745za20gzb838420745zd838420745&_p=1780068599555&gcs=G101&gcd=13p3t3p3p5l1&npa=1&dma_cps=-&dma=0&ecid=1668801794&_eu=EAAAAGA&_fplc=0&are=1&cid=1162587640.1780068600&frm=0&ir=1&pscdl=denied&rcb=19&sr=1440x1100&uaa=x86&uab=64&uafvl=HeadlessChrome%3B131.0.6778.33%7CChromium%3B131.0.6778.33%7CNot_A%2520Brand%3B24.0.0.0&uam=&uamb=0&uap=Linux&uapv=6.17.0&uaw=0&ul=en-us%40posix&ur=US-VA&sst.rnd=1419601037.1780068600&sst.tft=1780068599555&sst.lpc=46860539&sst.navt=n&sst.ude=0&sst.sw_exp=1&gaf=2&_s=1&tag_exp=0~115616985~115938466~115938468~119027223~119034493~119064590&dp=%2Fvolantino%2F&sid=1780068599&sct=1&seg=0&dl=https%3A%2F%2Fwww.mdspa.it%2Fvolantino%2F&dt=Volantino%20con%20le%20offerte%20in%20corso%20%E2%80%A2%20MD&_tu=DA&en=page_view&_fv=1&_nsi=1&_ss=1&gap.plf=5&ep.request_type=client&ep.gtm_referrer=&ep.gtm_container_info=GTM-WJV35QN%7C87%7C&evnid=1780069508784_17800692309933&epn.gtm_date_now=1780068599758&ep.gtm_hit_timestamp=2026-05-29T15%3A29%3A59.758%2B00%3A00&epn.pageview_action_times=0.2&ep.ga_session_consent_mode=%7C%7C%7C%7C&ep.regione=&up.user_possible_bot=normal%20user&tfd=1096&richsstsse",
-                "status": 200,
-                "content_type": "text/plain"
-              },
-              {
-                "url": "https://cpl.iubenda.com/big_data/consent?apikey=0O7dxd4cGwaFxtyjHqi0ixMiDedzQklS",
-                "status": 201,
-                "content_type": "text/plain; charset=utf-8"
-              },
-              {
-                "url": "https://px.ads.linkedin.com/collect?v=2&fmt=js&pid=5005905&time=1780068605382&li_adsId=ee99b580-186b-4901-b78d-2c45dce76172&url=https%3A%2F%2Fwww.mdspa.it%2Fvolantino%2F",
-                "status": 302,
-                "content_type": ""
-              },
-              {
-                "url": "https://px.ads.linkedin.com/attribution_trigger?pid=5005905&time=1780068605382&url=https%3A%2F%2Fwww.mdspa.it%2Fvolantino%2F",
-                "status": 200,
-                "content_type": "application/json"
+                "content_type": "text/html"
               }
             ],
             "error": ""
@@ -3883,23 +3521,22 @@
           "static": {
             "ok": true,
             "status": 200,
-            "text_length": 4809,
+            "text_length": 4875,
             "price_count": 0,
             "pairs": [],
             "error": ""
           },
           "rendered": {
             "ok": true,
-            "text_length": 4345,
-            "html_length": 149070,
+            "text_length": 4411,
+            "html_length": 140635,
             "price_count": 0,
             "pairs": [],
             "api_urls": [
-              "https://api-viewer-zmags.shopfully.cloud/publication/it_it_837822",
-              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068607861&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fmd&c8=Volantino%20MD%20Discount%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=",
+              "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309183505&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fmd&c8=Volantino%20MD%20Discount%3A%20scopri%20le%20Offerte%20di%20Giugno%202026&c9=",
               "https://sb.scorecardresearch.com/cs/32351022/beacon.js",
               "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
-              "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/837822/1?format=webp",
+              "https://www.doveconviene.it/assets/img/empty_state/empty-state_offerte.svg?v=1779974157873",
               "https://www.doveconviene.it/assets/img/product/retailer_placeholder.png?v=1779974157873",
               "https://www.doveconviene.it/volantino/md"
             ],
@@ -3915,14 +3552,14 @@
                 "content_type": "image/png"
               },
               {
+                "url": "https://www.doveconviene.it/assets/img/empty_state/empty-state_offerte.svg?v=1779974157873",
+                "status": 200,
+                "content_type": "image/svg+xml"
+              },
+              {
                 "url": "https://sb.scorecardresearch.com/cs/32351022/beacon.js",
                 "status": 302,
                 "content_type": ""
-              },
-              {
-                "url": "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
-                "status": 200,
-                "content_type": "text/javascript"
               },
               {
                 "url": "https://www.doveconviene.it/volantino/md",
@@ -3930,19 +3567,14 @@
                 "content_type": "text/html; charset=UTF-8"
               },
               {
-                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780068607861&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=1&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fmd&c8=Volantino%20MD%20Discount%3A%20scopri%20le%20Offerte%20di%20Maggio%202026&c9=",
+                "url": "https://sb.scorecardresearch.com/internal-cs/default/beacon.js",
+                "status": 200,
+                "content_type": "text/javascript"
+              },
+              {
+                "url": "https://sb.scorecardresearch.com/b2?c1=2&c2=32351022&cs_it=b1&cv=4.13.1%2B2508250908&ns__t=1780309183505&ns_c=UTF-8&cs_cfg=1001110&cs_ucfr=0&cs_ucc=1&gdpr=1&gdpr_li=0&gdpr_pcc=DE&gdpr_p1t=0&gdpr_purps=&gdpr_vc=1&cs_cmp_id=28&cs_cmp_sv=1&cs_cmp_rt=0&c7=https%3A%2F%2Fwww.doveconviene.it%2Fvolantino%2Fmd&c8=Volantino%20MD%20Discount%3A%20scopri%20le%20Offerte%20di%20Giugno%202026&c9=",
                 "status": 204,
                 "content_type": ""
-              },
-              {
-                "url": "https://api-viewer-zmags.shopfully.cloud/publication/it_it_837822",
-                "status": 200,
-                "content_type": "application/json"
-              },
-              {
-                "url": "https://shopfully-publication-api.global.ssl.fastly.net/publication_pages/it_it/837822/1?format=webp",
-                "status": 200,
-                "content_type": "application/json"
               }
             ],
             "error": ""

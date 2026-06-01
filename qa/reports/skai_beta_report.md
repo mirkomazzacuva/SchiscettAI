@@ -11,19 +11,26 @@
 - ✅ sidebar_one_click_meal
 - ✅ sidebar_one_click_preferiti
 - ✅ open_home
+- ✅ copy_jargon_check_home
 - ✅ open_crea
+- ✅ copy_jargon_check_crea
 - ✅ open_radar
+- ✅ copy_jargon_check_radar
 - ✅ radar_offer_quality
 - ✅ open_ricette
+- ✅ copy_jargon_check_ricette
 - ✅ open_lista
+- ✅ copy_jargon_check_lista
 - ✅ open_meal
+- ✅ copy_jargon_check_meal
 - ✅ open_preferiti
+- ✅ copy_jargon_check_preferiti
 
 ## Button smoke tests
-- ✅ Home · Apri Copilot
+- ✅ Home · Apri il Copilot
 - ✅ Home · Apri Meal plan
 - ✅ Home · Esplora ricette
-- ✅ Crea SKiscetta · Genera la mia SKiscetta
+- ✅ Crea SKiscetta · Crea la mia schiscetta
 - ✅ Ricette · Salva
 - ✅ Ricette · Salva
 - ✅ Ricette · Salva
@@ -36,8 +43,8 @@
 - ✅ Ricette · Salva
 - ✅ Ricette · Salva
 - ✅ Ricette · Salva
-- ✅ Lista spesa · Aggiungi extra
-- ✅ Preferiti · Vai al catalogo
+- ✅ Lista spesa · Aggiungi alla lista
+- ✅ Preferiti · Vai alle ricette
 
 ## Skipped buttons
 - ⏭️ Home · keyboard_double_arrow_left · sidebar/navigation tested separately

@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:8501",
-  "generated_at": "2026-05-29T15:25:02.717183+00:00",
+  "generated_at": "2026-06-01T10:15:09.834118+00:00",
   "checks": [
     {
       "name": "default_opens_home",
@@ -9,7 +9,7 @@
     {
       "name": "radar_boot_parser_selection",
       "passed": true,
-      "text_length": 2950
+      "text_length": 3206
     },
     {
       "name": "sidebar_one_click_home",
@@ -20,58 +20,76 @@
       "name": "sidebar_one_click_crea",
       "page": "Crea SKiscetta",
       "passed": true,
-      "text_length": 1689
+      "text_length": 1815
     },
     {
       "name": "sidebar_one_click_radar",
       "page": "SKAI Radar",
       "passed": true,
-      "text_length": 2105
+      "text_length": 3158
     },
     {
       "name": "sidebar_one_click_ricette",
       "page": "Ricette",
       "passed": true,
-      "text_length": 1689
+      "text_length": 1815
     },
     {
       "name": "sidebar_one_click_lista",
       "page": "Lista spesa",
       "passed": true,
-      "text_length": 1689
+      "text_length": 1815
     },
     {
       "name": "sidebar_one_click_meal",
       "page": "Meal plan",
       "passed": true,
-      "text_length": 549
+      "text_length": 1815
     },
     {
       "name": "sidebar_one_click_preferiti",
       "page": "Preferiti",
       "passed": true,
-      "text_length": 1689
+      "text_length": 1021
     },
     {
       "name": "open_home",
       "page": "Home",
       "passed": true,
-      "text_length": 1689,
+      "text_length": 1815,
       "literal_html_ok": true
+    },
+    {
+      "name": "copy_jargon_check_home",
+      "page": "Home",
+      "passed": true,
+      "found": []
     },
     {
       "name": "open_crea",
       "page": "Crea SKiscetta",
       "passed": true,
-      "text_length": 693,
+      "text_length": 873,
       "literal_html_ok": true
+    },
+    {
+      "name": "copy_jargon_check_crea",
+      "page": "Crea SKiscetta",
+      "passed": true,
+      "found": []
     },
     {
       "name": "open_radar",
       "page": "SKAI Radar",
       "passed": true,
-      "text_length": 2937,
+      "text_length": 3131,
       "literal_html_ok": true
+    },
+    {
+      "name": "copy_jargon_check_radar",
+      "page": "SKAI Radar",
+      "passed": true,
+      "found": []
     },
     {
       "name": "radar_offer_quality",
@@ -87,29 +105,53 @@
       "name": "open_ricette",
       "page": "Ricette",
       "passed": true,
-      "text_length": 5882,
+      "text_length": 7785,
       "literal_html_ok": true
+    },
+    {
+      "name": "copy_jargon_check_ricette",
+      "page": "Ricette",
+      "passed": true,
+      "found": []
     },
     {
       "name": "open_lista",
       "page": "Lista spesa",
       "passed": true,
-      "text_length": 608,
+      "text_length": 740,
       "literal_html_ok": true
+    },
+    {
+      "name": "copy_jargon_check_lista",
+      "page": "Lista spesa",
+      "passed": true,
+      "found": []
     },
     {
       "name": "open_meal",
       "page": "Meal plan",
       "passed": true,
-      "text_length": 706,
+      "text_length": 825,
       "literal_html_ok": true
+    },
+    {
+      "name": "copy_jargon_check_meal",
+      "page": "Meal plan",
+      "passed": true,
+      "found": []
     },
     {
       "name": "open_preferiti",
       "page": "Preferiti",
       "passed": true,
-      "text_length": 415,
+      "text_length": 565,
       "literal_html_ok": true
+    },
+    {
+      "name": "copy_jargon_check_preferiti",
+      "page": "Preferiti",
+      "passed": true,
+      "found": []
     }
   ],
   "button_checks": [
@@ -117,11 +159,11 @@
       "page": "Home",
       "slug": "home",
       "button_index": 7,
-      "label": "Apri Copilot",
+      "label": "Apri il Copilot",
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 1662
+      "after_text_length": 1788
     },
     {
       "page": "Home",
@@ -131,7 +173,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 1662
+      "after_text_length": 1788
     },
     {
       "page": "Home",
@@ -141,17 +183,17 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 1662
+      "after_text_length": 1788
     },
     {
       "page": "Crea SKiscetta",
       "slug": "crea",
       "button_index": 7,
-      "label": "Genera la mia SKiscetta",
+      "label": "Crea la mia schiscetta",
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 727
+      "after_text_length": 917
     },
     {
       "page": "Ricette",
@@ -161,7 +203,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -171,7 +213,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -181,7 +223,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -191,7 +233,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -201,7 +243,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -211,7 +253,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -221,7 +263,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -231,7 +273,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -241,7 +283,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -251,7 +293,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -261,7 +303,7 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Ricette",
@@ -271,27 +313,27 @@
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 7688
+      "after_text_length": 7817
     },
     {
       "page": "Lista spesa",
       "slug": "lista",
       "button_index": 7,
-      "label": "Aggiungi extra",
+      "label": "Aggiungi alla lista",
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 608
+      "after_text_length": 740
     },
     {
       "page": "Preferiti",
       "slug": "preferiti",
       "button_index": 7,
-      "label": "Vai al catalogo",
+      "label": "Vai alle ricette",
       "clicked": true,
       "passed": true,
       "error": "",
-      "after_text_length": 415
+      "after_text_length": 565
     }
   ],
   "skipped_buttons": [

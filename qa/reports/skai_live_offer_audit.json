@@ -1,27 +1,27 @@
 {
-  "generated_at": "2026-05-29T15:26:51.805871+00:00",
+  "generated_at": "2026-06-01T10:16:34.900010+00:00",
   "note": "Non-blocking audit: controlla official+fallback. Rough pairs significa testo che somiglia a prodotto+prezzo.",
   "chains": [
     {
       "chain": "PENNY",
-      "best_pairs": 20,
+      "best_pairs": 0,
       "best_url": "https://www.penny.it/offerte",
       "sources": [
         {
           "chain": "PENNY",
           "url": "https://www.penny.it/offerte",
-          "ok": true,
-          "status": 200,
-          "rough_pairs": 20,
-          "error": ""
+          "ok": false,
+          "status": null,
+          "rough_pairs": 0,
+          "error": "HTTP Error 403: Forbidden"
         },
         {
           "chain": "PENNY",
           "url": "https://www.promoqui.it/volantino/penny-market",
           "ok": false,
-          "status": null,
+          "status": 200,
           "rough_pairs": 0,
-          "error": "The read operation timed out"
+          "error": ""
         },
         {
           "chain": "PENNY",
@@ -104,7 +104,7 @@
     },
     {
       "chain": "Carrefour",
-      "best_pairs": 6,
+      "best_pairs": 15,
       "best_url": "https://www.promoqui.it/volantino/carrefour",
       "sources": [
         {
@@ -120,7 +120,7 @@
           "url": "https://www.promoqui.it/volantino/carrefour",
           "ok": true,
           "status": 200,
-          "rough_pairs": 6,
+          "rough_pairs": 15,
           "error": ""
         },
         {
@@ -166,16 +166,16 @@
     },
     {
       "chain": "Eurospin",
-      "best_pairs": 3,
-      "best_url": "https://www.promoqui.it/volantino/eurospin",
+      "best_pairs": 0,
+      "best_url": "https://www.eurospin.it/volantino/",
       "sources": [
         {
           "chain": "Eurospin",
           "url": "https://www.eurospin.it/volantino/",
           "ok": false,
-          "status": 200,
+          "status": null,
           "rough_pairs": 0,
-          "error": ""
+          "error": "HTTP Error 500: Internal Server Error"
         },
         {
           "chain": "Eurospin",
@@ -188,9 +188,9 @@
         {
           "chain": "Eurospin",
           "url": "https://www.promoqui.it/volantino/eurospin",
-          "ok": true,
+          "ok": false,
           "status": 200,
-          "rough_pairs": 3,
+          "rough_pairs": 0,
           "error": ""
         }
       ]
